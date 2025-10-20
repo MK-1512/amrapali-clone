@@ -1,5 +1,7 @@
+// src/App.jsx
 import React, { useState } from 'react';
 import Header from './components/common/Header';
+import HomePage from './pages/HomePage'; // <-- Make sure HomePage is imported
 import SareesPage from './pages/SareesPage';
 import CartDrawer from './components/cart/CartDrawer';
 import { CartProvider } from './context/CartContext';
@@ -9,19 +11,18 @@ import GiftCardPage from './pages/GiftCardPage';
 import WishlistButton from './components/common/WishlistButton';
 import CurrencyDropdown from './components/filters/CurrencyDropdown';
 import JewelleryPage from './pages/JewelleryPage';
-
-// --- Team & Other Pages ---
 import MeetTheTeamPage from './pages/MeetTheTeamPage';
 import TeamMemberDetailPage from './pages/TeamMemberDetailPage';
 import BlogPage from './pages/BlogPage';
 import BestsellersPage from './pages/BestsellersPage';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+ const [currentPage, setCurrentPage] = useState('shop'); // <-- Default to 'shop'
   const [viewingMemberId, setViewingMemberId] = useState(null);
 
   const renderPage = () => {
-    // If a member is selected, show their detail page
     if (viewingMemberId) {
       return (
         <TeamMemberDetailPage
@@ -32,6 +33,8 @@ function App() {
     }
 
     switch (currentPage) {
+     case 'home': // <-- Logo click
+       return <HomePage />;
       case 'gift-card':
         return <GiftCardPage />;
       case 'jewellery':
@@ -42,28 +45,23 @@ function App() {
         return <BestsellersPage />;
       case 'meet-the-team':
         return <MeetTheTeamPage onSelectMember={setViewingMemberId} />;
-      case 'home':
+      case 'shop': // <-- SHOP/COLLECTIONS click and default
       default:
-        return <SareesPage />;
+        return <SareesPage />; // <-- Render SareesPage for 'shop' and default
     }
   };
 
-  // ✅ Make the header transparent across all pages
-  const isSolidHeader = !!viewingMemberId; // Only solid when viewing team member detail
+  const isSolidHeader = !!viewingMemberId;
 
   return (
     <CartProvider>
       <div className={`App ${isSolidHeader ? 'page-with-solid-header' : ''}`}>
-        {/* Header always visible with offer bar */}
         <Header
           setPage={setCurrentPage}
           currentPage={currentPage}
           resetTeamView={() => setViewingMemberId(null)}
         />
-
         <main>{renderPage()}</main>
-
-        {/* Global Components */}
         <CartDrawer />
         <CurrencyDropdown />
         <WishlistButton />
