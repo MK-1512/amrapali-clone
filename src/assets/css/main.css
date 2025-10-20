@@ -163,7 +163,8 @@ body.page-with-solid-header {
     background-color: #ffffff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
-.header-container.scrolled .top-bar {
+/* CHANGE: Only hide top bar based on actual scroll, not just solid header state */
+.header-container.top-bar-hidden .top-bar {
     transform: translateY(-100%);
 }
 .header-container.scrolled .nav-link {
@@ -1910,6 +1911,286 @@ h1.hero-title {
 }
 
 /* Only hide top bar when user ACTUALLY scrolls */
-.header-container.scrolled .top-bar {
+/* ADD THIS RULE (or ensure it exists and is correct) */
+.header-container.top-bar-hidden .top-bar {
     transform: translateY(-100%);
 }
+/* --------------------------------------------------- */
+/* HERO CAROUSEL STYLES (HomePage specific) */
+/* --------------------------------------------------- */
+
+.hero-carousel {
+  margin-top: -138px; /* Pulls it up behind the header */
+  /* Ensures indicators are clickable above content if needed */
+  position: relative;
+  z-index: 1;
+}
+
+.hero-carousel .carousel-item {
+  height: 100vh; /* Make item take full viewport height initially */
+  min-height: 550px; /* Minimum height */
+  padding-top: 138px; /* Push content down below header space */
+  background-size: cover;
+  background-position: center center;
+  box-sizing: border-box; /* Include padding in height calculation */
+}
+
+/* Caption Positioning - Overriding Bootstrap defaults */
+.hero-carousel .carousel-caption {
+  position: absolute;
+  bottom: 10%; /* Adjust vertical position from bottom */
+  left: 5%;    /* Adjust horizontal position from left */
+  right: auto; /* IMPORTANT: Override default right: 15% */
+  top: auto;   /* IMPORTANT: Override default top: 20px */
+  text-align: left; /* Align content inside caption to the left */
+  padding: 10px; /* Reduce padding slightly */
+  background: none; /* Remove default background */
+  max-width: 300px; /* Limit width */
+  transform: none; /* Override potential centering transforms */
+  z-index: 10; /* Ensure it's above the item */
+}
+
+/* Ensure caption contents (buttons) align left */
+.hero-carousel .carousel-caption > * {
+  text-align: left;
+}
+
+
+/* Hero Button Styling */
+.hero-carousel .btn-hero {
+  background-color: #ffffff;
+  color: #1c1c1c;
+  border: none;
+  border-radius: 0; /* Sharp corners */
+  padding: 10px 25px;
+  font-size: 11px; /* Slightly smaller font */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 10px;
+  margin-right: 10px; /* Space between buttons if two exist */
+  transition: background-color 0.3s ease;
+  display: inline-block; /* Allows side-by-side */
+  cursor: pointer;
+  text-decoration: none; /* Remove underline if using <a> tag */
+}
+.hero-carousel .btn-hero:hover {
+  background-color: #f0f0f0; /* Slightly off-white hover */
+  color: #1c1c1c;
+}
+
+/* Indicator Styling (Dots) */
+.hero-carousel .carousel-indicators {
+  bottom: 30px; /* Adjust vertical position */
+  margin-bottom: 0;
+  z-index: 15; /* Ensure indicators are above caption */
+}
+.hero-carousel .carousel-indicators [data-bs-target] {
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  width: 9px;  /* Dot size */
+  height: 9px; /* Dot size */
+  padding: 0;
+  margin-right: 5px; /* Spacing */
+  margin-left: 5px;  /* Spacing */
+  text-indent: -999px;
+  cursor: pointer;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 0;
+  /* Adjust border-radius for perfect circle */
+  border-radius: 50%;
+  opacity: 0.5;
+  transition: opacity .6s ease;
+}
+.hero-carousel .carousel-indicators .active {
+  opacity: 1; /* Active dot is fully opaque */
+}
+
+/* --- Ensure other general styles don't conflict --- */
+/* (Keep your existing .homepage-section, .section-title etc. styles) */
+
+/* ... (rest of your main.css) ... */
+
+/* main.css */
+
+.hero-carousel .carousel-item {
+  height: 100vh;
+  min-height: 550px;
+  padding-top: 138px;
+  /* background-size: cover; */ /* Let's remove this if using ::before */
+  background-position: center center;
+  box-sizing: border-box;
+  position: relative; /* Needed for the ::before overlay */
+  background-color: #eee; /* Fallback color */
+}
+
+/* Add overlay */
+.hero-carousel .carousel-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.15); /* Adjust opacity (0.15 = 15%) */
+    z-index: 2; /* Below caption/indicators, above image */
+}
+
+/* Ensure the background image is behind the overlay */
+.hero-carousel .carousel-item {
+    background-repeat: no-repeat;
+    /* Use 'contain' if you want the whole image visible, possibly with letterboxing */
+    /* background-size: contain; */
+    /* Use 'cover' to fill the area, potentially cropping */
+     background-size: cover;
+}
+
+/* Make sure caption and indicators are above overlay */
+.hero-carousel .carousel-caption {
+    /* ... existing styles ... */
+    z-index: 10;
+}
+.hero-carousel .carousel-indicators {
+     /* ... existing styles ... */
+    z-index: 15;
+}
+
+.explore-section {
+    background:  url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369') no-repeat center center;
+    background-size: cover;
+    background-attachment: scroll; /* Added this */
+    height: 500px; /* Changed from min-height to height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    color: white;
+    margin: 60px 0; /* Added margin */
+}
+
+/* This pseudo-element creates the dark overlay */
+.explore-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0; /* Added z-index */
+}
+
+/* This ensures the text and button are on top of the overlay */
+.explore-content {
+    position: relative;
+    z-index: 1;
+    padding: 40px 20px; /* Added padding */
+}
+
+.explore-content p {
+    font-size: 18px;
+    max-width: 500px; /* Increased from 400px */
+    margin: 0 auto 25px auto;
+    color: #ffffff;
+    line-height: 1.6; /* Added line-height */
+}
+
+.explore-content .btn-explore {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    padding: 12px 35px; /* Increased padding */
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+    border-radius: 0;
+    font-weight: 500; /* Added font-weight */
+}
+
+.explore-content .btn-explore:hover {
+    background-color: #ffffff;
+    color: #1c1c1c;
+}
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+/* --- HERO CAROUSEL STYLES --- */
+
+.hero-carousel {
+  margin-top: -138px; /* Default: Pulls it up behind the header */
+  position: relative;
+  z-index: 1;
+  transition: margin-top 0.4s ease;
+}
+
+/* Override margin-top only on homepage */
+.homepage-active .hero-carousel {
+  margin-top: 0;
+}
+
+.hero-carousel .carousel-item {
+  /* Default height calculation - for pages where banner is BEHIND header */
+  min-height: calc(100vh - 91px);
+
+  /* Default padding when banner is behind header */
+  padding-top: 138px;
+
+  /* Other existing styles */
+  background-position: center center;
+  box-sizing: border-box;
+  position: relative;
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+/* --- OVERRIDE FOR HOMEPAGE ITEM HEIGHT AND PADDING --- */
+.homepage-active .hero-carousel .carousel-item {
+    /* CHANGE: Use a fixed viewport height percentage */
+    height: 75vh; /* Adjust this value (e.g., 70vh, 80vh) as needed */
+    /* REMOVE: height: calc(100vh - 191px); */
+    min-height: 450px; /* Keep fallback minimum height */
+    padding-top: 0; /* Keep internal padding removed */
+}
+
+
+/* Overlay */
+.hero-carousel .carousel-item::before {
+    /* ... existing overlay styles ... */
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+
+/* Captions and Indicators Styling (Keep as is) */
+/* ... (keep caption, button, indicator styles) ... */
+.hero-carousel .carousel-caption { /*...*/ z-index: 10;}
+.hero-carousel .btn-hero { /*...*/ z-index: 10;}
+.hero-carousel .carousel-indicators { /*...*/ z-index: 15;}
+
+
+/* Ensure Collection Banners still have negative margin & internal padding */
+.collection-hero-banner {
+    /* ... existing styles ... */
+    position: relative;
+    min-height: calc(100vh - 91px);
+    margin-top: -138px;
+    padding-top: 138px;
+    /* ... other collection banner styles ... */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background-size: cover;
+    background-position: center;
+}
+
+/* ... rest of main.css ... */
