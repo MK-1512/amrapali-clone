@@ -404,8 +404,8 @@ body.page-with-solid-header {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.35);
     z-index: 1;
+    pointer-events: none; /* ADD THIS - prevents overlay from blocking interactions */
 }
-
 .hero-content {
     position: relative;
     z-index: 2;
@@ -1176,24 +1176,10 @@ h1.hero-title {
 
 /* This is the new base rule for both banners */
 .collection-hero-banner {
-    /* This is the key calculation:
-      100vh = 100% of the viewport height.
-      MINUS 91px (for the filter bar, which must be visible).
-    */
+    position: relative; /* ADD THIS */
     min-height: calc(100vh - 91px);
-    
-    /* This is also key: 
-      We pull the banner UP by 138px to slide it UNDER 
-      your transparent fixed header.
-    */
     margin-top: -138px;
-    
-    /* This pushes the text content DOWN by 138px
-      so it is centered in the visible area, not hidden by the header.
-    */
     padding-top: 138px;
-
-    /* Centering styles */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1843,33 +1829,6 @@ h1.hero-title {
     color: #a8853d;
 }
 
-.bestsellers-hero {
-    position: relative;
-    height: 400px;
-    background-image: url('/images/bestsellers-hero.jpg');
-    background-size: cover;
-    background-position: center 40%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #ffffff;
-}
-.bestsellers-hero .hero-content {
-    position: relative;
-    z-index: 2;
-}
-.bestsellers-hero .hero-title {
-    font-size: 2.8rem;
-    font-weight: 600;
-}
-.bestsellers-hero .hero-subtitle {
-    font-family: 'Jost', sans-serif;
-    max-width: 550px;
-    margin: 1rem auto 0;
-    font-size: 1rem;
-    line-height: 1.7;
-}
 
 .pagination-container {
     display: flex;
@@ -1915,3 +1874,42 @@ h1.hero-title {
     .cart-drawer { width: 100%; right: -100%; }
 }
 
+/* Specific background image for the Saree banner */
+.saree-hero-banner {
+    background-image: url('/images/hero-bg.jpg'); 
+}
+
+/* Specific background image for the Jewellery banner */
+.jewellery-hero-banner {
+    background-image: url('/images/jewellery-hero-bg.jpg');
+}
+
+/* Specific background image for the Bestsellers banner */
+.bestsellers-hero-banner {
+    background-image: url('/images/bestsellers-hero.jpg');
+    background-position: center 40%; /* Adjust as needed */
+}
+
+/* For pages that should always have solid header (but still show top bar) */
+.header-container.solid-header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.header-container.solid-header .nav-link {
+    color: #1c1c1c !important;
+}
+
+.header-container.solid-header .header-icons img,
+.header-container.solid-header .header-icons button img {
+    filter: none;
+}
+
+.header-container.solid-header .main-nav-container {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* Only hide top bar when user ACTUALLY scrolls */
+.header-container.scrolled .top-bar {
+    transform: translateY(-100%);
+}

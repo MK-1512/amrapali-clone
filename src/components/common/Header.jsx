@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { CartContext } from '../../context/CartContext';
 import { NavDropdown } from 'react-bootstrap';
 
-// 1. Accept the 'resetTeamView' function as a prop
+// Accept the 'resetTeamView' function as a prop
 const Header = ({ setPage, currentPage, resetTeamView }) => {
     const { toggleCart, cartItems } = useContext(CartContext);
     const cartItemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
@@ -12,16 +12,14 @@ const Header = ({ setPage, currentPage, resetTeamView }) => {
 
     useEffect(() => {
         const handleScroll = () => {
-            // On non-home pages, the header should always be in the 'scrolled' state
             const isScrolled = window.scrollY > 10;
-            if (currentPage !== 'home') {
-                setScrolled(true);
-            } else {
-                setScrolled(isScrolled);
-            }
+            
+            // Always update scrolled state based on actual scroll position
+            setScrolled(isScrolled);
         };
 
-        handleScroll(); // Run on mount and page change to set initial state
+        // Set initial state - check scroll position on mount
+        handleScroll();
         
         window.addEventListener('scroll', handleScroll);
         return () => {
@@ -40,7 +38,6 @@ const Header = ({ setPage, currentPage, resetTeamView }) => {
         window.scrollTo(0, 0);
     };
     
-    // ✅ THIS LOGIC HAS BEEN CORRECTED
     const isLinkActive = (pageName) => {
         // 'home' is active for SHOP/COLLECTIONS only when on the home page
         if (pageName === 'home') {
@@ -50,11 +47,15 @@ const Header = ({ setPage, currentPage, resetTeamView }) => {
         return currentPage === pageName;
     };
 
+    // Determine if this page should start with a solid header
+    const hasSolidHeader = currentPage !== 'home' && currentPage !== 'jewellery' && currentPage !== 'bestsellers';
+
     const headerClasses = `
       header-container 
       ${scrolled ? 'scrolled' : ''} 
       ${isNavHovered ? 'nav-hovered' : ''}
-    `;
+      ${hasSolidHeader ? 'solid-header' : ''}
+    `.trim();
 
     return (
         <header className={headerClasses}>
@@ -145,4 +146,3 @@ const Header = ({ setPage, currentPage, resetTeamView }) => {
 };
 
 export default Header;
-
