@@ -2194,3 +2194,19 @@ h1.hero-title {
 }
 
 /* ... rest of main.css ... */
+
+.hero-bg-soulful-weaves { background-image: url('/images/soulful-weaves-hero-bg.jpg'); }
+.hero-bg-iktara-jamdani { background-image: url('/images/iktara-jamdani-hero-bg.jpg'); }
+.hero-bg-raanjhana-benarasi { background-image: url('/images/raanjhana-benarasi-hero-bg.jpg'); }
+.hero-bg-masakali-chanderi { background-image: url('/images/masakali-chanderi-hero-bg.jpg'); }
+.hero-bg-popsicle-cottons { background-image: url('/images/popsicle-cottons-hero-bg.jpg'); }
+.hero-bg-doodhe-aalta { background-image: url('/images/doodhe-aalta-hero-bg.jpg'); }
+.hero-bg-stories-from-home { background-image: url('/images/stories-from-home-hero-bg.jpg'); }
+.hero-bg-roopkatha-baluchari { background-image: url('/images/roopkatha-baluchari-hero-bg.jpg'); }
+.hero-bg-candyfloss-cottons { background-image: url('/images/candyfloss-cottons-hero-bg.jpg'); }
+.hero-bg-noor-organza { background-image: url('/images/noor-organza-hero-bg.jpg'); }
+.hero-bg-sunkissed-jewellery { background-image: url('/images/sunkissed-jewellery-hero-bg.jpg'); }
+.hero-bg-midas-touch-tussar { background-image: url('/images/midas-touch-tussar-hero-bg.jpg'); }
+.hero-bg-golden-hour-jewellery { background-image: url('/images/golden-hour-jewellery-hero-bg.jpg'); }
+.hero-bg-ek-sitara-kota { background-image: url('/images/ek-sitara-kota-hero-bg.jpg'); }
+.hero-bg-smart-staples-workwear { background-image: url('/images/smart-staples-workwear-hero-bg.jpg'); }
