@@ -2365,3 +2365,319 @@ h1.hero-title {
         padding: 0 20px;
     }
 }
+
+/* --------------------------------------------------- */
+/* LOGIN PAGE STYLES */
+/* --------------------------------------------------- */
+
+.login-page-container {
+    padding-top: 60px; /* Add some space from the header */
+    padding-bottom: 60px;
+}
+
+.login-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+}
+
+.login-subtitle {
+    font-size: 14px;
+    color: #555;
+}
+
+.login-input {
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
+    padding: 14px 18px;
+    font-size: 14px;
+    background-color: #f9f9f9; /* Match video background */
+    box-shadow: none; /* Remove default bootstrap shadow */
+}
+
+.login-input:focus {
+    border-color: #aaa; /* Slightly darker border on focus */
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.login-input::placeholder {
+    color: #999;
+}
+
+.forgot-password-link {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: #555;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.forgot-password-link:hover {
+    color: #1c1c1c;
+}
+
+.btn-login {
+    background-color: #ffb3ba; /* Amrapali pink */
+    color: #ffffff;
+    border: none;
+    border-radius: 0;
+    padding: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #ff9aa1; /* Darker pink */
+    color: #ffffff;
+}
+
+.create-account-text {
+    font-size: 14px;
+    color: #555;
+}
+
+.create-account-text a {
+    color: #555;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.create-account-text a:hover {
+    color: #1c1c1c;
+}
+
+/* --------------------------------------------------- */
+/* REGISTER PAGE STYLES */
+/* --------------------------------------------------- */
+
+.register-page-container {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.register-title { /* Style like login title */
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+}
+
+.register-subtitle { /* Style like login subtitle */
+    font-size: 14px;
+    color: #555;
+}
+
+.register-input { /* Style like login input */
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
+    padding: 14px 18px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    box-shadow: none;
+}
+
+.register-input:focus { /* Style like login input focus */
+    border-color: #aaa;
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.register-input::placeholder { /* Style like login input placeholder */
+    color: #999;
+}
+
+.btn-register { /* Style like login button */
+    background-color: #ffb3ba; /* Amrapali pink */
+    color: #ffffff;
+    border: none;
+    border-radius: 0;
+    padding: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover { /* Style like login button hover */
+    background-color: #ff9aa1; /* Darker pink */
+    color: #ffffff;
+}
+
+.back-to-login-text { /* Style like create account text */
+     font-size: 14px;
+     color: #555;
+}
+
+.back-to-login-text a { /* Style like create account link */
+    color: #555;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.back-to-login-text a:hover { /* Style like create account link hover */
+    color: #1c1c1c;
+}
+
+/* --------------------------------------------------- */
+/* SHOP DROPDOWN MENU STYLES */
+/* --------------------------------------------------- */
+
+.nav-item-shop {
+  position: relative; /* Container for absolute positioning */
+}
+
+.shop-dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position below the nav item */
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  background-color: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px 0;
+  /* --- INCREASE Z-INDEX --- */
+  z-index: 1020; /* Increased value */
+  /* --- END Z-INDEX --- */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s, transform 0.3s ease;
+  margin-left: calc(-1 * (100vw - 100%) / 2);
+}
+
+.nav-item-shop:hover .shop-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
+}
+
+.shop-dropdown-menu .container {
+    max-width: 1140px; /* Or your standard container width */
+    margin: 0 auto;
+    padding: 0 15px; /* Standard container padding */
+}
+
+
+.dropdown-col {
+  /* Add padding or specific styles for columns if needed */
+}
+
+.dropdown-col-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px; /* Smaller title */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 15px;
+  color: #1c1c1c;
+}
+
+.dropdown-links .nav-link {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  color: #555 !important; /* Override potential header link colors */
+  padding: 4px 0 !important; /* Adjust vertical spacing */
+  text-transform: none; /* Normal case */
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+  font-weight: 400; /* Lighter font weight */
+}
+
+.dropdown-links .nav-link:hover {
+  color: #a8853d !important; /* Theme hover color */
+}
+
+.dropdown-image-link {
+  display: block;
+  text-decoration: none;
+  color: #1c1c1c;
+  transition: opacity 0.3s ease;
+}
+
+.dropdown-image-link:hover {
+  opacity: 0.85;
+}
+
+.dropdown-image-link img {
+  margin-bottom: 10px;
+  border: 1px solid #eee; /* Subtle border for images */
+}
+
+.dropdown-image-caption {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 5px;
+}
+
+/* Adjustments for header hover state */
+/* Keep dropdown visible when hovering over it, needs container adjustment */
+.header-container.scrolled .nav-item-shop:hover .nav-link {
+    color: #a8853d !important; /* Keep SHOP link highlighted */
+}
+/* Ensure dropdown background stays white even if header changes on hover */
+.header-container.nav-hovered:not(.scrolled) .shop-dropdown-menu {
+    background-color: #ffffff;
+}
+
+.main-nav-container {
+  position: relative; /* Needed for absolute positioning of children */
+}
+
+.nav-item-shop {
+  position: static; /* Keep this static, dropdown will be relative to main-nav-container */
+}
+
+/* ... existing .shop-dropdown-menu styles ... */
+.shop-dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position below the nav bar itself */
+  left: 0;   /* Align with the start of the main-nav-container */
+  right: 0;  /* Stretch to the end of the main-nav-container */
+  width: 100%; /* Make it full width of the main-nav-container */
+  max-width: 100%; /* Prevent exceeding parent width */
+  background-color: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px 0;
+  z-index: 1020; /* Keep high z-index */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px); /* Keep slight vertical transition */
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s, transform 0.3s ease;
+  /* Remove centering transforms and margins */
+  /* transform: translateX(-50%); */
+  /* margin-left: calc(-1 * (100vw - 100%) / 2); */
+}
+
+/* Center the inner container content */
+.shop-dropdown-menu .container {
+    max-width: 1140px; /* Or your standard container width */
+    margin: 0 auto; /* Center the content container */
+    padding: 0 15px; /* Standard container padding */
+}
+
+
+.nav-item-shop:hover .shop-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Animate vertically */
+  transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
+}

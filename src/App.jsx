@@ -1,7 +1,7 @@
 // src/App.jsx
 import React, { useState } from 'react';
 import Header from './components/common/Header';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/HomePage'; // Original Import
 import SareesPage from './pages/SareesPage';
 import CartDrawer from './components/cart/CartDrawer';
 import { CartProvider } from './context/CartContext';
@@ -15,32 +15,41 @@ import MeetTheTeamPage from './pages/MeetTheTeamPage';
 import TeamMemberDetailPage from './pages/TeamMemberDetailPage';
 import BlogPage from './pages/BlogPage';
 import BestsellersPage from './pages/BestsellersPage';
-// import LoginPage from './pages/LoginPage'; // Uncomment if login is re-enabled
-import ProductList from './components/product/ProductList';
-import CollectionHeroBanner from './components/common/CollectionHeroBanner';
-import FilterBar from './components/filters/FilterBar';
-import FilterDrawer from './components/filters/FilterDrawer';
+import LoginPage from './pages/LoginPage'; // Original Import (now uncommented/added)
+import ProductList from './components/product/ProductList'; // Original Import
+import CollectionHeroBanner from './components/common/CollectionHeroBanner'; // Original Import
+import FilterBar from './components/filters/FilterBar'; // Original Import
+import FilterDrawer from './components/filters/FilterDrawer'; // Original Import
+import RegisterPage from './pages/RegisterPage'; // <-- Make sure RegisterPage is imported
 
-// Import slick carousel CSS if HomePage uses it
+// Import slick carousel CSS if HomePage uses it (Original Import)
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [viewingMemberId, setViewingMemberId] = useState(null);
-  const [showLoginPage, setShowLoginPage] = useState(false); // State for login modal
-  const [selectedCollection, setSelectedCollection] = useState(null);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // const [showLoginPage, setShowLoginPage] = useState(false); // Original state - kept but commented as per original
+  const [selectedCollection, setSelectedCollection] = useState(null); // Original state
+  const [isFilterOpen, setIsFilterOpen] = useState(false); // Original state
 
-  // Handlers for Login Modal
-  const handleOpenLogin = () => setShowLoginPage(true);
-  const handleCloseLogin = () => setShowLoginPage(false);
+  // Handlers for Login Modal (Original Handlers - kept but related state is commented)
+  // const handleOpenLogin = () => setShowLoginPage(true);
+  // const handleCloseLogin = () => setShowLoginPage(false);
 
-  // Handlers for Filter Drawer
+   // Handler to open login page by changing currentPage state (Original)
+   const handleOpenLogin = () => {
+       if (viewingMemberId) setViewingMemberId(null); // Reset team view if needed
+       setCurrentPage('login');
+       window.scrollTo(0, 0);
+   };
+
+
+  // Handlers for Filter Drawer (Original Handlers)
   const handleOpenFilter = () => setIsFilterOpen(true);
   const handleCloseFilter = () => setIsFilterOpen(false);
 
-  // Handler for selecting a collection from the Header dropdown
+  // Handler for selecting a collection from the Header dropdown (Original Handler)
   const handleSelectCollection = (collectionName) => {
       setSelectedCollection(collectionName);
       if (collectionName) {
@@ -49,12 +58,12 @@ function App() {
       handleCloseFilter(); // Close filter drawer when changing collection
   };
 
-  // Helper function to get Banner Title/Subtitle based on Collection
+  // Helper function to get Banner Title/Subtitle based on Collection (Original Helper)
   const getCollectionBannerDetails = (collectionName) => {
       if (!collectionName) { return { title: "Collection", subtitle: "" }; }
       const upperCollectionName = collectionName.toUpperCase();
 
-      // --- Define details for included collections ---
+      // --- Define details for included collections --- (Original logic)
       if (upperCollectionName.includes("SOULFUL WEAVES")) { /*...*/ return { title: "SOULFUL WEAVES", subtitle: "A celebration of soft textures, timeless weaves and understated elegance." }; }
       if (upperCollectionName.includes("IKTARA - JAMDANI WEAVES")) { /*...*/ return { title: "IKTARA - JAMDANI STORIES", subtitle: "A timeless weave of tradition and craftsmanship, the process of jamdani weaving is considered one of the most advanced hand-weaving techniques in the world. Woven by artisans of Bengal in the softest cotton, these textiles make for handmade luxury at its best." }; }
       if (upperCollectionName.includes("RAANJHANA - BENARASI WEAVES")) { /*...*/ return { title: "RAANJHANA - BANARASI WEAVES", subtitle: "Presenting 'Raanjhana', an exquisite edit of Banaras weaves, made of stories wrapped in silk, colors dipped in richness and designs woven from blooms all around us." }; }
@@ -69,7 +78,7 @@ function App() {
       if (upperCollectionName.includes("A MIDAS TOUCH - TUSSAR SILK")) { /*...*/ return { title: "A MIDAS TOUCH", subtitle: "" }; }
       if (upperCollectionName.includes("GOLDEN HOUR - ECLECTIC JEWELLERY")) { /*...*/ return { title: "GOLDEN HOUR", subtitle: "Presenting an eclectic edit of versatile and modern, handcrafted contemporary pieces, that perfectly marries femininity and edge.\nEach of these exquisite beauty is a work of art, created by independent artisans in Jaipur and it was quite an interesting journey to source, curate and build this collection. It's yours now :)" }; }
       if (upperCollectionName.includes("EK SITARA - KOTA SAREES")) { /*...*/ return { title: "EK SITARA", subtitle: "An air of subtle sophistication, lightweight yet luxurious, a blend of cotton and silk with real gold in the zari, straight from the master weavers of Kaithoon, Kota." }; }
-      // --- Add details for Smart Staples ---
+      // --- Add details for Smart Staples --- (Original logic)
       if (upperCollectionName.includes("SMART STAPLES - A WORKWEAR EDIT")) {
           return {
               title: "SMART STAPLES - A WORKWEAR EDIT", // Title from video
@@ -79,18 +88,18 @@ function App() {
       }
       // --- End Smart Staples details ---
 
-      // Default fallback
+      // Default fallback (Original logic)
       return { title: collectionName.split('-')[0].trim(), subtitle: "" };
   };
 
-  // Function to determine which main page component to render
+  // Function to determine which main page component to render (Original function structure)
   const renderPage = () => {
-    // Priority 1: Team Member Detail Page
+    // Priority 1: Team Member Detail Page (Original logic)
     if (viewingMemberId) { /* ... */ return ( <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => setViewingMemberId(null)} /> ); }
-    // Priority 2: Login Page Overlay
+    // Priority 2: Login Page Overlay (Original logic - commented out)
     // if (showLoginPage) { return null; }
 
-    // Priority 3: Selected Collection Page
+    // Priority 3: Selected Collection Page (Original logic)
     if (currentPage === 'collection' && selectedCollection) {
         const { title, subtitle } = getCollectionBannerDetails(selectedCollection);
         const subtitleLines = subtitle.split('\n'); // Handle potential line breaks
@@ -105,7 +114,7 @@ function App() {
             </>
         );
     }
-    // Priority 4: Other specific pages
+    // Priority 4: Other specific pages (Original switch with register case added)
     switch (currentPage) {
      case 'home': return <HomePage setPage={setCurrentPage} />;
      case 'gift-card': return <GiftCardPage />;
@@ -113,29 +122,39 @@ function App() {
      case 'blog': return <BlogPage />;
      case 'bestsellers': return <BestsellersPage />;
      case 'meet-the-team': return <MeetTheTeamPage onSelectMember={setViewingMemberId} />;
+     case 'login': return <LoginPage setPage={setCurrentPage} />;
+     case 'register': // <-- ADDED: Case for Register Page
+        return <RegisterPage setPage={setCurrentPage} />;
      case 'shop': default: return <SareesPage />;
     }
   };
 
-  const isSolidHeaderForced = !!viewingMemberId;
-  const isHomePage = currentPage === 'home';
+   // Logic for solid header (Original structure, updated condition)
+   // Solid if viewing member OR on login page OR on register page
+   const isSolidHeaderForced = !!viewingMemberId || currentPage === 'login' || currentPage === 'register';
+   const isHomePage = currentPage === 'home'; // Original variable
 
-  // --- Main Render ---
+  // --- Main Render --- (Original structure)
   return (
     <CartProvider>
+      {/* Original className logic, using the updated isSolidHeaderForced */}
       <div className={`App ${isSolidHeaderForced ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''}`}>
+        {/* Pass viewingMemberId prop */}
         <Header
           setPage={setCurrentPage}
           currentPage={currentPage}
           resetTeamView={() => setViewingMemberId(null)}
-          onUserIconClick={handleOpenLogin}
+          onUserIconClick={handleOpenLogin} // Pass the handler
           handleSelectCollection={handleSelectCollection}
+          viewingMemberId={viewingMemberId} // Pass viewingMemberId
         />
         <main>{renderPage()}</main>
 
+        {/* Original Login Page logic (Commented out) */}
         {/* Uncomment the LoginPage import at the top if you re-enable this */}
         {/* {showLoginPage && <LoginPage handleClose={handleCloseLogin} />} */}
 
+        {/* Original Global Components */}
         <CartDrawer />
         <CurrencyDropdown />
         <WishlistButton />
@@ -146,4 +165,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; // Original export
