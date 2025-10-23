@@ -29,7 +29,15 @@ import BanglesCuffsPage from './pages/jewellery/BanglesCuffsPage'; //
 import RingsPage from './pages/jewellery/RingsPage'; //
 
 // --- Import New Arrivals Jewellery Page ---
-import NewArrivalsJewelleryPage from './pages/NewArrivalsJewelleryPage';
+import NewArrivalsJewelleryPage from './pages/NewArrivalsJewelleryPage'; //
+
+// --- Import New Saree Category Pages ---
+import CottonSareesPage from './pages/sarees/CottonSareesPage'; //
+import SilkTussarSareesPage from './pages/sarees/SilkTussarSareesPage'; //
+import LinenSareesPage from './pages/sarees/LinenSareesPage'; //
+import ChanderiSareesPage from './pages/sarees/ChanderiSareesPage'; //
+import NewArrivalsSareesPage from './pages/NewArrivalsSareesPage'; //
+import FallPicotPage from './pages/FallPicotPage'; // <-- Import FallPicotPage
 
 // Import slick carousel CSS if HomePage uses it (Original Import)
 import "slick-carousel/slick/slick.css"; //
@@ -65,6 +73,15 @@ function App() {
   const getCollectionBannerDetails = (collectionName) => { //
        if (!collectionName) { return { title: "Collection", subtitle: "" }; } //
       const upperCollectionName = collectionName.toUpperCase(); //
+
+      // --- Add simple titles for saree categories if needed ---
+      if (upperCollectionName === "COTTON SAREES") return { title: "COTTON SAREES", subtitle: "Comfortable and stylish cotton sarees." }; //
+      if (upperCollectionName === "SILK & TUSSAR SAREES") return { title: "SILK & TUSSAR SAREES", subtitle: "Elegant Silk and Tussar sarees." }; //
+      if (upperCollectionName === "LINEN SAREES") return { title: "LINEN SAREES", subtitle: "Breathable and beautiful Linen sarees." }; //
+      if (upperCollectionName === "CHANDERI SAREES") return { title: "CHANDERI SAREES", subtitle: "Light and luxurious Chanderi sarees." }; //
+      if (upperCollectionName === "FALL AND PICOT") return { title: "FALL AND PICOT", subtitle: "Make your saree shopping experience more hassle-free..." }; //
+
+      // --- Existing collection details ---
       if (upperCollectionName.includes("SOULFUL WEAVES")) { return { title: "SOULFUL WEAVES", subtitle: "A celebration of soft textures, timeless weaves and understated elegance." }; } //
       if (upperCollectionName.includes("IKTARA - JAMDANI WEAVES")) { return { title: "IKTARA - JAMDANI STORIES", subtitle: "A timeless weave of tradition and craftsmanship, the process of jamdani weaving is considered one of the most advanced hand-weaving techniques in the world. Woven by artisans of Bengal in the softest cotton, these textiles make for handmade luxury at its best." }; } //
       if (upperCollectionName.includes("RAANJHANA - BENARASI WEAVES")) { return { title: "RAANJHANA - BANARASI WEAVES", subtitle: "Presenting 'Raanjhana', an exquisite edit of Banaras weaves, made of stories wrapped in silk, colors dipped in richness and designs woven from blooms all around us." }; } //
@@ -104,19 +121,22 @@ function App() {
         );
     }
 
-    // UPDATED switch statement
+    // UPDATED switch statement with fall-picot
     switch (currentPage) { //
      case 'home': return <HomePage setPage={setCurrentPage} />; //
      case 'gift-card': return <GiftCardPage />; //
-     // Case for SHOP > JEWELLERY > All
      case 'jewellery': return <JewelleryPage />; //
-     // Case for NEW ARRIVALS > Jewellery
-     case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage />; // <-- ADDED
-     // Cases for specific jewellery categories
+     case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage />; //
      case 'neckpieces': return <NeckpiecesPage />; //
      case 'earrings': return <EarringsPage />; //
      case 'bangles-cuffs': return <BanglesCuffsPage />; //
      case 'rings': return <RingsPage />; //
+     case 'new-arrivals-sarees': return <NewArrivalsSareesPage />; //
+     case 'sarees-cotton': return <CottonSareesPage />; //
+     case 'sarees-silk-tussar': return <SilkTussarSareesPage />; //
+     case 'sarees-linen': return <LinenSareesPage />; //
+     case 'sarees-chanderi': return <ChanderiSareesPage />; //
+     case 'fall-picot': return <FallPicotPage />; // <-- ADDED
      case 'blog': return <BlogPage />; //
      case 'bestsellers': return <BestsellersPage />; //
      case 'meet-the-team': return <MeetTheTeamPage onSelectMember={setViewingMemberId} />; //
@@ -127,8 +147,16 @@ function App() {
     }
   };
 
-   // Logic for solid header
-   const isSolidHeaderForced = !!viewingMemberId || currentPage === 'login' || currentPage === 'register'; //
+   // Logic for solid header - updated pages list
+   const pagesThatMightStartTransparent = [ //
+       'home', 'shop', 'jewellery', 'new-arrivals-jewellery', 'collection', 'bestsellers',
+       'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
+       'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
+       'new-arrivals-sarees',
+       'fall-picot' // <-- Added
+   ];
+   const isSolidHeaderForced = !!viewingMemberId || currentPage === 'login' || currentPage === 'register' || !pagesThatMightStartTransparent.includes(currentPage); //
+
    const isHomePage = currentPage === 'home'; //
 
   // --- Main Render ---

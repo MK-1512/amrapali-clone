@@ -2681,3 +2681,136 @@ h1.hero-title {
   transform: translateY(0); /* Animate vertically */
   transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
 }
+
+/* --------------------------------------------------- */
+/* SHOP DROPDOWN MENU STYLES (FIXED) */
+/* --------------------------------------------------- */
+
+.main-nav-container {
+  position: relative; /* This is the positioning parent for the dropdown */
+}
+
+.nav-item-shop {
+  /* No special position needed, it's just a list item */
+}
+
+/* This rule styles the dropdown menu itself. 
+  Visibility is controlled by React state (isShopDropdownOpen) in Header.jsx,
+  not by CSS hover.
+*/
+.shop-dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position it directly below the nav bar */
+  left: 0;   /* Align to the left edge of the main-nav-container */
+  right: 0;  /* Align to the right edge of the main-nav-container */
+  width: 100%; /* Make it full-width of its parent */
+  background-color: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px 0;
+  z-index: 1020; /* Ensure it's on top */
+  
+  /* Transitions for smooth appearance/disappearance */
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
+  
+  /* We don't need 'pointer-events: none' if we unmount it with React state */
+}
+
+/* This centers the content *inside* the full-width dropdown,
+  matching your site's main container.
+*/
+.shop-dropdown-menu .container {
+    max-width: 1140px; /* Or your standard container width */
+    margin: 0 auto; /* Center the content */
+    padding: 0 15px;
+}
+
+/* Column titles */
+.dropdown-col-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 15px;
+  color: #1c1c1c;
+}
+
+/* --- FIX: Remove underline from title links --- */
+.dropdown-col-title-link {
+    padding: 0 !important;
+    text-decoration: none !important;
+    display: block;
+    margin-bottom: 15px; 
+}
+.dropdown-col-title-link:hover .dropdown-col-title {
+     color: #a8853d;
+}
+
+/* --- FIX: Remove underline from list links --- */
+.dropdown-links .nav-link {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  color: #555 !important;
+  padding: 4px 0 !important;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+  font-weight: 400;
+  text-decoration: none !important; /* This removes the underline */
+}
+.dropdown-links .nav-link:hover {
+  color: #a8853d !important;
+}
+
+/* Image links */
+.dropdown-image-link {
+  display: block;
+  text-decoration: none !important; /* Ensure no underline on image links */
+  color: #1c1c1c;
+  transition: opacity 0.3s ease;
+}
+.dropdown-image-link:hover {
+  opacity: 0.85;
+}
+
+/* --- FIX: IMAGE SIZE --- */
+.dropdown-image-link img {
+  width: 100%;
+  display: block;
+  height: 200px; /* Sets a fixed height */
+  object-fit: cover; /* Ensures image fills the space without distortion */
+  border: 1px solid #eee;
+  margin-bottom: 0;
+}
+
+.dropdown-image-caption {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 10px;
+}
+
+/* Keep SHOP link highlighted when dropdown is open */
+/* (This still relies on hover, which is fine for link color) */
+.header-container.scrolled .nav-item-shop:hover .nav-link {
+    color: #a8853d !important;
+}
+/* This rule is crucial for transparent header state */
+.header-container.nav-hovered:not(.scrolled) .nav-item-shop:hover .nav-link {
+    color: #a8853d !important;
+}
+
+/* Ensure dropdown background stays white when header is transparent
+  but nav is hovered.
+*/
+.header-container.nav-hovered:not(.scrolled) .shop-dropdown-menu {
+    background-color: #ffffff;
+}
+
