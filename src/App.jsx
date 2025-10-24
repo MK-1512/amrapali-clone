@@ -4,8 +4,10 @@ import Header from './components/common/Header';
 import HomePage from './pages/HomePage'; 
 import SareesPage from './pages/SareesPage'; 
 import CartDrawer from './components/cart/CartDrawer'; 
+import WishlistModal from './components/cart/WishlistModal'; 
 import { CartProvider } from './context/CartContext'; 
-import { CurrencyProvider } from './context/CurrencyContext'; // <-- NEW IMPORT
+import { WishlistProvider } from './context/WishlistContext'; 
+import { CurrencyProvider } from './context/CurrencyContext'; 
 import './assets/css/main.css'; 
 import Footer from './components/common/Footer'; 
 import GiftCardPage from './pages/GiftCardPage'; 
@@ -22,9 +24,9 @@ import CollectionHeroBanner from './components/common/CollectionHeroBanner';
 import FilterBar from './components/filters/FilterBar'; 
 import FilterDrawer from './components/filters/FilterDrawer'; 
 import RegisterPage from './pages/RegisterPage'; 
-import SearchBar from './components/common/SearchBar'; // <-- NEW
+import SearchBar from './components/common/SearchBar'; 
 
-// --- Import New Category Pages ---
+// --- Import Category Pages ---
 import NeckpiecesPage from './pages/jewellery/NeckpiecesPage'; 
 import EarringsPage from './pages/jewellery/EarringsPage'; 
 import BanglesCuffsPage from './pages/jewellery/BanglesCuffsPage'; 
@@ -37,7 +39,7 @@ import ChanderiSareesPage from './pages/sarees/ChanderiSareesPage';
 import NewArrivalsSareesPage from './pages/NewArrivalsSareesPage'; 
 import FallPicotPage from './pages/FallPicotPage'; 
 
-// Import slick carousel CSS if HomePage uses it (Original Import)
+// Import slick carousel CSS 
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css"; 
 
@@ -46,30 +48,25 @@ function App() {
   const [viewingMemberId, setViewingMemberId] = useState(null); 
   const [selectedCollection, setSelectedCollection] = useState(null); 
   const [isFilterOpen, setIsFilterOpen] = useState(false); 
-  const [isSearchOpen, setIsSearchOpen] = useState(false); // <-- NEW
+  const [isSearchOpen, setIsSearchOpen] = useState(false); 
 
-  // Handler to open login page
-   const handleOpenLogin = () => { 
+  const handleOpenLogin = () => { 
        if (viewingMemberId) setViewingMemberId(null); 
        setCurrentPage('login'); 
        window.scrollTo(0, 0); 
    };
 
-  // Handlers for Filter Drawer
   const handleOpenFilter = () => setIsFilterOpen(true); 
   const handleCloseFilter = () => setIsFilterOpen(false); 
   
-  // NEW: Search Toggle Handler
   const toggleSearch = () => {
       setIsSearchOpen(prev => !prev);
-      // Close filters if opening search
       if (!isSearchOpen) {
           setIsFilterOpen(false);
           window.scrollTo(0, 0); 
       }
   };
 
-  // Handler for selecting a collection
   const handleSelectCollection = (collectionName) => { 
       setSelectedCollection(collectionName); 
       if (collectionName) { 
@@ -78,27 +75,23 @@ function App() {
       handleCloseFilter(); 
   };
 
-  // NEW: Centralized Navigation Handler
+  // Centralized Navigation Handler
   const handleNavigation = (pageName) => {
-      // Clean up search state if active
       if (isSearchOpen) setIsSearchOpen(false);
       setCurrentPage(pageName);
       window.scrollTo(0, 0);
   };
   
-  // Helper function to get Banner Details (Original Logic)
   const getCollectionBannerDetails = (collectionName) => { 
        if (!collectionName) { return { title: "Collection", subtitle: "" }; } 
       const upperCollectionName = collectionName.toUpperCase(); 
 
-      // --- Add simple titles for saree categories if needed ---
       if (upperCollectionName === "COTTON SAREES") return { title: "COTTON SAREES", subtitle: "Comfortable and stylish cotton sarees." }; 
       if (upperCollectionName === "SILK & TUSSAR SAREES") return { title: "SILK & TUSSAR SAREES", subtitle: "Elegant Silk and Tussar sarees." }; 
       if (upperCollectionName === "LINEN SAREES") return { title: "LINEN SAREES", subtitle: "Breathable and beautiful Linen sarees." }; 
       if (upperCollectionName === "CHANDERI SAREES") return { title: "CHANDERI SAREES", subtitle: "Light and luxurious Chanderi sarees." }; 
       if (upperCollectionName === "FALL AND PICOT") return { title: "FALL AND PICOT", subtitle: "Make your saree shopping experience more hassle-free..." }; 
 
-      // --- Existing collection details ---
       if (upperCollectionName.includes("SOULFUL WEAVES")) { return { title: "SOULFUL WEAVES", subtitle: "A celebration of soft textures, timeless weaves and understated elegance." }; } 
       if (upperCollectionName.includes("IKTARA - JAMDANI WEAVES")) { return { title: "IKTARA - JAMDANI STORIES", subtitle: "A timeless weave of tradition and craftsmanship, the process of jamdani weaving is considered one of the most advanced hand-weaving techniques in the world. Woven by artisans of Bengal in the softest cotton, these textiles make for handmade luxury at its best." }; } 
       if (upperCollectionName.includes("RAANJHANA - BENARASI WEAVES")) { return { title: "RAANJHANA - BANARASI WEAVES", subtitle: "Presenting 'Raanjhana', an exquisite edit of Banaras weaves, made of stories wrapped in silk, colors dipped in richness and designs woven from blooms all around us." }; } 
@@ -117,7 +110,6 @@ function App() {
       return { title: collectionName.split('-')[0].trim(), subtitle: "" }; 
   };
 
-  // Function to determine which page component to render (Original Logic, using handleNavigation for setPage)
   const renderPage = () => { 
     if (viewingMemberId) { 
         return <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => setViewingMemberId(null)} />; 
@@ -139,7 +131,7 @@ function App() {
     }
 
     switch (currentPage) { 
-     case 'home': return <HomePage setPage={handleNavigation} />; // Use handleNavigation
+     case 'home': return <HomePage setPage={handleNavigation} />;
      case 'gift-card': return <GiftCardPage />; 
      case 'jewellery': return <JewelleryPage />; 
      case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage />; 
@@ -156,14 +148,13 @@ function App() {
      case 'blog': return <BlogPage />; 
      case 'bestsellers': return <BestsellersPage />; 
      case 'meet-the-team': return <MeetTheTeamPage onSelectMember={setViewingMemberId} />; 
-     case 'login': return <LoginPage setPage={handleNavigation} />; // Use handleNavigation
-     case 'register': return <RegisterPage setPage={handleNavigation} />; // Use handleNavigation
+     case 'login': return <LoginPage setPage={handleNavigation} />;
+     case 'register': return <RegisterPage setPage={handleNavigation} />;
      case 'shop': 
      default: return <SareesPage />; 
     }
   };
 
-   // Logic for determining which pages start with a transparent header
    const pagesThatMightStartTransparent = [ 
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
@@ -173,8 +164,6 @@ function App() {
        'fall-picot' 
    ];
    
-   // FIX: If search is open, or it's a page that shouldn't be transparent, force solid header.
-   // This correctly uses isSearchOpen now
    const isSolidHeaderForced = isSearchOpen || !!viewingMemberId || currentPage === 'login' || currentPage === 'register' || !pagesThatMightStartTransparent.includes(currentPage); 
 
    const isHomePage = currentPage === 'home'; 
@@ -182,42 +171,42 @@ function App() {
   // --- Main Render ---
   return ( 
     <CartProvider> 
-      <CurrencyProvider>
-        {/* Add 'search-open' class to App root for styling flexibility (e.g., hiding overflow) */}
-        <div className={`App ${isSolidHeaderForced ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}> 
-          <Header 
-            setPage={handleNavigation} // <-- Use centralized navigation handler
-            currentPage={currentPage} 
-            resetTeamView={() => setViewingMemberId(null)} 
-            onUserIconClick={handleOpenLogin} 
-            handleSelectCollection={handleSelectCollection} 
-            viewingMemberId={viewingMemberId} 
+      <CurrencyProvider> 
+        {/* Pass handleNavigation to WishlistProvider so nested modals can trigger page routing */}
+        <WishlistProvider handleNavClick={handleNavigation}> 
+          <div className={`App ${isSolidHeaderForced ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}> 
+            <Header 
+              setPage={handleNavigation} 
+              currentPage={currentPage} 
+              resetTeamView={() => setViewingMemberId(null)} 
+              onUserIconClick={handleOpenLogin} 
+              handleSelectCollection={handleSelectCollection} 
+              viewingMemberId={viewingMemberId} 
+              
+              isSearchOpen={isSearchOpen}
+              toggleSearch={toggleSearch}
+            />
             
-            // --- NEW SEARCH PROPS ---
-            isSearchOpen={isSearchOpen}
-            toggleSearch={toggleSearch}
-          />
-          
-          {/* Render SearchBar */}
-          <SearchBar 
-              isSearchOpen={isSearchOpen} 
-              handleCloseSearch={toggleSearch}
-              // Pass navigation handler for SearchBar links
-              handleNavClick={(e, pageName) => { 
-                  e.preventDefault(); 
-                  handleNavigation(pageName); 
-              }}
-          />
+            <SearchBar 
+                isSearchOpen={isSearchOpen} 
+                handleCloseSearch={toggleSearch}
+                handleNavClick={(e, pageName) => { 
+                    e.preventDefault(); 
+                    handleNavigation(pageName); 
+                }}
+            />
 
-          <main>{renderPage()}</main> 
+            <main>{renderPage()}</main> 
 
-          {/* Global Components */}
-          <CartDrawer /> 
-          <CurrencyDropdown /> 
-          <WishlistButton /> 
-          <Footer /> 
-          <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> 
-        </div>
+            {/* Global Components */}
+            <CartDrawer /> 
+            <WishlistModal handleNavClick={handleNavigation} />
+            <CurrencyDropdown /> 
+            <WishlistButton /> 
+            <Footer /> 
+            <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> 
+          </div>
+        </WishlistProvider> 
       </CurrencyProvider>
     </CartProvider>
   );

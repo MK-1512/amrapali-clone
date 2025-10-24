@@ -2991,3 +2991,18 @@ h1.hero-title {
         padding-left: 15px; 
     }
 }
+
+/* src/assets/css/main.css (Add to end of file if not already present) */
+
+/* Wishlist Drawer Style - Reuses cart-drawer base styles */
+.wishlist-drawer {
+    /* Optionally override background if you want it different from cart */
+    /* background-color: #fcfcfc; */ 
+}
+
+/* Ensure drawer opens to the correct size */
+/* No change needed as it reuses .cart-drawer: 400px width */
+
+/* Style for the Guest Shopper Modal (using inline styles in JSX now, but keep CSS for future) */
+/* .guest-shopper-modal-overlay { ... } */
+/* .guest-shopper-modal { ... } */

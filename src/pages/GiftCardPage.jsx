@@ -1,11 +1,14 @@
+// src/pages/GiftCardPage.jsx
 import React, { useState, useContext } from 'react';
 import { Accordion } from 'react-bootstrap';
-import CustomerReviews from '../components/common/CustomerReviews'; // 1. Import the CustomerReviews component
-import { CurrencyContext } from '../context/CurrencyContext'; // <-- NEW
-import { formatPrice } from '../utils/currencyUtils'; // <-- NEW
+import CustomerReviews from '../components/common/CustomerReviews'; 
+import { CurrencyContext } from '../context/CurrencyContext'; 
+import { formatPrice } from '../utils/currencyUtils'; 
+import { WishlistContext } from '../context/WishlistContext'; // <-- NEW IMPORT
 
 const GiftCardPage = () => {
-    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
+    const { selectedCurrency } = useContext(CurrencyContext); 
+    const { addToWishlist, isProductInWishlist } = useContext(WishlistContext); // <-- NEW
 
     const denominations = [
         { value: 2000, label: '₹2,000.00' },
@@ -16,14 +19,16 @@ const GiftCardPage = () => {
     
     // Helper to format a single price
     const getFormattedPrice = (price) => {
-        // Pass the price (in INR) and the selected currency code
         return formatPrice(price, selectedCurrency.code); 
     };
 
     const [selectedDenomination, setSelectedDenomination] = useState(denominations[0].value);
     const [quantity, setQuantity] = useState(1);
-    const [isInWishlist, setIsInWishlist] = useState(true);
-    const [wishlistCount] = useState(26);
+    
+    // NOTE: isInWishlist state moved to context logic, but we keep this one 
+    // to map to a mock product for simplicity if needed. We'll use a mock item ID for check.
+    const mockGiftCardProduct = { id: 'gift-card', name: 'E-GIFT CARD', price: selectedDenomination };
+    const isInWishlist = isProductInWishlist(mockGiftCardProduct.id); // <-- USE CONTEXT
 
     const handleQuantityChange = (amount) => {
         setQuantity((prevQuantity) => Math.max(1, prevQuantity + amount));
@@ -34,7 +39,7 @@ const GiftCardPage = () => {
     };
     
     const totalDenominationINR = selectedDenomination * quantity;
-    const formattedPrice = getFormattedPrice(totalDenominationINR); // <-- NEW
+    const formattedPrice = getFormattedPrice(totalDenominationINR);
 
     return (
         <div className="product-page-container container my-5">
@@ -59,7 +64,7 @@ const GiftCardPage = () => {
                         </div>
 
                         <p className="product-price">
-                            {formattedPrice} {/* <-- USE FORMATTED PRICE */}
+                            {formattedPrice} 
                         </p>
 
                         <div className="mb-3">
@@ -71,7 +76,7 @@ const GiftCardPage = () => {
                             >
                                 {denominations.map((denom) => (
                                     <option key={denom.value} value={denom.value}>
-                                        Denominations: {getFormattedPrice(denom.value)} {/* <-- USE FORMATTED PRICE */}
+                                        Denominations: {getFormattedPrice(denom.value)} 
                                     </option>
                                 ))}
                             </select>
@@ -106,10 +111,12 @@ const GiftCardPage = () => {
                             <button 
                                 className={`btn-add-to-wishlist ${isInWishlist ? 'added' : ''}`}
                                 type="button"
-                                onClick={() => setIsInWishlist(!isInWishlist)}
+                                // Use the general addToWishlist function
+                                onClick={() => addToWishlist({ id: 'gift-card', name: 'E-GIFT CARD', price: selectedDenomination, image1: '/images/gift-card.jpg' })}
                             >
+                                {/* NOTE: wishlistCount is now global, using mock value in original file for visual matching */}
                                 {isInWishlist ? 'ADDED TO WISHLIST' : 'ADD TO WISHLIST'}
-                                <span className="wishlist-count">{wishlistCount}</span>
+                                <span className="wishlist-count">26</span> 
                             </button>
                         </div>
                         

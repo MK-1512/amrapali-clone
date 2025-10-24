@@ -1,8 +1,8 @@
 // src/components/common/Header.jsx
 import React, { useState, useEffect, useContext } from 'react';
-import { CartContext } from '../../context/CartContext'; //
-import { NavDropdown } from 'react-bootstrap'; //
-import ShopDropdownMenu from './ShopDropdownMenu'; //
+import { CartContext } from '../../context/CartContext'; 
+import { NavDropdown } from 'react-bootstrap'; 
+import ShopDropdownMenu from './ShopDropdownMenu'; 
 
 // Note: isSearchOpen and toggleSearch are passed from App.jsx
 const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSelectCollection, viewingMemberId, isSearchOpen, toggleSearch }) => { 
@@ -20,18 +20,17 @@ const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSe
     const [isHeaderSolid, setIsHeaderSolid] = useState(() => { 
         const isViewingMemberInitially = !!viewingMemberId; 
         const isHeroPageInitially = pagesWithHeroBannerEffect.includes(currentPage); 
-        // Start solid if it's NOT a hero page, OR if viewing a member
         return !isHeroPageInitially || isViewingMemberInitially;
     });
     const [isTopBarHidden, setIsTopBarHidden] = useState(() => window.scrollY > 10); 
     const [isNavHovered, setIsNavHovered] = useState(false); 
 
-    // --- DROPDOWN STATES (New for Bootstrap and Shop) ---
+    // --- DROPDOWN STATES ---
     const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false); 
-    const [isNewArrivalsOpen, setIsNewArrivalsOpen] = useState(false); // <-- DEFINED
-    const [isCollectionsOpen, setIsCollectionsOpen] = useState(false); // <-- DEFINED
+    const [isNewArrivalsOpen, setIsNewArrivalsOpen] = useState(false); 
+    const [isCollectionsOpen, setIsCollectionsOpen] = useState(false); 
     const [shopDropdownTimer, setShopDropdownTimer] = useState(null); 
-    // ----------------------------------------------------
+    // -------------------------
 
     // Clear timer on unmount
     useEffect(() => {
@@ -47,7 +46,6 @@ const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSe
             const isViewingMember = !!viewingMemberId; 
             const isHeroPage = pagesWithHeroBannerEffect.includes(currentPage); 
 
-            // Corrected solid state logic 
             const shouldBeSolid = isViewingMember ||
                                   currentPage === 'login' ||
                                   currentPage === 'register' ||
@@ -72,25 +70,23 @@ const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSe
     const handleNavClick = (e, pageName) => { 
         e.preventDefault(); 
         
-        closeAllDropdowns(); // <-- Close all dropdowns
+        closeAllDropdowns(); 
         if (shopDropdownTimer) clearTimeout(shopDropdownTimer); 
         
         if (resetTeamView) resetTeamView(); 
         if (handleSelectCollection) handleSelectCollection(null); 
         setPage(pageName); 
-        // window.scrollTo(0, 0); // Rely on App.jsx for scroll
     };
 
     const onCollectionItemClick = (e, collectionName) => { 
         e.preventDefault(); 
         
-        closeAllDropdowns(); // <-- Close all dropdowns
+        closeAllDropdowns(); 
         if (shopDropdownTimer) clearTimeout(shopDropdownTimer); 
         
         if (resetTeamView) resetTeamView(); 
         if (handleSelectCollection) handleSelectCollection(collectionName); 
         setPage('collection'); 
-        // window.scrollTo(0, 0); // Rely on App.jsx for scroll
     };
 
     // --- Handlers for Shop Dropdown ---
@@ -107,17 +103,14 @@ const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSe
     };
     // --- END Handlers ---
 
-    // *** UPDATED isLinkActive function ***
     const isLinkActive = (pageName) => { 
        if (pageName === 'shop-parent') return ['shop', 'home', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi'].includes(currentPage); 
        if (pageName === 'jewellery-parent') return ['jewellery', 'neckpieces', 'earrings', 'bangles-cuffs', 'rings'].includes(currentPage); 
-       // ** ADDED **
        if (pageName === 'new-arrivals-parent') return ['new-arrivals-sarees', 'new-arrivals-jewellery'].includes(currentPage);
        if (pageName === 'collection') return currentPage === 'collection'; 
        return currentPage === pageName; 
     };
 
-    // Note: If isSearchOpen is true, the class is handled by the root App component.
     const headerClasses = `
       header-container
       ${isHeaderSolid ? 'scrolled' : ''}
@@ -154,7 +147,7 @@ const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSe
                     <div className="header-icons d-flex align-items-center justify-content-end gap-3 flex-grow-1"> 
                         <img src="/images/icons/user-icon.svg" alt="User" onClick={onUserIconClick} style={{ cursor: 'pointer' }} /> 
                         
-                        {/* Search Icon with Toggle Handler */}
+                        {/* Search Icon */}
                         <img 
                            src="/images/icons/search-icon.svg" 
                            alt="Search" 
@@ -199,14 +192,14 @@ const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSe
                             {/* NEW ARRIVALS (Bootstrap Dropdown) */}
                             <li 
                                 className="nav-item dropdown"
-                                onMouseEnter={() => setIsNewArrivalsOpen(true)} // <-- Open on hover
-                                onMouseLeave={() => setIsNewArrivalsOpen(false)} // <-- Close on hover out
+                                onMouseEnter={() => setIsNewArrivalsOpen(true)}
+                                onMouseLeave={() => setIsNewArrivalsOpen(false)}
                             > 
                                 <NavDropdown
                                     title="NEW ARRIVALS" 
                                     id="new-arrivals-dropdown" 
-                                    show={isNewArrivalsOpen} // <-- Controlled visibility
-                                    onToggle={() => {}} // Mandatory but empty function
+                                    show={isNewArrivalsOpen}
+                                    onToggle={() => {}}
                                     className={`nav-link p-0 ${isLinkActive('new-arrivals-parent') ? 'active' : ''}`} 
                                 >
                                    <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-sarees')}> 
@@ -221,14 +214,14 @@ const Header = ({ setPage, currentPage, resetTeamView, onUserIconClick, handleSe
                             {/* COLLECTIONS DROPDOWN (Bootstrap Dropdown) */}
                             <li 
                                 className="nav-item dropdown"
-                                onMouseEnter={() => setIsCollectionsOpen(true)} // <-- Open on hover
-                                onMouseLeave={() => setIsCollectionsOpen(false)} // <-- Close on hover out
+                                onMouseEnter={() => setIsCollectionsOpen(true)}
+                                onMouseLeave={() => setIsCollectionsOpen(false)}
                             > 
                                 <NavDropdown
                                     title="COLLECTIONS" 
                                     id="collections-dropdown" 
-                                    show={isCollectionsOpen} // <-- Controlled visibility
-                                    onToggle={() => {}} // Mandatory but empty function
+                                    show={isCollectionsOpen}
+                                    onToggle={() => {}}
                                     className={`nav-link p-0 ${isLinkActive('collection') ? 'active' : ''}`} 
                                 >
                                     {collections.map(collection => ( 
