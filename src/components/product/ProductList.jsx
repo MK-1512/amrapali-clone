@@ -23,6 +23,11 @@ import { aMidasTouchSilkProducts } from '../../data/aMidasTouchSilk';
 import { goldenHourJewelleryProducts } from '../../data/goldenHourJewellery';
 import { ekSitaraKotaProducts } from '../../data/ekSitaraKota';
 import { smartStaplesProducts } from '../../data/smartStaples';
+// Import the new Potpourri data
+import { potpourriProducts } from '../../data/potpourriProducts';
+// Import bestseller products specifically for the POTPOURRI case
+import { bestsellerProducts } from '../../data/bestsellerProducts';
+
 
 // Accept both props
 const ProductList = ({ collectionName, products: productsData = null }) => {
@@ -60,6 +65,8 @@ const ProductList = ({ collectionName, products: productsData = null }) => {
         else if (collectionKey === "GOLDEN HOUR - ECLECTIC JEWELLERY") { productsToDisplay = goldenHourJewelleryProducts; title = "Golden Hour"; }
         // General Jewellery check (Shows ALL jewellery if collectionName is 'jewellery')
         else if (collectionKey === 'JEWELLERY') { productsToDisplay = jewelleryProducts; title = "Jewellery"; }
+       // NEW: Handle POTPOURRI collection
+       else if (collectionKey === 'POTPOURRI') { productsToDisplay = potpourriProducts; title = "Potpourri"; }
         // Saree Collections (Your original logic)
         else if (collectionKey === "SOULFUL WEAVES - COTTON SAREES (NEW)") { productsToDisplay = soulfulWeavesProducts; title = "Soulful Weaves"; }
         else if (collectionKey === "IKTARA - JAMDANI WEAVES")           { productsToDisplay = iktaraWeavesProducts; title = "Iktara - Jamdani Stories"; }

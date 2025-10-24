@@ -6,19 +6,30 @@ import ProductCard from '../components/product/ProductCard';
 import { products as sareeProducts } from '../data/products';
 import { jewellery as jewelleryProducts } from '../data/jewellery';
 import { blogPosts } from '../data/blogPosts';
-import { CurrencyContext } from '../context/CurrencyContext'; // <-- NEW
-import { formatPrice } from '../utils/currencyUtils'; // <-- NEW
+import { CurrencyContext } from '../context/CurrencyContext';
+import { formatPrice } from '../utils/currencyUtils';
+// Import the review slider component
+import CustomerReviewSlider from '../components/common/CustomerReviewSlider';
+
 
 // --- Data Definitions ---
 
-const heroSlides = [
-  { img: 'https://www.amrapaliboutique.in/cdn/shop/files/IMG_0577_1600x.jpg?v=1756621375', buttons: 1, btn1Text: 'OUR BLOG', btn1Link: '#' },
-  { img: 'https://www.amrapaliboutique.in/cdn/shop/files/shared102_1600x.jpg?v=1650086293', buttons: 1, btn1Text: 'SHOP NOW', btn1Link: '#' },
-  { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200813064613423_save-01_1600x.jpeg?v=1613792330', buttons: 1, btn1Text: 'EXPLORE SOULFUL WEAVES', btn1Link: '#' },
-  { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200814010950628_save_1600x.jpg?v=1613792369', buttons: 1, btn1Text: 'VIEW POPSICLE', btn1Link: '#' },
-  { img: 'https://www.amrapaliboutique.in/cdn/shop/files/5_desktop_1600x.jpg?v=1613543282', buttons: 2, btn1Text: 'SHOP LINEN', btn1Link: '#', btn2Text: 'SHOP COTTON', btn2Link: '#' },
-  { img: 'https://www.amrapaliboutique.in/cdn/shop/files/shared102_1600x.jpg?v=1650086293', buttons: 2, btn1Text: 'SHOP SILK AND TUSSAR', btn1Link: '#', btn2Text: 'SHOP CHANDERI', btn2Link: '#' },
-];
+ // CORRECTED heroSlides order and actions based on the second video
+ const heroSlides = [
+    // Slide 1: Potpourri (Matches video 2, frame ~0:01)
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/IMG_0577_1600x.jpg?v=1756621375', buttons: 1, btn1Text: 'POTPOURRI', btn1Action: 'collection', btn1Param: 'POTPOURRI' }, // Navigates to Potpourri Collection
+    // Slide 2: Shop Sarees (Matches video 2, frame ~0:06)
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/shared102_1600x.jpg?v=1650086293', buttons: 1, btn1Text: 'SHOP SAREES', btn1Action: 'shop' }, // Navigates to general Shop/Sarees page
+    // Slide 3: Our Blog (Matches video 2, frame ~0:08)
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200813064613423_save-01_1600x.jpeg?v=1613792330', buttons: 1, btn1Text: 'OUR BLOG', btn1Action: 'blog' }, // Navigates to Blog page
+    // Slide 4: Our Story (Matches video 2, frame ~0:11)
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200814010950628_save_1600x.jpg?v=1613792369', buttons: 1, btn1Text: 'OUR STORY', btn1Action: 'our-story' }, // Navigates to the new Our Story page
+    // Slide 5: Shop Linen / Shop Cotton (Matches video 2, frame ~0:13) - Buttons are horizontal by default in caption
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/5_desktop_1600x.jpg?v=1613543282', buttons: 2, btn1Text: 'SHOP LINEN', btn1Action: 'sarees-linen', btn2Text: 'SHOP COTTON', btn2Action: 'sarees-cotton' },
+    // Slide 6: Shop Silk & Tussar / Shop Chanderi (Matches video 2, frame ~0:16) - Buttons are horizontal
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/shared102_1600x.jpg?v=1650086293', buttons: 2, btn1Text: 'SHOP SILK AND TUSSAR', btn1Action: 'sarees-silk-tussar', btn2Text: 'SHOP CHANDERI', btn2Action: 'sarees-chanderi' },
+ ];
+
 
 // --- Components ---
 
@@ -77,8 +88,8 @@ const SimpleBlogPostCard = ({ post }) => (
  );
 
 // --- HomePage Component ---
-const HomePage = () => {
-    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
+const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
+    const { selectedCurrency } = useContext(CurrencyContext);
 
     // Helper to format a single price
     const getFormattedPrice = (price) => {
@@ -109,9 +120,20 @@ const HomePage = () => {
         shipping: "Ships within 3-5 business days. Free shipping across India. International shipping available.",
     };
 
-    // Calculate total price for POW in INR (assuming individual price is already INR)
+    // Calculate total price for POW in INR
     const powPriceINR = productOfTheWeek ? productOfTheWeek.price * powQuantity : 0;
 
+    // Navigation handler for carousel/category buttons
+    const handleButtonClick = (e, action, param) => {
+        e.preventDefault();
+        if (action === 'collection') {
+            onCollectionItemClick(param); // Use the passed handler for collection navigation
+        } else {
+            setPage(action); // Use the passed page setter for standard page navigation
+        }
+    };
+
+    // Inline styles (same as before)
     const pageStyles = `
         .homepage-section { padding: 40px 0; }
         .section-title { text-align: center; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 400; margin-bottom: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #999; }
@@ -168,43 +190,92 @@ const HomePage = () => {
 
             <Carousel fade indicators={true} controls={false} interval={5000} className="hero-carousel">
                 {heroSlides.map((slide, index) => (
-                    <Carousel.Item key={index} style={{ backgroundImage: `url(${slide.img})` }}>
+                    <Carousel.Item key={index} style={{ backgroundImage: `url(${slide.img})` }} >
                         <Carousel.Caption>
-                            <Button href={slide.btn1Link} className="btn-hero">{slide.btn1Text}</Button>
+                             {/* Primary Button */}
+                            <Button
+                                onClick={(e) => handleButtonClick(e, slide.btn1Action, slide.btn1Param)}
+                                className="btn-hero"
+                            >{slide.btn1Text}</Button>
+                            {/* Secondary Button (if exists) */}
                             {slide.buttons === 2 && slide.btn2Text && (
-                                <Button href={slide.btn2Link} className="btn-hero">{slide.btn2Text}</Button>
+                                <Button
+                                   onClick={(e) => handleButtonClick(e, slide.btn2Action, slide.btn2Param)}
+                                   className="btn-hero"
+                                >{slide.btn2Text}
+                                </Button>
                             )}
                         </Carousel.Caption>
                     </Carousel.Item>
                 ))}
             </Carousel>
 
+
+            {/* Sarees Section */}
             <Container className="homepage-section">
                 <p className="section-title">Tales of Effortless Yards Wrapped in Love</p>
                 <h3 className="section-main-title">SAREES</h3>
                 <ProductSlider products={firstEightSarees} />
                 <div className="text-center mt-4">
-                    <Button variant="outline-dark" style={{borderRadius: 0, padding: '10px 30px', fontSize: '12px', letterSpacing: '0.1em'}}>VIEW ALL PRODUCTS</Button>
+                    <Button
+                        onClick={(e) => handleButtonClick(e, 'shop')}
+                        variant="outline-dark"
+                        style={{borderRadius: 0, padding: '10px 30px', fontSize: '12px', letterSpacing: '0.1em'}}
+                    >VIEW ALL PRODUCTS</Button>
                 </div>
             </Container>
 
+            {/* Jewellery Section */}
             <Container className="homepage-section">
                  <p className="section-title">Specs of Sparkle</p>
                 <h3 className="section-main-title">JEWELLERY</h3>
                 <ProductSlider products={firstTwelveJewellery} />
                 <div className="text-center mt-4">
-                    <Button variant="outline-dark" style={{borderRadius: 0, padding: '10px 30px', fontSize: '12px', letterSpacing: '0.1em'}}>VIEW ALL PRODUCTS</Button>
+                    <Button
+                        onClick={(e) => handleButtonClick(e, 'jewellery')}
+                        variant="outline-dark"
+                        style={{borderRadius: 0, padding: '10px 30px', fontSize: '12px', letterSpacing: '0.1em'}}
+                    >VIEW ALL PRODUCTS</Button>
                 </div>
             </Container>
 
+             {/* Category Cards Section */}
              <Container fluid className="homepage-section px-md-0">
                 <Row className="g-0">
-                    <Col md={4}><Card className="text-white category-card border-0 rounded-0"><Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_3982_800x.jpg?v=1756625166" alt="Potpourri" /><Card.ImgOverlay><h4>POTPOURRI</h4><Button href="#" className="btn-category">VIEW PRODUCTS</Button></Card.ImgOverlay></Card></Col>
-                    <Col md={4}><Card className="text-white category-card border-0 rounded-0"><Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_8253_800x.jpg?v=1755240083" alt="Soulful Weaves" /><Card.ImgOverlay><h4>SOULFUL WEAVES</h4><Button href="#" className="btn-category">VIEW PRODUCTS</Button></Card.ImgOverlay></Card></Col>
-                    <Col md={4}><Card className="text-white category-card border-0 rounded-0"><Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_7022_c6106c85-7b92-48ec-ab73-0af24a719b72_800x.jpg?v=1704601509" alt="Popsicle" /><Card.ImgOverlay><h4>POPSICLE</h4><Button href="#" className="btn-category">VIEW PRODUCTS</Button></Card.ImgOverlay></Card></Col>
+                    <Col md={4}>
+                        <Card className="text-white category-card border-0 rounded-0">
+                            <Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_3982_800x.jpg?v=1756625166" alt="Potpourri" />
+                            <Card.ImgOverlay>
+                                <h4>POTPOURRI</h4>
+                                <Button onClick={(e) => handleButtonClick(e, 'collection', 'POTPOURRI')} className="btn-category">VIEW PRODUCTS</Button>
+                            </Card.ImgOverlay>
+                        </Card>
+                    </Col>
+                    <Col md={4}>
+                        <Card className="text-white category-card border-0 rounded-0">
+                             <Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_8253_800x.jpg?v=1755240083" alt="Soulful Weaves" />
+                             <Card.ImgOverlay>
+                                 <h4>SOULFUL WEAVES</h4>
+                                 <Button
+                                     onClick={(e) => handleButtonClick(e, 'collection', 'SOULFUL WEAVES - Cotton Sarees (NEW)')}
+                                     className="btn-category"
+                                 >VIEW PRODUCTS</Button>
+                            </Card.ImgOverlay>
+                        </Card>
+                    </Col>
+                    <Col md={4}>
+                        <Card className="text-white category-card border-0 rounded-0">
+                            <Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_7022_c6106c85-7b92-48ec-ab73-0af24a719b72_800x.jpg?v=1704601509" alt="Popsicle" />
+                            <Card.ImgOverlay>
+                                <h4>POPSICLE</h4>
+                                <Button onClick={(e) => handleButtonClick(e, 'collection', 'POPSICLE - Everyday Cottons')} className="btn-category">VIEW PRODUCTS</Button>
+                            </Card.ImgOverlay>
+                        </Card>
+                    </Col>
                 </Row>
             </Container>
 
+            {/* Product of the Week Section */}
             <Container className="homepage-section">
                 <h3 className="section-main-title">PRODUCT OF THE WEEK</h3>
                 <Row>
@@ -217,7 +288,7 @@ const HomePage = () => {
                              <h5>{productOfTheWeek.name}</h5>
                              <p className="sku">SKU: W-195(C) CH(SA)</p>
                              <p className="price">
-                                 {getFormattedPrice(powPriceINR)} {/* <-- USE FORMATTED PRICE */}
+                                 {getFormattedPrice(powPriceINR)}
                              </p>
                             <div className="pow-quantity-selector">
                                 <button type="button" onClick={() => handlePowQuantityChange(-1)} disabled={powQuantity <= 1}> − </button>
@@ -249,22 +320,22 @@ const HomePage = () => {
                 </Row>
             </Container>
 
-           {/* 7. Explore Section */}
-          {/* 7. Explore Section */}
+            {/* Explore Section - Updated onClick */}
             <div className="explore-section homepage-section px-0"
              style={{
-        backgroundImage: "url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '500px'
-    }}
+                 backgroundImage: "url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369')",
+                 backgroundSize: 'cover',
+                 backgroundPosition: 'center',
+                 height: '500px'
+             }}
             >
                 <div className="explore-content">
                     <p>Created for women who enjoy the feeling of empowerment through their choice of clothing</p>
-                    <Button href="#" className="btn-explore">EXPLORE</Button>
+                    <Button onClick={(e) => handleButtonClick(e, 'all-collections')} className="btn-explore">EXPLORE</Button>
                 </div>
             </div>
 
+            {/* Blog Section */}
             <Container className="homepage-section">
                  <h3 className="section-main-title">STORIES BY AMRAPALI</h3>
                 <Row xs={1} md={3} className="g-4">
@@ -273,10 +344,15 @@ const HomePage = () => {
                     ))}
                 </Row>
                 <div className="text-center mt-4">
-                     <Button variant="outline-dark" style={{borderRadius: 0, padding: '10px 30px', fontSize: '12px', letterSpacing: '0.1em'}}>VIEW ALL ARTICLES</Button>
+                     <Button
+                        onClick={(e) => handleButtonClick(e, 'blog')}
+                        variant="outline-dark"
+                        style={{borderRadius: 0, padding: '10px 30px', fontSize: '12px', letterSpacing: '0.1em'}}
+                     >VIEW ALL ARTICLES</Button>
                 </div>
             </Container>
 
+             {/* Info Section */}
              <Container fluid className="info-section">
                  <Container>
                      <Row>
@@ -289,12 +365,12 @@ const HomePage = () => {
                  </Container>
             </Container>
 
-            <Container className="homepage-section">
-                 <h3 className="section-main-title">Let customers speak for us</h3>
-                <div className="customer-reviews-placeholder">Customer Reviews Section (Integration Needed)</div>
-            </Container>
+            {/* Customer Reviews Section - Replaced Placeholder */}
+            <CustomerReviewSlider />
+
         </>
     );
 };
 
 export default HomePage;
+

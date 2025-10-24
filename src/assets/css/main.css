@@ -3006,3 +3006,66 @@ h1.hero-title {
 /* Style for the Guest Shopper Modal (using inline styles in JSX now, but keep CSS for future) */
 /* .guest-shopper-modal-overlay { ... } */
 /* .guest-shopper-modal { ... } */
+.hero-bg-potpourri { background-image: url('/images/potpourri-hero-bg.jpg'); }
+
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+/* --- Customer Review Slider Arrows --- */
+.customer-review-slider-section .slick-prev,
+.customer-review-slider-section .slick-next {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 35px; /* Adjust size */
+    height: 35px; /* Adjust size */
+    padding: 0;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999; /* Arrow color */
+    border: 1px solid #e5e5e5; /* Border */
+    outline: none;
+    background: #fff; /* White background */
+    border-radius: 50%; /* Make it round */
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+.customer-review-slider-section .slick-prev { left: -15px; } /* Adjust position */
+.customer-review-slider-section .slick-next { right: -15px; } /* Adjust position */
+
+.customer-review-slider-section .slick-prev:hover,
+.customer-review-slider-section .slick-next:hover {
+    color: #1c1c1c;
+    border-color: #ccc;
+    background-color: #f8f8f8;
+}
+
+.customer-review-slider-section .slick-prev:before,
+.customer-review-slider-section .slick-next:before {
+    font-family: 'slick'; /* Make sure slick font is loaded (it should be) */
+    font-size: 18px; /* Arrow icon size */
+    line-height: 1;
+    opacity: 1;
+    color: inherit; /* Use button color */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.customer-review-slider-section .slick-prev:before { content: '<'; }
+.customer-review-slider-section .slick-next:before { content: '>'; }
+
+.customer-review-slider-section .slick-disabled {
+    opacity: 0.3;
+    cursor: default;
+    border-color: #e5e5e5;
+    background: #fff;
+    color: #ccc;
+}
+.customer-review-slider-section .slick-disabled:hover {
+     background: #fff;
+     border-color: #e5e5e5;
+     color: #ccc;
+}
