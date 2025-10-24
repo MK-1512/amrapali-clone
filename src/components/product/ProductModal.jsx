@@ -3,13 +3,23 @@
 import React, { useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { CartContext } from '../../context/CartContext';
+import { CurrencyContext } from '../../context/CurrencyContext'; // <-- NEW
+import { formatPrice } from '../../utils/currencyUtils'; // <-- NEW
 
 const ProductModal = ({ product, show, handleClose }) => {
     const { addToCart } = useContext(CartContext);
+    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
 
     const handleAddToCart = () => {
         addToCart(product);
         handleClose();
+    };
+    
+    // Helper to format a single price
+    const getFormattedPrice = (price) => {
+        if (!price) return '';
+        // Pass the price (in INR) and the selected currency code
+        return formatPrice(price, selectedCurrency.code); 
     };
 
     return (
@@ -23,8 +33,13 @@ const ProductModal = ({ product, show, handleClose }) => {
                     <div className="col-md-6">
                         <h2>{product.name}</h2>
                         <p className="product-price fs-4">
-                            ₹{product.price.toLocaleString('en-IN')}
-                            <span className="text-muted text-decoration-line-through ms-2 fs-5">₹{product.originalPrice.toLocaleString('en-IN')}</span>
+                            {/* Use formatted price */}
+                            {getFormattedPrice(product.price)}
+                            {product.originalPrice && (
+                                <span className="text-muted text-decoration-line-through ms-2 fs-5">
+                                    {getFormattedPrice(product.originalPrice)} {/* <-- Use formatted price */}
+                                </span>
+                            )}
                         </p>
                         
                         {/* <p>Availability: {product.availability}</p> */} {/* <-- REMOVED */}

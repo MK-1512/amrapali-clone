@@ -1,11 +1,13 @@
 // src/pages/HomePage.jsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Row, Col, Button, Carousel, Card, Tabs, Tab } from 'react-bootstrap';
 import Slider from 'react-slick';
 import ProductCard from '../components/product/ProductCard';
 import { products as sareeProducts } from '../data/products';
 import { jewellery as jewelleryProducts } from '../data/jewellery';
 import { blogPosts } from '../data/blogPosts';
+import { CurrencyContext } from '../context/CurrencyContext'; // <-- NEW
+import { formatPrice } from '../utils/currencyUtils'; // <-- NEW
 
 // --- Data Definitions ---
 
@@ -76,6 +78,14 @@ const SimpleBlogPostCard = ({ post }) => (
 
 // --- HomePage Component ---
 const HomePage = () => {
+    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
+
+    // Helper to format a single price
+    const getFormattedPrice = (price) => {
+        if (!price) return '';
+        return formatPrice(price, selectedCurrency.code);
+    };
+
     const firstEightSarees = sareeProducts.slice(0, 8);
     const firstTwelveJewellery = jewelleryProducts.slice(0, 12);
     const firstThreeBlogs = blogPosts.slice(0, 3);
@@ -98,6 +108,9 @@ const HomePage = () => {
         care: "Dry clean only. Avoid bringing in contact with direct sunlight & liquids, especially perfumes.",
         shipping: "Ships within 3-5 business days. Free shipping across India. International shipping available.",
     };
+
+    // Calculate total price for POW in INR (assuming individual price is already INR)
+    const powPriceINR = productOfTheWeek ? productOfTheWeek.price * powQuantity : 0;
 
     const pageStyles = `
         .homepage-section { padding: 40px 0; }
@@ -203,7 +216,9 @@ const HomePage = () => {
                          <div className="product-of-week-details w-100">
                              <h5>{productOfTheWeek.name}</h5>
                              <p className="sku">SKU: W-195(C) CH(SA)</p>
-                             <p className="price">Rs. {productOfTheWeek.price.toLocaleString('en-IN')}.00</p>
+                             <p className="price">
+                                 {getFormattedPrice(powPriceINR)} {/* <-- USE FORMATTED PRICE */}
+                             </p>
                             <div className="pow-quantity-selector">
                                 <button type="button" onClick={() => handlePowQuantityChange(-1)} disabled={powQuantity <= 1}> − </button>
                                 <span>{powQuantity}</span>
@@ -283,4 +298,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-

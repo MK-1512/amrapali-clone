@@ -1,16 +1,18 @@
 // src/pages/FallPicotPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react'; // <-- IMPORT useContext
 import { Container, Row, Col } from 'react-bootstrap';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 import FallPicotHeroBanner from '../components/common/FallPicotHeroBanner';
+import { CurrencyContext } from '../context/CurrencyContext'; // <-- NEW
+import { formatPrice } from '../utils/currencyUtils'; // <-- NEW
 // No longer need ProductCard for this simple display
 
 // Define the Fall & Picot product/service details
 const fallPicotItem = {
   id: 'fall-picot-service',
   name: "Fall & Picot",
-  price: 125,
+  price: 125, // Price is hardcoded in INR
   originalPrice: null,
   image1: "https://www.amrapaliboutique.in/cdn/shop/products/fall_and_pico_image_1_900x.png?v=1570130620", // Use the local path
   // image2 is not needed if we don't use ProductCard hover
@@ -23,6 +25,15 @@ const FallPicotPage = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const handleOpenFilter = () => setIsFilterOpen(true);
     const handleCloseFilter = () => setIsFilterOpen(false);
+    
+    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
+
+    // Helper to format a single price
+    const getFormattedPrice = (price) => {
+        if (!price) return '';
+        // Pass the price (in INR) and the selected currency code
+        return formatPrice(price, selectedCurrency.code); 
+    };
 
     return (
         <>
@@ -43,7 +54,7 @@ const FallPicotPage = () => {
                              <div className="product-info"> {/* Reuse class for styling */}
                                 <h6 className="product-name">{fallPicotItem.name}</h6>
                                 <p className="product-price">
-                                    ₹{fallPicotItem.price.toLocaleString('en-IN')}
+                                    {getFormattedPrice(fallPicotItem.price)} {/* <-- USE FORMATTED PRICE */}
                                 </p>
                                 {/* Add review stars if needed */}
                                 {/* Example: */}

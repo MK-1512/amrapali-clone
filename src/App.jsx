@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import SareesPage from './pages/SareesPage'; 
 import CartDrawer from './components/cart/CartDrawer'; 
 import { CartProvider } from './context/CartContext'; 
+import { CurrencyProvider } from './context/CurrencyContext'; // <-- NEW IMPORT
 import './assets/css/main.css'; 
 import Footer from './components/common/Footer'; 
 import GiftCardPage from './pages/GiftCardPage'; 
@@ -181,43 +182,45 @@ function App() {
   // --- Main Render ---
   return ( 
     <CartProvider> 
-      {/* Add 'search-open' class to App root for styling flexibility (e.g., hiding overflow) */}
-      <div className={`App ${isSolidHeaderForced ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}> 
-        <Header 
-          setPage={handleNavigation} // <-- Use centralized navigation handler
-          currentPage={currentPage} 
-          resetTeamView={() => setViewingMemberId(null)} 
-          onUserIconClick={handleOpenLogin} 
-          handleSelectCollection={handleSelectCollection} 
-          viewingMemberId={viewingMemberId} 
+      <CurrencyProvider>
+        {/* Add 'search-open' class to App root for styling flexibility (e.g., hiding overflow) */}
+        <div className={`App ${isSolidHeaderForced ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}> 
+          <Header 
+            setPage={handleNavigation} // <-- Use centralized navigation handler
+            currentPage={currentPage} 
+            resetTeamView={() => setViewingMemberId(null)} 
+            onUserIconClick={handleOpenLogin} 
+            handleSelectCollection={handleSelectCollection} 
+            viewingMemberId={viewingMemberId} 
+            
+            // --- NEW SEARCH PROPS ---
+            isSearchOpen={isSearchOpen}
+            toggleSearch={toggleSearch}
+          />
           
-          // --- NEW SEARCH PROPS ---
-          isSearchOpen={isSearchOpen}
-          toggleSearch={toggleSearch}
-        />
-        
-        {/* Render SearchBar */}
-        <SearchBar 
-            isSearchOpen={isSearchOpen} 
-            handleCloseSearch={toggleSearch}
-            // Pass navigation handler for SearchBar links
-            handleNavClick={(e, pageName) => { 
-                e.preventDefault(); 
-                handleNavigation(pageName); 
-            }}
-        />
+          {/* Render SearchBar */}
+          <SearchBar 
+              isSearchOpen={isSearchOpen} 
+              handleCloseSearch={toggleSearch}
+              // Pass navigation handler for SearchBar links
+              handleNavClick={(e, pageName) => { 
+                  e.preventDefault(); 
+                  handleNavigation(pageName); 
+              }}
+          />
 
-        <main>{renderPage()}</main> 
+          <main>{renderPage()}</main> 
 
-        {/* Global Components */}
-        <CartDrawer /> 
-        <CurrencyDropdown /> 
-        <WishlistButton /> 
-        <Footer /> 
-        <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> 
-      </div>
+          {/* Global Components */}
+          <CartDrawer /> 
+          <CurrencyDropdown /> 
+          <WishlistButton /> 
+          <Footer /> 
+          <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> 
+        </div>
+      </CurrencyProvider>
     </CartProvider>
   );
 }
 
-export default App; 
+export default App;

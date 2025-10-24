@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { CartContext } from '../../context/CartContext';
 import ProductModal from './ProductModal';
+import { CurrencyContext } from '../../context/CurrencyContext'; // <-- NEW
+import { formatPrice } from '../../utils/currencyUtils'; // <-- NEW
 
 const ProductCard = ({ product }) => {
     // ✅ THIS IS THE FIX: If for any reason the product is missing, render nothing.
@@ -12,9 +14,17 @@ const ProductCard = ({ product }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const { addToCart } = useContext(CartContext);
+    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
 
     const handleOpenModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
+
+    // Helper to format a single price
+    const getFormattedPrice = (price) => {
+        if (!price) return '';
+        // Pass the price (in INR) and the selected currency code
+        return formatPrice(price, selectedCurrency.code); 
+    };
 
     return (
         <div 
@@ -44,11 +54,11 @@ const ProductCard = ({ product }) => {
             <div className="product-info">
                 <h6 className="product-name">{product.name}</h6>
                 <p className="product-price">
-                    {/* A second check here to be extra safe */}
-                    {product.price ? `₹${product.price.toLocaleString('en-IN')}` : ''}
+                    {/* Use formatted price */}
+                    {getFormattedPrice(product.price)}
                     {product.originalPrice && 
                         <span className="text-muted text-decoration-line-through ms-2">
-                            ₹{product.originalPrice.toLocaleString('en-IN')}
+                            {getFormattedPrice(product.originalPrice)} {/* <-- Use formatted price */}
                         </span>
                     }
                 </p>

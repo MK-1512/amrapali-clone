@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Accordion } from 'react-bootstrap';
 import CustomerReviews from '../components/common/CustomerReviews'; // 1. Import the CustomerReviews component
+import { CurrencyContext } from '../context/CurrencyContext'; // <-- NEW
+import { formatPrice } from '../utils/currencyUtils'; // <-- NEW
 
 const GiftCardPage = () => {
+    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
+
     const denominations = [
         { value: 2000, label: '₹2,000.00' },
         { value: 3500, label: '₹3,500.00' },
@@ -10,6 +14,12 @@ const GiftCardPage = () => {
         { value: 10000, label: '₹10,000.00' }
     ];
     
+    // Helper to format a single price
+    const getFormattedPrice = (price) => {
+        // Pass the price (in INR) and the selected currency code
+        return formatPrice(price, selectedCurrency.code); 
+    };
+
     const [selectedDenomination, setSelectedDenomination] = useState(denominations[0].value);
     const [quantity, setQuantity] = useState(1);
     const [isInWishlist, setIsInWishlist] = useState(true);
@@ -22,6 +32,9 @@ const GiftCardPage = () => {
     const handleDenominationChange = (e) => {
         setSelectedDenomination(Number(e.target.value));
     };
+    
+    const totalDenominationINR = selectedDenomination * quantity;
+    const formattedPrice = getFormattedPrice(totalDenominationINR); // <-- NEW
 
     return (
         <div className="product-page-container container my-5">
@@ -46,7 +59,7 @@ const GiftCardPage = () => {
                         </div>
 
                         <p className="product-price">
-                            Rs. {selectedDenomination.toLocaleString('en-IN')}.00
+                            {formattedPrice} {/* <-- USE FORMATTED PRICE */}
                         </p>
 
                         <div className="mb-3">
@@ -58,7 +71,7 @@ const GiftCardPage = () => {
                             >
                                 {denominations.map((denom) => (
                                     <option key={denom.value} value={denom.value}>
-                                        Denominations: {denom.label}
+                                        Denominations: {getFormattedPrice(denom.value)} {/* <-- USE FORMATTED PRICE */}
                                     </option>
                                 ))}
                             </select>
@@ -123,4 +136,3 @@ const GiftCardPage = () => {
 };
 
 export default GiftCardPage;
-
