@@ -1,54 +1,100 @@
 // src/pages/RegisterPage.jsx
-import React from 'react';
+import React, { useState, useContext } from 'react'; // Import useState and useContext
+import { AuthContext } from '../context/AuthContext'; // Import AuthContext
 
 const RegisterPage = ({ setPage }) => {
+  const { register } = useContext(AuthContext); // Get register function
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Basic validation (add more as needed)
+    if (!firstName || !lastName || !email || !password) {
+      setError('All fields are required.');
+      return;
+    }
+
+    const result = register(firstName, lastName, email, password); // Use context register
+
+    if (result.success) {
+      setSuccess('Account created successfully! Redirecting to login...');
+      // Optionally redirect after a short delay
+      setTimeout(() => {
+        setPage('login');
+      }, 1500);
+    } else {
+      setError(result.message || 'Registration failed. Please try again.');
+    }
+  };
+
   return (
-    <div className="register-page-container container my-5"> {/* Use a similar container class */}
+    <div className="register-page-container container my-5">
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-4">
-          <h1 className="register-title text-center mb-4">REGISTER</h1> {/* Title class */}
-          <p className="register-subtitle text-center mb-4">Please fill in the information below:</p> {/* Subtitle class */}
-          <form>
+          <h1 className="register-title text-center mb-4">REGISTER</h1>
+          <p className="register-subtitle text-center mb-4">Please fill in the information below:</p>
+          {error && <p className="text-danger text-center mb-3">{error}</p>}
+          {success && <p className="text-success text-center mb-3">{success}</p>}
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <input
                 type="text"
-                className="form-control register-input" /* Input class */
+                className="form-control register-input"
                 id="registerFirstName"
                 placeholder="First name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
               />
             </div>
-             <div className="mb-3">
+            <div className="mb-3">
               <input
                 type="text"
-                className="form-control register-input" /* Input class */
+                className="form-control register-input"
                 id="registerLastName"
                 placeholder="Last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">
               <input
                 type="email"
-                className="form-control register-input" /* Input class */
+                className="form-control register-input"
                 id="registerEmail"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3">
               <input
                 type="password"
-                className="form-control register-input" /* Input class */
+                className="form-control register-input"
                 id="registerPassword"
                 placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
-            <button type="submit" className="btn btn-register w-100 mb-3"> {/* Button class */}
+            <button type="submit" className="btn btn-register w-100 mb-3">
               CREATE MY ACCOUNT
             </button>
           </form>
-           {/* Optional: Add link back to login */}
-           <p className="text-center back-to-login-text mt-3">
-                Already have an account? <a href="#" onClick={(e) => {e.preventDefault(); setPage('login');}}>Login</a>
-            </p>
+          <p className="text-center back-to-login-text mt-3">
+            Already have an account? <a href="#" onClick={(e) => { e.preventDefault(); setPage('login'); }}>Login</a>
+          </p>
         </div>
       </div>
     </div>

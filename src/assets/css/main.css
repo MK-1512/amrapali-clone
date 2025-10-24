@@ -3069,3 +3069,49 @@ h1.hero-title {
      border-color: #e5e5e5;
      color: #ccc;
 }
+
+/* --- Specific Rule for Solid Homepage Header --- */
+/* Apply solid background immediately ONLY if homepage-active class is present */
+.homepage-active .header-container,
+.homepage-active .main-header-content {
+     background-color: #ffffff !important; /* Force white background on homepage */
+     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Add shadow on homepage too */
+}
+/* Ensure links/icons are dark on homepage solid header */
+.homepage-active .nav-link {
+    color: #1c1c1c !important; /* Dark nav links */
+}
+.homepage-active .header-icons img,
+.homepage-active .header-icons button img {
+    filter: none !important; /* Dark icons (remove invert filter) */
+}
+/* --- FIX for Text Visibility START --- */
+/* Target the greeting span and logout button span specifically on homepage */
+.homepage-active .header-icons > span, /* Targets the 'Hi, User' span */
+.homepage-active .header-icons button > span { /* Targets the 'Logout' span inside the button */
+    color: #1c1c1c !important; /* Default dark color for greeting */
+}
+/* Specifically color the logout link text gold on homepage */
+.homepage-active .header-icons button > span {
+    color: #a8853d !important; /* Gold color for logout link text */
+}
+/* --- FIX for Text Visibility END --- */
+.homepage-active .main-nav-container {
+    border-bottom: 1px solid #e5e5e5 !important; /* Add border on homepage */
+}
+/* --- End Specific Rule for Homepage --- */
+
+/* Ensure other rules don't override homepage solid state unnecessarily */
+/* ... (rest of your existing header styles, like .header-container.scrolled, etc.) ... */
+
+/* Example: Ensure hover styles don't conflict */
+.header-container.nav-hovered:not(.scrolled):not(.homepage-active) .main-header-content {
+    background-color: #ffffff;
+}
+.header-container.nav-hovered:not(.scrolled):not(.homepage-active) .nav-link {
+    color: #1c1c1c !important;
+}
+.header-container.nav-hovered:not(.scrolled):not(.homepage-active) .header-icons img,
+.header-container.nav-hovered:not(.scrolled):not(.homepage-active) .header-icons button img {
+    filter: none;
+}
