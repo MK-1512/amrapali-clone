@@ -2814,3 +2814,180 @@ h1.hero-title {
     background-color: #ffffff;
 }
 
+/* --------------------------------------------------- */
+/* SEARCH BAR OVERLAY STYLES (New Section) */
+/* --------------------------------------------------- */
+
+/* Base container for the search overlay */
+.search-bar-overlay {
+    position: fixed;
+    /* This places the overlay exactly 138px down, sitting flush below the header */
+    top: 175px; 
+    left: 0;
+    width: 100%;
+    height: 100vh; /* Set to full viewport height */
+    
+    /* Start fully hidden/closed */
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 990; /* High enough to cover content, below the header (z-index 1000) */
+    overflow-y: auto; 
+    transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+
+/* State when search is OPEN */
+.search-bar-overlay.open {
+    /* Slide it down to cover the content area */
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0s;
+}
+
+/* Content wrapper (to mimic the video layout) */
+.search-bar-overlay .container {
+    max-width: 1140px;
+}
+
+/* Search Input Container Styling */
+.search-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 25px 0; /* Vertical padding to space it out from the top */
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    color: #1c1c1c;
+    padding: 5px 0;
+    background-color: transparent;
+}
+
+.search-input::placeholder {
+    color: #999;
+    letter-spacing: 0.1em;
+}
+
+.btn-clear {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: 20px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-clear:hover {
+    opacity: 1;
+}
+
+.btn-clear svg {
+    width: 20px;
+    height: 20px;
+    color: #1c1c1c;
+}
+
+/* Search Results Area Styling */
+.search-results-area {
+    padding-bottom: 50px;
+}
+
+.search-results-heading {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin: 0;
+}
+
+.search-view-all-link {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1c1c1c;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.3s ease;
+}
+
+.search-view-all-link:hover {
+    color: #a8853d;
+}
+
+/* Product Column Customization */
+.search-products-col .row {
+    margin: 0 -10px; 
+}
+
+/* Adjust padding for ProductCard elements inside the search results */
+.search-products-col .col {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Blog/Journal Column */
+.search-journal-col {
+    border-left: 1px solid #e5e5e5;
+    padding-left: 25px;
+}
+
+.search-blog-preview-link {
+    text-decoration: none;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.search-blog-preview-link:hover {
+    opacity: 0.8;
+}
+
+.search-blog-preview img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border: 1px solid #f0f0f0;
+}
+
+.search-blog-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1c1c1c;
+    margin-top: 10px;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+    .search-bar-overlay {
+        top: 90px; /* Assuming header height is 90px on mobile */
+    }
+    .search-input {
+        font-size: 16px;
+    }
+    .search-journal-col {
+        border-left: none;
+        border-top: 1px solid #e5e5e5;
+        padding-top: 20px;
+        margin-top: 20px;
+        padding-left: 15px; 
+    }
+}
