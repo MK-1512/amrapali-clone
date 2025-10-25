@@ -29,6 +29,7 @@ import RegisterPage from './pages/RegisterPage';
 import SearchBar from './components/common/SearchBar';
 import OurStoryPage from './pages/OurStoryPage';
 import AllCollectionsPage from './pages/AllCollectionsPage';
+import CheckoutPage from './pages/CheckoutPage'; // Import CheckoutPage
 
 // --- Import Category Pages ---
 import NeckpiecesPage from './pages/jewellery/NeckpiecesPage';
@@ -50,8 +51,6 @@ import TermsServicePage from './pages/TermsServicePage';
 import TermsConditionsPage from './pages/TermsConditionsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DisclaimerPolicyPage from './pages/DisclaimerPolicyPage';
-
-// Removed redundant slick carousel CSS imports (already in main.jsx)
 
 // This component holds the main application logic and uses the AuthContext
 function AppContent() {
@@ -145,7 +144,6 @@ function AppContent() {
 
   // Function to get title and subtitle for CollectionHeroBanner
   const getCollectionBannerDetails = (collectionName) => {
-       // ...(same logic as previous version)...
        if (!collectionName) { return { title: "Collection", subtitle: "" }; }
       const upperCollectionName = collectionName.toUpperCase();
       const collectionDetails = {
@@ -205,14 +203,15 @@ function AppContent() {
     }
 
     // Route Protection
-    const guestAllowedPages = [ /* ...(same pages as previous version)... */
+    const guestAllowedPages = [
         'home', 'login', 'register', 'shop', 'jewellery', 'collection', 'bestsellers',
         'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
         'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
         'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail', // Added blog-detail
         'our-story', 'meet-the-team', 'team-member-detail', // Added team-member-detail
         'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
-        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy'
+        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
+        'checkout' // <-- Allow checkout for guests
     ];
     if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
          return <LoginPage setPage={handleNavigation} />;
@@ -255,12 +254,14 @@ function AppContent() {
       case 'shop': return <SareesPage />;
       case 'login': return <LoginPage setPage={handleNavigation} />;
       case 'register': return <RegisterPage setPage={handleNavigation} />;
+      // --- MODIFICATION: Pass setPage prop ---
+      case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
       default: return <SareesPage />;
     }
   };
 
   // Determine if header should be solid
-  const pagesThatMightStartTransparent = [ /* ...(same pages as previous version)... */
+   const pagesThatMightStartTransparent = [
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
        'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
@@ -269,13 +270,14 @@ function AppContent() {
        'fall-picot',
        'all-collections'
    ];
-   const staticSolidHeaderPages = [ /* ...(same pages as previous version)... */
+   const staticSolidHeaderPages = [
        'login', 'register', 'our-story', 'faq',
        'shipping-policy', 'refund-policy', 'contact',
        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-       'meet-the-team', 'team-member-detail', // Team pages solid
-       'blog', // Blog list page solid
-       'blog-detail' // Blog detail page also solid
+       'meet-the-team', 'team-member-detail',
+       'blog',
+       'blog-detail',
+       'checkout' // <-- Checkout page always solid
    ];
    const isSolidHeaderForced = isSearchOpen ||
                               !!viewingMemberId ||
@@ -283,21 +285,25 @@ function AppContent() {
                               staticSolidHeaderPages.includes(currentPage) ||
                               !pagesThatMightStartTransparent.includes(currentPage);
    const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId;
+   const hideHeader = currentPage === 'checkout'; // Hide header on checkout
 
   // --- Main Render for AppContent ---
   return (
-    <div className={`App ${isSolidHeaderForced ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
-      <Header
-        setPage={handleNavigation}
-        currentPage={currentPage}
-        resetTeamView={() => setViewingMemberId(null)}
-        handleSelectCollection={handleSelectCollection}
-        viewingMemberId={viewingMemberId}
-        isSearchOpen={isSearchOpen}
-        toggleSearch={toggleSearch}
-        handleLogout={handleLogout}
-      />
-      <SearchBar
+    <div className={`App ${isSolidHeaderForced || hideHeader ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
+      {!hideHeader && ( // Conditionally render header
+          <Header
+            setPage={handleNavigation}
+            currentPage={currentPage}
+            resetTeamView={() => setViewingMemberId(null)}
+            handleSelectCollection={handleSelectCollection}
+            viewingMemberId={viewingMemberId}
+            isSearchOpen={isSearchOpen}
+            toggleSearch={toggleSearch}
+            handleLogout={handleLogout}
+          />
+      )}
+      {!hideHeader && ( // Conditionally render SearchBar
+        <SearchBar
             isSearchOpen={isSearchOpen}
             handleCloseSearch={toggleSearch}
             handleNavClick={(e, pageName) => {
@@ -305,14 +311,18 @@ function AppContent() {
                 handleNavigation(pageName);
             }}
         />
+       )}
       <main>{renderPage()}</main>
 
       {/* Global Components */}
-      <CartDrawer />
+      {/* --- MODIFICATION: Pass handleNavigation to CartDrawer --- */}
+      <CartDrawer setPage={handleNavigation} />
       <WishlistModal handleNavClick={handleNavigation} />
       <CurrencyDropdown />
       <WishlistButton />
-      <Footer setPage={handleNavigation} toggleSearch={toggleSearch} />
+      {!hideHeader && ( // Conditionally render Footer
+        <Footer setPage={handleNavigation} toggleSearch={toggleSearch} />
+      )}
       <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
     </div>
   );
@@ -334,4 +344,3 @@ function App() {
 }
 
 export default App;
-

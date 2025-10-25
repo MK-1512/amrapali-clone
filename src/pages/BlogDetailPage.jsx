@@ -40,7 +40,7 @@ const getBlogImageUrl = (imageName) => {
 // --- END: getBlogImageUrl Helper ---
 
 
-// --- Helper function to render content blocks (Updated) ---
+// --- Helper function to render content blocks (Updated with FIX) ---
 const renderTextWithBold = (text) => {
     // Ensure text is a string before splitting
     const safeText = String(text || '');
@@ -60,18 +60,15 @@ const renderContentBlock = (block, index) => {
             return block.text ? <HeadingTag key={index}>{renderTextWithBold(block.text)}</HeadingTag> : null;
         case 'image': // Renders a simple image
             return block.url ? <img key={index} src={block.url} alt={block.alt || 'Blog image'} className="img-fluid blog-embedded-image my-4" /> : null;
-         // --- UPDATED CASE: imageWithLink ---
          case 'imageWithLink':
              // Check if necessary props exist
             if (!block.url || !block.productUrl) return null;
             return (
                 // Use a standard link for internal navigation for now
-                // In a full React Router app, you might use <Link>
                 <a href={block.productUrl} key={index} className="blog-image-link d-block my-4">
                     <img src={block.url} alt={block.alt || 'Product image'} className="img-fluid blog-embedded-image" />
                 </a>
             );
-        // --- END UPDATED CASE ---
         case 'linkList':
              return (
                 <div key={index} className="blog-link-list my-3">
@@ -125,11 +122,78 @@ const renderContentBlock = (block, index) => {
                     })}
                 </ol>
             );
+        // ***** START FIX *****
+        case 'blockquote':
+            // Handle blockquote with special poem styling (Blog 3)
+            if (block.style === 'poem') { // <-- FIX: Use 'block'
+              return (
+                <blockquote
+                  key={index}
+                  className="my-5 p-4 bg-light border-start border-4 border-danger rounded"
+                  style={{
+                    borderLeftColor: '#e63946',
+                    backgroundColor: '#fff5f7',
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'Georgia, serif',
+                      fontStyle: 'italic',
+                      color: '#333',
+                      lineHeight: '1.8',
+                    }}
+                  >
+                    {block.content?.map((line, i) => ( // <-- FIX: Use 'block' and add optional chaining
+                      <div key={i}>
+                        {line === '' ? (
+                          <div style={{ height: '1.5rem' }} />
+                        ) : (
+                          // Render line content using helper for potential bolding
+                          <p className="mb-1" style={{ fontSize: '1rem' }}>
+                            {renderTextWithBold(line)}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </blockquote>
+              );
+            }
+
+            // Handle regular blockquote (Blog 2) - Add optional chaining here too
+            return (
+              <blockquote
+                key={index}
+                className="my-4 ps-4 border-start border-3 border-secondary"
+              >
+                <div className="d-flex flex-column gap-2">
+                  {block.content?.map((contentItem, i) => { // <-- FIX: Add optional chaining
+                    if (contentItem.type === 'link') {
+                      return (
+                        <div key={i}>
+                          <a
+                            href={contentItem.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-rose-600 text-decoration-underline d-block"
+                          >
+                            {contentItem.text}
+                          </a>
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                </div>
+              </blockquote>
+            );
+        // ***** END FIX *****
         default:
             console.warn("Unknown content block type:", block.type); // Log unknown types
             return null;
     }
 };
+
 
 // --- Related Post Card (Keep as before) ---
 const RelatedPostCard = ({ post, onSelectPost }) => (
@@ -262,4 +326,3 @@ const BlogDetailPage = ({ postId, setPage }) => {
 };
 
 export default BlogDetailPage;
-

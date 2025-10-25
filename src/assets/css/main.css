@@ -3817,3 +3817,207 @@ body.checkout-active {
     letter-spacing: normal;
     text-transform: none;
 }
+
+/* src/assets/css/main.css */
+
+/* ... (Keep all your other existing styles for header, footer, products, etc.) ... */
+
+/* --------------------------------------------------- */
+/* CHECKOUT PAGE STYLES */
+/* --------------------------------------------------- */
+
+/* ADJUST: Remove body padding for checkout */
+body.checkout-active {
+    padding-top: 0 !important;
+}
+
+.checkout-container {
+    padding-top: 0; /* REMOVE top padding */
+    padding-bottom: 60px;
+    background-color: #f9f9f9; /* Match reference video light gray */
+    font-family: 'Jost', sans-serif;
+    color: #333;
+}
+
+.checkout-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-top: 40px; /* Space from top of page */
+}
+
+.checkout-logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.checkout-section {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px; /* Slightly rounded corners like video */
+    margin-bottom: 20px;
+    border: 1px solid #e5e5e5;
+}
+
+.checkout-section-title {
+    font-size: 18px; /* Matches video */
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #1c1c1c;
+}
+
+.checkout-form-label {
+    font-size: 13px; /* Matches video */
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* ADJUST Input Styles */
+.checkout-form-control,
+.checkout-form-select {
+    border-radius: 4px; /* Matches video */
+    border: 1px solid #ccc;
+    padding: 10px 14px;
+    font-size: 14px;
+    box-shadow: none !important;
+    background-color: #ffffff; /* Explicitly white */
+    color: #333; /* Ensure text is dark */
+}
+.checkout-form-control::placeholder {
+    color: #999;
+}
+
+
+.checkout-form-control:focus,
+.checkout-form-select:focus {
+    border-color: #888; /* Slightly darker focus */
+    box-shadow: none !important;
+    background-color: #ffffff;
+}
+
+.checkout-form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 35px;
+}
+
+.checkout-form-check-label {
+    font-size: 14px; /* Matches video */
+    padding-left: 5px;
+}
+/* Ensure checkboxes align nicely */
+.form-check-input {
+    margin-top: 0.2em;
+}
+.form-check-input:checked {
+    background-color: #1c1c1c;
+    border-color: #1c1c1c;
+}
+.form-check-input:focus {
+     box-shadow: none !important;
+     border-color: #ccc;
+}
+
+
+.order-summary {
+    background-color: #f9f9f9; /* Light gray background like video */
+    padding: 25px;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px; /* Matches video */
+    position: sticky;
+    top: 40px; /* Adjust as needed */
+}
+
+/* (Order Item styles remain largely the same, ensure they look okay) */
+.order-item { display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+.order-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.order-item-img-wrapper { position: relative; border: 1px solid #eee; border-radius: 6px; margin-right: 15px; flex-shrink: 0; }
+.order-item-img { width: 50px; height: 65px; object-fit: cover; border-radius: 6px; display: block; }
+.order-item-badge { position: absolute; top: -8px; right: -8px; background-color: #555; color: white; font-size: 10px; font-weight: 600; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; line-height: 1; }
+.order-item-details { flex-grow: 1; font-size: 13px; margin-right: 10px; }
+.order-item-name { font-weight: 500; color: #1c1c1c; margin-bottom: 2px; }
+.order-item-variant { color: #777; font-size: 12px; }
+.order-item-price { font-weight: 500; color: #1c1c1c; font-size: 14px; white-space: nowrap; }
+
+/* ADJUST Discount section styles */
+.discount-section .form-control {
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+.discount-section .btn-apply {
+    background-color: #ccc; /* Darker gray like video */
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 0 4px 4px 0;
+    font-weight: 500;
+}
+.discount-section .btn-apply:hover {
+     background-color: #bbb;
+     border-color: #bbb;
+}
+
+/* Summary styles remain the same */
+.summary-line { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #555; }
+.summary-line strong { color: #1c1c1c; }
+.total-line { font-size: 18px; font-weight: 500; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; color: #1c1c1c; }
+.total-line .currency-code { font-size: 12px; color: #777; margin-right: 5px; }
+.total-line strong { font-size: 20px; }
+
+/* Payment Method styles remain the same */
+.payment-method { border: 1px solid #ccc; border-radius: 6px; padding: 15px; margin-bottom: 10px; background-color: #fff; }
+.payment-method .form-check { min-height: auto; padding-left: 0; }
+.payment-method .form-check-input[type="radio"] { float: none; margin-left: 0; margin-right: 10px; margin-top: 0.2em; }
+.payment-method label { display: flex; justify-content: space-between; align-items: center; width: 100%; cursor: pointer; }
+.payment-method-title { font-weight: 500; font-size: 14px; }
+.payment-icons { display: flex; align-items: center; flex-shrink: 0; }
+.payment-icons img { height: 20px; margin-left: 5px; border: 1px solid #eee; }
+.payment-icons span { margin-left: 5px; }
+
+/* Billing Address styles remain the same */
+.billing-address-options { background-color: #f7f7f7; border: 1px solid #e0e0e0; border-radius: 6px; padding: 0; }
+.billing-address-option { background-color: transparent; border: none; border-bottom: 1px solid #e0e0e0; padding: 15px; cursor: pointer; margin-bottom: 0; border-radius: 0; }
+.billing-address-option:last-child { border-bottom: none; }
+.billing-address-option .form-check { min-height: auto; padding-left: 0; }
+.billing-address-option .form-check-input[type="radio"] { float: none; margin-left: 0; margin-right: 10px; margin-top: 0.2em; }
+.billing-address-option label { width: 100%; display: block; cursor: pointer; }
+.billing-address-details { border-top: 1px solid #e0e0e0; padding-top: 15px; margin-top: 15px; background-color: #fff; padding: 20px; border-radius: 0 0 6px 6px; }
+
+/* Pay Button Styles */
+.btn-pay-now {
+    background-color: #1c1c1c; /* Dark black like video */
+    color: white;
+    font-size: 14px; /* Slightly smaller like video */
+    font-weight: 500;
+    padding: 15px 30px; /* Adjust padding */
+    border-radius: 4px; /* Rounded like video */
+    border: none;
+    text-transform: none; /* Normal case like video */
+}
+.btn-pay-now:hover {
+     background-color: #333; /* Slightly lighter black */
+     color: white;
+}
+
+/* Footer Links styles remain the same */
+.footer-links { text-align: left; /* Aligned left below button row */ margin-top: 15px; padding-bottom: 30px; }
+.footer-links a { font-size: 12px; color: #555; text-decoration: none; margin-right: 15px; } /* Increased margin */
+.footer-links a:hover { text-decoration: underline; color: #1c1c1c; }
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .order-summary {
+        position: static;
+        margin-top: 20px;
+    }
+    .checkout-header {
+        padding-top: 20px;
+    }
+     /* Stack button/return link */
+    .btn-pay-now {
+        width: 100%; /* Full width on mobile */
+    }
+}
