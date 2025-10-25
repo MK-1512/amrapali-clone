@@ -8,140 +8,161 @@ import { jewellery as jewelleryProducts } from '../data/jewellery';
 import { blogPosts } from '../data/blogPosts';
 import { CurrencyContext } from '../context/CurrencyContext';
 import { formatPrice } from '../utils/currencyUtils';
-// Import the review slider component
 import CustomerReviewSlider from '../components/common/CustomerReviewSlider';
 
 
 // --- Data Definitions ---
 
- // CORRECTED heroSlides order and actions based on the second video
  const heroSlides = [
-    // Slide 1: Potpourri (Matches video 2, frame ~0:01)
-    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/IMG_0577_1600x.jpg?v=1756621375', buttons: 1, btn1Text: 'POTPOURRI', btn1Action: 'collection', btn1Param: 'POTPOURRI' }, // Navigates to Potpourri Collection
-    // Slide 2: Shop Sarees (Matches video 2, frame ~0:06)
-    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/shared102_1600x.jpg?v=1650086293', buttons: 1, btn1Text: 'SHOP SAREES', btn1Action: 'shop' }, // Navigates to general Shop/Sarees page
-    // Slide 3: Our Blog (Matches video 2, frame ~0:08)
-    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200813064613423_save-01_1600x.jpeg?v=1613792330', buttons: 1, btn1Text: 'OUR BLOG', btn1Action: 'blog' }, // Navigates to Blog page
-    // Slide 4: Our Story (Matches video 2, frame ~0:11)
-    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200814010950628_save_1600x.jpg?v=1613792369', buttons: 1, btn1Text: 'OUR STORY', btn1Action: 'our-story' }, // Navigates to the new Our Story page
-    // Slide 5: Shop Linen / Shop Cotton (Matches video 2, frame ~0:13) - Buttons are horizontal by default in caption
+    // Slide 1: Potpourri
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/IMG_0577_1600x.jpg?v=1756621375', buttons: 1, btn1Text: 'POTPOURRI', btn1Action: 'collection', btn1Param: 'POTPOURRI' },
+    // Slide 2: Shop Sarees
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/shared102_1600x.jpg?v=1650086293', buttons: 1, btn1Text: 'SHOP SAREES', btn1Action: 'shop' },
+    // Slide 3: Our Blog
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200813064613423_save-01_1600x.jpeg?v=1613792330', buttons: 1, btn1Text: 'OUR BLOG', btn1Action: 'blog' },
+    // Slide 4: Our Story
+    { img: 'https://www.amrapaliboutique.in/cdn/shop/files/BeautyPlus_20200814010950628_save_1600x.jpg?v=1613792369', buttons: 1, btn1Text: 'OUR STORY', btn1Action: 'our-story' },
+    // Slide 5: Shop Linen / Shop Cotton
     { img: 'https://www.amrapaliboutique.in/cdn/shop/files/5_desktop_1600x.jpg?v=1613543282', buttons: 2, btn1Text: 'SHOP LINEN', btn1Action: 'sarees-linen', btn2Text: 'SHOP COTTON', btn2Action: 'sarees-cotton' },
-    // Slide 6: Shop Silk & Tussar / Shop Chanderi (Matches video 2, frame ~0:16) - Buttons are horizontal
+    // Slide 6: Shop Silk & Tussar / Shop Chanderi
     { img: 'https://www.amrapaliboutique.in/cdn/shop/files/shared102_1600x.jpg?v=1650086293', buttons: 2, btn1Text: 'SHOP SILK AND TUSSAR', btn1Action: 'sarees-silk-tussar', btn2Text: 'SHOP CHANDERI', btn2Action: 'sarees-chanderi' },
  ];
 
 
 // --- Components ---
 
-// Real Product Slider using React Slick
-const ProductSlider = ({ products }) => {
+// Product Slider Component - Now accepts and passes 'setPage'
+const ProductSlider = ({ products, setPage }) => { // Accept setPage prop
     const settings = {
       dots: false,
-      infinite: false,
+      infinite: false, // Set to false if you don't want infinite loop
       speed: 500,
       slidesToShow: 4,
-      slidesToScroll: 4,
+      slidesToScroll: 1, // Scroll one at a time for smoother experience
       responsive: [
         {
           breakpoint: 1024,
           settings: {
             slidesToShow: 3,
-            slidesToScroll: 3,
+            slidesToScroll: 1, // Scroll one at a time
           }
         },
         {
           breakpoint: 768,
           settings: {
             slidesToShow: 2,
-            slidesToScroll: 2,
+            slidesToScroll: 1, // Scroll one at a time
           }
         }
       ]
     };
+
+    // Safety check for products array
+    if (!Array.isArray(products)) {
+        console.error("ProductSlider received invalid products prop:", products);
+        return null; // Or render an empty state/error message
+    }
+
     return (
         <Slider {...settings}>
             {products.map(product => (
-                 product && (
+                 // Ensure product and product.id exist before rendering Card
+                 product && product.id ? (
                     <div key={product.id} className="p-2">
-                        <ProductCard product={product} />
+                        {/* Pass setPage prop down to ProductCard */}
+                        <ProductCard product={product} setPage={setPage} />
                     </div>
-                 )
+                 ) : null // Skip rendering if product or id is missing
             ))}
         </Slider>
     );
 };
 
-// Blog Card Component
-const SimpleBlogPostCard = ({ post }) => (
-    <Card className="border-0 text-center h-100">
-         <Card.Img variant="top" src={post.image} style={{ aspectRatio: '16/10.5', objectFit: 'cover' }}/>
-         <Card.Body className="d-flex flex-column">
-             <Card.Title style={{fontFamily: "'Cormorant Garamond', serif", fontSize: '1.3rem', fontWeight: 600, marginBottom: '15px' }}>
-                 <a href="#" className="text-decoration-none text-dark">{post.title}</a>
-             </Card.Title>
-             <Card.Text style={{fontSize: '15px', color: '#555', flexGrow: 1, marginBottom: '20px'}}>
-                 {post.excerpt}
-             </Card.Text>
-             <a href="#" className="blog-post-read-more mt-auto">Read more</a>
-         </Card.Body>
-     </Card>
- );
+
+// Blog Card Component - Now accepts and uses 'setPage'
+const SimpleBlogPostCard = ({ post, setPage }) => {
+    // Safety check
+    if (!post || !post.id) {
+        return null;
+    }
+
+    const handleNavigate = (e) => {
+        e.preventDefault();
+        setPage(`blog-detail-${post.id}`);
+    };
+
+    return (
+        <Card className="border-0 text-center h-100">
+             <a href="#" onClick={handleNavigate}> {/* Make image clickable */}
+                 <Card.Img variant="top" src={post.image || 'https://placehold.co/600x400/EEE/31343C?text=Blog+Image'} style={{ aspectRatio: '16/10.5', objectFit: 'cover' }}/>
+             </a>
+             <Card.Body className="d-flex flex-column">
+                 <Card.Title style={{fontFamily: "'Cormorant Garamond', serif", fontSize: '1.3rem', fontWeight: 600, marginBottom: '15px' }}>
+                     {/* Make title clickable */}
+                     <a href="#" onClick={handleNavigate} className="text-decoration-none text-dark">{post.title || 'Blog Post Title'}</a>
+                 </Card.Title>
+                 <Card.Text style={{fontSize: '15px', color: '#555', flexGrow: 1, marginBottom: '20px'}}>
+                     {post.excerpt || 'No excerpt available.'}
+                 </Card.Text>
+                 {/* Make read more clickable */}
+                 <a href="#" onClick={handleNavigate} className="blog-post-read-more mt-auto">Read more</a>
+             </Card.Body>
+         </Card>
+    );
+};
+
 
 // --- HomePage Component ---
-const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
+const HomePage = ({ setPage, onCollectionItemClick }) => {
     const { selectedCurrency } = useContext(CurrencyContext);
 
     // Helper to format a single price
     const getFormattedPrice = (price) => {
-        if (!price) return '';
+        if (price === null || price === undefined) return ''; // Handle null/undefined
         return formatPrice(price, selectedCurrency.code);
     };
 
+    // Use slice(0, X) safely even if array is smaller
     const firstEightSarees = sareeProducts.slice(0, 8);
     const firstTwelveJewellery = jewelleryProducts.slice(0, 12);
     const firstThreeBlogs = blogPosts.slice(0, 3);
-    const productOfTheWeek = sareeProducts.find(p => p.id === 24) || sareeProducts[0];
+    const productOfTheWeek = sareeProducts.find(p => p && String(p.id) === '24') || sareeProducts[0]; // Find by string ID '24'
+
 
     const [powQuantity, setPowQuantity] = useState(1);
     const handlePowQuantityChange = (amount) => {
         setPowQuantity(prev => Math.max(1, prev + amount));
     };
 
-    const powDetails = {
-        description: "Handloom, lightweight, translucent, chanderi cotton silk saree, embellished with golden thin stripes on body.",
-        colors: "Magenta, Golden",
-        fabric: "Warp - Silk | Weft - Mercerised Cotton",
-        technique: "Handloom",
-        measurements: "6.50 m x 1.15 m approx.",
-        weight: "330 gms.",
-        blousePiece: "Yes (Showcased blouse is from our in-house wardrobe)",
-        disclaimer: "The actual color may vary slightly due to different screen calibration. Please Note: Orders with fall and picot are not eligible for return or exchange.",
-        care: "Dry clean only. Avoid bringing in contact with direct sunlight & liquids, especially perfumes.",
-        shipping: "Ships within 3-5 business days. Free shipping across India. International shipping available.",
+    // Use details from the found product or fallback
+    const powDetails = productOfTheWeek?.details || {
+        description: "Default description if product details are missing.",
+        colors: "-", fabric: "-", technique: "-", measurements: "-", weight: "-", blousePiece: "-", disclaimer: "-", care: "-", shipping: "-"
     };
 
     // Calculate total price for POW in INR
-    const powPriceINR = productOfTheWeek ? productOfTheWeek.price * powQuantity : 0;
+    const powPriceINR = productOfTheWeek ? (productOfTheWeek.price || 0) * powQuantity : 0; // Add check for price
 
     // Navigation handler for carousel/category buttons
     const handleButtonClick = (e, action, param) => {
         e.preventDefault();
         if (action === 'collection') {
-            onCollectionItemClick(param); // Use the passed handler for collection navigation
+            onCollectionItemClick(param);
         } else {
-            setPage(action); // Use the passed page setter for standard page navigation
+            setPage(action);
         }
     };
 
-    // Inline styles (same as before)
+    // Inline styles (keep as they are)
     const pageStyles = `
         .homepage-section { padding: 40px 0; }
         .section-title { text-align: center; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 400; margin-bottom: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #999; }
         .section-main-title { text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; margin-bottom: 30px; color: #1c1c1c; }
-        .category-card { position: relative; overflow: hidden; text-align: center; color: white; }
-        .category-card img { width: 100%; height: auto; transition: transform 0.4s ease; }
+        .category-card { position: relative; overflow: hidden; text-align: center; color: white; cursor: pointer; } /* Added cursor */
+        .category-card img { width: 100%; height: auto; transition: transform 0.4s ease; display: block; } /* Added display block */
         .category-card:hover img { transform: scale(1.05); }
-        .category-card .card-img-overlay { background: rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .category-card .card-img-overlay { background: rgba(0,0,0,0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: background-color 0.3s ease; } /* Added transition */
+        .category-card:hover .card-img-overlay { background: rgba(0,0,0,0.45); } /* Darken overlay on hover */
         .category-card .btn-category { background-color: #fff; color: #1c1c1c; border: none; padding: 8px 20px; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 15px; transition: all 0.3s ease; border-radius: 0;}
         .category-card .btn-category:hover { background-color: #f0f0f0; }
         .category-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; margin-bottom: 0; }
@@ -162,22 +183,21 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
         .product-of-week-details .nav-tabs .nav-link.active { color: #1c1c1c; border-bottom-color: #1c1c1c; background-color: transparent; }
         .product-of-week-details .tab-content { font-size: 13px; color: #555; line-height: 1.8; padding-top: 0; min-height: 100px; }
         .product-of-week-details .tab-content p { margin-bottom: 0.5rem; }
-        .explore-section { background: url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/Amrapali_30_July190014_1_1920x.jpg?v=1566497224') no-repeat center center; background-size: cover; min-height: 400px; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; color: white; }
-        .explore-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); }
-        .explore-content { position: relative; z-index: 1; }
-        .explore-content p { font-size: 18px; max-width: 400px; margin: 0 auto 25px auto; }
-        .explore-content .btn-explore { background-color: transparent; color: #ffffff; border: 1px solid #ffffff; padding: 10px 30px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s ease; border-radius: 0;}
-        .explore-content .btn-explore:hover { background-color: #ffffff; color: #1c1c1c; }
+        /* --- Keep explore-section styles defined in main.css --- */
+        /* .explore-section { ... } */
+        /* .explore-section::before { ... } */
+        /* .explore-content { ... } */
+        /* .explore-content p { ... } */
+        /* .explore-content .btn-explore { ... } */
         .info-section { background-color: #f9f9f9; padding: 30px 0; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; }
         .info-item { text-align: center; }
         .info-item img { height: 35px; margin-bottom: 10px; opacity: 0.7; }
         .info-item p { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0;}
-        .customer-reviews-placeholder { text-align: center; padding: 50px 20px; background-color: #fff; border: 1px dashed #ccc; margin: 40px 0; color: #999; }
 
         /* React Slick Arrow Styles */
         .slick-prev, .slick-next { font-size: 0; line-height: 0; position: absolute; top: 50%; display: block; width: 30px; height: 30px; padding: 0; transform: translate(0, -50%); cursor: pointer; color: transparent; border: none; outline: none; background: #fff; border-radius: 50%; z-index: 1; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
-        .slick-prev { left: -10px; }
-        .slick-next { right: -10px; }
+        .slick-prev { left: -10px; } /* Adjust position slightly */
+        .slick-next { right: -10px; } /* Adjust position slightly */
         .slick-prev:before, .slick-next:before { font-family: 'slick'; font-size: 20px; line-height: 1; opacity: .75; color: #333; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         .slick-prev:before { content: '<'; }
         .slick-next:before { content: '>'; }
@@ -192,12 +212,10 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
                 {heroSlides.map((slide, index) => (
                     <Carousel.Item key={index} style={{ backgroundImage: `url(${slide.img})` }} >
                         <Carousel.Caption>
-                             {/* Primary Button */}
                             <Button
                                 onClick={(e) => handleButtonClick(e, slide.btn1Action, slide.btn1Param)}
                                 className="btn-hero"
                             >{slide.btn1Text}</Button>
-                            {/* Secondary Button (if exists) */}
                             {slide.buttons === 2 && slide.btn2Text && (
                                 <Button
                                    onClick={(e) => handleButtonClick(e, slide.btn2Action, slide.btn2Param)}
@@ -210,12 +228,12 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
                 ))}
             </Carousel>
 
-
             {/* Sarees Section */}
             <Container className="homepage-section">
                 <p className="section-title">Tales of Effortless Yards Wrapped in Love</p>
                 <h3 className="section-main-title">SAREES</h3>
-                <ProductSlider products={firstEightSarees} />
+                 {/* Pass setPage to ProductSlider */}
+                <ProductSlider products={firstEightSarees} setPage={setPage} />
                 <div className="text-center mt-4">
                     <Button
                         onClick={(e) => handleButtonClick(e, 'shop')}
@@ -229,7 +247,8 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
             <Container className="homepage-section">
                  <p className="section-title">Specs of Sparkle</p>
                 <h3 className="section-main-title">JEWELLERY</h3>
-                <ProductSlider products={firstTwelveJewellery} />
+                 {/* Pass setPage to ProductSlider */}
+                <ProductSlider products={firstTwelveJewellery} setPage={setPage} />
                 <div className="text-center mt-4">
                     <Button
                         onClick={(e) => handleButtonClick(e, 'jewellery')}
@@ -243,32 +262,29 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
              <Container fluid className="homepage-section px-md-0">
                 <Row className="g-0">
                     <Col md={4}>
-                        <Card className="text-white category-card border-0 rounded-0">
+                        <Card className="text-white category-card border-0 rounded-0" onClick={(e) => handleButtonClick(e, 'collection', 'POTPOURRI')}>
                             <Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_3982_800x.jpg?v=1756625166" alt="Potpourri" />
                             <Card.ImgOverlay>
                                 <h4>POTPOURRI</h4>
-                                <Button onClick={(e) => handleButtonClick(e, 'collection', 'POTPOURRI')} className="btn-category">VIEW PRODUCTS</Button>
+                                <Button className="btn-category">VIEW PRODUCTS</Button>
                             </Card.ImgOverlay>
                         </Card>
                     </Col>
                     <Col md={4}>
-                        <Card className="text-white category-card border-0 rounded-0">
+                        <Card className="text-white category-card border-0 rounded-0" onClick={(e) => handleButtonClick(e, 'collection', 'SOULFUL WEAVES - Cotton Sarees (NEW)')}>
                              <Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_8253_800x.jpg?v=1755240083" alt="Soulful Weaves" />
                              <Card.ImgOverlay>
                                  <h4>SOULFUL WEAVES</h4>
-                                 <Button
-                                     onClick={(e) => handleButtonClick(e, 'collection', 'SOULFUL WEAVES - Cotton Sarees (NEW)')}
-                                     className="btn-category"
-                                 >VIEW PRODUCTS</Button>
+                                 <Button className="btn-category">VIEW PRODUCTS</Button>
                             </Card.ImgOverlay>
                         </Card>
                     </Col>
                     <Col md={4}>
-                        <Card className="text-white category-card border-0 rounded-0">
+                        <Card className="text-white category-card border-0 rounded-0" onClick={(e) => handleButtonClick(e, 'collection', 'POPSICLE - Everyday Cottons')}>
                             <Card.Img src="https://www.amrapaliboutique.in/cdn/shop/files/IMG_7022_c6106c85-7b92-48ec-ab73-0af24a719b72_800x.jpg?v=1704601509" alt="Popsicle" />
                             <Card.ImgOverlay>
                                 <h4>POPSICLE</h4>
-                                <Button onClick={(e) => handleButtonClick(e, 'collection', 'POPSICLE - Everyday Cottons')} className="btn-category">VIEW PRODUCTS</Button>
+                                <Button className="btn-category">VIEW PRODUCTS</Button>
                             </Card.ImgOverlay>
                         </Card>
                     </Col>
@@ -280,13 +296,15 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
                 <h3 className="section-main-title">PRODUCT OF THE WEEK</h3>
                 <Row>
                     <Col md={6}>
-                        {productOfTheWeek && <img src={productOfTheWeek.image1} alt={productOfTheWeek.name} className="img-fluid" />}
+                        {productOfTheWeek && <img src={productOfTheWeek.image1 || ''} alt={productOfTheWeek.name || 'Product'} className="img-fluid" />}
                     </Col>
                     <Col md={6}>
-                       {productOfTheWeek && (
+                       {productOfTheWeek && productOfTheWeek.id && ( // Added ID check
                          <div className="product-of-week-details w-100">
-                             <h5>{productOfTheWeek.name}</h5>
-                             <p className="sku">SKU: W-195(C) CH(SA)</p>
+                             <h5 style={{cursor: 'pointer'}} onClick={() => setPage(`product-detail-${productOfTheWeek.id}`)}>
+                                {productOfTheWeek.name}
+                             </h5>
+                             <p className="sku">SKU: W-195(C) CH(SA)</p> {/* Static SKU for example */}
                              <p className="price">
                                  {getFormattedPrice(powPriceINR)}
                              </p>
@@ -309,10 +327,19 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
                                 <Tab eventKey="care" title="Care"><p>{powDetails.care}</p></Tab>
                                 <Tab eventKey="shipping" title="Shipping"><p>{powDetails.shipping}</p></Tab>
                             </Tabs>
+                            {/* Add to Cart (functionality needs CartContext) */}
                             <Button className="btn-action btn-add-to-cart-week">ADD TO CART</Button>
+                            {/* Buy Now (functionality needs CartContext and navigation) */}
                             <Button className="btn-action btn-buy-now-week">BUY IT NOW</Button>
                              <div className="text-center">
-                                <Button variant="link" className="btn-view-details-week">View product details</Button>
+                                 {/* Navigate on View Details click */}
+                                <Button
+                                    variant="link"
+                                    className="btn-view-details-week"
+                                    onClick={() => setPage(`product-detail-${productOfTheWeek.id}`)}
+                                >
+                                    View product details
+                                </Button>
                             </div>
                         </div>
                        )}
@@ -320,14 +347,15 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
                 </Row>
             </Container>
 
-            {/* Explore Section - Updated onClick */}
-            <div className="explore-section homepage-section px-0"
-             style={{
-                 backgroundImage: "url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369')",
-                 backgroundSize: 'cover',
-                 backgroundPosition: 'center',
-                 height: '500px'
-             }}
+            {/* Explore Section - Using Inline Style */}
+            <div
+                className="explore-section homepage-section px-0"
+                style={{
+                    backgroundImage: "url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369')",
+                    // Add other necessary background styles if removed from CSS
+                     backgroundSize: 'cover',
+                     backgroundPosition: 'center'
+                }}
             >
                 <div className="explore-content">
                     <p>Created for women who enjoy the feeling of empowerment through their choice of clothing</p>
@@ -339,8 +367,9 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
             <Container className="homepage-section">
                  <h3 className="section-main-title">STORIES BY AMRAPALI</h3>
                 <Row xs={1} md={3} className="g-4">
+                    {/* Pass setPage to SimpleBlogPostCard */}
                     {firstThreeBlogs.map(post => (
-                        <Col key={post.id}><SimpleBlogPostCard post={post} /></Col>
+                        <Col key={post?.id || Math.random()}><SimpleBlogPostCard post={post} setPage={setPage} /></Col>
                     ))}
                 </Row>
                 <div className="text-center mt-4">
@@ -365,7 +394,7 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
                  </Container>
             </Container>
 
-            {/* Customer Reviews Section - Replaced Placeholder */}
+            {/* Customer Reviews Section */}
             <CustomerReviewSlider />
 
         </>
@@ -373,4 +402,3 @@ const HomePage = ({ setPage, onCollectionItemClick }) => { // Accept props
 };
 
 export default HomePage;
-

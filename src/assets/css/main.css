@@ -4021,3 +4021,277 @@ body.checkout-active {
         width: 100%; /* Full width on mobile */
     }
 }
+
+/* src/assets/css/main.css */
+
+/* ... existing styles ... */
+
+/* --------------------------------------------------- */
+/* PRODUCT DETAIL PAGE STYLES */
+/* --------------------------------------------------- */
+
+.product-detail-page-container {
+    padding-top: 40px; /* Adjust if header is hidden */
+}
+
+/* Specific body style adjustment if header/footer hidden */
+body.product-detail-active {
+    padding-top: 0 !important;
+}
+
+.product-main-detail-image {
+    width: 100%;
+    border: 1px solid #eee; /* Subtle border */
+}
+
+.product-thumbnail {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    border: 1px solid #ddd; /* Default border */
+    padding: 2px;
+}
+.product-thumbnail:hover {
+    opacity: 1;
+}
+.product-thumbnail.active {
+    opacity: 1;
+    border: 2px solid #a8853d; /* Highlight active thumbnail */
+}
+
+.product-detail-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; /* Match product card title style */
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.product-sku {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 15px;
+    font-family: 'Jost', sans-serif;
+    text-transform: uppercase;
+}
+
+.product-detail-price {
+    font-size: 20px; /* Slightly larger price */
+    font-family: 'Jost', sans-serif;
+    color: #1c1c1c;
+    margin-bottom: 20px;
+}
+.product-detail-price .original-price {
+    font-size: 16px;
+}
+
+/* Quantity selector on detail page */
+.quantity-selector.product-detail-quantity {
+    display: inline-flex; /* Align properly */
+    height: 45px; /* Match video */
+    margin-bottom: 25px; /* Space below */
+}
+.quantity-selector.product-detail-quantity button {
+     width: 45px; /* Match video */
+     padding: 10px 15px; /* Adjust padding */
+}
+.quantity-selector.product-detail-quantity span {
+    min-width: 50px; /* Match video */
+    padding: 0 10px;
+}
+
+/* Addon Checkbox */
+.product-addons {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+.addon-checkbox .form-check-label {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    cursor: pointer;
+}
+.addon-checkbox .form-check-input {
+    margin-top: 0.2em;
+    cursor: pointer;
+}
+.addon-label-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+.addon-label-price {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Detail Page Buttons */
+.btn-add-to-cart-detail,
+.btn-buy-now-detail {
+    border-radius: 0;
+    padding: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+.btn-add-to-cart-detail {
+    background-color: #ffffff;
+    color: #1c1c1c;
+    border: 1px solid #1c1c1c;
+}
+.btn-add-to-cart-detail:hover {
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+.btn-buy-now-detail {
+    background-color: #ffb3ba; /* Amrapali pink */
+    color: #ffffff;
+    border: none;
+}
+.btn-buy-now-detail:hover {
+    background-color: #ff9aa1; /* Darker pink */
+    color: #ffffff;
+}
+
+/* Detail Page Wishlist Button */
+.btn-product-wishlist-detail {
+    background: none !important;
+    border: none !important;
+    padding: 10px 0 !important;
+    font-size: 13px;
+    text-align: left;
+    color: #333;
+    text-decoration: none;
+    display: inline-flex; /* Align icon and text */
+    align-items: center;
+    box-shadow: none !important;
+}
+.btn-product-wishlist-detail:hover {
+    color: #a8853d;
+}
+.btn-product-wishlist-detail svg {
+    margin-right: 8px; /* Space between icon and text */
+}
+
+/* Product Detail Tabs */
+.product-detail-tabs .nav-tabs {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+.product-detail-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #777;
+    font-size: 13px; /* Match video */
+    text-transform: uppercase;
+    padding: 0.5rem 0; /* Match video padding */
+    margin-right: 1.5rem; /* Match video spacing */
+    font-weight: 500;
+}
+.product-detail-tabs .nav-link.active {
+    color: #1c1c1c;
+    border-bottom-color: #1c1c1c;
+    background-color: transparent; /* Ensure no background */
+}
+.product-detail-tabs .tab-content {
+    font-size: 14px; /* Slightly larger text */
+    line-height: 1.8;
+    color: #555;
+}
+.product-detail-tabs .tab-content p {
+    margin-bottom: 1rem;
+}
+.product-detail-tabs .tab-content strong {
+     color: #333;
+     margin-right: 5px;
+}
+
+/* Related Products */
+.related-products-section .section-main-title {
+    font-size: 24px; /* Smaller title */
+}
+
+/* --------------------------------------------------- */
+/* QUICK VIEW MODAL STYLES */
+/* --------------------------------------------------- */
+.quick-view-modal .modal-body {
+    padding: 2rem; /* More padding */
+}
+.quick-view-image-col {
+    text-align: center;
+}
+.quick-view-main-image {
+    max-height: 450px; /* Limit height */
+    width: auto;
+    margin: 0 auto;
+    border: 1px solid #eee;
+}
+.quick-view-details-col h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; /* Match card title */
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.quick-view-quantity { /* Inherits .quantity-selector */
+    display: inline-flex;
+    height: 40px; /* Smaller height for modal */
+}
+.quick-view-quantity button {
+    width: 40px;
+    padding: 5px 10px;
+}
+.quick-view-quantity span {
+    min-width: 40px;
+    padding: 0 8px;
+}
+.view-details-link {
+    font-size: 13px;
+    color: #555;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding-top: 5px !important;
+}
+.view-details-link:hover {
+     color: #1c1c1c;
+}
+
+/* Addon Checkbox in Modal */
+.quick-view-modal .product-addons {
+    border-top: none; /* No border in modal */
+    padding-top: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px; /* Space before button */
+}
+.quick-view-modal .addon-checkbox .form-check-label {
+    justify-content: flex-start; /* Align left */
+    gap: 10px;
+}
+.quick-view-modal .addon-label-text {
+    font-size: 13px;
+}
+.quick-view-modal .addon-label-price {
+    font-size: 13px;
+}
+
+/* Responsive adjustments for Product Detail Page */
+@media (max-width: 767px) {
+    .product-detail-page-container {
+        padding-top: 20px;
+    }
+    .product-detail-title {
+        font-size: 22px;
+    }
+    .product-detail-price {
+        font-size: 18px;
+    }
+}
+/* src/assets/css/main.css */
+.explore-section {
+    /* Use the absolute URL */
+    background: url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369') no-repeat center center;
+    background-size: cover;
+    height: 500px;
+    display: flex;
+    /* ... keep other explore-section styles ... */
+}

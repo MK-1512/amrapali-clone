@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react'; // Added useEffect
 import Header from './components/common/Header';
 import HomePage from './pages/HomePage';
 import SareesPage from './pages/SareesPage';
@@ -9,7 +9,6 @@ import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { AuthProvider, AuthContext } from './context/AuthContext';
-// Removed redundant main.css import (already in main.jsx)
 import Footer from './components/common/Footer';
 import GiftCardPage from './pages/GiftCardPage';
 import WishlistButton from './components/common/WishlistButton';
@@ -18,7 +17,7 @@ import JewelleryPage from './pages/JewelleryPage';
 import MeetTheTeamPage from './pages/MeetTheTeamPage';
 import TeamMemberDetailPage from './pages/TeamMemberDetailPage';
 import BlogPage from './pages/BlogPage';
-import BlogDetailPage from './pages/BlogDetailPage'; // Import the new component
+import BlogDetailPage from './pages/BlogDetailPage';
 import BestsellersPage from './pages/BestsellersPage';
 import LoginPage from './pages/LoginPage';
 import ProductList from './components/product/ProductList';
@@ -29,7 +28,9 @@ import RegisterPage from './pages/RegisterPage';
 import SearchBar from './components/common/SearchBar';
 import OurStoryPage from './pages/OurStoryPage';
 import AllCollectionsPage from './pages/AllCollectionsPage';
-import CheckoutPage from './pages/CheckoutPage'; // Import CheckoutPage
+import CheckoutPage from './pages/CheckoutPage';
+import ProductDetailPage from './pages/ProductDetailPage'; // Import the new page
+import { allProducts } from './utils/searchUtils'; // Ensure this is imported
 
 // --- Import Category Pages ---
 import NeckpiecesPage from './pages/jewellery/NeckpiecesPage';
@@ -52,47 +53,60 @@ import TermsConditionsPage from './pages/TermsConditionsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DisclaimerPolicyPage from './pages/DisclaimerPolicyPage';
 
-// This component holds the main application logic and uses the AuthContext
 function AppContent() {
-  const { isLoggedIn, logout } = useContext(AuthContext); // Use AuthContext for login state and logout function
+  const { isLoggedIn, logout } = useContext(AuthContext);
 
   const [currentPage, setCurrentPage] = useState('home');
   const [viewingMemberId, setViewingMemberId] = useState(null);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [viewingPostId, setViewingPostId] = useState(null); // State for selected blog post ID
+  const [viewingPostId, setViewingPostId] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null); // NEW state for product detail view
 
-  // Function to handle clicking the user icon/login link
+  // Add useEffect to manage body class based on checkout/product detail page
+  useEffect(() => {
+    if (currentPage === 'checkout' || currentPage === 'product-detail') {
+      document.body.classList.add(`${currentPage}-active`);
+    } else {
+      document.body.classList.remove('checkout-active');
+      document.body.classList.remove('product-detail-active');
+    }
+    // Cleanup function
+    return () => {
+      document.body.classList.remove('checkout-active');
+      document.body.classList.remove('product-detail-active');
+    };
+  }, [currentPage]); // Re-run when currentPage changes
+
+
   const handleOpenLogin = () => {
     if (isLoggedIn) return;
     if (viewingMemberId) setViewingMemberId(null);
     if (viewingPostId) setViewingPostId(null);
+    setSelectedProductId(null); // Clear product view on login navigation
     setCurrentPage('login');
     window.scrollTo(0, 0);
   };
 
-  // Function to handle logout action
   const handleLogout = () => {
     logout();
     setCurrentPage('home');
     window.scrollTo(0, 0);
   };
 
-  // Filter drawer handlers
   const handleOpenFilter = () => setIsFilterOpen(true);
   const handleCloseFilter = () => setIsFilterOpen(false);
 
-  // Search bar toggle handler
   const toggleSearch = () => {
       setIsSearchOpen(prev => !prev);
       if (!isSearchOpen && isFilterOpen) setIsFilterOpen(false);
       if (!isSearchOpen) window.scrollTo(0, 0);
   };
 
-  // Handler for selecting a collection
    const handleSelectCollection = (collectionName) => {
       setSelectedCollection(collectionName);
+      setSelectedProductId(null); // Clear product view
       if (collectionName) {
         setCurrentPage('collection');
         window.scrollTo(0, 0);
@@ -106,47 +120,82 @@ function AppContent() {
   const handleNavigation = (pageNameOrId) => {
       if (isSearchOpen) setIsSearchOpen(false);
       if (pageNameOrId !== 'collection') setSelectedCollection(null);
+      // Clear specific views unless navigating to them
+      if (!pageNameOrId.startsWith('product-detail-')) setSelectedProductId(null);
+      if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null);
+      if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
+
 
       if (isLoggedIn && (pageNameOrId === 'login' || pageNameOrId === 'register')) {
           pageNameOrId = 'home';
       }
 
-       // Reset viewingMemberId logic
-       if (viewingMemberId && !pageNameOrId.startsWith('team-member-detail')) {
-            setViewingMemberId(null);
-       } else if (pageNameOrId === 'meet-the-team' && viewingMemberId) {
-            setViewingMemberId(null);
+       // --- NEW: Product Detail Logic ---
+       if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('product-detail-')) {
+            const prodId = pageNameOrId.split('-')[2];
+            const productExists = allProducts.some(p => p && String(p.id) === String(prodId));
+            if (prodId && productExists) {
+                setSelectedProductId(prodId);
+                setCurrentPage('product-detail');
+                // Ensure other views are reset
+                setViewingMemberId(null);
+                setViewingPostId(null);
+                setSelectedCollection(null);
+            } else {
+                console.warn("Invalid product ID:", pageNameOrId);
+                setCurrentPage('shop'); // Fallback
+            }
        }
-
+       // Team Member Logic
+       else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('team-member-detail-')) {
+            const memberId = pageNameOrId.split('-')[3]; // Assuming format 'team-member-detail-<id>'
+             // Basic check if memberId exists (can improve with actual data check)
+            if (memberId) {
+                setViewingMemberId(memberId);
+                setCurrentPage('team-member-detail'); // Set a generic page key if needed, or rely on viewingMemberId
+                // Ensure other views are reset
+                setSelectedProductId(null);
+                setViewingPostId(null);
+                setSelectedCollection(null);
+            } else {
+                 console.warn("Invalid team member ID:", pageNameOrId);
+                 setCurrentPage('meet-the-team'); // Fallback
+            }
+       }
        // Blog Detail Logic
-       if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('blog-detail-')) {
+       else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('blog-detail-')) {
            const postId = parseInt(pageNameOrId.split('-')[2], 10);
            if (!isNaN(postId)) {
                setViewingPostId(postId);
                setCurrentPage('blog-detail');
-               setViewingMemberId(null); // Ensure team view is reset
+                // Ensure other views are reset
+               setSelectedProductId(null);
+               setViewingMemberId(null);
+               setSelectedCollection(null);
            } else {
                console.warn("Invalid blog post ID:", pageNameOrId);
-               setViewingPostId(null);
-               setCurrentPage('blog'); // Default back to blog list on error
+               setCurrentPage('blog'); // Fallback
            }
-       } else if (typeof pageNameOrId === 'string') {
-           setViewingPostId(null); // Clear blog post ID
-           setCurrentPage(pageNameOrId); // Set standard page name
-           // Reset team member view if not navigating specifically to it
-           if (!pageNameOrId.startsWith('team-member-detail') && pageNameOrId !== 'meet-the-team') {
-               setViewingMemberId(null);
-           }
+       }
+       // Standard Page Navigation
+       else if (typeof pageNameOrId === 'string') {
+           setCurrentPage(pageNameOrId);
+           // Clear specific views if navigating to a standard page
+           setSelectedProductId(null);
+           setViewingMemberId(null);
+           setViewingPostId(null);
+            if (pageNameOrId !== 'collection') setSelectedCollection(null);
        }
 
       window.scrollTo(0, 0);
   };
 
-  // Function to get title and subtitle for CollectionHeroBanner
+
   const getCollectionBannerDetails = (collectionName) => {
        if (!collectionName) { return { title: "Collection", subtitle: "" }; }
       const upperCollectionName = collectionName.toUpperCase();
-      const collectionDetails = {
+      // --- (Keep your existing collectionDetails object here) ---
+       const collectionDetails = {
           "POTPOURRI": { title: "POTPOURRI", subtitle: "A mix of beautiful sarees." },
           "COTTON SAREES": { title: "COTTON SAREES", subtitle: "Comfortable and stylish cotton sarees." },
           "SILK & TUSSAR SAREES": { title: "SILK & TUSSAR SAREES", subtitle: "Elegant Silk and Tussar sarees." },
@@ -174,14 +223,14 @@ function AppContent() {
       return { title: titlePart.charAt(0).toUpperCase() + titlePart.slice(1).toLowerCase(), subtitle: "" };
   };
 
-  // Function to render the current page based on state
   const renderPage = () => {
-    // Render Team Member Detail page
-     if (viewingMemberId) {
+    // Render specific detail pages first
+     if (currentPage === 'product-detail' && selectedProductId) {
+        return <ProductDetailPage productId={selectedProductId} setPage={handleNavigation} />;
+    }
+     if (currentPage === 'team-member-detail' && viewingMemberId) { // Rely on viewingMemberId to render
         return <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => handleNavigation('meet-the-team')} />;
     }
-
-    // Render Blog Detail Page
     if (currentPage === 'blog-detail' && viewingPostId) {
         return <BlogDetailPage postId={viewingPostId} setPage={handleNavigation} />;
     }
@@ -197,7 +246,8 @@ function AppContent() {
                     subtitle={subtitleLines.map((line, index) => <React.Fragment key={index}>{line}{index < subtitleLines.length - 1 && <br />}</React.Fragment>)}
                  />
                 <FilterBar handleOpenFilter={handleOpenFilter} />
-                <ProductList collectionName={selectedCollection} />
+                 {/* Pass setPage down to ProductList */}
+                <ProductList collectionName={selectedCollection} setPage={handleNavigation} />
             </>
         );
     }
@@ -207,11 +257,11 @@ function AppContent() {
         'home', 'login', 'register', 'shop', 'jewellery', 'collection', 'bestsellers',
         'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
         'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
-        'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail', // Added blog-detail
-        'our-story', 'meet-the-team', 'team-member-detail', // Added team-member-detail
+        'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail',
+        'our-story', 'meet-the-team', 'team-member-detail',
         'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
         'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-        'checkout' // <-- Allow checkout for guests
+        'checkout', 'product-detail' // <-- ADDED product-detail
     ];
     if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
          return <LoginPage setPage={handleNavigation} />;
@@ -220,48 +270,47 @@ function AppContent() {
       return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
     }
 
-    // Switch statement for rendering pages
+    // Switch statement for standard pages
+    // Pass setPage prop to pages containing ProductList or needing navigation
     switch (currentPage) {
-      case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
-      case 'gift-card': return <GiftCardPage />;
-      case 'jewellery': return <JewelleryPage />;
-      case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage />;
-      case 'neckpieces': return <NeckpiecesPage />;
-      case 'earrings': return <EarringsPage />;
-      case 'bangles-cuffs': return <BanglesCuffsPage />;
-      case 'rings': return <RingsPage />;
-      case 'new-arrivals-sarees': return <NewArrivalsSareesPage />;
-      case 'sarees-cotton': return <CottonSareesPage />;
-      case 'sarees-silk-tussar': return <SilkTussarSareesPage />;
-      case 'sarees-linen': return <LinenSareesPage />;
-      case 'sarees-chanderi': return <ChanderiSareesPage />;
-      case 'fall-picot': return <FallPicotPage />;
-      case 'blog': return <BlogPage setPage={handleNavigation} />;
-      // 'blog-detail' handled above
-      case 'our-story': return <OurStoryPage />;
-      case 'bestsellers': return <BestsellersPage />;
-      case 'meet-the-team': return <MeetTheTeamPage onSelectMember={(id) => handleNavigation(`team-member-detail-${id}`)} />;
-       // 'team-member-detail' handled above
-      case 'all-collections': return <AllCollectionsPage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
-      case 'faq': return <FaqPage />;
-      case 'shipping-policy': return <ShippingPolicyPage />;
-      case 'refund-policy': return <RefundPolicyPage />;
-      case 'contact': return <ContactPage />;
-      case 'terms-service': return <TermsServicePage />;
-      case 'terms-conditions': return <TermsConditionsPage />;
-      case 'privacy-policy': return <PrivacyPolicyPage />;
-      case 'disclaimer-policy': return <DisclaimerPolicyPage />;
-      case 'shop': return <SareesPage />;
-      case 'login': return <LoginPage setPage={handleNavigation} />;
-      case 'register': return <RegisterPage setPage={handleNavigation} />;
-      // --- MODIFICATION: Pass setPage prop ---
-      case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
-      default: return <SareesPage />;
+        case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
+        case 'gift-card': return <GiftCardPage />;
+        case 'jewellery': return <JewelleryPage setPage={handleNavigation} />;
+        case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage setPage={handleNavigation} />;
+        case 'neckpieces': return <NeckpiecesPage setPage={handleNavigation} />;
+        case 'earrings': return <EarringsPage setPage={handleNavigation} />;
+        case 'bangles-cuffs': return <BanglesCuffsPage setPage={handleNavigation} />;
+        case 'rings': return <RingsPage setPage={handleNavigation} />;
+        case 'new-arrivals-sarees': return <NewArrivalsSareesPage setPage={handleNavigation} />;
+        case 'sarees-cotton': return <CottonSareesPage setPage={handleNavigation} />;
+        case 'sarees-silk-tussar': return <SilkTussarSareesPage setPage={handleNavigation} />;
+        case 'sarees-linen': return <LinenSareesPage setPage={handleNavigation} />;
+        case 'sarees-chanderi': return <ChanderiSareesPage setPage={handleNavigation} />;
+        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />;
+        case 'blog': return <BlogPage setPage={handleNavigation} />;
+        case 'our-story': return <OurStoryPage />;
+        case 'bestsellers': return <BestsellersPage setPage={handleNavigation} />;
+        case 'meet-the-team': return <MeetTheTeamPage onSelectMember={(id) => handleNavigation(`team-member-detail-${id}`)} />;
+        case 'all-collections': return <AllCollectionsPage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
+        case 'faq': return <FaqPage />;
+        case 'shipping-policy': return <ShippingPolicyPage />;
+        case 'refund-policy': return <RefundPolicyPage />;
+        case 'contact': return <ContactPage />;
+        case 'terms-service': return <TermsServicePage />;
+        case 'terms-conditions': return <TermsConditionsPage />;
+        case 'privacy-policy': return <PrivacyPolicyPage />;
+        case 'disclaimer-policy': return <DisclaimerPolicyPage />;
+        case 'shop': return <SareesPage setPage={handleNavigation} />;
+        case 'login': return <LoginPage setPage={handleNavigation} />;
+        case 'register': return <RegisterPage setPage={handleNavigation} />;
+        case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
+        // Detail pages are handled above the switch
+        default: return <SareesPage setPage={handleNavigation} />;
     }
   };
 
-  // Determine if header should be solid
-   const pagesThatMightStartTransparent = [
+  // Determine header/footer visibility and style
+   const pagesThatMightStartTransparent = [ /* ... keep as is ... */
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
        'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
@@ -270,39 +319,42 @@ function AppContent() {
        'fall-picot',
        'all-collections'
    ];
-   const staticSolidHeaderPages = [
+   const staticSolidHeaderPages = [ /* ... keep as is ... */
        'login', 'register', 'our-story', 'faq',
        'shipping-policy', 'refund-policy', 'contact',
        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
        'meet-the-team', 'team-member-detail',
        'blog',
        'blog-detail',
-       'checkout' // <-- Checkout page always solid
+       'checkout', 'product-detail' // Added product-detail
    ];
    const isSolidHeaderForced = isSearchOpen ||
                               !!viewingMemberId ||
                               !!viewingPostId ||
+                              !!selectedProductId || // Added product ID check
                               staticSolidHeaderPages.includes(currentPage) ||
                               !pagesThatMightStartTransparent.includes(currentPage);
-   const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId;
-   const hideHeader = currentPage === 'checkout'; // Hide header on checkout
+   const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId && !selectedProductId;
 
-  // --- Main Render for AppContent ---
+   // Hide header/footer on checkout and product detail
+   const hideHeader = currentPage === 'checkout'; // Only hide header on checkout for now
+   const hideFooter = currentPage === 'checkout';
+
   return (
     <div className={`App ${isSolidHeaderForced || hideHeader ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
-      {!hideHeader && ( // Conditionally render header
+      {!hideHeader && (
           <Header
             setPage={handleNavigation}
             currentPage={currentPage}
             resetTeamView={() => setViewingMemberId(null)}
             handleSelectCollection={handleSelectCollection}
-            viewingMemberId={viewingMemberId}
+            viewingMemberId={viewingMemberId} // Pass viewingMemberId
             isSearchOpen={isSearchOpen}
             toggleSearch={toggleSearch}
             handleLogout={handleLogout}
           />
       )}
-      {!hideHeader && ( // Conditionally render SearchBar
+      {!hideHeader && (
         <SearchBar
             isSearchOpen={isSearchOpen}
             handleCloseSearch={toggleSearch}
@@ -315,12 +367,12 @@ function AppContent() {
       <main>{renderPage()}</main>
 
       {/* Global Components */}
-      {/* --- MODIFICATION: Pass handleNavigation to CartDrawer --- */}
       <CartDrawer setPage={handleNavigation} />
+      {/* Pass handleNavigation to WishlistProvider */}
       <WishlistModal handleNavClick={handleNavigation} />
       <CurrencyDropdown />
       <WishlistButton />
-      {!hideHeader && ( // Conditionally render Footer
+      {!hideFooter && (
         <Footer setPage={handleNavigation} toggleSearch={toggleSearch} />
       )}
       <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
@@ -328,12 +380,14 @@ function AppContent() {
   );
 }
 
-// The Root App component wraps everything in context providers
+// Update WishlistProvider wrapper to pass handleNavClick
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <CurrencyProvider>
+           {/* Wrap AppContent to potentially pass handleNavigation */}
+           {/* Note: Direct prop passing is better than context for this */}
           <WishlistProvider>
              <AppContent />
           </WishlistProvider>
