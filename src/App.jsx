@@ -1,6 +1,5 @@
 // src/App.jsx
-import React, { useState, useContext } from 'react'; // Import useContext
-// Corrected import paths based on standard src structure
+import React, { useState, useContext } from 'react';
 import Header from './components/common/Header';
 import HomePage from './pages/HomePage';
 import SareesPage from './pages/SareesPage';
@@ -9,8 +8,8 @@ import WishlistModal from './components/cart/WishlistModal';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { CurrencyProvider } from './context/CurrencyContext';
-import { AuthProvider, AuthContext } from './context/AuthContext'; // Import AuthProvider and AuthContext
-import './assets/css/main.css'; // Import main CSS
+import { AuthProvider, AuthContext } from './context/AuthContext';
+// Removed redundant main.css import (already in main.jsx)
 import Footer from './components/common/Footer';
 import GiftCardPage from './pages/GiftCardPage';
 import WishlistButton from './components/common/WishlistButton';
@@ -19,6 +18,7 @@ import JewelleryPage from './pages/JewelleryPage';
 import MeetTheTeamPage from './pages/MeetTheTeamPage';
 import TeamMemberDetailPage from './pages/TeamMemberDetailPage';
 import BlogPage from './pages/BlogPage';
+import BlogDetailPage from './pages/BlogDetailPage'; // Import the new component
 import BestsellersPage from './pages/BestsellersPage';
 import LoginPage from './pages/LoginPage';
 import ProductList from './components/product/ProductList';
@@ -30,7 +30,7 @@ import SearchBar from './components/common/SearchBar';
 import OurStoryPage from './pages/OurStoryPage';
 import AllCollectionsPage from './pages/AllCollectionsPage';
 
-// --- Import Category Pages (Corrected Paths assuming they are in src/pages/) ---
+// --- Import Category Pages ---
 import NeckpiecesPage from './pages/jewellery/NeckpiecesPage';
 import EarringsPage from './pages/jewellery/EarringsPage';
 import BanglesCuffsPage from './pages/jewellery/BanglesCuffsPage';
@@ -51,9 +51,7 @@ import TermsConditionsPage from './pages/TermsConditionsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DisclaimerPolicyPage from './pages/DisclaimerPolicyPage';
 
-// Import slick carousel CSS (Keep paths as they target node_modules)
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// Removed redundant slick carousel CSS imports (already in main.jsx)
 
 // This component holds the main application logic and uses the AuthContext
 function AppContent() {
@@ -64,20 +62,22 @@ function AppContent() {
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [viewingPostId, setViewingPostId] = useState(null); // State for selected blog post ID
 
   // Function to handle clicking the user icon/login link
   const handleOpenLogin = () => {
-    if (isLoggedIn) return; // Don't navigate to login if already logged in
-    if (viewingMemberId) setViewingMemberId(null); // Reset team view if active
+    if (isLoggedIn) return;
+    if (viewingMemberId) setViewingMemberId(null);
+    if (viewingPostId) setViewingPostId(null);
     setCurrentPage('login');
-    window.scrollTo(0, 0); // Scroll to top
+    window.scrollTo(0, 0);
   };
 
   // Function to handle logout action
   const handleLogout = () => {
-    logout(); // Call logout from AuthContext
-    setCurrentPage('home'); // Redirect to home after logout
-    window.scrollTo(0, 0); // Scroll to top
+    logout();
+    setCurrentPage('home');
+    window.scrollTo(0, 0);
   };
 
   // Filter drawer handlers
@@ -87,49 +87,67 @@ function AppContent() {
   // Search bar toggle handler
   const toggleSearch = () => {
       setIsSearchOpen(prev => !prev);
-      if (!isSearchOpen && isFilterOpen) setIsFilterOpen(false); // Close filter if search opens
-      if (!isSearchOpen) window.scrollTo(0, 0); // Scroll to top when opening search
+      if (!isSearchOpen && isFilterOpen) setIsFilterOpen(false);
+      if (!isSearchOpen) window.scrollTo(0, 0);
   };
 
-  // Handler for selecting a collection (from dropdowns or cards)
+  // Handler for selecting a collection
    const handleSelectCollection = (collectionName) => {
       setSelectedCollection(collectionName);
       if (collectionName) {
-        setCurrentPage('collection'); // Navigate to the generic collection page
-        window.scrollTo(0, 0); // Scroll to top
+        setCurrentPage('collection');
+        window.scrollTo(0, 0);
       }
-      handleCloseFilter(); // Close filter drawer if it was open
+      handleCloseFilter();
+      setViewingMemberId(null);
+      setViewingPostId(null);
   };
-
 
   // Centralized Navigation Handler
-  const handleNavigation = (pageName) => {
-      if (isSearchOpen) setIsSearchOpen(false); // Close search bar on any navigation
-      if (pageName !== 'collection') setSelectedCollection(null); // Clear collection unless navigating to it
+  const handleNavigation = (pageNameOrId) => {
+      if (isSearchOpen) setIsSearchOpen(false);
+      if (pageNameOrId !== 'collection') setSelectedCollection(null);
 
-      // Prevent navigating to login/register if already logged in
-      if (isLoggedIn && (pageName === 'login' || pageName === 'register')) {
-          pageName = 'home'; // Redirect to home
+      if (isLoggedIn && (pageNameOrId === 'login' || pageNameOrId === 'register')) {
+          pageNameOrId = 'home';
       }
 
-      // Reset viewingMemberId logic for back button functionality
-      if (viewingMemberId && pageName !== 'meet-the-team') {
-           setViewingMemberId(null);
-      } else if (pageName === 'meet-the-team' && viewingMemberId) {
-           setViewingMemberId(null);
-      }
+       // Reset viewingMemberId logic
+       if (viewingMemberId && !pageNameOrId.startsWith('team-member-detail')) {
+            setViewingMemberId(null);
+       } else if (pageNameOrId === 'meet-the-team' && viewingMemberId) {
+            setViewingMemberId(null);
+       }
 
-      setCurrentPage(pageName); // Set the new page
-      window.scrollTo(0, 0); // Scroll to top
+       // Blog Detail Logic
+       if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('blog-detail-')) {
+           const postId = parseInt(pageNameOrId.split('-')[2], 10);
+           if (!isNaN(postId)) {
+               setViewingPostId(postId);
+               setCurrentPage('blog-detail');
+               setViewingMemberId(null); // Ensure team view is reset
+           } else {
+               console.warn("Invalid blog post ID:", pageNameOrId);
+               setViewingPostId(null);
+               setCurrentPage('blog'); // Default back to blog list on error
+           }
+       } else if (typeof pageNameOrId === 'string') {
+           setViewingPostId(null); // Clear blog post ID
+           setCurrentPage(pageNameOrId); // Set standard page name
+           // Reset team member view if not navigating specifically to it
+           if (!pageNameOrId.startsWith('team-member-detail') && pageNameOrId !== 'meet-the-team') {
+               setViewingMemberId(null);
+           }
+       }
+
+      window.scrollTo(0, 0);
   };
 
-
-  // Function to get title and subtitle for CollectionHeroBanner based on collection name
+  // Function to get title and subtitle for CollectionHeroBanner
   const getCollectionBannerDetails = (collectionName) => {
+       // ...(same logic as previous version)...
        if (!collectionName) { return { title: "Collection", subtitle: "" }; }
       const upperCollectionName = collectionName.toUpperCase();
-
-      // Define details for each collection
       const collectionDetails = {
           "POTPOURRI": { title: "POTPOURRI", subtitle: "A mix of beautiful sarees." },
           "COTTON SAREES": { title: "COTTON SAREES", subtitle: "Comfortable and stylish cotton sarees." },
@@ -153,73 +171,57 @@ function AppContent() {
           "EK SITARA - KOTA SAREES": { title: "EK SITARA", subtitle: "An air of subtle sophistication, lightweight yet luxurious, a blend of cotton and silk with real gold in the zari, straight from the master weavers of Kaithoon, Kota." },
           "SMART STAPLES - A WORKWEAR EDIT": { title: "SMART STAPLES - A WORKWEAR EDIT", subtitle: "Functional | Minimalistic | Contemporary\nPresenting a workwear collective comprising simple, clean-lined, versatile drapes that will go a long way in making a striking impression at work and beyond." },
       };
-
-      if (collectionDetails[upperCollectionName]) {
-          return collectionDetails[upperCollectionName];
-      }
-
-      // Fallback title generation if no match found
+      if (collectionDetails[upperCollectionName]) return collectionDetails[upperCollectionName];
       const titlePart = collectionName.split('-')[0].trim();
       return { title: titlePart.charAt(0).toUpperCase() + titlePart.slice(1).toLowerCase(), subtitle: "" };
   };
 
-
   // Function to render the current page based on state
   const renderPage = () => {
-    // Render Team Member Detail page if an ID is set
+    // Render Team Member Detail page
      if (viewingMemberId) {
         return <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => handleNavigation('meet-the-team')} />;
     }
 
-    // Render generic Collection page if a collection is selected
+    // Render Blog Detail Page
+    if (currentPage === 'blog-detail' && viewingPostId) {
+        return <BlogDetailPage postId={viewingPostId} setPage={handleNavigation} />;
+    }
+
+    // Render generic Collection page
      if (currentPage === 'collection' && selectedCollection) {
         const { title, subtitle } = getCollectionBannerDetails(selectedCollection);
-        // Split subtitle by newline for rendering <br> tags
         const subtitleLines = subtitle ? subtitle.split('\n') : [];
         return (
             <>
                 <CollectionHeroBanner
                     title={title}
-                    // Map lines to React fragments with <br> tags
                     subtitle={subtitleLines.map((line, index) => <React.Fragment key={index}>{line}{index < subtitleLines.length - 1 && <br />}</React.Fragment>)}
                  />
                 <FilterBar handleOpenFilter={handleOpenFilter} />
-                {/* Pass the collection name to ProductList */}
                 <ProductList collectionName={selectedCollection} />
             </>
         );
     }
 
-    // --- Route Protection ---
-    // Define pages accessible to guests
-    const guestAllowedPages = [
+    // Route Protection
+    const guestAllowedPages = [ /* ...(same pages as previous version)... */
         'home', 'login', 'register', 'shop', 'jewellery', 'collection', 'bestsellers',
         'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
         'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
-        'sarees-chanderi', 'fall-picot', 'blog', 'our-story', 'meet-the-team',
+        'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail', // Added blog-detail
+        'our-story', 'meet-the-team', 'team-member-detail', // Added team-member-detail
         'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
         'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy'
-        // Add viewingMemberId check here if team member detail page is public
     ];
-     // Add team detail page to allowed guest pages if a member is being viewed
-     if (viewingMemberId) guestAllowedPages.push('team-member-detail');
-
-
-    // Check if the current page requires login
-    if (!isLoggedIn && !guestAllowedPages.includes(currentPage) && !viewingMemberId) {
-        // Redirect non-logged-in users trying to access protected areas to the login page
+    if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
          return <LoginPage setPage={handleNavigation} />;
     }
-
-    // If user IS logged in and tries to access login or register...
     if (isLoggedIn && (currentPage === 'login' || currentPage === 'register')) {
-      // Redirect to home page
       return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
     }
-    // --- End Route Protection ---
 
-
-    // Switch statement for rendering pages based on currentPage state
+    // Switch statement for rendering pages
     switch (currentPage) {
       case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
       case 'gift-card': return <GiftCardPage />;
@@ -235,10 +237,12 @@ function AppContent() {
       case 'sarees-linen': return <LinenSareesPage />;
       case 'sarees-chanderi': return <ChanderiSareesPage />;
       case 'fall-picot': return <FallPicotPage />;
-      case 'blog': return <BlogPage />;
+      case 'blog': return <BlogPage setPage={handleNavigation} />;
+      // 'blog-detail' handled above
       case 'our-story': return <OurStoryPage />;
       case 'bestsellers': return <BestsellersPage />;
-      case 'meet-the-team': return <MeetTheTeamPage onSelectMember={setViewingMemberId} />;
+      case 'meet-the-team': return <MeetTheTeamPage onSelectMember={(id) => handleNavigation(`team-member-detail-${id}`)} />;
+       // 'team-member-detail' handled above
       case 'all-collections': return <AllCollectionsPage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
       case 'faq': return <FaqPage />;
       case 'shipping-policy': return <ShippingPolicyPage />;
@@ -249,14 +253,14 @@ function AppContent() {
       case 'privacy-policy': return <PrivacyPolicyPage />;
       case 'disclaimer-policy': return <DisclaimerPolicyPage />;
       case 'shop': return <SareesPage />;
-      case 'login': return <LoginPage setPage={handleNavigation} />; // Login page component
-      case 'register': return <RegisterPage setPage={handleNavigation} />; // Register page component
-      default: return <SareesPage />; // Default to Sarees page
+      case 'login': return <LoginPage setPage={handleNavigation} />;
+      case 'register': return <RegisterPage setPage={handleNavigation} />;
+      default: return <SareesPage />;
     }
   };
 
-  // Determine if header should be solid based on current page, search state, etc.
-  const pagesThatMightStartTransparent = [
+  // Determine if header should be solid
+  const pagesThatMightStartTransparent = [ /* ...(same pages as previous version)... */
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
        'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
@@ -265,54 +269,51 @@ function AppContent() {
        'fall-picot',
        'all-collections'
    ];
-
-   const staticSolidHeaderPages = [
+   const staticSolidHeaderPages = [ /* ...(same pages as previous version)... */
        'login', 'register', 'our-story', 'faq',
        'shipping-policy', 'refund-policy', 'contact',
        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-       'meet-the-team' // Example: Team page might look better with solid header
+       'meet-the-team', 'team-member-detail', // Team pages solid
+       'blog', // Blog list page solid
+       'blog-detail' // Blog detail page also solid
    ];
-
-   // Header is forced solid if search is open, viewing a team member, on a static solid page,
-   // or if the current page isn't one that can start transparent.
-   const isSolidHeaderForced = isSearchOpen || !!viewingMemberId || staticSolidHeaderPages.includes(currentPage) || !pagesThatMightStartTransparent.includes(currentPage);
-   const isHomePage = currentPage === 'home'; // Specific flag for homepage styles
+   const isSolidHeaderForced = isSearchOpen ||
+                              !!viewingMemberId ||
+                              !!viewingPostId ||
+                              staticSolidHeaderPages.includes(currentPage) ||
+                              !pagesThatMightStartTransparent.includes(currentPage);
+   const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId;
 
   // --- Main Render for AppContent ---
   return (
-    // Apply dynamic classes to the main App div for styling based on state
     <div className={`App ${isSolidHeaderForced ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
       <Header
-        setPage={handleNavigation} // Pass navigation function
-        currentPage={currentPage} // Pass current page state
-        resetTeamView={() => setViewingMemberId(null)} // Function to reset team view
-        handleSelectCollection={handleSelectCollection} // Pass collection selection handler
-        viewingMemberId={viewingMemberId} // Pass team member ID state
-        isSearchOpen={isSearchOpen} // Pass search open state
-        toggleSearch={toggleSearch} // Pass search toggle function
-        handleLogout={handleLogout} // Pass logout handler
+        setPage={handleNavigation}
+        currentPage={currentPage}
+        resetTeamView={() => setViewingMemberId(null)}
+        handleSelectCollection={handleSelectCollection}
+        viewingMemberId={viewingMemberId}
+        isSearchOpen={isSearchOpen}
+        toggleSearch={toggleSearch}
+        handleLogout={handleLogout}
       />
-      {/* Search Bar Component */}
-        <SearchBar
+      <SearchBar
             isSearchOpen={isSearchOpen}
-            handleCloseSearch={toggleSearch} // Use toggleSearch to close
-            // Pass navigation handler for "View All" links
+            handleCloseSearch={toggleSearch}
             handleNavClick={(e, pageName) => {
                 e.preventDefault();
                 handleNavigation(pageName);
             }}
         />
-      {/* Render the current page */}
       <main>{renderPage()}</main>
 
       {/* Global Components */}
       <CartDrawer />
-      {/* Pass handleNavigation to WishlistModal - it will be passed down via WishlistProvider */}
       <WishlistModal handleNavClick={handleNavigation} />
       <CurrencyDropdown />
       <WishlistButton />
-      <Footer setPage={handleNavigation} toggleSearch={toggleSearch} /> {/* Pass nav and search handlers */}
-      <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> {/* Filter drawer */}
+      <Footer setPage={handleNavigation} toggleSearch={toggleSearch} />
+      <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
     </div>
   );
 }
@@ -320,13 +321,9 @@ function AppContent() {
 // The Root App component wraps everything in context providers
 function App() {
   return (
-    // Wrap with AuthProvider first
     <AuthProvider>
       <CartProvider>
         <CurrencyProvider>
-          {/* WishlistProvider needs access to AuthContext, place inside AuthProvider */}
-          {/* It needs handleNavClick, which is managed in AppContent */}
-          {/* We wrap AppContent in WishlistProvider to give it access */}
           <WishlistProvider>
              <AppContent />
           </WishlistProvider>
@@ -335,7 +332,6 @@ function App() {
     </AuthProvider>
   );
 }
-
 
 export default App;
 

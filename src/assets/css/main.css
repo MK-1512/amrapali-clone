@@ -3115,3 +3115,705 @@ h1.hero-title {
 .header-container.nav-hovered:not(.scrolled):not(.homepage-active) .header-icons button img {
     filter: none;
 }
+
+/* --------------------------------------------------- */
+/* BLOG DETAIL PAGE STYLES */
+/* --------------------------------------------------- */
+
+.blog-detail-page-container {
+    padding-top: 40px; /* Adjust as needed */
+    font-family: 'Jost', sans-serif;
+    color: #1c1c1c;
+}
+
+.blog-detail-nav {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.blog-detail-share a {
+    color: #999;
+    transition: color 0.3s ease;
+}
+.blog-detail-share a:hover {
+    color: #1c1c1c;
+}
+
+.blog-detail-image {
+    max-height: 500px; /* Limit image height */
+    width: 100%;
+    object-fit: cover;
+}
+
+.blog-detail-meta {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.blog-detail-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; /* Larger title */
+    font-weight: 600;
+    color: #1c1c1c;
+    margin-bottom: 30px;
+    line-height: 1.3;
+}
+
+.blog-detail-content {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #555;
+}
+
+.blog-detail-content p {
+    margin-bottom: 1.8rem;
+}
+/* Add styles for other content elements like blockquotes, lists if needed */
+.blog-detail-content blockquote {
+    border-left: 3px solid #e5e5e5;
+    padding-left: 20px;
+    margin: 30px 0;
+    font-style: italic;
+    color: #777;
+}
+
+.blog-detail-footer {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 20px;
+}
+
+.blog-comment-section {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 40px;
+}
+
+.blog-comment-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.blog-comment-input,
+.blog-comment-textarea {
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
+    padding: 12px 15px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    box-shadow: none;
+}
+.blog-comment-input:focus,
+.blog-comment-textarea:focus {
+    border-color: #aaa;
+    background-color: #ffffff;
+    box-shadow: none;
+}
+.blog-comment-textarea {
+    resize: vertical;
+}
+
+.blog-comment-moderation-note {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.blog-comment-submit-btn {
+    background-color: #ffb3ba; /* Amrapali pink */
+    color: #ffffff;
+    border: none;
+    border-radius: 0;
+    padding: 12px 30px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+.blog-comment-submit-btn:hover {
+    background-color: #ff9aa1; /* Darker pink */
+    color: #ffffff;
+}
+
+.related-posts-section {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 40px;
+    margin-top: 50px; /* Space above related posts */
+}
+
+.related-post-card {
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.related-post-card img {
+     aspect-ratio: 16 / 10.5;
+     object-fit: cover;
+     transition: opacity 0.3s ease;
+}
+.related-post-card:hover img {
+    opacity: 0.85;
+}
+.related-post-card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; /* Slightly smaller than main blog title */
+    font-weight: 600;
+    color: #1c1c1c;
+    margin-top: 10px;
+    margin-bottom: 0;
+    transition: color 0.3s ease;
+}
+.related-post-card:hover p {
+    color: #a8853d; /* Theme hover gold */
+}
+
+/* --------------------------------------------------- */
+/* CHECKOUT PAGE STYLES */
+/* --------------------------------------------------- */
+
+.checkout-container {
+    padding-top: 40px;
+    padding-bottom: 60px;
+    background-color: #f9f9f9; /* Light grey background */
+    font-family: 'Jost', sans-serif;
+    color: #333;
+    /* Remove body padding for checkout page specifically if header is hidden */
+    padding-top: 0 !important;
+}
+
+/* Specific body style when checkout is active - might need JS to add class to body */
+body.checkout-active {
+    padding-top: 0 !important;
+}
+
+
+.checkout-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-top: 40px; /* Add padding if header is hidden */
+}
+
+.checkout-logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.checkout-section {
+    background-color: #ffffff; /* White background for sections */
+    padding: 25px;
+    border-radius: 8px; /* Slightly rounded corners */
+    margin-bottom: 20px;
+    border: 1px solid #e5e5e5;
+}
+
+.checkout-section-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #1c1c1c;
+}
+
+.checkout-form-label {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.checkout-form-control {
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 10px 14px;
+    font-size: 14px;
+    box-shadow: none !important; /* Override bootstrap focus */
+    background-color: #fff; /* Ensure white background */
+}
+
+.checkout-form-control:focus {
+    border-color: #999;
+    box-shadow: none !important; /* Override bootstrap focus */
+}
+
+.checkout-form-select {
+     border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 10px 14px;
+    font-size: 14px;
+    box-shadow: none !important; /* Override bootstrap focus */
+    appearance: none; /* remove default arrow */
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 35px;
+    background-color: #fff; /* Ensure white background */
+}
+.checkout-form-select:focus {
+    border-color: #999;
+    box-shadow: none !important; /* Override bootstrap focus */
+}
+
+.checkout-form-check-label {
+    font-size: 14px;
+    padding-left: 5px; /* Space between checkbox and label */
+}
+.form-check-input:checked {
+    background-color: #1c1c1c; /* Dark check */
+    border-color: #1c1c1c;
+}
+.form-check-input:focus {
+     box-shadow: none !important;
+     border-color: #ccc;
+}
+
+
+.order-summary {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    position: sticky;
+    top: 40px; /* Adjust if header is shown or based on layout needs */
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.order-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.order-item-img-wrapper {
+    position: relative;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-right: 15px;
+    flex-shrink: 0; /* Prevent image shrinking */
+}
+
+.order-item-img {
+    width: 50px;
+    height: 65px; /* Adjust aspect ratio */
+    object-fit: cover;
+    border-radius: 6px;
+    display: block; /* Remove extra space below image */
+}
+
+.order-item-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #555;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.order-item-details {
+    flex-grow: 1;
+    font-size: 13px;
+    margin-right: 10px; /* Space before price */
+}
+.order-item-name {
+    font-weight: 500;
+    color: #1c1c1c;
+    margin-bottom: 2px;
+}
+.order-item-variant {
+    color: #777;
+    font-size: 12px;
+}
+.order-item-price {
+    font-weight: 500;
+    color: #1c1c1c;
+    font-size: 14px;
+    white-space: nowrap; /* Prevent price wrapping */
+}
+
+.discount-section .input-group {
+    margin-bottom: 20px;
+}
+.discount-section .form-control {
+    border-right: none; /* Remove border between input and button */
+}
+.discount-section .btn-apply {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 0 4px 4px 0;
+    font-weight: 500;
+}
+.discount-section .btn-apply:hover {
+     background-color: #d0d0d0;
+     border-color: #bbb;
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+}
+.summary-line strong {
+    color: #1c1c1c;
+}
+.total-line {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    color: #1c1c1c; /* Total text should be dark */
+}
+.total-line .currency-code {
+    font-size: 12px;
+    color: #777;
+    margin-right: 5px;
+}
+.total-line strong {
+    font-size: 20px; /* Make total value slightly larger */
+}
+
+.payment-method {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #fff; /* Ensure white background */
+}
+.payment-method .form-check {
+     min-height: auto; /* Override bootstrap default */
+     padding-left: 0; /* Remove padding for custom layout */
+}
+.payment-method .form-check-input[type="radio"] {
+     float: none; /* Override bootstrap */
+     margin-left: 0;
+     margin-right: 10px; /* Space between radio and label */
+     margin-top: 0.2em; /* Align vertically */
+}
+.payment-method label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+.payment-method-title {
+    font-weight: 500;
+    font-size: 14px;
+}
+.payment-icons {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+.payment-icons img {
+    height: 20px;
+    margin-left: 5px;
+    border: 1px solid #eee; /* Add subtle border to icons */
+}
+.payment-icons span {
+     margin-left: 5px;
+}
+
+
+.billing-address-options {
+     background-color: #f7f7f7; /* Slightly different background for options area */
+     border: 1px solid #e0e0e0;
+     border-radius: 6px;
+     padding: 0; /* Remove padding, handled by inner options */
+}
+.billing-address-option {
+    background-color: transparent; /* Options are transparent within container */
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px;
+    cursor: pointer;
+    margin-bottom: 0; /* No margin between options */
+    border-radius: 0; /* Remove inner border radius */
+}
+.billing-address-option:last-child {
+    border-bottom: none;
+}
+.billing-address-option .form-check {
+    min-height: auto;
+    padding-left: 0;
+}
+.billing-address-option .form-check-input[type="radio"] {
+     float: none;
+     margin-left: 0;
+     margin-right: 10px;
+     margin-top: 0.2em;
+}
+.billing-address-option label {
+    width: 100%;
+    display: block; /* Make label take full width */
+    cursor: pointer;
+}
+.billing-address-details {
+     border-top: 1px solid #e0e0e0;
+     padding-top: 15px;
+     margin-top: 15px;
+     background-color: #fff; /* White background for form */
+     padding: 20px;
+     border-radius: 0 0 6px 6px; /* Round bottom corners */
+}
+
+.btn-pay-now {
+    background-color: #333;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 15px;
+    border-radius: 6px;
+    width: 100%;
+    margin-top: 20px;
+    border: none;
+}
+.btn-pay-now:hover {
+     background-color: #1c1c1c;
+     color: white;
+}
+
+.footer-links {
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 30px; /* Add padding at the bottom */
+}
+.footer-links a {
+    font-size: 12px;
+    color: #555;
+    text-decoration: none;
+    margin: 0 8px;
+}
+.footer-links a:hover {
+    text-decoration: underline;
+    color: #1c1c1c;
+}
+
+/* Ensure right column order summary doesn't overlap footer on smaller screens */
+@media (max-width: 767px) {
+    .order-summary {
+        position: static; /* Remove sticky positioning */
+        margin-top: 20px;
+    }
+    .checkout-header {
+        padding-top: 20px;
+    }
+}
+/* --------------------------------------------------- */
+/* BLOG DETAIL PAGE STYLES (Updated) */
+/* --------------------------------------------------- */
+.blog-detail-page-container {
+    padding-top: 0; /* Remove top padding, now handled by row */
+    padding-bottom: 60px;
+    font-family: 'Jost', sans-serif;
+    color: #1c1c1c;
+}
+
+/* --- NEW: Now Reading Bar Styles --- */
+.now-reading-bar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 0;
+    position: sticky; /* Make it sticky */
+    top: 138px; /* Stick below the header */
+    z-index: 950; /* Below header, above content */
+    margin-bottom: 30px; /* Space below the bar */
+}
+.now-reading-text {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 15px; /* Space before share/nav */
+    flex-shrink: 1; /* Allow shrinking */
+}
+.blog-nav-buttons .btn {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    padding: 5px;
+    text-decoration: none;
+}
+.blog-nav-buttons .btn:hover:not(:disabled) {
+    color: #1c1c1c;
+}
+.blog-nav-buttons .btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+.nav-divider {
+    color: #e5e5e5;
+    margin: 0 5px;
+}
+
+/* --- END: Now Reading Bar Styles --- */
+
+/* Keep existing blog detail styles, but add a few */
+.blog-detail-nav {
+    display: none; /* Hide the old top nav, replaced by sticky bar */
+}
+
+.blog-detail-image {
+    max-height: 500px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.blog-detail-meta { /* Keep as is */ }
+.blog-detail-title { /* Keep as is */ }
+
+.blog-detail-content {
+    font-size: 16px; /* Adjust as desired */
+    line-height: 1.9;
+    color: #555;
+}
+.blog-detail-content p {
+    margin-bottom: 1.8rem;
+}
+.blog-detail-content h4 { /* Style for headings within content */
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: #1c1c1c;
+}
+.blog-embedded-image {
+    display: block; /* Center image if needed */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%; /* Ensure it doesn't overflow */
+    height: auto;
+}
+.blog-link-list {
+    margin: 20px 0; /* Add space around link list */
+}
+.blog-content-link {
+    display: block; /* Links on separate lines */
+    margin-bottom: 8px;
+    color: #a8853d; /* Link color */
+    text-decoration: underline;
+    font-weight: 500;
+}
+.blog-content-link:hover {
+    color: #1c1c1c;
+}
+.blog-numbered-list {
+    margin-left: 20px; /* Indent list */
+    margin-bottom: 1.8rem;
+}
+.blog-numbered-list li {
+    margin-bottom: 1rem; /* Space between list items */
+}
+.blog-numbered-list li strong { /* Style the bold part */
+    display: block; /* Put title on its own line */
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1c1c1c;
+}
+
+
+.blog-detail-footer { /* Keep as is */ }
+.blog-comment-section { /* Keep as is */ }
+.blog-comment-title { /* Keep as is */ }
+.blog-comment-input, .blog-comment-textarea { /* Keep as is */ }
+.blog-comment-moderation-note { /* Keep as is */ }
+.blog-comment-submit-btn { /* Keep as is */ }
+.related-posts-section { /* Keep as is */ }
+.related-post-card { /* Keep as is */ }
+
+/* Responsive adjustments for Now Reading Bar */
+@media (max-width: 767px) {
+    .now-reading-bar .blog-detail-share {
+        display: none; /* Hide share icons in bar on small screens */
+    }
+    .now-reading-text {
+        max-width: 60%; /* Allow more space for text */
+    }
+}
+/* --- Add/Update these styles in main.css --- */
+
+.blog-embedded-image {
+    display: block; /* Center image if needed */
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%; /* Ensure it doesn't overflow */
+    height: auto;
+    border: 1px solid #eee; /* Optional subtle border */
+}
+
+.blog-image-link:hover img {
+    opacity: 0.9; /* Slight hover effect for linked images */
+}
+
+.blog-content-link {
+    display: block; /* Default to block for lists */
+    margin-bottom: 8px;
+    color: #a8853d; /* Link color */
+    text-decoration: underline;
+    font-weight: 500;
+}
+.blog-content-link:hover {
+    color: #1c1c1c;
+}
+.blog-content-link.inline {
+    display: inline; /* Style for links within paragraphs */
+    margin-bottom: 0;
+    margin-left: 4px; /* Space before inline link */
+}
+
+/* Ensure headings inside lists look correct */
+.blog-numbered-list li strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #1c1c1c;
+    /* Prevent heading styles from applying here if they conflict */
+    font-family: 'Jost', sans-serif;
+    font-size: inherit; /* Inherit size from list item */
+    letter-spacing: normal;
+    text-transform: none;
+}
