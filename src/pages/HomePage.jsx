@@ -1,5 +1,5 @@
 // src/pages/HomePage.jsx
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo, useEffect } from 'react'; // Import useMemo and useEffect
 import { Container, Row, Col, Button, Carousel, Card, Tabs, Tab } from 'react-bootstrap';
 import Slider from 'react-slick';
 import ProductCard from '../components/product/ProductCard';
@@ -112,6 +112,16 @@ const SimpleBlogPostCard = ({ post, setPage }) => {
 };
 
 
+// --- Helper function to get day of the year (1-366) ---
+const getDayOfYear = (date = new Date()) => {
+    const start = new Date(date.getFullYear(), 0, 0);
+    const diff = date - start;
+    const oneDay = 1000 * 60 * 60 * 24;
+    return Math.floor(diff / oneDay);
+};
+// --- End Helper ---
+
+
 // --- HomePage Component ---
 const HomePage = ({ setPage, onCollectionItemClick }) => {
     const { selectedCurrency } = useContext(CurrencyContext);
@@ -122,21 +132,46 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
         return formatPrice(price, selectedCurrency.code);
     };
 
+    // --- Select Random, Available Product of the Week ---
+    const availableSarees = useMemo(() =>
+        sareeProducts.filter(p => p && p.availability !== 'Sold out')
+    , []); // Depends only on the initial sareeProducts list
+
+    // --- UPDATED LOGIC HERE ---
+    const productOfTheWeek = useMemo(() => {
+        if (availableSarees.length === 0) {
+            // Fallback if NO sarees are available
+            console.warn("No available sarees found for Product of the Week. Falling back.");
+            return sareeProducts[0] || null; // Use the first saree overall as fallback
+        }
+        // Get the current day number (1-366)
+        const dayOfYear = getDayOfYear();
+        // Use modulo to get a consistent index based on the day
+        const index = dayOfYear % availableSarees.length;
+        // console.log(`Day ${dayOfYear}, Index ${index}, Selecting: ${availableSarees[index]?.name}`); // Optional: Log selection
+        return availableSarees[index];
+    }, [availableSarees]); // Re-calculate only if availableSarees changes (which it won't after initial load)
+    // --- END Product of the Week Logic ---
+
     // Use slice(0, X) safely even if array is smaller
     const firstEightSarees = sareeProducts.slice(0, 8);
     const firstTwelveJewellery = jewelleryProducts.slice(0, 12);
     const firstThreeBlogs = blogPosts.slice(0, 3);
-    const productOfTheWeek = sareeProducts.find(p => p && String(p.id) === '24') || sareeProducts[0]; // Find by string ID '24'
-
 
     const [powQuantity, setPowQuantity] = useState(1);
     const handlePowQuantityChange = (amount) => {
         setPowQuantity(prev => Math.max(1, prev + amount));
     };
 
+    // Reset quantity if product of the week changes
+    React.useEffect(() => {
+        setPowQuantity(1);
+    }, [productOfTheWeek]);
+
+
     // Use details from the found product or fallback
     const powDetails = productOfTheWeek?.details || {
-        description: "Default description if product details are missing.",
+        description: "Details unavailable.",
         colors: "-", fabric: "-", technique: "-", measurements: "-", weight: "-", blousePiece: "-", disclaimer: "-", care: "-", shipping: "-"
     };
 
@@ -183,12 +218,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
         .product-of-week-details .nav-tabs .nav-link.active { color: #1c1c1c; border-bottom-color: #1c1c1c; background-color: transparent; }
         .product-of-week-details .tab-content { font-size: 13px; color: #555; line-height: 1.8; padding-top: 0; min-height: 100px; }
         .product-of-week-details .tab-content p { margin-bottom: 0.5rem; }
-        /* --- Keep explore-section styles defined in main.css --- */
-        /* .explore-section { ... } */
-        /* .explore-section::before { ... } */
-        /* .explore-content { ... } */
-        /* .explore-content p { ... } */
-        /* .explore-content .btn-explore { ... } */
         .info-section { background-color: #f9f9f9; padding: 30px 0; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; }
         .info-item { text-align: center; }
         .info-item img { height: 35px; margin-bottom: 10px; opacity: 0.7; }
@@ -294,65 +323,68 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
             {/* Product of the Week Section */}
             <Container className="homepage-section">
                 <h3 className="section-main-title">PRODUCT OF THE WEEK</h3>
-                <Row>
-                    <Col md={6}>
-                        {productOfTheWeek && <img src={productOfTheWeek.image1 || ''} alt={productOfTheWeek.name || 'Product'} className="img-fluid" />}
-                    </Col>
-                    <Col md={6}>
-                       {productOfTheWeek && productOfTheWeek.id && ( // Added ID check
-                         <div className="product-of-week-details w-100">
-                             <h5 style={{cursor: 'pointer'}} onClick={() => setPage(`product-detail-${productOfTheWeek.id}`)}>
-                                {productOfTheWeek.name}
-                             </h5>
-                             <p className="sku">SKU: W-195(C) CH(SA)</p> {/* Static SKU for example */}
-                             <p className="price">
-                                 {getFormattedPrice(powPriceINR)}
-                             </p>
-                            <div className="pow-quantity-selector">
-                                <button type="button" onClick={() => handlePowQuantityChange(-1)} disabled={powQuantity <= 1}> − </button>
-                                <span>{powQuantity}</span>
-                                <button type="button" onClick={() => handlePowQuantityChange(1)}> + </button>
+                {productOfTheWeek ? ( // Check if a product was selected
+                    <Row>
+                        <Col md={6}>
+                            <img src={productOfTheWeek.image1 || ''} alt={productOfTheWeek.name || 'Product'} className="img-fluid" />
+                        </Col>
+                        <Col md={6}>
+                           {productOfTheWeek.id && ( // Ensure product has an ID before rendering details
+                             <div className="product-of-week-details w-100">
+                                 <h5 style={{cursor: 'pointer'}} onClick={() => setPage(`product-detail-${productOfTheWeek.id}`)}>
+                                     {productOfTheWeek.name}
+                                 </h5>
+                                 <p className="sku">SKU: {productOfTheWeek.id}</p> {/* Display actual ID */}
+                                 <p className="price">
+                                     {getFormattedPrice(powPriceINR)}
+                                 </p>
+                                <div className="pow-quantity-selector">
+                                    <button type="button" onClick={() => handlePowQuantityChange(-1)} disabled={powQuantity <= 1}> − </button>
+                                    <span>{powQuantity}</span>
+                                    <button type="button" onClick={() => handlePowQuantityChange(1)}> + </button>
+                                </div>
+                                 <Tabs defaultActiveKey="details" id="pow-details-tabs" className="mb-3">
+                                    <Tab eventKey="details" title="Details">
+                                         <p>{powDetails.description}</p>
+                                         <p><strong>Colors:</strong> {powDetails.colors}</p>
+                                         <p><strong>Fabric:</strong> {powDetails.fabric}</p>
+                                         <p><strong>Technique:</strong> {powDetails.technique}</p>
+                                         <p><strong>Measurements:</strong> {powDetails.measurements}</p>
+                                         <p><strong>Weight:</strong> {powDetails.weight}</p>
+                                         <p><strong>Blouse Piece:</strong> {powDetails.blousePiece}</p>
+                                         <p className="mt-2"><small><strong>Disclaimer:</strong> {powDetails.disclaimer}</small></p>
+                                    </Tab>
+                                    <Tab eventKey="care" title="Care"><p>{powDetails.care}</p></Tab>
+                                    <Tab eventKey="shipping" title="Shipping"><p>{powDetails.shipping}</p></Tab>
+                                 </Tabs>
+                                {/* Add to Cart (functionality needs CartContext) */}
+                                <Button className="btn-action btn-add-to-cart-week">ADD TO CART</Button>
+                                {/* Buy Now (functionality needs CartContext and navigation) */}
+                                <Button className="btn-action btn-buy-now-week">BUY IT NOW</Button>
+                                 <div className="text-center">
+                                     {/* Navigate on View Details click */}
+                                    <Button
+                                        variant="link"
+                                        className="btn-view-details-week"
+                                        onClick={() => setPage(`product-detail-${productOfTheWeek.id}`)}
+                                    >
+                                        View product details
+                                    </Button>
+                                </div>
                             </div>
-                             <Tabs defaultActiveKey="details" id="pow-details-tabs" className="mb-3">
-                                <Tab eventKey="details" title="Details">
-                                     <p>{powDetails.description}</p>
-                                     <p><strong>Colors:</strong> {powDetails.colors}</p>
-                                     <p><strong>Fabric:</strong> {powDetails.fabric}</p>
-                                     <p><strong>Technique:</strong> {powDetails.technique}</p>
-                                     <p><strong>Measurements:</strong> {powDetails.measurements}</p>
-                                     <p><strong>Weight:</strong> {powDetails.weight}</p>
-                                     <p><strong>Blouse Piece:</strong> {powDetails.blousePiece}</p>
-                                     <p className="mt-2"><small><strong>Disclaimer:</strong> {powDetails.disclaimer}</small></p>
-                                </Tab>
-                                <Tab eventKey="care" title="Care"><p>{powDetails.care}</p></Tab>
-                                <Tab eventKey="shipping" title="Shipping"><p>{powDetails.shipping}</p></Tab>
-                            </Tabs>
-                            {/* Add to Cart (functionality needs CartContext) */}
-                            <Button className="btn-action btn-add-to-cart-week">ADD TO CART</Button>
-                            {/* Buy Now (functionality needs CartContext and navigation) */}
-                            <Button className="btn-action btn-buy-now-week">BUY IT NOW</Button>
-                             <div className="text-center">
-                                 {/* Navigate on View Details click */}
-                                <Button
-                                    variant="link"
-                                    className="btn-view-details-week"
-                                    onClick={() => setPage(`product-detail-${productOfTheWeek.id}`)}
-                                >
-                                    View product details
-                                </Button>
-                            </div>
-                        </div>
-                       )}
-                    </Col>
-                </Row>
+                           )}
+                        </Col>
+                    </Row>
+                ) : (
+                    <Row><Col><p className="text-center text-muted">No products available to feature this week.</p></Col></Row> // Refined fallback message
+                )}
             </Container>
 
-            {/* Explore Section - Using Inline Style */}
+            {/* Explore Section */}
             <div
                 className="explore-section homepage-section px-0"
                 style={{
                     backgroundImage: "url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369')",
-                    // Add other necessary background styles if removed from CSS
                      backgroundSize: 'cover',
                      backgroundPosition: 'center'
                 }}
@@ -387,7 +419,7 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                      <Row>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/1_free_shipping_2.png?1635" alt="Free Shipping" /><p>Free Shipping</p></Col>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/2_fall_and_picot_services.png?1559" alt="Fall and Picot Services" /><p>Fall and Picot Services</p></Col>
-                         <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/3_handmade.png?1559" alt="Hand Made" /><p>Hand Made</p></Col>
+                         <Col className="info-item"><img src="httpsG://cdn.shopify.com/s/files/1/0082/5091/6915/files/3_handmade.png?1559" alt="Hand Made" /><p>Hand Made</p></Col>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/4_pure_fabrics.png?1559" alt="Pure Fabrics" /><p>Pure Fabrics</p></Col>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/5_quality_assurance_1.png?1632" alt="Quality Assurance" /><p>Quality Assurance</p></Col>
                      </Row>

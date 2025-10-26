@@ -10,11 +10,25 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevItems) => {
       const itemExists = prevItems.find((item) => item.id === product.id);
       if (itemExists) {
+        // If item exists, update quantity and MERGE options
         return prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id ? {
+              ...item, // Keep existing item properties
+              quantity: item.quantity + (product.quantity || 1),
+              // --- FIX: Merge existing options with new options ---
+              // This ensures if Fall & Picot was added later, it persists.
+              // If product.options is empty {}, it won't overwrite existing.
+              options: { ...(item.options || {}), ...(product.options || {}) }
+            } : item
         );
       }
-      return [...prevItems, { ...product, quantity: 1 }];
+      // If item is new, add it with specified quantity AND options
+      return [...prevItems, {
+          ...product,
+          quantity: product.quantity || 1,
+          // --- FIX: Ensure options are included when adding new item ---
+          options: product.options || {} // Make sure options object exists
+        }];
     });
     setIsCartOpen(true);
   };

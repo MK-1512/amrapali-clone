@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState, useContext, useEffect } from 'react'; // Added useEffect
+import React, { useState, useContext, useEffect } from 'react';
 import Header from './components/common/Header';
 import HomePage from './pages/HomePage';
 import SareesPage from './pages/SareesPage';
@@ -9,8 +9,8 @@ import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { AuthProvider, AuthContext } from './context/AuthContext';
-import { RecentlyViewedProvider } from './context/RecentlyViewedContext'; // --- 1. IMPORT PROVIDER
-import RecentlyViewed from './components/product/RecentlyViewed'; // --- 2. IMPORT COMPONENT
+import { RecentlyViewedProvider } from './context/RecentlyViewedContext';
+import RecentlyViewed from './components/product/RecentlyViewed';
 import Footer from './components/common/Footer';
 import GiftCardPage from './pages/GiftCardPage';
 import WishlistButton from './components/common/WishlistButton';
@@ -19,7 +19,8 @@ import JewelleryPage from './pages/JewelleryPage';
 import MeetTheTeamPage from './pages/MeetTheTeamPage';
 import TeamMemberDetailPage from './pages/TeamMemberDetailPage';
 import BlogPage from './pages/BlogPage';
-import BlogDetailPage from './pages/BlogDetailPage';
+// Removed BlogDetailPage import as BlogPage handles detail view now
+// import BlogDetailPage from './pages/BlogDetailPage';
 import BestsellersPage from './pages/BestsellersPage';
 import LoginPage from './pages/LoginPage';
 import ProductList from './components/product/ProductList';
@@ -31,8 +32,8 @@ import SearchBar from './components/common/SearchBar';
 import OurStoryPage from './pages/OurStoryPage';
 import AllCollectionsPage from './pages/AllCollectionsPage';
 import CheckoutPage from './pages/CheckoutPage';
-import ProductDetailPage from './pages/ProductDetailPage'; // Import the new page
-import { allProducts } from './utils/searchUtils'; // Ensure this is imported
+import ProductDetailPage from './pages/ProductDetailPage';
+import { allProducts } from './utils/searchUtils';
 
 // --- Import Category Pages ---
 import NeckpiecesPage from './pages/jewellery/NeckpiecesPage';
@@ -46,6 +47,7 @@ import LinenSareesPage from './pages/sarees/LinenSareesPage';
 import ChanderiSareesPage from './pages/sarees/ChanderiSareesPage';
 import NewArrivalsSareesPage from './pages/NewArrivalsSareesPage';
 import FallPicotPage from './pages/FallPicotPage';
+import FallPicotDetailPage from './pages/FallPicotDetailPage'; // <-- Import the new detail page
 import FaqPage from './pages/FaqPage';
 import ShippingPolicyPage from './pages/ShippingPolicyPage';
 import RefundPolicyPage from './pages/RefundPolicyPage';
@@ -64,20 +66,25 @@ function AppContent() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [viewingPostId, setViewingPostId] = useState(null);
-  const [selectedProductId, setSelectedProductId] = useState(null); // NEW state for product detail view
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedServiceId, setSelectedServiceId] = useState(null); // <-- State for service detail
 
   // Add useEffect to manage body class based on checkout/product detail page
   useEffect(() => {
-    if (currentPage === 'checkout' || currentPage === 'product-detail') {
+    // Add active class if on checkout, product detail, or service detail page
+    if (currentPage === 'checkout' || currentPage === 'product-detail' || currentPage === 'service-detail') {
       document.body.classList.add(`${currentPage}-active`);
     } else {
+      // Remove specific classes if not on those pages
       document.body.classList.remove('checkout-active');
       document.body.classList.remove('product-detail-active');
+      document.body.classList.remove('service-detail-active'); // Ensure this is also removed
     }
     // Cleanup function
     return () => {
       document.body.classList.remove('checkout-active');
       document.body.classList.remove('product-detail-active');
+      document.body.classList.remove('service-detail-active');
     };
   }, [currentPage]); // Re-run when currentPage changes
 
@@ -86,7 +93,8 @@ function AppContent() {
     if (isLoggedIn) return;
     if (viewingMemberId) setViewingMemberId(null);
     if (viewingPostId) setViewingPostId(null);
-    setSelectedProductId(null); // Clear product view on login navigation
+    setSelectedProductId(null);
+    setSelectedServiceId(null); // Clear service view
     setCurrentPage('login');
     window.scrollTo(0, 0);
   };
@@ -94,6 +102,7 @@ function AppContent() {
   const handleLogout = () => {
     logout();
     setCurrentPage('home');
+    setSelectedServiceId(null); // Clear service view on logout
     window.scrollTo(0, 0);
   };
 
@@ -108,7 +117,8 @@ function AppContent() {
 
    const handleSelectCollection = (collectionName) => {
       setSelectedCollection(collectionName);
-      setSelectedProductId(null); // Clear product view
+      setSelectedProductId(null);
+      setSelectedServiceId(null); // Clear service view
       if (collectionName) {
         setCurrentPage('collection');
         window.scrollTo(0, 0);
@@ -122,17 +132,18 @@ function AppContent() {
   const handleNavigation = (pageNameOrId) => {
       if (isSearchOpen) setIsSearchOpen(false);
       if (pageNameOrId !== 'collection') setSelectedCollection(null);
-      // Clear specific views unless navigating to them
+      // Clear specific views unless navigating TO them
       if (!pageNameOrId.startsWith('product-detail-')) setSelectedProductId(null);
       if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null);
       if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
+      if (!pageNameOrId.startsWith('service-detail-')) setSelectedServiceId(null); // <-- Clear service ID if not navigating to it
 
 
       if (isLoggedIn && (pageNameOrId === 'login' || pageNameOrId === 'register')) {
           pageNameOrId = 'home';
       }
 
-       // --- NEW: Product Detail Logic ---
+       // --- Product Detail Logic ---
        if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('product-detail-')) {
             const prodId = pageNameOrId.split('-')[2];
             const productExists = allProducts.some(p => p && String(p.id) === String(prodId));
@@ -143,22 +154,42 @@ function AppContent() {
                 setViewingMemberId(null);
                 setViewingPostId(null);
                 setSelectedCollection(null);
+                setSelectedServiceId(null); // <-- Reset service ID
             } else {
                 console.warn("Invalid product ID:", pageNameOrId);
                 setCurrentPage('shop'); // Fallback
             }
        }
+       // --- Service Detail Logic ---
+       else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('service-detail-')) {
+            const serviceId = pageNameOrId.substring('service-detail-'.length); // Get ID after prefix
+            // Check if it's the known service ID
+            if (serviceId === 'fall-picot-service') {
+                setSelectedServiceId(serviceId);
+                setCurrentPage('service-detail');
+                // Reset other specific views
+                setSelectedProductId(null);
+                setViewingMemberId(null);
+                setViewingPostId(null);
+                setSelectedCollection(null);
+            } else {
+                 console.warn("Invalid service ID:", pageNameOrId);
+                 setCurrentPage('shop'); // Fallback or appropriate page like 'fall-picot' list
+            }
+       }
+       // --- END Service Detail Logic ---
+
        // Team Member Logic
        else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('team-member-detail-')) {
-            const memberId = pageNameOrId.split('-')[3]; // Assuming format 'team-member-detail-<id>'
-             // Basic check if memberId exists (can improve with actual data check)
+            const memberId = pageNameOrId.split('-')[3];
             if (memberId) {
                 setViewingMemberId(memberId);
-                setCurrentPage('team-member-detail'); // Set a generic page key if needed, or rely on viewingMemberId
+                setCurrentPage('team-member-detail');
                 // Ensure other views are reset
                 setSelectedProductId(null);
                 setViewingPostId(null);
                 setSelectedCollection(null);
+                setSelectedServiceId(null); // <-- Reset service ID
             } else {
                  console.warn("Invalid team member ID:", pageNameOrId);
                  setCurrentPage('meet-the-team'); // Fallback
@@ -174,6 +205,7 @@ function AppContent() {
                setSelectedProductId(null);
                setViewingMemberId(null);
                setSelectedCollection(null);
+               setSelectedServiceId(null); // <-- Reset service ID
            } else {
                console.warn("Invalid blog post ID:", pageNameOrId);
                setCurrentPage('blog'); // Fallback
@@ -182,10 +214,11 @@ function AppContent() {
        // Standard Page Navigation
        else if (typeof pageNameOrId === 'string') {
            setCurrentPage(pageNameOrId);
-           // Clear specific views if navigating to a standard page
+           // Clear ALL specific views if navigating to a standard page
            setSelectedProductId(null);
            setViewingMemberId(null);
            setViewingPostId(null);
+           setSelectedServiceId(null); // <-- Reset service ID
             if (pageNameOrId !== 'collection') setSelectedCollection(null);
        }
 
@@ -221,8 +254,10 @@ function AppContent() {
           "SMART STAPLES - A WORKWEAR EDIT": { title: "SMART STAPLES - A WORKWEAR EDIT", subtitle: "Functional | Minimalistic | Contemporary\nPresenting a workwear collective comprising simple, clean-lined, versatile drapes that will go a long way in making a striking impression at work and beyond." },
       };
       if (collectionDetails[upperCollectionName]) return collectionDetails[upperCollectionName];
+      // Simple fallback for collection title if not found in details map
       const titlePart = collectionName.split('-')[0].trim();
-      return { title: titlePart.charAt(0).toUpperCase() + titlePart.slice(1).toLowerCase(), subtitle: "" };
+      const formattedTitle = titlePart.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+      return { title: formattedTitle, subtitle: "Explore our collection." };
   };
 
   const renderPage = () => {
@@ -230,11 +265,19 @@ function AppContent() {
      if (currentPage === 'product-detail' && selectedProductId) {
         return <ProductDetailPage productId={selectedProductId} setPage={handleNavigation} />;
     }
-     if (currentPage === 'team-member-detail' && viewingMemberId) { // Rely on viewingMemberId to render
+    // --- Render Service Detail Page ---
+     if (currentPage === 'service-detail' && selectedServiceId === 'fall-picot-service') {
+        return <FallPicotDetailPage setPage={handleNavigation} />;
+    }
+    // --- End Service Detail ---
+     if (currentPage === 'team-member-detail' && viewingMemberId) {
         return <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => handleNavigation('meet-the-team')} />;
     }
     if (currentPage === 'blog-detail' && viewingPostId) {
-        return <BlogDetailPage postId={viewingPostId} setPage={handleNavigation} />;
+        // Pass postId and setPage directly to BlogDetailPage if it's separate
+        // return <BlogDetailPage postId={viewingPostId} setPage={handleNavigation} />;
+        // OR If BlogPage handles detail view:
+         return <BlogPage setPage={handleNavigation} currentPage={`blog-detail-${viewingPostId}`} />;
     }
 
     // Render generic Collection page
@@ -248,7 +291,6 @@ function AppContent() {
                     subtitle={subtitleLines.map((line, index) => <React.Fragment key={index}>{line}{index < subtitleLines.length - 1 && <br />}</React.Fragment>)}
                  />
                 <FilterBar handleOpenFilter={handleOpenFilter} />
-                 {/* Pass setPage down to ProductList */}
                 <ProductList collectionName={selectedCollection} setPage={handleNavigation} />
             </>
         );
@@ -263,7 +305,8 @@ function AppContent() {
         'our-story', 'meet-the-team', 'team-member-detail',
         'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
         'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-        'checkout', 'product-detail' // <-- ADDED product-detail
+        'checkout', 'product-detail',
+        'service-detail' // <-- Add service detail
     ];
     if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
          return <LoginPage setPage={handleNavigation} />;
@@ -273,7 +316,6 @@ function AppContent() {
     }
 
     // Switch statement for standard pages
-    // Pass setPage prop to pages containing ProductList or needing navigation
     switch (currentPage) {
         case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
         case 'gift-card': return <GiftCardPage />;
@@ -288,8 +330,9 @@ function AppContent() {
         case 'sarees-silk-tussar': return <SilkTussarSareesPage setPage={handleNavigation} />;
         case 'sarees-linen': return <LinenSareesPage setPage={handleNavigation} />;
         case 'sarees-chanderi': return <ChanderiSareesPage setPage={handleNavigation} />;
-        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />;
-        case 'blog': return <BlogPage setPage={handleNavigation} />;
+        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />; // Pass setPage here
+        // If BlogPage handles the list view:
+        case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />;
         case 'our-story': return <OurStoryPage />;
         case 'bestsellers': return <BestsellersPage setPage={handleNavigation} />;
         case 'meet-the-team': return <MeetTheTeamPage onSelectMember={(id) => handleNavigation(`team-member-detail-${id}`)} />;
@@ -312,39 +355,43 @@ function AppContent() {
   };
 
   // Determine header/footer visibility and style
-   const pagesThatMightStartTransparent = [ /* ... keep as is ... */
+   const pagesThatMightStartTransparent = [
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
        'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
        'new-arrivals-sarees',
        'new-arrivals-jewellery',
-       'fall-picot',
+       'fall-picot', // Include fall-picot list page
        'all-collections'
    ];
-   const staticSolidHeaderPages = [ /* ... keep as is ... */
+   const staticSolidHeaderPages = [
        'login', 'register', 'our-story', 'faq',
        'shipping-policy', 'refund-policy', 'contact',
        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
        'meet-the-team', 'team-member-detail',
        'blog',
        'blog-detail',
-       'checkout', 'product-detail' // Added product-detail
+       'checkout', 'product-detail',
+       'service-detail' // <-- Add service detail page
    ];
    const isSolidHeaderForced = isSearchOpen ||
                               !!viewingMemberId ||
                               !!viewingPostId ||
-                              !!selectedProductId || // Added product ID check
+                              !!selectedProductId ||
+                              !!selectedServiceId || // <-- Add service ID check
                               staticSolidHeaderPages.includes(currentPage) ||
                               !pagesThatMightStartTransparent.includes(currentPage);
-   const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId && !selectedProductId;
+   const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId && !selectedProductId && !selectedServiceId; // <-- Add service ID check
 
-   // Hide header/footer on checkout and product detail
-   const hideHeader = currentPage === 'checkout'; // Only hide header on checkout for now
+   // Hide header/footer on checkout
+   const hideHeader = currentPage === 'checkout';
    const hideFooter = currentPage === 'checkout';
 
-  // --- 3. DEFINE PAGES TO HIDE RECENTLY VIEWED ON ---
-  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout'];
+  // --- FIX: Remove 'service-detail' from pages hiding Recently Viewed ---
+  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout']; // Removed 'service-detail'
   const showRecentlyViewed = !hideRecentlyViewedOn.includes(currentPage);
+  // --- END FIX ---
+
 
   return (
     <div className={`App ${isSolidHeaderForced || hideHeader ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
@@ -354,7 +401,7 @@ function AppContent() {
             currentPage={currentPage}
             resetTeamView={() => setViewingMemberId(null)}
             handleSelectCollection={handleSelectCollection}
-            viewingMemberId={viewingMemberId} // Pass viewingMemberId
+            viewingMemberId={viewingMemberId}
             isSearchOpen={isSearchOpen}
             toggleSearch={toggleSearch}
             handleLogout={handleLogout}
@@ -372,14 +419,12 @@ function AppContent() {
        )}
       <main>
         {renderPage()}
-        
-        {/* --- 4. RENDER RECENTLY VIEWED COMPONENT --- */}
+        {/* Recently Viewed will now show on service-detail page */}
         {showRecentlyViewed && <RecentlyViewed setPage={handleNavigation} />}
       </main>
 
       {/* Global Components */}
       <CartDrawer setPage={handleNavigation} />
-      {/* Pass handleNavigation to WishlistProvider */}
       <WishlistModal handleNavClick={handleNavigation} />
       <CurrencyDropdown />
       <WishlistButton />
@@ -391,17 +436,17 @@ function AppContent() {
   );
 }
 
-// --- 5. WRAP APPCONTENT IN THE NEW PROVIDER ---
+// Wrap AppContent in Providers
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <CurrencyProvider>
-          <RecentlyViewedProvider> {/* Add provider here */}
+          <RecentlyViewedProvider>
             <WishlistProvider>
                <AppContent />
             </WishlistProvider>
-          </RecentlyViewedProvider> {/* Close provider */}
+          </RecentlyViewedProvider>
         </CurrencyProvider>
       </CartProvider>
     </AuthProvider>

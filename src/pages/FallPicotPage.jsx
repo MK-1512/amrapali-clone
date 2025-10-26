@@ -1,85 +1,55 @@
 // src/pages/FallPicotPage.jsx
-import React, { useState, useContext } from 'react'; // <-- IMPORT useContext
+import React, { useState, useContext } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 import FallPicotHeroBanner from '../components/common/FallPicotHeroBanner';
-import { CurrencyContext } from '../context/CurrencyContext'; // <-- NEW
-import { formatPrice } from '../utils/currencyUtils'; // <-- NEW
-// No longer need ProductCard for this simple display
+import { CurrencyContext } from '../context/CurrencyContext';
+import { formatPrice } from '../utils/currencyUtils';
+import ProductCard from '../components/product/ProductCard'; // <-- Import ProductCard
 
 // Define the Fall & Picot product/service details
 const fallPicotItem = {
-  id: 'fall-picot-service',
+  id: 'fall-picot-service', // Unique ID
   name: "Fall & Picot",
   price: 125, // Price is hardcoded in INR
   originalPrice: null,
-  image1: "https://www.amrapaliboutique.in/cdn/shop/products/fall_and_pico_image_1_900x.png?v=1570130620", // Use the local path
-  // image2 is not needed if we don't use ProductCard hover
+  image1: "https://www.amrapaliboutique.in/cdn/shop/products/fall_and_pico_image_1_900x.png?v=1570130620",
+  // Add image2 if you want hover effect (can be same as image1)
+  image2: "https://www.amrapaliboutique.in/cdn/shop/products/fall_and_pico_image_1_900x.png?v=1570130620",
   tags: ["Service"],
   availability: "Available",
-  // reviews: 224 // Add back if you display them
 };
 
-const FallPicotPage = () => {
+// Accept setPage prop
+const FallPicotPage = ({ setPage }) => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const handleOpenFilter = () => setIsFilterOpen(true);
     const handleCloseFilter = () => setIsFilterOpen(false);
-    
-    const { selectedCurrency } = useContext(CurrencyContext); // <-- NEW
 
-    // Helper to format a single price
-    const getFormattedPrice = (price) => {
-        if (!price) return '';
-        // Pass the price (in INR) and the selected currency code
-        return formatPrice(price, selectedCurrency.code); 
-    };
+    // Currency context is needed if ProductCard uses it, otherwise optional here
+    // const { selectedCurrency } = useContext(CurrencyContext);
+    // const getFormattedPrice = (price) => formatPrice(price, selectedCurrency.code);
+
+    // Navigation is now handled by ProductCard internally linking to product detail
+    // and its Quick View modal uses setPage
 
     return (
         <>
             <FallPicotHeroBanner />
-            {/* FilterBar might be optional here */}
             <FilterBar handleOpenFilter={handleOpenFilter} />
 
             <Container className="product-list-container py-5">
-                 {/* Display Single Item Directly - No Hover Effect */}
                  <Row className="justify-content-center">
-                    {/* Centered column, adjust width as needed */}
                     <Col xs={6} sm={4} md={3} className="mb-4">
-                         {/* Simple div structure */}
-                         <div className="text-center"> {/* Basic centering */}
-                             <div className="product-image-container mb-2"> {/* Optional: reuse class for border */}
-                                <img src={fallPicotItem.image1} alt={fallPicotItem.name} className="img-fluid" />
-                             </div>
-                             <div className="product-info"> {/* Reuse class for styling */}
-                                <h6 className="product-name">{fallPicotItem.name}</h6>
-                                <p className="product-price">
-                                    {getFormattedPrice(fallPicotItem.price)} {/* <-- USE FORMATTED PRICE */}
-                                </p>
-                                {/* Add review stars if needed */}
-                                {/* Example: */}
-                                {/* <div className="product-rating justify-content-center">
-                                    <span className="stars">★★★★★</span>
-                                    <span className="review-count small ms-2">224 reviews</span>
-                                </div> */}
-                             </div>
-                         </div>
+                         {/* --- Use ProductCard --- */}
+                         <ProductCard
+                             product={fallPicotItem}
+                             setPage={setPage} // Pass setPage for Quick View's "View Details"
+                         />
+                         {/* --- End ProductCard --- */}
                     </Col>
                  </Row>
-
-                 {/* Recently Viewed Section Placeholder */}
-                 {/*
-                 <Row className="mt-5">
-                    <Col>
-                        <h4 className="text-center" style={{fontFamily: "'Cormorant Garamond', serif", fontWeight: 600}}>
-                            RECENTLY VIEWED
-                        </h4>
-                    </Col>
-                 </Row>
-                 <Row> */}
-                     {/* Add ProductCard components for recently viewed items here */}
-                 {/* </Row> */}
-
             </Container>
 
             <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />

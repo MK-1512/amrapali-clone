@@ -45,6 +45,10 @@ const CartDrawer = ({ setPage }) => {
                 <div className="ms-3 flex-grow-1">
                   <h6>{item.name}</h6>
                   {/* *** Ensure item.price exists *** */}
+                  {/* --- FIX 3: Display options --- */}
+                  {item.options && item.options['Fall & Picot'] && (
+                      <small className="d-block text-muted"> + Fall & Picot</small>
+                  )}
                   <p>{item.quantity} x {getFormattedPrice(item.price || 0)}</p>
                 </div>
                 <button className="btn btn-sm" onClick={() => removeFromCart(item.id)}>×</button>

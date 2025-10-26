@@ -4361,3 +4361,214 @@ body.product-detail-active {
     opacity: 0.3;
     cursor: default;
 }
+
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+}
+
+.product-image-container .base-image,
+.product-image-container .hover-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.product-image-container .hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+/* This controls the image swap on hover */
+.product-card:hover .product-image-container .hover-image {
+    opacity: 1;
+}
+
+.product-card:hover .product-image-container .base-image {
+    opacity: 0;
+}
+
+/* Product actions (buttons) */
+.product-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    z-index: 2;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+
+    /* Start hidden (slid down) */
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    /* Prevent actions from being clickable when hidden */
+    pointer-events: none;
+}
+
+/* This controls the actions appearing on hover */
+.product-card:hover .product-actions {
+    /* Slide in from bottom */
+    transform: translateY(0);
+    opacity: 1;
+     /* Make actions clickable when visible */
+    pointer-events: auto;
+}
+
+/* ... rest of your main.css ... */
+
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+}
+
+.product-image-container .base-image,
+.product-image-container .hover-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.product-image-container .hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+/* --- FIX: Use .hovered class for image swap --- */
+.product-image-container.hovered .hover-image {
+    opacity: 1;
+}
+
+.product-image-container.hovered .base-image {
+    opacity: 0;
+}
+/* --- END FIX --- */
+
+
+/* Product actions (buttons) - Still use :hover on parent card */
+.product-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    z-index: 2;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+
+    /* Start hidden (slid down) */
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Use :hover on the main card to show actions */
+.product-card:hover .product-actions {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ... rest of main.css ... */
+
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+}
+
+.product-image-container .base-image,
+.product-image-container .hover-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.product-image-container .hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+/* --- Use :hover on the PARENT (.product-card) to swap images --- */
+.product-card:hover .product-image-container .hover-image {
+    opacity: 1;
+}
+
+.product-card:hover .product-image-container .base-image {
+    opacity: 0;
+}
+/* --- END --- */
+
+
+/* Product actions (buttons) - Still use :hover on parent card */
+.product-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    z-index: 2;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.product-card:hover .product-actions {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ... rest of main.css ... */
+
+/* src/assets/css/main.css */
+/* Add this if you want hover effects on the simple div */
+.product-card-like {
+    transition: box-shadow 0.3s ease;
+}
+.product-card-like:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.product-card-like .product-name {
+     transition: color 0.3s ease;
+}
+.product-card-like:hover .product-name {
+    color: #a8853d; /* Theme hover color */
+}

@@ -1,5 +1,5 @@
 // src/components/product/ProductCard.jsx
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react'; // Import useRef and useEffect
 import { CartContext } from '../../context/CartContext';
 import { WishlistContext } from '../../context/WishlistContext';
 import ProductModal from './ProductModal';
@@ -13,6 +13,7 @@ const ProductCard = ({ product, setPage }) => {
     const { addToCart } = useContext(CartContext);
     const { selectedCurrency } = useContext(CurrencyContext);
     const { addToWishlist, isProductInWishlist } = useContext(WishlistContext);
+    const [imageKey, setImageKey] = useState(0); // State to force re-render
 
     if (!product || !product.id) {
         console.warn("ProductCard received invalid product data:", product);
@@ -22,32 +23,44 @@ const ProductCard = ({ product, setPage }) => {
     const isInWishlist = isProductInWishlist(product.id);
 
     const handleOpenModal = (e) => {
-        e.stopPropagation(); // Prevent navigation
+        e.stopPropagation(); // Prevent navigation click
         setShowModal(true);
     };
-    const handleCloseModal = () => setShowModal(false);
 
-    // Navigation Handler
+    // Increment key on modal close to force re-render
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setImageKey(prevKey => prevKey + 1); // Increment key
+        setIsHovered(false); // Reset internal state
+    };
+
+
+    // --- FIX: Add conditional logic for navigation ---
     const handleNavigateToDetail = (e) => {
-        // Allow default link behavior if it's explicitly an anchor, otherwise prevent if it's div/h6 etc.
         if (e.target.tagName !== 'A') {
              e.preventDefault();
         }
-        e.stopPropagation(); // Prevent potential nested click issues if needed
+        e.stopPropagation();
 
         if (setPage && product && product.id) {
-            setPage(`product-detail-${product.id}`);
+            // Check if it's the Fall & Picot service
+            if (product.id === 'fall-picot-service') {
+                setPage(`service-detail-${product.id}`); // Navigate to service detail page
+            } else {
+                setPage(`product-detail-${product.id}`); // Navigate to product detail page
+            }
         } else if (!setPage) {
             console.error("setPage function not passed to ProductCard for product:", product.name);
         }
     };
+    // --- END FIX ---
 
     const getFormattedPrice = (price) => {
         if (price === null || price === undefined) return '';
         return formatPrice(price, selectedCurrency.code);
     };
 
-    const displayImage1 = product.image1 || 'https://placehold.co/600x800/EEE/31343C?text=Image+1';
+    const displayImage1 = product.image1 || 'https://placehold.co/600x800/EEE/3134C?text=Image+1';
     const displayImage2 = product.image2 || displayImage1;
 
     return (
@@ -55,13 +68,12 @@ const ProductCard = ({ product, setPage }) => {
             className="product-card"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            // REMOVED onClick={handleNavigateToDetail} from here
         >
-            {/* --- Make Image Container clickable --- */}
             <div
-                className="product-image-container"
-                onClick={handleNavigateToDetail} // Navigate on image click
-                style={{ cursor: 'pointer'}} // Indicate clickable
+                key={imageKey} // Force re-render on modal close
+                className="product-image-container" // Rely on CSS :hover for image swap
+                onClick={handleNavigateToDetail}
+                style={{ cursor: 'pointer'}}
             >
                 <img
                     src={displayImage1}
@@ -75,13 +87,12 @@ const ProductCard = ({ product, setPage }) => {
                 />
                 {product.availability === 'Sold out' && <span className="sold-out-badge">Sold Out</span>}
 
-                <div className={`product-actions ${isHovered ? 'visible' : ''}`}>
-                    {/* Keep stopPropagation here */}
+                <div className="product-actions">
                     <button className="btn-quick-view" onClick={handleOpenModal}>Quick View</button>
                     <button
                         className="btn-add-to-cart-grid"
                          onClick={(e) => {
-                            e.stopPropagation();
+                            e.stopPropagation(); // Prevent card navigation
                             addToCart(product);
                          }}
                         disabled={product.availability === 'Sold out'}
@@ -93,7 +104,7 @@ const ProductCard = ({ product, setPage }) => {
                  <button
                     className={`btn-product-wishlist ${isInWishlist ? 'added' : ''}`}
                      onClick={(e) => {
-                        e.stopPropagation();
+                        e.stopPropagation(); // Prevent card navigation
                         addToWishlist(product);
                      }}
                     aria-label={isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
@@ -103,17 +114,16 @@ const ProductCard = ({ product, setPage }) => {
                 </button>
             </div>
             <div className="product-info">
-                 {/* --- Make Name clickable --- */}
                  <h6
                     className="product-name"
-                    onClick={handleNavigateToDetail} // Navigate on name click
-                    style={{ cursor: 'pointer'}} // Indicate clickable
+                    onClick={handleNavigateToDetail} // Make name clickable too
+                    style={{ cursor: 'pointer'}}
                  >
                     {product.name}
                  </h6>
                 <p className="product-price">
                     {getFormattedPrice(product.price)}
-                    {product.originalPrice != null && // Check originalPrice is not null/undefined
+                    {product.originalPrice != null &&
                         <span className="text-muted text-decoration-line-through ms-2 original-price">
                             {getFormattedPrice(product.originalPrice)}
                         </span>
