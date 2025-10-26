@@ -64,9 +64,14 @@ const ProductCard = ({ product, setPage }) => {
                 style={{ cursor: 'pointer'}} // Indicate clickable
             >
                 <img
-                    src={isHovered ? displayImage2 : displayImage1}
+                    src={displayImage1}
                     alt={product.name}
                     className="img-fluid base-image"
+                />
+                <img
+                    src={displayImage2}
+                    alt={`${product.name} (Hover)`}
+                    className="img-fluid hover-image"
                 />
                 {product.availability === 'Sold out' && <span className="sold-out-badge">Sold Out</span>}
 

@@ -2,7 +2,31 @@
 
 // Extracted from video: Screen Recording 2025-10-21 at 6.48.46 PM.mov
 // Collection: SMART STAPLES - A Workwear Edit
+const defaultSareeDetails = {
 
+description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+colors: "As shown",
+
+fabric: "Pure Handloom Fabric (Specific type varies)",
+
+technique: "Handloom",
+
+weavingCluster: "India (Specific region varies)",
+
+measurements: "Approx. 6.30 m x 1.12 m",
+
+weight: "Approx. 500-800 gms.",
+
+blousePiece: "Yes (in running)",
+
+disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
 export const smartStaplesProducts = [
   // --- Page 1 (Products 1-13) ---
   {
@@ -15,6 +39,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1302,
@@ -26,6 +51,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1303,
@@ -37,6 +63,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1304,
@@ -48,6 +75,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1305,
@@ -59,6 +87,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1306,
@@ -70,6 +99,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1307,
@@ -81,6 +111,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1308,
@@ -92,6 +123,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1309,
@@ -103,6 +135,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1310,
@@ -114,6 +147,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1311,
@@ -125,6 +159,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1312,
@@ -136,6 +171,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1313,
@@ -147,6 +183,7 @@ export const smartStaplesProducts = [
     tags: ["Workwear", "Cotton", "Handloom"],
     collections: ["SMART STAPLES - A Workwear Edit"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
 ];
 

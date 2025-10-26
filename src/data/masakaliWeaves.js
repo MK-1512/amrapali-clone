@@ -2,7 +2,31 @@
 
 // Extracted from video: Screen Recording 2025-10-21 at 1.02.12 PM.mov
 // Collection: MASAKALI - Chanderi Weaves
+const defaultSareeDetails = {
 
+description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+colors: "As shown",
+
+fabric: "Pure Handloom Fabric (Specific type varies)",
+
+technique: "Handloom",
+
+weavingCluster: "India (Specific region varies)",
+
+measurements: "Approx. 6.30 m x 1.12 m",
+
+weight: "Approx. 500-800 gms.",
+
+blousePiece: "Yes (in running)",
+
+disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
 export const masakaliWeavesProducts = [
   // --- Page 1 (Products 1-16) ---
   {
@@ -15,6 +39,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 502,
@@ -26,6 +51,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 503,
@@ -37,6 +63,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 504,
@@ -48,6 +75,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 505,
@@ -59,6 +87,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 506,
@@ -70,6 +99,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 507,
@@ -81,6 +111,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 508,
@@ -92,6 +123,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 509,
@@ -103,6 +135,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 510,
@@ -114,6 +147,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 511,
@@ -125,6 +159,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 512,
@@ -136,6 +171,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 513,
@@ -147,6 +183,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 514,
@@ -158,6 +195,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 515,
@@ -169,6 +207,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
   {
     id: 516,
@@ -180,6 +219,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
 
   // --- Page 2 (Products 17-25) ---
@@ -193,6 +233,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
   {
     id: 518,
@@ -205,6 +246,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
   {
     id: 519,
@@ -216,6 +258,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
   {
     id: 520,
@@ -227,6 +270,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 521,
@@ -238,6 +282,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
   {
     id: 522,
@@ -249,6 +294,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
   {
     id: 523,
@@ -260,6 +306,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
   {
     id: 524,
@@ -271,6 +318,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 525,
@@ -282,6 +330,7 @@ export const masakaliWeavesProducts = [
     tags: ["Chanderi", "Cotton"],
     collections: ["MASAKALI - Chanderi Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
 ];
 

@@ -13,7 +13,31 @@ const ira = smartStaplesProducts.find(p => p.name === "IRA");
 const reva = smartStaplesProducts.find(p => p.name === "REVA");
 const anvi = smartStaplesProducts.find(p => p.name === "ANVI");
 const urvi = smartStaplesProducts.find(p => p.name === "URVI");
+const defaultSareeDetails = {
 
+description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+colors: "As shown",
+
+fabric: "Pure Handloom Fabric (Specific type varies)",
+
+technique: "Handloom",
+
+weavingCluster: "India (Specific region varies)",
+
+measurements: "Approx. 6.30 m x 1.12 m",
+
+weight: "Approx. 500-800 gms.",
+
+blousePiece: "Yes (in running)",
+
+disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
 export const potpourriProducts = [
   {
     id: 1401, // New ID range for Potpourri
@@ -25,6 +49,7 @@ export const potpourriProducts = [
     tags: ["Cotton", "Handloom", "Bengal"], // Guessing tags
     collections: ["POTPOURRI"],
     availability: "Sold out", // Marked Sold Out in video
+    details: { ...defaultSareeDetails}
   },
   // Use found Chandrika data
   chandrika ? { ...chandrika, collections: [...(chandrika.collections || []), "POTPOURRI"] } : null,
@@ -38,6 +63,7 @@ export const potpourriProducts = [
     tags: ["Cotton", "Handloom", "Bengal"],
     collections: ["POTPOURRI"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1403,
@@ -49,6 +75,7 @@ export const potpourriProducts = [
     tags: ["Cotton", "Handloom", "Bengal"],
     collections: ["POTPOURRI"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1404,
@@ -60,6 +87,7 @@ export const potpourriProducts = [
     tags: ["Cotton", "Handloom", "Bengal"],
     collections: ["POTPOURRI"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
    {
     id: 1405,
@@ -71,6 +99,7 @@ export const potpourriProducts = [
     tags: ["Cotton", "Jamdani", "Bengal"], // Assuming Jamdani based on pattern
     collections: ["POTPOURRI", "IKTARA - Jamdani Weaves"], // Potentially also Iktara
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   // Use found Ira data
   ira ? { ...ira, collections: [...(ira.collections || []), "POTPOURRI"] } : null,
@@ -84,6 +113,7 @@ export const potpourriProducts = [
     tags: ["Cotton", "Handloom", "Bengal"],
     collections: ["POTPOURRI"],
     availability: "Sold out", // Marked Sold Out in video
+    details: { ...defaultSareeDetails}
   },
   // Use found Reva data
   reva ? { ...reva, collections: [...(reva.collections || []), "POTPOURRI"] } : null,

@@ -2,6 +2,33 @@
 // Data for DOODHE-AALTA - Red-Bordered White Sarees (Total 24 Products)
 // Names & Prices Corrected based on video: Screen Recording 2025-10-21 at 2.02.06 PM.mov
 
+const defaultSareeDetails = {
+
+    description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+    colors: "As shown",
+
+    fabric: "Pure Handloom Fabric (Specific type varies)",
+
+    technique: "Handloom",
+
+    weavingCluster: "India (Specific region varies)",
+
+    measurements: "Approx. 6.30 m x 1.12 m",
+
+    weight: "Approx. 500-800 gms.",
+
+    blousePiece: "Yes (in running)",
+
+    disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+    care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+    shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
+
+
 export const doodheAaltaSareesProducts = [
   // --- Page 1 (Products 1-16) ---
   {
@@ -13,6 +40,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Buta", "Nakshi Border", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 702,
@@ -23,6 +51,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Tussar", "Benarasi", "Silk", "Limited Edition", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 703,
@@ -33,6 +62,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Handloom", "Striped Palla", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 704,
@@ -43,6 +73,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Mercerised", "Manipuri", "Handwoven", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 705,
@@ -53,6 +84,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Linen", "Handwoven", "Temple Border", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "Sold out", // Marked Sold Out in video
+     details: { ...defaultSareeDetails}
   },
   {
     id: 706,
@@ -63,6 +95,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Handloom", "Kantha", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 707,
@@ -73,6 +106,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Polycotton", "Handloom", "Textured", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 708,
@@ -83,6 +117,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Tussar", "Cotton", "Katia", "Handloom", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "Sold out", // Marked Sold Out in video
+     details: { ...defaultSareeDetails}
   },
   // --- Start items from Page 2 in Video ---
   {
@@ -94,6 +129,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 710,
@@ -104,6 +140,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 711,
@@ -114,6 +151,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Jamdani", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "IKTARA - Jamdani Weaves"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 712,
@@ -124,6 +162,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Jamdani", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "IKTARA - Jamdani Weaves"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 713,
@@ -134,6 +173,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Jamdani", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "IKTARA - Jamdani Weaves"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 714,
@@ -144,6 +184,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Chanderi", "Silk"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 715,
@@ -154,6 +195,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 716,
@@ -164,6 +206,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Jamdani", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "IKTARA - Jamdani Weaves"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
 
   // --- Page 2 (Products 17-24) ---
@@ -176,6 +219,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 718,
@@ -186,6 +230,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Jamdani", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "IKTARA - Jamdani Weaves"], // Also in Iktara? Price low
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 719,
@@ -196,6 +241,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Chanderi", "Cotton"], // From Masakali data
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "MASAKALI - Chanderi Weaves"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 720,
@@ -206,6 +252,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 721,
@@ -216,6 +263,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Pompom", "Bengal"], // Guessing tags
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"], // May belong elsewhere too
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 722,
@@ -226,6 +274,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Everyday", "Bengal"], // From Bestsellers data
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "BESTSELLERS"], // Also in Bestsellers
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 723,
@@ -236,6 +285,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Everyday", "Bengal"], // From Bestsellers data ("Marshmallow")
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees", "BESTSELLERS"], // Also in Bestsellers
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 724,
@@ -246,6 +296,7 @@ export const doodheAaltaSareesProducts = [
     tags: ["Cotton", "Traditional", "Bengal"],
     collections: ["DOODHE-AALTA - Red-Bordered White Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
 ];
 

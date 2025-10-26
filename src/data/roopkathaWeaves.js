@@ -2,7 +2,31 @@
 
 // Extracted from video: Screen Recording 2025-10-21 at 2.37.32 PM.mov
 // Collection: ROOPKATHA - Baluchari and Swarnachari
+const defaultSareeDetails = {
 
+description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+colors: "As shown",
+
+fabric: "Pure Handloom Fabric (Specific type varies)",
+
+technique: "Handloom",
+
+weavingCluster: "India (Specific region varies)",
+
+measurements: "Approx. 6.30 m x 1.12 m",
+
+weight: "Approx. 500-800 gms.",
+
+blousePiece: "Yes (in running)",
+
+disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
 export const roopkathaWeavesProducts = [
   // --- Page 1 (Products 1-5) ---
   {
@@ -15,6 +39,7 @@ export const roopkathaWeavesProducts = [
     tags: ["Baluchari", "Swarnachari", "Silk", "Heritage"],
     collections: ["ROOPKATHA - Baluchari and Swarnachari"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 902,
@@ -26,6 +51,7 @@ export const roopkathaWeavesProducts = [
     tags: ["Baluchari", "Swarnachari", "Silk", "Heritage"],
     collections: ["ROOPKATHA - Baluchari and Swarnachari"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 903,
@@ -37,6 +63,7 @@ export const roopkathaWeavesProducts = [
     tags: ["Baluchari", "Swarnachari", "Silk", "Heritage"],
     collections: ["ROOPKATHA - Baluchari and Swarnachari"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 904,
@@ -48,6 +75,7 @@ export const roopkathaWeavesProducts = [
     tags: ["Baluchari", "Swarnachari", "Silk", "Heritage"],
     collections: ["ROOPKATHA - Baluchari and Swarnachari"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 905,
@@ -59,6 +87,7 @@ export const roopkathaWeavesProducts = [
     tags: ["Baluchari", "Swarnachari", "Silk", "Heritage"],
     collections: ["ROOPKATHA - Baluchari and Swarnachari"],
     availability: "Sold out", // Marked Sold Out in video
+    details: { ...defaultSareeDetails}
   },
 ];
 

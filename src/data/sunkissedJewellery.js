@@ -2,7 +2,17 @@
 
 // Extracted from video: Screen Recording 2025-10-21 at 4.59.45 PM.mov
 // Collection: SUNKISSED - Minimalist Jewellery
-
+const defaultJewelleryDetails = {
+    description: "Handcrafted contemporary jewellery piece.", // Generic description
+    baseMaterial: "Base Material: Brass", // Common material
+    finish: "Finish: 18k gold-plated with 0.5 micron thickness", // Common finish
+    weight: "Approx. 5-15 gms.", // General weight range based on examples
+    origin: "Handcrafted in Jaipur", // Common origin
+    measurements: "Varies by item (e.g., length, diameter, adjustable)", // Placeholder as size varies
+    disclaimer: "Disclaimer: This product has been handmade and hence may have slight irregularities in its color or embellishments. These imperfections are not defects per se, but a testimony of human involvement in the process and is the reason that makes each piece unique.", // Standard handcrafted disclaimer
+    care: "Care: Wipe with a soft dry cloth after every wear. Avoid contact with perfumes, water and other liquid substances. Store in a box separately, away from moisture and other jewellery. As a thumb rule, jewellery should be the last thing you wear and the first thing you take off.", // Specific jewellery care
+    shipping: "Shipping and Returns: This product is non-returnable. No exchange or refund will be made against a non-returnable product. Dispatched in 2-3 working days. Delivery Timeline: Domestic - 3 to 10 business days; International - 12 to 20 business days. *However, the delivery period may exceed due to unforeseen external factors.", // Shipping info, noting non-returnable status
+};
 // Reusing IDs from jewellery.js where applicable
 export const sunkissedJewelleryProducts = [
   // --- Page 1 (Products 1-12) ---
@@ -16,6 +26,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Necklace"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 124, // Matches jewellery.js
@@ -27,6 +38,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Bracelet"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 116, // Matches jewellery.js
@@ -38,6 +50,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Cuff"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 129, // Matches jewellery.js
@@ -49,6 +62,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Earrings"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 125, // Matches jewellery.js
@@ -60,6 +74,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Earrings"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 126, // Matches jewellery.js
@@ -71,6 +86,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Necklace"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 130, // Matches jewellery.js
@@ -82,6 +98,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Necklace"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 120, // Matches jewellery.js
@@ -93,6 +110,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Earrings"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+   details: { ...defaultJewelleryDetails }
   },
   {
     id: 127, // Matches jewellery.js
@@ -104,6 +122,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Necklace"], // Assuming necklace based on image
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "In stock",
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 133, // Matches jewellery.js
@@ -115,6 +134,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Chain"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "Sold out", // Marked Sold Out in video
+   details: { ...defaultJewelleryDetails }
   },
   {
     id: 136, // Matches jewellery.js
@@ -126,6 +146,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Necklace"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "Sold out", // Marked Sold Out in video
+    details: { ...defaultJewelleryDetails }
   },
   {
     id: 137, // Matches jewellery.js
@@ -137,6 +158,7 @@ export const sunkissedJewelleryProducts = [
     tags: ["Jewellery", "Minimalist", "Chain"],
     collections: ["SUNKISSED - Minimalist Jewellery"],
     availability: "Sold out", // Marked Sold Out in video
+   details: { ...defaultJewelleryDetails }
   },
 ];
 

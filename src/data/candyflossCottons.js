@@ -2,7 +2,19 @@
 
 // Extracted from video: Screen Recording 2025-10-21 at 2.54.07 PM.mov
 // Collection: CANDYFLOSS - Cotton Sarees
-
+const defaultSareeDetails = {
+    description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+    colors: "As shown",
+    fabric: "Pure Handloom Fabric (Specific type varies)",
+    technique: "Handloom",
+    weavingCluster: "India (Specific region varies)",
+    measurements: "Approx. 6.30 m x 1.12 m",
+    weight: "Approx. 500-800 gms.",
+    blousePiece: "Yes (in running)",
+    disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+    care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+    shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+};
 export const candyflossCottonsProducts = [
   // --- Page 1 (Products 1-16) ---
   {
@@ -15,6 +27,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1002,
@@ -26,6 +39,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1003,
@@ -37,6 +51,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1004,
@@ -48,6 +63,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1005,
@@ -59,6 +75,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1006,
@@ -70,6 +87,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1007,
@@ -81,6 +99,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1008,
@@ -92,6 +111,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1009,
@@ -103,6 +123,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees", "BESTSELLERS"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1010,
@@ -114,6 +135,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1011,
@@ -125,6 +147,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1012,
@@ -136,6 +159,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees", "BESTSELLERS"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1013,
@@ -147,6 +171,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees", "BESTSELLERS"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1014,
@@ -158,6 +183,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1015,
@@ -170,6 +196,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees", "BESTSELLERS"], // Also in Bestsellers
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1016,
@@ -181,6 +208,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees", "BESTSELLERS"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
 
   // --- Page 2 (Products 17-21) ---
@@ -194,6 +222,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1018,
@@ -205,6 +234,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees", "BESTSELLERS"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1019,
@@ -216,6 +246,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1020,
@@ -227,6 +258,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 1021,
@@ -238,6 +270,7 @@ export const candyflossCottonsProducts = [
     tags: ["Cotton", "Handloom", "Tassels"],
     collections: ["CANDYFLOSS - Cotton Sarees"],
     availability: "Sold out", // Marked Sold Out in video
+    details: { ...defaultSareeDetails}
   },
 ];
 

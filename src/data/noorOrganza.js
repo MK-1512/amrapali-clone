@@ -2,7 +2,31 @@
 
 // Extracted from video: Screen Recording 2025-10-21 at 4.48.10 PM.mov
 // Collection: NOOR - Organza Benarasi (Title in dropdown) / NOOR - A TALE OF ORGANZA (Banner Title)
+const defaultSareeDetails = {
 
+description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+colors: "As shown",
+
+fabric: "Pure Handloom Fabric (Specific type varies)",
+
+technique: "Handloom",
+
+weavingCluster: "India (Specific region varies)",
+
+measurements: "Approx. 6.30 m x 1.12 m",
+
+weight: "Approx. 500-800 gms.",
+
+blousePiece: "Yes (in running)",
+
+disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
 export const noorOrganzaProducts = [
   // --- Page 1 (Products 1-11) ---
   {
@@ -15,6 +39,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 425, // Matches Raanjhana product ID
@@ -26,6 +51,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 427, // Matches Raanjhana product ID
@@ -37,6 +63,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 429, // Matches Raanjhana product ID
@@ -48,6 +75,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 426, // Matches Raanjhana product ID
@@ -59,6 +87,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 401, // Matches Raanjhana product ID
@@ -70,6 +99,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 405, // Matches Raanjhana product ID
@@ -81,6 +111,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 404, // Matches Raanjhana product ID
@@ -92,6 +123,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 403, // Matches Raanjhana product ID
@@ -103,6 +135,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 402, // Matches Raanjhana product ID
@@ -114,6 +147,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 447, // Matches Raanjhana product ID
@@ -125,6 +159,7 @@ export const noorOrganzaProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["NOOR - Organza Benarasi", "RAANJHANA - Benarasi Weaves"],
     availability: "Sold out", // Marked Sold Out in video
+    details: { ...defaultSareeDetails}
   },
 ];
 

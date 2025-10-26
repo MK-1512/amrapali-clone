@@ -2,7 +2,31 @@
 
 // Extracted from video: Screen Recording 2025-10-21 at 11.51.46 AM.mov
 // Collection: RAANJHANA - Benarasi Weaves
+const defaultSareeDetails = {
 
+description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+colors: "As shown",
+
+fabric: "Pure Handloom Fabric (Specific type varies)",
+
+technique: "Handloom",
+
+weavingCluster: "India (Specific region varies)",
+
+measurements: "Approx. 6.30 m x 1.12 m",
+
+weight: "Approx. 500-800 gms.",
+
+blousePiece: "Yes (in running)",
+
+disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
 export const raanjhanaWeavesProducts = [
   // --- Page 1 (Products 1-16) ---
   {
@@ -15,6 +39,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 402,
@@ -26,6 +51,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 403,
@@ -37,6 +63,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 404,
@@ -48,6 +75,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 405,
@@ -59,6 +87,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 406,
@@ -70,6 +99,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 407,
@@ -81,6 +111,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 408,
@@ -92,6 +123,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 409,
@@ -103,6 +135,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 410,
@@ -114,6 +147,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk"],
     collections: ["RAANJHANA - Benarasi Weaves"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 411,
@@ -125,6 +159,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"], // Assuming Organza from Noor collection link
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 412,
@@ -136,6 +171,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 413,
@@ -147,6 +183,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 414,
@@ -158,6 +195,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 415,
@@ -169,6 +207,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 416,
@@ -180,6 +219,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
 
   // --- Page 2 (Products 17-32) ---
@@ -193,6 +233,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"], // Assuming Tussar from Midas Touch collection link
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 418,
@@ -204,6 +245,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 419,
@@ -215,6 +257,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 420,
@@ -226,6 +269,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 421,
@@ -237,6 +281,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 422,
@@ -248,6 +293,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 423,
@@ -259,6 +305,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 424,
@@ -270,6 +317,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 425,
@@ -281,6 +329,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 426,
@@ -292,6 +341,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 427,
@@ -303,6 +353,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 428,
@@ -314,6 +365,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 429,
@@ -325,6 +377,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 430,
@@ -336,6 +389,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 431,
@@ -347,6 +401,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 432,
@@ -358,6 +413,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
 
   // --- Page 3 (Products 33-44) ---
@@ -371,6 +427,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 434,
@@ -382,6 +439,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 435,
@@ -393,6 +451,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 436,
@@ -404,6 +463,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 437,
@@ -415,6 +475,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 438,
@@ -426,6 +487,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 439,
@@ -437,6 +499,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
   {
     id: 440,
@@ -448,6 +511,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
    {
     id: 441,
@@ -458,7 +522,8 @@ export const raanjhanaWeavesProducts = [
     image2: "https://www.amrapaliboutique.in/cdn/shop/products/DSC02711_800x.jpg?v=1631451411", // Placeholder
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
-    availability: "Sold out", // Marked Sold Out
+    availability: "Sold out", 
+       details: { ...defaultSareeDetails}// Marked Sold Out
   },
    {
     id: 442,
@@ -469,7 +534,9 @@ export const raanjhanaWeavesProducts = [
     image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF6739_800x.jpg?v=1694938000", // Placeholder
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
-    availability: "Sold out", // Marked Sold Out
+    availability: "Sold out", 
+    // Marked Sold Out
+       details: { ...defaultSareeDetails}
   },
   {
     id: 443,
@@ -481,6 +548,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "In stock",
+       details: { ...defaultSareeDetails}
   },
    {
     id: 444,
@@ -492,6 +560,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "Sold out", // Marked Sold Out
+       details: { ...defaultSareeDetails}
   },
   {
     id: 445,
@@ -503,6 +572,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "Sold out", // Marked Sold Out in screenshot
+       details: { ...defaultSareeDetails}
   },
   {
     id: 446,
@@ -514,6 +584,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Tussar"],
     collections: ["RAANJHANA - Benarasi Weaves", "A MIDAS TOUCH - Tussar Silk"],
     availability: "Sold out", // Marked Sold Out in screenshot
+       details: { ...defaultSareeDetails}
   },
   {
     id: 447,
@@ -525,6 +596,7 @@ export const raanjhanaWeavesProducts = [
     tags: ["Benarasi", "Silk", "Organza"],
     collections: ["RAANJHANA - Benarasi Weaves", "NOOR - Organza Benarasi"],
     availability: "Sold out", // Marked Sold Out in screenshot
+       details: { ...defaultSareeDetails}
   },
 ];
 

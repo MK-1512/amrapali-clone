@@ -3,6 +3,31 @@
 // Extracted from video: Screen Recording 2025-10-21 at 11.36.15 AM.mov
 // Collection: IKTARA - Jamdani Weaves
 
+const defaultSareeDetails = {
+
+    description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+    colors: "As shown",
+
+    fabric: "Pure Handloom Fabric (Specific type varies)",
+
+    technique: "Handloom",
+
+    weavingCluster: "India (Specific region varies)",
+
+    measurements: "Approx. 6.30 m x 1.12 m",
+
+    weight: "Approx. 500-800 gms.",
+
+    blousePiece: "Yes (in running)",
+
+    disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+    care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+    shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
 export const iktaraWeavesProducts = [
   // --- Page 1 (Products 1-16) ---
   {
@@ -15,6 +40,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 302,
@@ -26,6 +52,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 303,
@@ -37,6 +64,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 304,
@@ -48,6 +76,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 305,
@@ -59,6 +88,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 306,
@@ -70,6 +100,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 307,
@@ -81,6 +112,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 308,
@@ -92,6 +124,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 309,
@@ -103,6 +136,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 310,
@@ -114,6 +148,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 311,
@@ -125,6 +160,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 312,
@@ -136,6 +172,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 313,
@@ -147,6 +184,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 314,
@@ -158,6 +196,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 315,
@@ -169,6 +208,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 316,
@@ -180,6 +220,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
 
   // --- Page 2 (Products 17-23) ---
@@ -193,6 +234,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 318,
@@ -204,6 +246,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 319,
@@ -215,6 +258,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 320,
@@ -226,6 +270,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "In stock",
+    details: { ...defaultSareeDetails}
   },
   {
     id: 321,
@@ -237,6 +282,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
    {
     id: 322,
@@ -248,6 +294,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
    {
     id: 323,
@@ -259,6 +306,7 @@ export const iktaraWeavesProducts = [
     tags: ["Jamdani", "Cotton"],
     collections: ["IKTARA - Jamdani Weaves"],
     availability: "Sold out", // Marked Sold Out
+    details: { ...defaultSareeDetails}
   },
 ];
 

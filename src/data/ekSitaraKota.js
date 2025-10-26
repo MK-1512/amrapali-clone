@@ -3,6 +3,32 @@
 // Extracted from video: Screen Recording 2025-10-21 at 5.35.48 PM.mov
 // Collection: EK SITARA - Kota Sarees
 
+const defaultSareeDetails = {
+
+    description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
+
+    colors: "As shown",
+
+    fabric: "Pure Handloom Fabric (Specific type varies)",
+
+    technique: "Handloom",
+
+    weavingCluster: "India (Specific region varies)",
+
+    measurements: "Approx. 6.30 m x 1.12 m",
+
+    weight: "Approx. 500-800 gms.",
+
+    blousePiece: "Yes (in running)",
+
+    disclaimer: "Disclaimer: Actual color may vary slightly. Handwoven items may have minor irregularities. Orders with fall/picot are non-returnable.",
+
+    care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
+
+    shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
+
+};
+
 export const ekSitaraKotaProducts = [
   // --- Page 1 (Products 1-4) ---
   {
@@ -15,6 +41,7 @@ export const ekSitaraKotaProducts = [
     tags: ["Kota", "Silk", "Handloom"],
     collections: ["EK SITARA - Kota Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 1202,
@@ -26,6 +53,7 @@ export const ekSitaraKotaProducts = [
     tags: ["Kota", "Silk", "Handloom"],
     collections: ["EK SITARA - Kota Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 1203,
@@ -37,6 +65,7 @@ export const ekSitaraKotaProducts = [
     tags: ["Kota", "Silk", "Handloom"],
     collections: ["EK SITARA - Kota Sarees"],
     availability: "In stock",
+     details: { ...defaultSareeDetails}
   },
   {
     id: 1204,
@@ -48,6 +77,7 @@ export const ekSitaraKotaProducts = [
     tags: ["Kota", "Silk", "Handloom"],
     collections: ["EK SITARA - Kota Sarees"],
     availability: "Sold out", // Marked Sold Out in video
+     details: { ...defaultSareeDetails}
   },
 ];
 
