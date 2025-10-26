@@ -1,14 +1,15 @@
 // src/pages/GiftCardPage.jsx
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react'; // <-- Added useEffect
 import { Accordion } from 'react-bootstrap';
-import CustomerReviews from '../components/common/CustomerReviews'; 
-import { CurrencyContext } from '../context/CurrencyContext'; 
-import { formatPrice } from '../utils/currencyUtils'; 
-import { WishlistContext } from '../context/WishlistContext'; // <-- NEW IMPORT
+import CustomerReviews from '../components/common/CustomerReviews';
+import { CurrencyContext } from '../context/CurrencyContext';
+import { formatPrice } from '../utils/currencyUtils';
+import { WishlistContext } from '../context/WishlistContext'; // Keep WishlistContext
 
 const GiftCardPage = () => {
-    const { selectedCurrency } = useContext(CurrencyContext); 
-    const { addToWishlist, isProductInWishlist } = useContext(WishlistContext); // <-- NEW
+    const { selectedCurrency } = useContext(CurrencyContext);
+    // Get wishlistItems as well to trigger re-renders when the list changes
+    const { addToWishlist, isProductInWishlist, wishlistItems, wishlistCount } = useContext(WishlistContext); // <-- Get wishlistItems and wishlistCount
 
     const denominations = [
         { value: 2000, label: '₹2,000.00' },
@@ -16,19 +17,34 @@ const GiftCardPage = () => {
         { value: 5000, label: '₹5,000.00' },
         { value: 10000, label: '₹10,000.00' }
     ];
-    
+
     // Helper to format a single price
     const getFormattedPrice = (price) => {
-        return formatPrice(price, selectedCurrency.code); 
+        return formatPrice(price, selectedCurrency.code);
     };
 
     const [selectedDenomination, setSelectedDenomination] = useState(denominations[0].value);
     const [quantity, setQuantity] = useState(1);
-    
-    // NOTE: isInWishlist state moved to context logic, but we keep this one 
-    // to map to a mock product for simplicity if needed. We'll use a mock item ID for check.
-    const mockGiftCardProduct = { id: 'gift-card', name: 'E-GIFT CARD', price: selectedDenomination };
-    const isInWishlist = isProductInWishlist(mockGiftCardProduct.id); // <-- USE CONTEXT
+
+    // Create the gift card product object dynamically based on selection
+    const giftCardProduct = {
+        id: 'gift-card', // Use a consistent ID for the gift card type
+        name: 'E-GIFT CARD',
+        price: selectedDenomination, // Price is the selected denomination
+        image1: '/images/gift-card.jpg', // Main image
+        // Add quantity if your wishlist context needs it, otherwise, it's usually 1 per wishlist item
+    };
+
+    // Determine if the current gift card ID is in the wishlist
+    const isInWishlist = isProductInWishlist(giftCardProduct.id);
+
+    // --- Add useEffect to potentially update state if needed, though isInWishlist from context should be reactive ---
+    // (Optional: If direct context usage isn't updating UI reliably, add local state synced with useEffect)
+    // const [isWishlistedState, setIsWishlistedState] = useState(isInWishlist);
+    // useEffect(() => {
+    //    setIsWishlistedState(isProductInWishlist(giftCardProduct.id));
+    // }, [wishlistItems, giftCardProduct.id, isProductInWishlist]);
+    // ---
 
     const handleQuantityChange = (amount) => {
         setQuantity((prevQuantity) => Math.max(1, prevQuantity + amount));
@@ -36,8 +52,21 @@ const GiftCardPage = () => {
 
     const handleDenominationChange = (e) => {
         setSelectedDenomination(Number(e.target.value));
+        // Note: If a gift card with a different denomination was already added,
+        // this change won't affect the wishlist state unless you re-check or handle updates.
+        // The isProductInWishlist check is based on ID only.
     };
-    
+
+    const handleWishlistToggle = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // Add/Remove using the current gift card object details
+        addToWishlist(giftCardProduct);
+        // Optional: Update local state if used
+        // setIsWishlistedState(!isWishlistedState);
+    };
+
+    // Calculate total price based on denomination and quantity for display
     const totalDenominationINR = selectedDenomination * quantity;
     const formattedPrice = getFormattedPrice(totalDenominationINR);
 
@@ -46,10 +75,10 @@ const GiftCardPage = () => {
             <div className="row">
                 {/* Left Column: Image */}
                 <div className="col-lg-6">
-                    <img 
-                        src="/images/gift-card.jpg" 
-                        alt="E-Gift Card" 
-                        className="img-fluid product-main-image" 
+                    <img
+                        src="/images/gift-card.jpg"
+                        alt="E-Gift Card"
+                        className="img-fluid product-main-image"
                     />
                 </div>
 
@@ -57,26 +86,27 @@ const GiftCardPage = () => {
                 <div className="col-lg-6">
                     <div className="product-details">
                         <h1 className="product-title">E-GIFT CARD</h1>
-                        
+
                         <div className="product-rating mb-3">
                             <span className="stars">★★★★★</span>
                             <span className="review-count">1 review</span>
                         </div>
 
+                        {/* Display Price based on selection and quantity */}
                         <p className="product-price">
-                            {formattedPrice} 
+                            {formattedPrice}
                         </p>
 
                         <div className="mb-3">
                              <label className="form-label" style={{ display: 'none' }}>Denominations</label>
-                            <select 
+                            <select
                                 className="denomination-dropdown"
                                 value={selectedDenomination}
                                 onChange={handleDenominationChange}
                             >
                                 {denominations.map((denom) => (
                                     <option key={denom.value} value={denom.value}>
-                                        Denominations: {getFormattedPrice(denom.value)} 
+                                        Denominations: {getFormattedPrice(denom.value)}
                                     </option>
                                 ))}
                             </select>
@@ -84,7 +114,7 @@ const GiftCardPage = () => {
 
                         <div className="mb-3">
                             <div className="quantity-selector">
-                                <button 
+                                <button
                                     type="button"
                                     onClick={() => handleQuantityChange(-1)}
                                     disabled={quantity <= 1}
@@ -92,7 +122,7 @@ const GiftCardPage = () => {
                                     −
                                 </button>
                                 <span>{quantity}</span>
-                                <button 
+                                <button
                                     type="button"
                                     onClick={() => handleQuantityChange(1)}
                                 >
@@ -108,18 +138,31 @@ const GiftCardPage = () => {
                             <button className="btn-buy-it-now" type="button">
                                 BUY IT NOW
                             </button>
-                            <button 
-                                className={`btn-add-to-wishlist ${isInWishlist ? 'added' : ''}`}
+
+                            {/* --- MODIFIED WISHLIST BUTTON --- */}
+                            <button
+                                className={`btn-add-to-wishlist icon-button ${isInWishlist ? 'added' : ''}`} // Add 'icon-button' class
                                 type="button"
-                                // Use the general addToWishlist function
-                                onClick={() => addToWishlist({ id: 'gift-card', name: 'E-GIFT CARD', price: selectedDenomination, image1: '/images/gift-card.jpg' })}
+                                onClick={handleWishlistToggle} // Use the correct handler
+                                aria-label={isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                             >
-                                {/* NOTE: wishlistCount is now global, using mock value in original file for visual matching */}
-                                {isInWishlist ? 'ADDED TO WISHLIST' : 'ADD TO WISHLIST'}
-                                <span className="wishlist-count">26</span> 
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24" height="24" viewBox="0 0 24 24"
+                                    fill={isInWishlist ? 'currentColor' : 'none'} // Use 'currentColor' for filled state
+                                    stroke="currentColor" // Always use current text color for stroke
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round" strokeLinejoin="round"
+                                    className="feather feather-heart wishlist-heart-icon"
+                                >
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                                {/* Optional: Display count - adjust styling as needed */}
+                                {/* {wishlistCount > 0 && <span className="wishlist-count-badge-inline">{wishlistCount}</span>} */}
                             </button>
+                            {/* --- END MODIFIED WISHLIST BUTTON --- */}
                         </div>
-                        
+
                         <div className="product-description-section mt-4">
                             <h4>Need The Perfect Gift in No Time?</h4>
                             <p>
@@ -127,12 +170,12 @@ const GiftCardPage = () => {
                             </p>
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>
 
-            {/* 2. ADD THE CUSTOMER REVIEWS SECTION AT THE BOTTOM */}
+            {/* Customer Reviews Section */}
             <div className="row mt-5">
                 <div className="col-12">
                     <CustomerReviews />

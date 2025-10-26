@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/components/common/CustomerReviews.jsx
+import React, { useState, useRef } from 'react'; // <-- Import useRef
 
 // A new sub-component for the star rating input
 const StarRatingInput = ({ rating, setRating }) => {
@@ -24,40 +25,159 @@ const StarRatingInput = ({ rating, setRating }) => {
 
 // A new sub-component for the form itself
 const WriteReviewForm = ({ onCancel }) => {
+    // --- 1. Add state for all form fields ---
     const [rating, setRating] = useState(0);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [title, setTitle] = useState('');
+    const [reviewBody, setReviewBody] = useState('');
+    const [file, setFile] = useState(null); // State to hold the selected file
+    const [error, setError] = useState(''); // State for error messages
+    const [success, setSuccess] = useState(''); // State for success message
     
+    // --- 2. Create a ref for the hidden file input ---
+    const fileInputRef = useRef(null);
+
+    // --- 3. Handler to trigger file input click ---
+    const handleImageUploadClick = () => {
+        fileInputRef.current.click(); // Programmatically click the hidden file input
+    };
+
+    // --- 4. Handler for when a file is selected ---
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            console.log("File selected:", selectedFile.name);
+            setFile(selectedFile); // Store the file object in state
+        }
+    };
+    
+    // --- 5. Handler for form submission ---
+    const handleSubmitReview = (e) => {
+        e.preventDefault(); // Prevent default form submission
+        setError('');
+        setSuccess('');
+
+        // --- Basic Validation ---
+        if (!name || !email || !title || !reviewBody || rating === 0) {
+            setError('Please fill in all required fields (Name, Email, Rating, Title, Review).');
+            return;
+        }
+
+        // --- Simulate Submission ---
+        console.log("Submitting review with the following data:");
+        console.log({ name, email, rating, title, reviewBody });
+        if (file) {
+            console.log("Including file:", file.name);
+        }
+
+        // Show success message and clear form (simulating a real submission)
+        setSuccess('Thank you! Your review has been submitted for moderation.');
+        
+        // Clear the form
+        setName('');
+        setEmail('');
+        setTitle('');
+        setReviewBody('');
+        setRating(0);
+        setFile(null);
+        if (fileInputRef.current) {
+             fileInputRef.current.value = ""; // Reset file input
+        }
+        
+        // Optional: Hide the form after submission
+        // setTimeout(() => {
+        //     if(onCancel) onCancel();
+        // }, 2000);
+    };
+
     return (
         <div className="write-review-form">
-            <div className="review-form-group">
-                <label htmlFor="review-name">Name</label>
-                <input type="text" id="review-name" className="review-form-input" placeholder="Enter your name (public)" />
-            </div>
-             <div className="review-form-group">
-                <label htmlFor="review-email">Email</label>
-                <input type="email" id="review-email" className="review-form-input" placeholder="Enter your email (private)" />
-            </div>
-             <div className="review-form-group">
-                <label>Rating</label>
-                <StarRatingInput rating={rating} setRating={setRating} />
-            </div>
-             <div className="review-form-group">
-                <label htmlFor="review-title">Review Title</label>
-                <input type="text" id="review-title" className="review-form-input" placeholder="Give your review a title" />
-            </div>
-             <div className="review-form-group">
-                <label htmlFor="review-body">Review</label>
-                <textarea id="review-body" className="review-form-textarea" placeholder="Write your comments here"></textarea>
-            </div>
-            <div className="review-form-group">
-                <label>Picture/Video (optional)</label>
-                <div className="image-upload-placeholder">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            {/* --- 6. Attach onSubmit handler to a <form> element --- */}
+            <form onSubmit={handleSubmitReview}>
+                {/* --- Display Error/Success Messages --- */}
+                {error && <p className="text-danger text-center mb-3">{error}</p>}
+                {success && <p className="text-success text-center mb-3">{success}</p>}
+
+                <div className="review-form-group">
+                    <label htmlFor="review-name">Name</label>
+                    <input 
+                        type="text" 
+                        id="review-name" 
+                        className="review-form-input" 
+                        placeholder="Enter your name (public)" 
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
                 </div>
-            </div>
-            <p className="privacy-notice">
-                How we use your data: We'll only contact you about the review you left, and only if necessary. By submitting your review, you agree to Judge.me's terms, privacy and content policies.
-            </p>
-            <button className="submit-review-btn">Submit Review</button>
+                 <div className="review-form-group">
+                    <label htmlFor="review-email">Email</label>
+                    <input 
+                        type="email" 
+                        id="review-email" 
+                        className="review-form-input" 
+                        placeholder="Enter your email (private)" 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                 <div className="review-form-group">
+                    <label>Rating</label>
+                    <StarRatingInput rating={rating} setRating={setRating} />
+                </div>
+                 <div className="review-form-group">
+                    <label htmlFor="review-title">Review Title</label>
+                    <input 
+                        type="text" 
+                        id="review-title" 
+                        className="review-form-input" 
+                        placeholder="Give your review a title" 
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </div>
+                 <div className="review-form-group">
+                    <label htmlFor="review-body">Review</label>
+                    <textarea 
+                        id="review-body" 
+                        className="review-form-textarea" 
+                        placeholder="Write your comments here"
+                        value={reviewBody}
+                        onChange={(e) => setReviewBody(e.target.value)}
+                    ></textarea>
+                </div>
+                <div className="review-form-group">
+                    <label>Picture/Video (optional)</label>
+                    {/* --- 7. Make the placeholder clickable --- */}
+                    <div 
+                        className="image-upload-placeholder" 
+                        onClick={handleImageUploadClick} // <-- Add click handler
+                        role="button"
+                        tabIndex="0"
+                        onKeyPress={(e) => e.key === 'Enter' && handleImageUploadClick()} // For accessibility
+                    >
+                        {/* --- Display file name if selected --- */}
+                        {file ? (
+                            <span style={{fontSize: '12px', color: '#555', padding: '10px', textAlign: 'center'}}>{file.name}</span>
+                        ) : (
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        )}
+                    </div>
+                    {/* --- 8. Add the hidden file input --- */}
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        style={{ display: 'none' }} // <-- Hide the default input
+                        accept="image/*,video/*" // Specify acceptable file types
+                    />
+                </div>
+                <p className="privacy-notice">
+                    How we use your data: We'll only contact you about the review you left, and only if necessary. By submitting your review, you agree to Judge.me's terms, privacy and content policies.
+                </p>
+                {/* --- 9. Change button type to "submit" --- */}
+                <button type="submit" className="submit-review-btn">Submit Review</button>
+            </form>
         </div>
     );
 };
@@ -168,4 +288,3 @@ const CustomerReviews = () => {
 };
 
 export default CustomerReviews;
-
