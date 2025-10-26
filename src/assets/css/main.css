@@ -4572,3 +4572,86 @@ body.product-detail-active {
 .product-card-like:hover .product-name {
     color: #a8853d; /* Theme hover color */
 }
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+/* --------------------------------------------------- */
+/* SEARCH BAR OVERLAY STYLES */
+/* --------------------------------------------------- */
+
+/* Base container for the search overlay */
+.search-bar-overlay {
+    position: fixed;
+    /* Position below the header (assuming 138px height) */
+    top: 175px;
+    left: 0;
+    width: 100%;
+    /* Let content determine height, but limit it */
+    height: auto;
+    max-height: calc(100vh - 138px); /* Limit height to below header */
+    bottom: auto; /* Ensure bottom doesn't interfere */
+
+    /* Start fully hidden/closed */
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 990; /* Below header */
+    overflow-y: auto;
+    transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+
+/* State when search is OPEN */
+.search-bar-overlay.open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0s;
+}
+
+/* Search Input Container Styling */
+.search-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 25px 0;
+    margin-bottom: 20px;
+}
+
+/* Search Input Styling */
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    color: #1c1c1c;
+    padding: 5px 0;
+    background-color: transparent;
+}
+
+/* Placeholder Styling - REMOVE the 'Q' */
+.search-input::placeholder {
+    color: #999;
+    /* Remove any letter-spacing or content properties causing the 'Q' */
+    /* Ensure no ::before pseudo-element is adding the Q */
+}
+
+
+/* ... (rest of search bar styles: .btn-clear, .search-results-area, etc.) ... */
+
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+    .search-bar-overlay {
+       top: 138px; /* Adjust if mobile header height differs */
+       max-height: calc(100vh - 138px); /* Adjust max-height for mobile */
+    }
+   /* ... (other mobile styles) ... */
+}
+
+/* ... rest of main.css ... */

@@ -1,3 +1,4 @@
+// src/context/CartContext.jsx
 import React, { createContext, useState } from 'react';
 
 export const CartContext = createContext();
@@ -37,12 +38,26 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
   };
 
+  const clearCart = () => {
+   setCartItems([]);
+   // Optional: Close cart drawer after clearing
+   // setIsCartOpen(false);
+   console.log("Cart cleared."); // Optional logging
+ };
+
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, isCartOpen, toggleCart }}>
+    <CartContext.Provider value={{
+      cartItems,
+      addToCart,
+      removeFromCart,
+      isCartOpen,
+      toggleCart,
+      clearCart // <-- Expose the new function
+     }}>
       {children}
     </CartContext.Provider>
   );

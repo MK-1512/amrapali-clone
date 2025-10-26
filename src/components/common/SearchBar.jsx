@@ -91,7 +91,7 @@ const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick }) => {
                     <input
                         type="text"
                         className="search-input"
-                        placeholder="Q SEARCH..."
+                        placeholder="SEARCH..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         autoFocus={isSearchOpen}
