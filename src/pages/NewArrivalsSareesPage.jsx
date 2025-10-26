@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import ProductList from '../components/product/ProductList';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
-import NewArrivalsSareesHeroBanner from '../components/common/NewArrivalsSareesHeroBanner'; // Use the new banner
+import NewArrivalsSareesHeroBanner from '../components/common/NewArrivalsSareesHeroBanner';
 import { products as sareeProducts } from '../data/products'; // Import saree data
 
-const NewArrivalsSareesPage = () => {
+// --- FIX: Accept setPage prop ---
+const NewArrivalsSareesPage = ({ setPage }) => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const handleOpenFilter = () => setIsFilterOpen(true);
     const handleCloseFilter = () => setIsFilterOpen(false);
@@ -18,11 +19,10 @@ const NewArrivalsSareesPage = () => {
 
     return (
         <>
-            <NewArrivalsSareesHeroBanner /> {/* Use the specific New Arrivals banner */}
+            <NewArrivalsSareesHeroBanner />
             <FilterBar handleOpenFilter={handleOpenFilter} />
-            {/* Let ProductList handle fetching 'sareeProducts' based on a specific name */}
-            {/* Or pass directly: <ProductList products={newSarees} collectionName="New Arrival Sarees" /> */}
-            <ProductList collectionName="Sarees" /> {/* Assuming 'Sarees' in ProductList defaults to products.js */}
+            {/* --- FIX: Pass setPage down to ProductList --- */}
+            <ProductList collectionName="Sarees" setPage={setPage} /> {/* Assuming 'Sarees' in ProductList defaults to products.js */}
             <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
         </>
     );

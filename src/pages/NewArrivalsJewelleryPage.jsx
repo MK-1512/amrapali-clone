@@ -3,20 +3,21 @@ import React, { useState } from 'react';
 import ProductList from '../components/product/ProductList';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
-import NewArrivalsJewelleryHeroBanner from '../components/common/NewArrivalsJewelleryHeroBanner'; // Use the new banner
+import NewArrivalsJewelleryHeroBanner from '../components/common/NewArrivalsJewelleryHeroBanner';
 import { jewellery } from '../data/jewellery'; // Import the jewellery data
 
-const NewArrivalsJewelleryPage = () => {
+// --- FIX: Accept setPage prop ---
+const NewArrivalsJewelleryPage = ({ setPage }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const handleOpenFilter = () => setIsFilterOpen(true);
   const handleCloseFilter = () => setIsFilterOpen(false);
 
   return (
     <>
-      <NewArrivalsJewelleryHeroBanner /> {/* Use the specific New Arrivals banner */}
+      <NewArrivalsJewelleryHeroBanner />
       <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* Display all jewellery products, pass a distinct collectionName for potential title use */}
-      <ProductList products={jewellery} collectionName="New Arrivals - Jewellery" />
+      {/* --- FIX: Pass setPage down to ProductList --- */}
+      <ProductList products={jewellery} collectionName="New Arrivals - Jewellery" setPage={setPage} />
       <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
     </>
   );

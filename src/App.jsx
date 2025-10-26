@@ -9,6 +9,8 @@ import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
 import { CurrencyProvider } from './context/CurrencyContext';
 import { AuthProvider, AuthContext } from './context/AuthContext';
+import { RecentlyViewedProvider } from './context/RecentlyViewedContext'; // --- 1. IMPORT PROVIDER
+import RecentlyViewed from './components/product/RecentlyViewed'; // --- 2. IMPORT COMPONENT
 import Footer from './components/common/Footer';
 import GiftCardPage from './pages/GiftCardPage';
 import WishlistButton from './components/common/WishlistButton';
@@ -340,6 +342,10 @@ function AppContent() {
    const hideHeader = currentPage === 'checkout'; // Only hide header on checkout for now
    const hideFooter = currentPage === 'checkout';
 
+  // --- 3. DEFINE PAGES TO HIDE RECENTLY VIEWED ON ---
+  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout'];
+  const showRecentlyViewed = !hideRecentlyViewedOn.includes(currentPage);
+
   return (
     <div className={`App ${isSolidHeaderForced || hideHeader ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
       {!hideHeader && (
@@ -364,7 +370,12 @@ function AppContent() {
             }}
         />
        )}
-      <main>{renderPage()}</main>
+      <main>
+        {renderPage()}
+        
+        {/* --- 4. RENDER RECENTLY VIEWED COMPONENT --- */}
+        {showRecentlyViewed && <RecentlyViewed setPage={handleNavigation} />}
+      </main>
 
       {/* Global Components */}
       <CartDrawer setPage={handleNavigation} />
@@ -380,17 +391,17 @@ function AppContent() {
   );
 }
 
-// Update WishlistProvider wrapper to pass handleNavClick
+// --- 5. WRAP APPCONTENT IN THE NEW PROVIDER ---
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <CurrencyProvider>
-           {/* Wrap AppContent to potentially pass handleNavigation */}
-           {/* Note: Direct prop passing is better than context for this */}
-          <WishlistProvider>
-             <AppContent />
-          </WishlistProvider>
+          <RecentlyViewedProvider> {/* Add provider here */}
+            <WishlistProvider>
+               <AppContent />
+            </WishlistProvider>
+          </RecentlyViewedProvider> {/* Close provider */}
         </CurrencyProvider>
       </CartProvider>
     </AuthProvider>

@@ -4,11 +4,12 @@ import { Container, Row, Col, Button, Form, Tabs, Tab, Image } from 'react-boots
 import { CartContext } from '../context/CartContext';
 import { CurrencyContext } from '../context/CurrencyContext';
 import { WishlistContext } from '../context/WishlistContext';
+import { RecentlyViewedContext } from '../context/RecentlyViewedContext'; // --- 1. IMPORT
 import { formatPrice } from '../utils/currencyUtils';
 import { allProducts } from '../utils/searchUtils';
 import ProductCard from '../components/product/ProductCard';
 
-const FALL_PICOT_PRICE_INR = 125; // Define globally or import from config
+const FALL_PICOT_PRICE_INR = 125; 
 
 const ProductDetailPage = ({ productId, setPage }) => {
     const [quantity, setQuantity] = useState(1);
@@ -17,21 +18,27 @@ const ProductDetailPage = ({ productId, setPage }) => {
 
     const { addToCart } = useContext(CartContext);
     const { selectedCurrency } = useContext(CurrencyContext);
-    const { addToWishlist, isProductInWishlist, wishlistCount } = useContext(WishlistContext);
+    const { addToWishlist, isProductInWishlist } = useContext(WishlistContext);
+    const { addProduct: addRecentlyViewed } = useContext(RecentlyViewedContext); // --- 2. GET CONTEXT FUNCTION
 
     const product = useMemo(() => allProducts.find(p => p && String(p.id) === String(productId)), [productId]);
 
     useEffect(() => {
-        if (product?.image1) { // Use optional chaining
+        if (product?.image1) { 
             setMainImage(product.image1);
-            // Reset quantity and addon when product changes
             setQuantity(1);
             setAddFallPicot(false);
+            
+            // --- 3. ADD PRODUCT TO RECENTLY VIEWED ---
+            if (product) {
+                addRecentlyViewed(product);
+            }
+            // --- END ---
+
         } else if (product) {
-            // If image1 is missing but product exists, maybe set a placeholder
              setMainImage('https://placehold.co/600x800/EEE/31343C?text=Image+Not+Found');
         }
-    }, [product]);
+    }, [product, addRecentlyViewed]); // --- 4. ADD DEPENDENCY ---
 
     // Add useEffect for body class
     useEffect(() => {

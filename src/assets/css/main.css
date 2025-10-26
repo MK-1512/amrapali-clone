@@ -4295,3 +4295,69 @@ body.product-detail-active {
     display: flex;
     /* ... keep other explore-section styles ... */
 }
+/* src/assets/css/main.css */
+/* ... (at the end of the file) ... */
+
+/* --------------------------------------------------- */
+/* RECENTLY VIEWED STYLES */
+/* --------------------------------------------------- */
+
+.recently-viewed-section {
+    padding: 40px 0;
+    /* Match the homepage section style */
+    background-color: #f9f9f9; /* Or #ffffff if preferred */
+    border-top: 1px solid #e5e5e5;
+    margin-top: 60px; /* Space above the section */
+}
+
+/* Use existing title style from homepage */
+.recently-viewed-section .section-main-title {
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #1c1c1c;
+}
+
+/* Use existing slick arrow styles */
+.recently-viewed-section .slick-prev,
+.recently-viewed-section .slick-next {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: transparent;
+    border: none;
+    outline: none;
+    background: #fff;
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+.recently-viewed-section .slick-prev { left: -10px; }
+.recently-viewed-section .slick-next { right: -10px; }
+
+.recently-viewed-section .slick-prev:before,
+.recently-viewed-section .slick-next:before {
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.recently-viewed-section .slick-prev:before { content: '<'; }
+.recently-viewed-section .slick-next:before { content: '>'; }
+
+.recently-viewed-section .slick-disabled {
+    opacity: 0.3;
+    cursor: default;
+}

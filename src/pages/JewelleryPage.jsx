@@ -7,7 +7,8 @@ import FilterDrawer from '../components/filters/FilterDrawer';
 import JewelleryHeroBanner from '../components/common/JewelleryHeroBanner';
 import { jewellery } from '../data/jewellery'; // Import the jewellery data
 
-const JewelleryPage = () => {
+// --- FIX: Accept setPage prop ---
+const JewelleryPage = ({ setPage }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const handleOpenFilter = () => setIsFilterOpen(true);
@@ -15,16 +16,10 @@ const JewelleryPage = () => {
 
   return (
     <>
-      {/* The wrapper div is GONE. */}
-
       <JewelleryHeroBanner />
-
       <FilterBar handleOpenFilter={handleOpenFilter} />
-
-      {/* Pass the imported 'jewellery' array directly using the 'products' prop */}
-      {/* Keep collectionName="jewellery" potentially for title setting inside ProductList */}
-      <ProductList products={jewellery} collectionName="jewellery" />
-
+      {/* --- FIX: Pass setPage down to ProductList --- */}
+      <ProductList products={jewellery} collectionName="jewellery" setPage={setPage} />
       <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
     </>
   );
