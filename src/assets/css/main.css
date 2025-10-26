@@ -4940,3 +4940,136 @@ body.product-detail-active {
 
 /* ... (Rest of your main.css) ... */
 /* ... (rest of your main.css) ... */
+
+/* src/assets/css/main.css */
+
+/* ... (Keep all existing styles) ... */
+
+/* --------------------------------------------------- */
+/* CUSTOM PAGINATION STYLES */
+/* --------------------------------------------------- */
+
+.custom-pagination-container {
+    display: flex;
+    flex-direction: column; /* Stack numbers/arrows above the line */
+    align-items: center;
+    margin-top: 50px;
+    position: relative; /* Needed for absolute positioning of lines */
+    padding-bottom: 20px; /* Space below the line */
+}
+
+.custom-pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 15px; /* Space between numbers and line */
+    align-items: center; /* Vertically align items */
+}
+
+.custom-pagination .page-item {
+    margin: 0 5px; /* Spacing between buttons/numbers */
+}
+
+/* Style for all links (buttons and spans) */
+.custom-pagination .page-link {
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem; /* Adjust padding as needed */
+    color: #999; /* Default color for numbers/arrows */
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    font-size: 16px; /* Adjust font size */
+    font-weight: 400;
+    transition: color 0.2s ease;
+    min-width: 35px; /* Ensure minimum width */
+    text-align: center;
+    cursor: pointer; /* Make buttons clickable */
+}
+
+/* Hover effect for clickable buttons */
+.custom-pagination .page-link.number:hover:not(:disabled),
+.custom-pagination .page-link.arrow:hover:not(:disabled) {
+    color: #1c1c1c; /* Darker color on hover */
+    background-color: transparent; /* No background hover */
+}
+
+/* Remove focus outline */
+.custom-pagination .page-link:focus {
+     box-shadow: none !important;
+     outline: none !important;
+}
+
+/* Active page number */
+.custom-pagination .page-item.active .page-link.number {
+    color: #1c1c1c; /* Dark color for active page */
+    font-weight: 600; /* Make active number bolder */
+    cursor: default; /* Not clickable */
+}
+
+/* Disabled state for buttons */
+.custom-pagination .page-item.disabled .page-link,
+.custom-pagination .page-link:disabled {
+    color: #ccc !important; /* Lighter color for disabled */
+    cursor: default !important;
+    pointer-events: none; /* Prevent clicks */
+}
+
+/* Ellipsis styling (span) */
+.custom-pagination .page-item.ellipsis .page-link.ellipsis-span {
+    color: #ccc;
+    cursor: default;
+    padding: 0.5rem 0.3rem; /* Less padding for ellipsis */
+}
+
+/* Arrow specific styles */
+.custom-pagination .page-link.arrow {
+    font-weight: 600; /* Bolder arrows */
+    font-size: 18px; /* Slightly larger arrows */
+}
+
+/* --- Decorative Line Styles --- */
+.pagination-line-container {
+    width: 250px; /* Adjust width of the line area */
+    max-width: 80%;
+    height: 5px; /* Height for interaction area */
+    position: relative;
+}
+
+.pagination-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px; /* Thickness of the faint line */
+    background-color: #e0e0e0; /* Color of the faint line */
+    z-index: 1;
+}
+
+.pagination-underline {
+    position: absolute;
+    bottom: 0; /* Align with the faint line */
+    height: 2px; /* Thickness of the underline */
+    background-color: #333; /* Color of the underline */
+    z-index: 2; /* Above the faint line */
+    transition: left 0.3s ease, width 0.3s ease; /* Smooth transition */
+}
+/* --- End Decorative Line Styles --- */
+
+
+/* --- Remove Default Bootstrap Pagination Styles (if conflicting) --- */
+/* Add these if the old styles are still interfering */
+.pagination-container .pagination {
+    margin-bottom: 0 !important; /* Override Bootstrap margin */
+}
+.pagination-container .page-item .page-link {
+    border: none !important; /* Remove Bootstrap borders */
+    background-color: transparent !important; /* Remove Bootstrap background */
+    box-shadow: none !important; /* Remove Bootstrap shadow */
+    padding: 0 !important; /* Remove Bootstrap padding if needed */
+    margin: 0 !important; /* Remove Bootstrap margin if needed */
+    color: inherit !important; /* Use custom color */
+}
+/* --- End Bootstrap Override --- */
+
+
+/* ... (rest of your main.css) ... */

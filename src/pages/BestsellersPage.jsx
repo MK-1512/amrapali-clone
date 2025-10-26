@@ -8,6 +8,7 @@ import Pagination from '../components/common/Pagination';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 
+
 // Accept setPage prop
 const BestsellersPage = ({ setPage }) => {
     const [currentPage, setCurrentPage] = useState(1);

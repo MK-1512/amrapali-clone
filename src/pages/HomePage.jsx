@@ -419,7 +419,7 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                      <Row>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/1_free_shipping_2.png?1635" alt="Free Shipping" /><p>Free Shipping</p></Col>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/2_fall_and_picot_services.png?1559" alt="Fall and Picot Services" /><p>Fall and Picot Services</p></Col>
-                         <Col className="info-item"><img src="httpsG://cdn.shopify.com/s/files/1/0082/5091/6915/files/3_handmade.png?1559" alt="Hand Made" /><p>Hand Made</p></Col>
+                         <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/3_handmade.png?1559" alt="Hand Made" /><p>Hand Made</p></Col>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/4_pure_fabrics.png?1559" alt="Pure Fabrics" /><p>Pure Fabrics</p></Col>
                          <Col className="info-item"><img src="https://cdn.shopify.com/s/files/1/0082/5091/6915/files/5_quality_assurance_1.png?1632" alt="Quality Assurance" /><p>Quality Assurance</p></Col>
                      </Row>

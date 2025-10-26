@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useMemo } from 'react'; // Import useMemo
 import { Container, Row, Col, Pagination as BootstrapPagination } from 'react-bootstrap';
 import ProductCard from './ProductCard';
-
+import Pagination from '../components/common/Pagination'; // Correct import
 // --- Import all products needed for search ---
 import { allProducts } from '../../utils/searchUtils';
 // --- Import individual collection data sources needed for COLLECTION MODE ---
