@@ -1,11 +1,13 @@
 // src/components/product/ProductList.jsx
 
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react'; // Import useMemo
 import { Container, Row, Col, Pagination as BootstrapPagination } from 'react-bootstrap';
-import { useSearchParams } from 'react-router-dom';
 import ProductCard from './ProductCard';
 
-// Import all required product data sources
+// --- Import all products needed for search ---
+import { allProducts } from '../../utils/searchUtils';
+// --- Import individual collection data sources needed for COLLECTION MODE ---
+// (Make sure these are correctly imported if you still support direct collection loading)
 import { products as sareeProducts } from '../../data/products';
 import { jewellery as jewelleryProducts } from '../../data/jewellery';
 import { soulfulWeavesProducts } from '../../data/soulfulWeaves';
@@ -24,96 +26,136 @@ import { goldenHourJewelleryProducts } from '../../data/goldenHourJewellery';
 import { ekSitaraKotaProducts } from '../../data/ekSitaraKota';
 import { smartStaplesProducts } from '../../data/smartStaples';
 import { potpourriProducts } from '../../data/potpourriProducts';
-// Import bestseller products (might be needed if a collection uses them)
-// import { bestsellerProducts } from '../../data/bestsellerProducts';
 
 
-// Accept setPage prop for navigation
-const ProductList = ({ collectionName, products: productsData = null, setPage }) => {
-    const [searchParams, setSearchParams] = useSearchParams();
+const ProductList = ({ collectionName, products: productsData = null, setPage, searchQuery = null }) => {
 
-    let productsToDisplay = [];
     let productsPerPage = 16;
-    let title = "Products"; // Default title
+    let title = ""; // Initialize title
 
-    // --- Determine which product list to use ---
-    if (productsData && Array.isArray(productsData)) {
-        // If productsData is passed directly (e.g., filtered results from category pages)
-        productsToDisplay = productsData;
-        if (collectionName) {
-            // Simple title based on collectionName when data is passed directly
-            const upperCollectionName = String(collectionName).toUpperCase().replace(/-/g, ' '); // Replace hyphens for better display
+    // --- FIX: Use useMemo to calculate productsToDisplay ---
+    const productsToDisplay = useMemo(() => {
+        console.log("Recalculating productsToDisplay..."); // Debug log
+        if (searchQuery) {
+            // --- SEARCH MODE ---
+            console.log("Search Mode Active, Query:", searchQuery);
+            const lowerQuery = searchQuery.toLowerCase();
+            return allProducts.filter(p => { //
+                const nameMatch = p && p.name ? p.name.toLowerCase().includes(lowerQuery) : false;
+                const tagsMatch = p && p.tags ? p.tags.some(tag => tag.toLowerCase().includes(lowerQuery)) : false;
+                return nameMatch || tagsMatch;
+            });
+        } else if (productsData && Array.isArray(productsData)) {
+            // --- CATEGORY MODE (Data passed directly) ---
+            console.log("Category Mode (Direct Data) Active, Collection:", collectionName);
+            return productsData;
+        } else {
+             // --- COLLECTION MODE (Fetching data based on collectionName) ---
+            const collectionKey = collectionName ? String(collectionName).trim().toUpperCase() : '';
+            console.log("Collection Mode Active, Key:", collectionKey);
+
+            if (collectionKey === "POTPOURRI") return potpourriProducts; //
+            else if (collectionKey === "SOULFUL WEAVES - COTTON SAREES (NEW)") return soulfulWeavesProducts; //
+            else if (collectionKey === "IKTARA - JAMDANI WEAVES") return iktaraWeavesProducts; //
+            else if (collectionKey === "RAANJHANA - BENARASI WEAVES") return raanjhanaWeavesProducts; //
+            else if (collectionKey === "MASAKALI - CHANDERI WEAVES") return masakaliWeavesProducts; //
+            else if (collectionKey === "POPSICLE - EVERYDAY COTTONS") return popsicleCottonsProducts; //
+            else if (collectionKey === "DOODHE-AALTA - RED-BORDERED WHITE SAREES") return doodheAaltaSareesProducts; //
+            else if (collectionKey === "STORIES FROM HOME - COTTON SAREES") return storiesFromHomeProducts; //
+            else if (collectionKey === "ROOPKATHA - BALUCHARI AND SWARNACHARI") return roopkathaWeavesProducts; //
+            else if (collectionKey === "CANDYFLOSS - COTTON SAREES") return candyflossCottonsProducts; //
+            else if (collectionKey === "NOOR - ORGANZA BENARASI") return noorOrganzaProducts; //
+            else if (collectionKey === "SUNKISSED - MINIMALIST JEWELLERY") return sunkissedJewelleryProducts; //
+            else if (collectionKey === "A MIDAS TOUCH - TUSSAR SILK") return aMidasTouchSilkProducts; //
+            else if (collectionKey === "GOLDEN HOUR - ECLECTIC JEWELLERY") return goldenHourJewelleryProducts; //
+            else if (collectionKey === "EK SITARA - KOTA SAREES") return ekSitaraKotaProducts; //
+            else if (collectionKey === "SMART STAPLES - A WORKWEAR EDIT") return smartStaplesProducts; //
+            // General Jewellery check
+            else if (collectionKey === 'JEWELLERY') return jewelleryProducts; //
+            // Fallback for default '/shop', empty collectionName, or 'sarees'
+            else if (!collectionKey || collectionKey === 'SHOP' || collectionKey === 'SAREES') return sareeProducts; //
+            // Fallback for unrecognized collection name
+            else {
+                 console.warn("ProductList useMemo: Unrecognized collection key:", collectionKey);
+                 return [];
+            }
+        }
+    // --- Dependencies for useMemo ---
+    }, [searchQuery, productsData, collectionName]); // Recalculate only if these change
+    // --- END FIX ---
+
+
+    // Determine Title based on mode AFTER productsToDisplay is calculated
+    useMemo(() => {
+        if (searchQuery) {
+             title = `Search Results for "${searchQuery}"`;
+        } else if (collectionName) {
+            const upperCollectionName = String(collectionName).toUpperCase().replace(/-/g, ' ');
             if (upperCollectionName === "NECKPIECES") title = "Neckpieces";
             else if (upperCollectionName === "EARRINGS") title = "Earrings";
             else if (upperCollectionName === "BANGLES CUFFS") title = "Bangles & Cuffs";
             else if (upperCollectionName === "RINGS") title = "Rings";
             else if (upperCollectionName === "JEWELLERY") title = "Jewellery";
             else if (upperCollectionName === "NEW ARRIVALS JEWELLERY") title = "New Arrivals - Jewellery";
-             // Saree Categories
             else if (upperCollectionName === "COTTON SAREES") title = "Cotton Sarees";
             else if (upperCollectionName === "SILK & TUSSAR SAREES") title = "Silk & Tussar Sarees";
             else if (upperCollectionName === "LINEN SAREES") title = "Linen Sarees";
             else if (upperCollectionName === "CHANDERI SAREES") title = "Chanderi Sarees";
-            else title = collectionName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '); // Capitalize words
+            // Check specific collection names derived from data files
+            else if (collectionName === 'SOULFUL WEAVES - Cotton Sarees (NEW)') title = "Soulful Weaves";
+            else if (collectionName === 'IKTARA - Jamdani Weaves') title = "Iktara - Jamdani Stories";
+            else if (collectionName === 'RAANJHANA - Benarasi Weaves') title = "Raanjhana - Banarasi Weaves";
+            else if (collectionName === 'MASAKALI - Chanderi Weaves') title = "Masakali";
+            else if (collectionName === 'POPSICLE - Everyday Cottons') title = "Popsicle - Everyday Cottons";
+            else if (collectionName === 'DOODHE-AALTA - Red-Bordered White Sarees') title = "Doodhe-Aalta";
+            else if (collectionName === 'STORIES FROM HOME - Cotton Sarees') title = "Stories From Home";
+            else if (collectionName === 'ROOPKATHA - Baluchari and Swarnachari') title = "Roopkatha";
+            else if (collectionName === 'CANDYFLOSS - Cotton Sarees') title = "Candyfloss";
+            else if (collectionName === 'NOOR - Organza Benarasi') title = "Noor - A Tale of Organza";
+            else if (collectionName === 'SUNKISSED - Minimalist Jewellery') title = "Sunkissed";
+            else if (collectionName === 'A MIDAS TOUCH - Tussar Silk') title = "A Midas Touch";
+            else if (collectionName === 'GOLDEN HOUR - Eclectic Jewellery') title = "Golden Hour";
+            else if (collectionName === 'EK SITARA - Kota Sarees') title = "Ek Sitara";
+            else if (collectionName === 'SMART STAPLES - A Workwear Edit') title = "Smart Staples - A Workwear Edit";
+            else if (collectionName === 'POTPOURRI') title = "Potpourri";
+            else if (collectionName === 'sarees' || collectionName === 'shop') title = "Sarees";
+            else title = collectionName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '); // Capitalize words fallback
         } else {
-             title = "Products"; // Fallback if no collectionName provided with data
+             title = "Products"; // Default fallback
         }
+    }, [searchQuery, collectionName]); // Update title if mode changes
 
-    } else {
-        // --- If no productsData passed, use collectionName to fetch data ---
-        const collectionKey = collectionName ? String(collectionName).trim().toUpperCase() : '';
-
-        // Named Collections & Specific Categories
-        if (collectionKey === "POTPOURRI") { productsToDisplay = potpourriProducts; title = "Potpourri"; }
-        else if (collectionKey === "SOULFUL WEAVES - COTTON SAREES (NEW)") { productsToDisplay = soulfulWeavesProducts; title = "Soulful Weaves"; }
-        else if (collectionKey === "IKTARA - JAMDANI WEAVES") { productsToDisplay = iktaraWeavesProducts; title = "Iktara - Jamdani Stories"; }
-        else if (collectionKey === "RAANJHANA - BENARASI WEAVES") { productsToDisplay = raanjhanaWeavesProducts; title = "Raanjhana - Banarasi Weaves"; }
-        else if (collectionKey === "MASAKALI - CHANDERI WEAVES") { productsToDisplay = masakaliWeavesProducts; title = "Masakali"; }
-        else if (collectionKey === "POPSICLE - EVERYDAY COTTONS") { productsToDisplay = popsicleCottonsProducts; title = "Popsicle - Everyday Cottons"; }
-        else if (collectionKey === "DOODHE-AALTA - RED-BORDERED WHITE SAREES") { productsToDisplay = doodheAaltaSareesProducts; title = "Doodhe-Aalta"; }
-        else if (collectionKey === "STORIES FROM HOME - COTTON SAREES") { productsToDisplay = storiesFromHomeProducts; title = "Stories From Home"; }
-        else if (collectionKey === "ROOPKATHA - BALUCHARI AND SWARNACHARI") { productsToDisplay = roopkathaWeavesProducts; title = "Roopkatha"; }
-        else if (collectionKey === "CANDYFLOSS - COTTON SAREES") { productsToDisplay = candyflossCottonsProducts; title = "Candyfloss"; }
-        else if (collectionKey === "NOOR - ORGANZA BENARASI") { productsToDisplay = noorOrganzaProducts; title = "Noor - A Tale of Organza"; }
-        else if (collectionKey === "SUNKISSED - MINIMALIST JEWELLERY") { productsToDisplay = sunkissedJewelleryProducts; title = "Sunkissed"; }
-        else if (collectionKey === "A MIDAS TOUCH - TUSSAR SILK") { productsToDisplay = aMidasTouchSilkProducts; title = "A Midas Touch"; }
-        else if (collectionKey === "GOLDEN HOUR - ECLECTIC JEWELLERY") { productsToDisplay = goldenHourJewelleryProducts; title = "Golden Hour"; }
-        else if (collectionKey === "EK SITARA - KOTA SAREES") { productsToDisplay = ekSitaraKotaProducts; title = "Ek Sitara"; }
-        else if (collectionKey === "SMART STAPLES - A WORKWEAR EDIT") { productsToDisplay = smartStaplesProducts; title = "Smart Staples - A Workwear Edit"; }
-        // General Jewellery check (Shows ALL jewellery if collectionName is 'jewellery')
-        else if (collectionKey === 'JEWELLERY') { productsToDisplay = jewelleryProducts; title = "Jewellery"; }
-        // Fallback for default '/shop', empty collectionName, or 'sarees' -> Show main saree list
-        else if (!collectionKey || collectionKey === 'SHOP' || collectionKey === 'SAREES') {
-            productsToDisplay = sareeProducts;
-            title = "Sarees";
-        }
-        // Fallback for unrecognized collection name
-        else {
-             productsToDisplay = [];
-             title = collectionName ? collectionName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : "Unknown Collection";
-             console.warn("ProductList: Unrecognized collection key:", collectionKey);
-        }
-    }
-    // --- End data selection logic ---
-
-    // Ensure productsToDisplay is always an array
+    // Ensure productsToDisplay is always an array (redundant check, but safe)
     if (!Array.isArray(productsToDisplay)) {
-        console.error("ProductList: productsToDisplay is not an array for collection:", collectionName, "Data used:", productsData);
+        console.error("ProductList: productsToDisplay is not an array AFTER useMemo for:", collectionName || searchQuery);
         productsToDisplay = [];
     }
 
 
-    // --- Pagination Logic ---
-    const currentPage = parseInt(searchParams.get('page') || '1', 10);
+    // --- Pagination Logic (Local State) ---
+    const [currentPage, setCurrentPage] = useState(1); // Use local state for pagination
+
+    // Reset to page 1 if products change (e.g., new search, new collection)
+    useEffect(() => {
+        console.log("ProductList useEffect: Resetting currentPage to 1 because productsToDisplay changed."); // DEBUG
+        setCurrentPage(1);
+    }, [productsToDisplay]); // Reset page ONLY when the memoized list of products changes
+
+
     const totalPages = productsToDisplay.length > 0 ? Math.ceil(productsToDisplay.length / productsPerPage) : 0;
     const firstPageIndex = (currentPage - 1) * productsPerPage;
     const lastPageIndex = firstPageIndex + productsPerPage;
+
+    // Debugging logs
+    console.log(`ProductList Render: searchQuery=${searchQuery}, collectionName=${collectionName}`);
+    console.log(`ProductList Render: currentPage=${currentPage}, firstPageIndex=${firstPageIndex}, lastPageIndex=${lastPageIndex}, totalPages=${totalPages}, totalProducts=${productsToDisplay.length}`);
+
     const currentProducts = productsToDisplay.slice(firstPageIndex, lastPageIndex);
-    // --- End Pagination Logic ---
 
     const handlePageChange = (pageNumber) => {
         const newPage = Math.max(1, Math.min(pageNumber, totalPages || 1));
-        setSearchParams({ page: newPage });
+        console.log(`ProductList handlePageChange: Changing page from ${currentPage} to ${newPage}`); // DEBUG
+        setCurrentPage(newPage); // Update local state
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -126,22 +168,23 @@ const ProductList = ({ collectionName, products: productsData = null, setPage })
                  <Col>
                      <h2 style={{ textAlign: 'center', fontFamily: "'Cormorant Garamond', serif", fontSize: '28px', fontWeight: 600, color: '#1c1c1c' }}>
                          {title}
+                        {/* Show count for search results */}
+                        {searchQuery && <span style={{fontSize: '1rem', color: '#777', fontWeight: 400, marginLeft: '10px'}}>({productsToDisplay.length} items)</span>}
                      </h2>
                  </Col>
             </Row>
             <Row xs={2} sm={2} md={4} lg={4} className="g-3">
                 {productsToDisplay.length > 0 ? (
                     currentProducts.map(product => (
-                        // Add safety check here too
                         product && product.id ? (
                             <Col key={product.id} className="mb-4">
                                 {/* Pass setPage down to ProductCard */}
                                 <ProductCard product={product} setPage={setPage} />
                             </Col>
-                        ) : null // Skip rendering if product or id is missing
+                        ) : null
                     ))
                 ) : (
-                    <Col xs={12}><p className="text-center">No products found in this collection.</p></Col>
+                    <Col xs={12}><p className="text-center">No products found{searchQuery ? ` matching "${searchQuery}"` : ''}.</p></Col> // More specific message
                 )}
             </Row>
             {showPagination && (

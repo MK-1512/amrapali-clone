@@ -4655,3 +4655,288 @@ body.product-detail-active {
 }
 
 /* ... rest of main.css ... */
+
+/* src/assets/css/main.css */
+
+/* ... (Keep all existing styles from previous turns) ... */
+
+/* --------------------------------------------------- */
+/* SHOP DROPDOWN MENU STYLES (UPDATED) */
+/* --------------------------------------------------- */
+
+.main-nav-container {
+  position: relative; /* This is the positioning parent for the dropdown */
+}
+
+.nav-item-shop {
+  /* No special position needed, it's just a list item */
+}
+
+/* This rule styles the dropdown menu itself.
+  Visibility is controlled by React state (isShopDropdownOpen) in Header.jsx,
+  not by CSS hover.
+*/
+.shop-dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position it directly below the nav bar */
+  left: 0;   /* Align to the left edge of the main-nav-container */
+  right: 0;  /* Align to the right edge of the main-nav-container */
+  width: 100%; /* Make it full-width of its parent */
+  background-color: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 40px 0; /* Increase vertical padding */
+  z-index: 1020; /* Ensure it's on top */
+
+ /* --- NEW: Height Adjustment --- */
+  min-height: calc(100vh - 138px - 40px); /* Fill space below header, minus top padding */
+  height: auto; /* Allow content to define height if needed */
+  max-height: calc(100vh - 138px); /* Don't exceed viewport height below header */
+  overflow-y: auto; /* Add scroll if content overflows */
+  display: flex; /* Use flexbox for vertical alignment */
+  flex-direction: column; /* Stack container */
+ /* --- END Height Adjustment --- */
+
+  /* Transitions for smooth appearance/disappearance */
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
+
+  /* We don't need 'pointer-events: none' if we unmount it with React state */
+}
+
+/* This centers the content *inside* the full-width dropdown,
+  matching your site's main container.
+*/
+.shop-dropdown-menu .container {
+    max-width: 1140px; /* Or your standard container width */
+    margin: 0 auto; /* Center the content */
+    padding: 0 15px;
+   flex-grow: 1; /* Allow container to grow */
+   display: flex; /* Use flex for potential vertical centering if needed */
+   align-items: flex-start; /* Align content to the top */
+}
+
+/* Column titles */
+.dropdown-col-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 15px;
+  color: #1c1c1c;
+}
+
+/* --- FIX: Remove underline from title links --- */
+.dropdown-col-title-link {
+    padding: 0 !important;
+    text-decoration: none !important;
+    display: block;
+    margin-bottom: 15px;
+}
+.dropdown-col-title-link:hover .dropdown-col-title {
+     color: #a8853d;
+}
+
+/* --- FIX: Remove underline from list links --- */
+.dropdown-links .nav-link {
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  color: #555 !important;
+  padding: 4px 0 !important;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
+  font-weight: 400;
+  text-decoration: none !important; /* This removes the underline */
+}
+.dropdown-links .nav-link:hover {
+  color: #a8853d !important;
+}
+
+/* Image links */
+.dropdown-image-link {
+  display: block;
+  text-decoration: none !important; /* Ensure no underline on image links */
+  color: #1c1c1c;
+  transition: opacity 0.3s ease;
+}
+.dropdown-image-link:hover {
+  opacity: 0.85;
+}
+
+/* --- FIX: IMAGE SIZE --- */
+.dropdown-image-link img {
+  width: 100%;
+  display: block;
+  height: auto; /* Let aspect ratio determine height */
+  max-height: 350px; /* Set a maximum height if needed */
+  aspect-ratio: 3 / 4; /* Maintain aspect ratio */
+  object-fit: cover;
+  border: 1px solid #eee;
+  margin-bottom: 0;
+}
+
+.dropdown-image-caption {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 10px;
+}
+
+/* Keep SHOP link highlighted when dropdown is open */
+/* (This still relies on hover, which is fine for link color) */
+.header-container.scrolled .nav-item-shop:hover .nav-link {
+    color: #a8853d !important;
+}
+/* This rule is crucial for transparent header state */
+.header-container.nav-hovered:not(.scrolled) .nav-item-shop:hover .nav-link {
+    color: #a8853d !important;
+}
+
+/* Ensure dropdown background stays white when header is transparent
+  but nav is hovered.
+*/
+.header-container.nav-hovered:not(.scrolled) .shop-dropdown-menu {
+    background-color: #ffffff;
+}
+
+/* --- Ensure React Bootstrap Dropdowns are styled correctly --- */
+.main-nav .dropdown-menu {
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 10px 0; /* Adjust padding */
+    margin-top: 0; /* Align directly below */
+    z-index: 1010; /* Lower than shop dropdown */
+}
+
+.main-nav .dropdown-item {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    color: #555 !important;
+    padding: 6px 20px !important; /* Adjust padding */
+    text-transform: none;
+    letter-spacing: 0.02em;
+    font-weight: 400;
+    background-color: transparent !important; /* Ensure no background */
+    transition: color 0.3s ease;
+}
+
+.main-nav .dropdown-item:hover,
+.main-nav .dropdown-item:focus {
+    color: #a8853d !important;
+    background-color: #f8f9fa !important; /* Slight background on hover */
+}
+.main-nav .dropdown-divider {
+    border-top: 1px solid #eee;
+    margin: 5px 0;
+}
+
+/* src/assets/css/main.css */
+
+/* ... (Keep all existing styles) ... */
+
+/* --- NEW: Dropdown Arrow Style --- */
+.dropdown-toggle-arrow {
+  display: inline-block;
+  margin-left: .255em;
+  vertical-align: .255em;
+  content: "";
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
+}
+
+/* Ensure arrows in React Bootstrap NavDropdowns also use correct color */
+.header-container .nav-link.dropdown-toggle::after {
+    /* Use the same style as .dropdown-toggle-arrow */
+    display: inline-block;
+    margin-left: .255em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+    /* Ensure color matches nav-link text color */
+    border-top-color: inherit; /* Inherit color */
+    transition: transform .2s ease-in-out; /* Add rotation for Bootstrap ones */
+}
+/* Rotate Bootstrap arrows when open */
+.header-container .nav-link.dropdown-toggle.show::after {
+    transform: rotate(180deg);
+}
+
+
+/* --------------------------------------------------- */
+/* SHOP DROPDOWN MENU STYLES (UPDATED from previous step) */
+/* --------------------------------------------------- */
+
+.main-nav-container {
+  position: relative; /* This is the positioning parent for the dropdown */
+}
+
+.shop-dropdown-menu {
+  position: absolute;
+  top: 100%; /* Position it directly below the nav bar */
+  left: 0;   /* Align to the left edge of the main-nav-container */
+  right: 0;  /* Align to the right edge of the main-nav-container */
+  width: 100%; /* Make it full-width of its parent */
+  background-color: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 40px 0; /* Increase vertical padding */
+  z-index: 1020; /* Ensure it's on top */
+
+ /* Height Adjustment */
+  min-height: calc(100vh - 138px - 40px); /* Fill space below header, minus top padding */
+  height: auto; /* Allow content to define height if needed */
+  max-height: calc(100vh - 138px); /* Don't exceed viewport height below header */
+  overflow-y: auto; /* Add scroll if content overflows */
+  display: flex; /* Use flexbox for vertical alignment */
+  flex-direction: column; /* Stack container */
+ /* END Height Adjustment */
+
+  /* Transitions for smooth appearance/disappearance */
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
+}
+
+.shop-dropdown-menu .container {
+    max-width: 1140px; /* Or your standard container width */
+    margin: 0 auto; /* Center the content */
+    padding: 0 15px;
+   flex-grow: 1; /* Allow container to grow */
+   display: flex; /* Use flex for potential vertical centering if needed */
+   align-items: flex-start; /* Align content to the top */
+}
+
+/* Image Size */
+.dropdown-image-link img {
+  width: 100%;
+  display: block;
+  height: auto; /* Let aspect ratio determine height */
+  max-height: 350px; /* Set a maximum height if needed */
+  aspect-ratio: 3 / 4; /* Maintain aspect ratio */
+  object-fit: cover;
+  border: 1px solid #eee;
+  margin-bottom: 0;
+}
+
+/* ... (Keep other dropdown styles like titles, links, captions) ... */
+
+
+/* --- React Bootstrap Dropdowns --- */
+/* (Keep styles for .main-nav .dropdown-menu, .dropdown-item, etc.) */
+
+/* ... (Rest of your main.css) ... */
+/* ... (rest of your main.css) ... */

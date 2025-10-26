@@ -1,17 +1,15 @@
 // src/components/common/Header.jsx
-import React, { useState, useEffect, useContext } from 'react';
-// Corrected context import paths
+import React, { useState, useEffect, useContext, useRef } from 'react'; // Import useRef
 import { CartContext } from '../../context/CartContext';
-import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
+import { AuthContext } from '../../context/AuthContext';
 import { NavDropdown } from 'react-bootstrap';
-// Corrected component import path
 import ShopDropdownMenu from './ShopDropdownMenu';
 
 // Added handleLogout to props
 const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, viewingMemberId, isSearchOpen, toggleSearch, handleLogout }) => {
     const { toggleCart, cartItems } = useContext(CartContext);
     const { isLoggedIn, currentUser } = useContext(AuthContext); // Use AuthContext
-    const cartItemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
+    const cartItemCount = cartItems.reduce((count, item) => count + (item.quantity || 0), 0); // Added fallback for quantity
 
     // List of pages where the header can start transparent and become solid on scroll
     const pagesWithHeroBannerEffect = [
@@ -19,7 +17,8 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
         'new-arrivals-jewellery', 'new-arrivals-sarees',
         'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
-        'fall-picot', 'all-collections' // Added all-collections
+        'fall-picot', 'all-collections',
+        'search-results' // Include search results page
     ];
 
     // State to track if the header background should be solid or transparent
@@ -36,19 +35,23 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
     // State to track if the navigation area is being hovered (affects styles when header is transparent)
     const [isNavHovered, setIsNavHovered] = useState(false);
 
-    // State for managing the visibility of dropdown menus
+    // Dropdown states
     const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
     const [isNewArrivalsOpen, setIsNewArrivalsOpen] = useState(false);
     const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
-    // Timer state for delaying the closing of the shop dropdown
-    const [shopDropdownTimer, setShopDropdownTimer] = useState(null);
 
-    // Cleanup timer on component unmount
+    // --- NEW: Timer state for closing dropdowns ---
+    const closeTimerRef = useRef(null); // Use useRef to store the timer ID
+
+    // --- Cleanup timer on component unmount ---
     useEffect(() => {
+        // Clear any lingering timer when the component unmounts
         return () => {
-            if (shopDropdownTimer) clearTimeout(shopDropdownTimer);
+            if (closeTimerRef.current) {
+                clearTimeout(closeTimerRef.current);
+            }
         };
-    }, [shopDropdownTimer]);
+    }, []);
 
     // Effect to update header style (solid/transparent) and top bar visibility based on scroll position and current page
     useEffect(() => {
@@ -84,9 +87,11 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
 
     // Click handler for navigation links
     const handleNavClick = (e, pageName) => {
-        e.preventDefault(); // Prevent default link behavior
+        // Allow default behavior for external links if needed in the future
+        if (e) e.preventDefault(); // Prevent default link behavior
+        // --- Clear timer on click ---
+        if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
         closeAllDropdowns(); // Close any open dropdowns
-        if (shopDropdownTimer) clearTimeout(shopDropdownTimer); // Clear shop dropdown timer
         if (resetTeamView) resetTeamView(); // Reset team view state if function provided
         if (handleSelectCollection) handleSelectCollection(null); // Clear selected collection if function provided
         setPage(pageName); // Call the main navigation function passed from App.jsx
@@ -95,27 +100,38 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
     // Click handler specifically for collection items in dropdowns
     const onCollectionItemClick = (e, collectionName) => {
         e.preventDefault();
+         // --- Clear timer on click ---
+        if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
         closeAllDropdowns();
-        if (shopDropdownTimer) clearTimeout(shopDropdownTimer);
         if (resetTeamView) resetTeamView();
         if (handleSelectCollection) handleSelectCollection(collectionName); // Set the selected collection
         setPage('collection'); // Navigate to the generic 'collection' page
     };
 
-    // Mouse enter handler for the Shop navigation item area (opens dropdown)
-    const handleShopAreaMouseEnter = () => {
-        if (shopDropdownTimer) clearTimeout(shopDropdownTimer); // Clear any pending close timer
-        setIsShopDropdownOpen(true); // Open the dropdown
+    // --- REVISED: Hover Logic with Delay ---
+    const DROPDOWN_CLOSE_DELAY = 150; // ms delay before closing
+
+    const handleMouseEnter = (menu) => {
+        // Clear any pending close timer immediately
+        if (closeTimerRef.current) {
+            clearTimeout(closeTimerRef.current);
+            closeTimerRef.current = null;
+        }
+        // Open the target menu and close others
+        setIsShopDropdownOpen(menu === 'shop');
+        setIsNewArrivalsOpen(menu === 'new-arrivals');
+        setIsCollectionsOpen(menu === 'collections');
     };
 
-    // Mouse leave handler for the Shop navigation item area (starts timer to close dropdown)
-    const handleShopAreaMouseLeave = () => {
-        // Set a timer to close the dropdown after a short delay
-        const timer = setTimeout(() => {
-            setIsShopDropdownOpen(false);
-        }, 150); // 150ms delay allows moving mouse into the dropdown
-        setShopDropdownTimer(timer);
+    const handleMouseLeave = () => {
+        // Set a timer to close all dropdowns after a delay
+        closeTimerRef.current = setTimeout(() => {
+            closeAllDropdowns();
+            closeTimerRef.current = null; // Clear ref after execution
+        }, DROPDOWN_CLOSE_DELAY);
     };
+    // --- END: Revised Hover Logic ---
+
 
     // Helper function to determine if a navigation link should be marked as active
     const isLinkActive = (pageName) => {
@@ -158,7 +174,11 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
             <div
                 className="main-header-content"
                 onMouseEnter={() => setIsNavHovered(true)} // Apply hover styles when mouse enters nav area
-                onMouseLeave={() => setIsNavHovered(false)} // Remove hover styles when mouse leaves nav area
+                onMouseLeave={() => {
+                    setIsNavHovered(false); // Remove hover styles when mouse leaves nav area
+                   // Also trigger closing dropdowns when leaving the broader header area
+                   handleMouseLeave();
+                }}
             >
                 {/* Logo and Icons Row */}
                 <div className="main-header container d-flex justify-content-between align-items-center py-3">
@@ -190,7 +210,7 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                         )}
                         {/* Search Icon */}
                         <img
-                           src="/images/icons/search-icon.svg"
+                           src="/images/icons/search-icon.svg" // <-- Verify this path is correct
                            alt="Search"
                            onClick={toggleSearch} // Calls the toggleSearch function from App.jsx
                            style={{ cursor: 'pointer' }}
@@ -205,91 +225,94 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                 </div>
 
                 {/* Navigation Row */}
-                <div
-                    className="main-nav-container"
-                    onMouseLeave={handleShopAreaMouseLeave} // Trigger timer to close shop dropdown when leaving nav area
-                >
+                <div className="main-nav-container">
                      <nav className="main-nav container">
                         {/* Main navigation links */}
                         <ul className="list-unstyled d-flex justify-content-center gap-5 mb-0 py-2">
-                            {/* SHOP Dropdown (manual implementation) */}
+                            {/* SHOP Dropdown */}
                             <li
                                 className="nav-item-shop"
-                                onMouseEnter={handleShopAreaMouseEnter} // Open dropdown on hover
+                                // --- Use revised hover handlers ---
+                               onMouseEnter={() => handleMouseEnter('shop')}
+                               onMouseLeave={handleMouseLeave} // Close when leaving the specific li
                             >
                                 <a href="#"
-                                  className={`nav-link ${isLinkActive('shop-parent') ? 'active' : ''}`}
-                                  onClick={(e) => handleNavClick(e, 'shop')}>
-                                   SHOP
+                                   className={`nav-link d-flex align-items-center ${isLinkActive('shop-parent') ? 'active' : ''}`} // Added d-flex and align-items-center
+                                   onClick={(e) => handleNavClick(e, 'shop')}>
+                                  <span>SHOP</span>
+                                  {/* --- CHANGE Arrow Style & Remove Rotation --- */}
+                                  <span className="dropdown-toggle-arrow ms-1"></span> {/* Use CSS class for arrow */}
                                 </a>
                                 {/* Render ShopDropdownMenu conditionally */}
                                 {isShopDropdownOpen && (
                                     <ShopDropdownMenu
                                         handleNavClick={handleNavClick} // Pass nav click handler
-                                        onMouseEnter={handleShopAreaMouseEnter} // Keep dropdown open if mouse enters it
+                                        // --- Pass revised hover handlers ---
+                                        onMouseEnter={() => handleMouseEnter('shop')} // Keep open when entering menu
+                                        onMouseLeave={handleMouseLeave} // Start close timer when leaving menu
                                     />
                                 )}
                             </li>
-                             {/* NEW ARRIVALS Dropdown (using react-bootstrap) */}
-                            <li
-                                className="nav-item dropdown"
-                                onMouseEnter={() => setIsNewArrivalsOpen(true)} // Open on hover
-                                onMouseLeave={() => setIsNewArrivalsOpen(false)} // Close on leave
-                            >
-                                <NavDropdown
-                                    title="NEW ARRIVALS"
-                                    id="new-arrivals-dropdown"
-                                    show={isNewArrivalsOpen} // Control visibility with state
-                                    onToggle={() => {}} // Prevent default toggle behavior
-                                    className={`nav-link p-0 ${isLinkActive('new-arrivals-parent') ? 'active' : ''}`} // Apply active class if relevant page is active
-                                >
-                                   {/* Dropdown items */}
-                                   <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-sarees')}>
-                                        Sarees
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-jewellery')}>
-                                        Jewellery
-                                    </NavDropdown.Item>
-                                </NavDropdown>
-                            </li>
-                             {/* COLLECTIONS Dropdown (using react-bootstrap) */}
-                            <li
-                                className="nav-item dropdown"
-                                onMouseEnter={() => setIsCollectionsOpen(true)} // Open on hover
-                                onMouseLeave={() => setIsCollectionsOpen(false)} // Close on leave
-                            >
-                                <NavDropdown
-                                    title="COLLECTIONS"
-                                    id="collections-dropdown"
-                                    show={isCollectionsOpen} // Control visibility with state
-                                    onToggle={() => {}} // Prevent default toggle
-                                    className={`nav-link p-0 ${isLinkActive('collection') ? 'active' : ''}`} // Apply active class if on a collection page
-                                >
-                                    {/* Map through collections array to create dropdown items */}
-                                    {collections.map(collection => (
-                                        <NavDropdown.Item key={collection} onClick={(e) => onCollectionItemClick(e, collection)}>
-                                            {collection}
-                                        </NavDropdown.Item>
-                                    ))}
-                                     {/* Link to All Collections Page */}
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={(e) => handleNavClick(e, 'all-collections')}>
-                                        View All Collections
-                                    </NavDropdown.Item>
-                                </NavDropdown>
-                            </li>
-                            {/* Other standard navigation links */}
-                             <li> <a href="#" className={`nav-link ${isLinkActive('bestsellers') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'bestsellers')}> BESTSELLERS </a> </li>
-                             <li> <a href="#" className={`nav-link ${isLinkActive('meet-the-team') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'meet-the-team')}> MEET THE TEAM </a> </li>
-                             <li> <a href="#" className={`nav-link ${isLinkActive('blog') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'blog')}> BLOG </a> </li>
-                             <li> <a href="#" className={`nav-link ${isLinkActive('gift-card') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'gift-card')}> GIFT CARD </a> </li>
-                        </ul>
-                    </nav>
-                </div>
+                             {/* NEW ARRIVALS Dropdown */}
+                             <li
+                                 className="nav-item dropdown"
+                                 // --- Use revised hover handlers ---
+                                onMouseEnter={() => handleMouseEnter('new-arrivals')}
+                                onMouseLeave={handleMouseLeave}
+                             >
+                                 <NavDropdown
+                                     title="NEW ARRIVALS"
+                                     id="new-arrivals-dropdown"
+                                     show={isNewArrivalsOpen} // Control visibility with state
+                                     onToggle={() => {}} // Prevent default toggle behavior
+                                     className={`nav-link p-0 ${isLinkActive('new-arrivals-parent') ? 'active' : ''}`} // Apply active class if relevant page is active
+                                     // --- No need for event handlers on NavDropdown itself ---
+                                 >
+                                    {/* Dropdown items */}
+                                    <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-sarees')}>Sarees</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-jewellery')}>Jewellery</NavDropdown.Item>
+                                 </NavDropdown>
+                             </li>
+                              {/* COLLECTIONS Dropdown */}
+                             <li
+                                 className="nav-item dropdown"
+                                 // --- Use revised hover handlers ---
+                                onMouseEnter={() => handleMouseEnter('collections')}
+                                onMouseLeave={handleMouseLeave}
+                             >
+                                 <NavDropdown
+                                     title="COLLECTIONS"
+                                     id="collections-dropdown"
+                                     show={isCollectionsOpen} // Control visibility with state
+                                     onToggle={() => {}} // Prevent default toggle
+                                     className={`nav-link p-0 ${isLinkActive('collection') ? 'active' : ''}`} // Apply active class if on a collection page
+                                      // --- No need for event handlers on NavDropdown itself ---
+                                 >
+                                     {/* Map through collections array to create dropdown items */}
+                                     {collections.map(collection => (
+                                         <NavDropdown.Item key={collection} onClick={(e) => onCollectionItemClick(e, collection)}>
+                                             {collection}
+                                         </NavDropdown.Item>
+                                     ))}
+                                      {/* Link to All Collections Page */}
+                                     <NavDropdown.Divider />
+                                     <NavDropdown.Item onClick={(e) => handleNavClick(e, 'all-collections')}>
+                                         View All Collections
+                                     </NavDropdown.Item>
+                                 </NavDropdown>
+                             </li>
+                             {/* Other standard navigation links */}
+                             {/* --- Add mouseEnter handler to clear timers when hovering over standard links --- */}
+                             <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('bestsellers') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'bestsellers')}> BESTSELLERS </a></li>
+                             <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('meet-the-team') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'meet-the-team')}> MEET THE TEAM </a></li>
+                             <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('blog') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'blog')}> BLOG </a></li>
+                             <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('gift-card') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'gift-card')}> GIFT CARD </a></li>
+                         </ul>
+                     </nav>
+                 </div>
             </div>
         </header>
     );
 };
 
 export default Header;
-

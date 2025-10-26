@@ -3,15 +3,22 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProductCard from '../product/ProductCard';
-import { searchAll } from '../../utils/searchUtils';
+// Import allProducts/allBlogPosts if needed for counts
+import { searchAll, allProducts, allBlogPosts } from '../../utils/searchUtils';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
 
 // Sub-component for a small blog preview in search results
-const SearchBlogPreview = ({ post }) => {
-    // Use App.handleNavigation here if you want to close the search bar immediately.
-    // For now, we'll keep it as a placeholder link.
+const SearchBlogPreview = ({ post, handleNavClick }) => { // Added handleNavClick
+    const handleBlogClick = (e) => {
+        e.preventDefault();
+        // Use handleNavClick to navigate to the blog detail page
+        if (handleNavClick && post && post.id) {
+            handleNavClick(`blog-detail-${post.id}`);
+        }
+    };
     return (
-        <a href="#" className="search-blog-preview-link">
+        // Make the whole preview clickable
+        <a href="#" className="search-blog-preview-link" onClick={handleBlogClick}>
             <div className="search-blog-preview">
                 <img src={post.image} alt={post.title} className="img-fluid mb-2" />
                 <p className="search-blog-title">{post.title}</p>
@@ -20,13 +27,23 @@ const SearchBlogPreview = ({ post }) => {
     );
 };
 
+
 // Main Search Bar Component
-const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick }) => {
+// --- Add new prop: onSearchSubmit ---
+const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick, onSearchSubmit }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [results, setResults] = useState({ products: [], blogs: [], productCount: 0, blogCount: 0 });
+    // --- State now includes full lists and sliced lists ---
+    const [results, setResults] = useState({
+        initialProducts: [],
+        initialBlogs: [],
+        fullProductList: [], // Store all matching products
+        fullBlogList: [],     // Store all matching blogs
+        productCount: 0,
+        blogCount: 0
+    });
     const searchRef = useRef(null);
 
-    // Debounced search logic for smoother typing experience
+    // Debounced search logic
     const debounce = (func, delay) => {
         let timeoutId;
         return (...args) => {
@@ -35,13 +52,39 @@ const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick }) => {
                 func.apply(null, args);
             }, delay);
         };
-    };
-    
+     };
+
     // Perform search
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const performSearch = useCallback(debounce((query) => {
-        setResults(searchAll(query));
-    }, 250), []);
+        if (!query) {
+             setResults({ initialProducts: [], initialBlogs: [], fullProductList: [], fullBlogList: [], productCount: 0, blogCount: 0 });
+             return;
+        }
+        const lowerQuery = query.toLowerCase();
+
+        // --- Search through ALL products/blogs ---
+        const matchingProducts = allProducts.filter(p => { //
+            const nameMatch = p && p.name ? p.name.toLowerCase().includes(lowerQuery) : false; //
+            const tagsMatch = p && p.tags ? p.tags.some(tag => tag.toLowerCase().includes(lowerQuery)) : false; //
+            return nameMatch || tagsMatch; //
+        });
+        const matchingBlogs = allBlogPosts.filter(b => { //
+            const titleMatch = b && b.title ? b.title.toLowerCase().includes(lowerQuery) : false; //
+            const excerptMatch = b && b.excerpt ? b.excerpt.toLowerCase().includes(lowerQuery) : false; //
+            return titleMatch || excerptMatch; //
+        });
+
+
+        setResults({
+           initialProducts: matchingProducts.slice(0, 3), // <-- Show only first 3 products initially
+           initialBlogs: matchingBlogs.slice(0, 3),    // <-- Show only first 3 blogs initially
+           fullProductList: matchingProducts, // Keep the full list
+           fullBlogList: matchingBlogs,      // Keep the full list
+            productCount: matchingProducts.length, //
+            blogCount: matchingBlogs.length //
+        });
+    }, 250), [allProducts, allBlogPosts]); // Added dependencies
 
     useEffect(() => {
         if (isSearchOpen) {
@@ -50,9 +93,7 @@ const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick }) => {
     }, [searchTerm, isSearchOpen, performSearch]);
 
 
-    // Close search when clicking outside
-    // The issue was here: we were only closing the search, not clearing the term.
-    useOnClickOutside(searchRef, () => {
+    useOnClickOutside(searchRef, () => { //
         if (isSearchOpen) {
             handleClearAndClose();
         }
@@ -60,28 +101,31 @@ const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick }) => {
 
     const handleClearAndClose = () => {
         setSearchTerm('');
-        setResults({ products: [], blogs: [], productCount: 0, blogCount: 0 });
-        handleCloseSearch(); // This is the prop that calls toggleSearch in App.jsx
+       setResults({ initialProducts: [], initialBlogs: [], fullProductList: [], fullBlogList: [], productCount: 0, blogCount: 0 });
+        handleCloseSearch(); //
     }
 
     const handleViewAllProducts = (e) => {
         e.preventDefault();
-        // Placeholder for navigating to a full search results page
-        handleNavClick(e, 'shop'); // Assuming generic shop page for now
-        handleCloseSearch(); // Close the search bar
+       // --- Use the onSearchSubmit prop to trigger navigation ---
+       if (onSearchSubmit) {
+           onSearchSubmit(searchTerm, 'products'); // Pass term and type
+       }
     };
-    
+
     const handleViewAllBlogs = (e) => {
         e.preventDefault();
-        handleNavClick(e, 'blog'); 
+        // --- Navigate to the main blog page ---
+        handleNavClick(e, 'blog'); //
         handleCloseSearch(); // Close the search bar
     };
 
     const handleClearSearch = (e) => {
         e.preventDefault();
         setSearchTerm('');
-        setResults({ products: [], blogs: [], productCount: 0, blogCount: 0 });
+        setResults({ initialProducts: [], initialBlogs: [], fullProductList: [], fullBlogList: [], productCount: 0, blogCount: 0 });
     };
+
 
     return (
         // Set the search bar's vertical placement using CSS (main.css updated for this)
@@ -91,7 +135,7 @@ const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick }) => {
                     <input
                         type="text"
                         className="search-input"
-                        placeholder="SEARCH..."
+                       placeholder="SEARCH..." // <-- Just the text
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         autoFocus={isSearchOpen}
@@ -105,40 +149,53 @@ const SearchBar = ({ isSearchOpen, handleCloseSearch, handleNavClick }) => {
                 {/* Search Results Area - Only visible if search term exists */}
                 {searchTerm && (
                     <Row className="search-results-area pt-4">
-                        
+
                         {/* Left Column: Product Results */}
                         <Col md={9} className="search-products-col">
                             <div className="d-flex justify-content-between align-items-center mb-3">
+                                {/* Display total count */}
                                 <h6 className="search-results-heading">{results.productCount} RESULTS</h6>
-                                <a href="#" className="search-view-all-link" onClick={handleViewAllProducts}>VIEW ALL</a>
+                                {/* Link triggers full search results view */}
+                                {results.productCount > 3 && ( // Only show if more than 3 results exist
+                                  <a href="#" className="search-view-all-link" onClick={handleViewAllProducts}>VIEW ALL</a>
+                                )}
                             </div>
-                            
-                            {results.products.length > 0 ? (
-                                <Row xs={2} sm={3} md={4} className="g-3">
-                                    {results.products.map(product => (
-                                        <Col key={product.id}><ProductCard product={product} /></Col> 
+
+                            {/* Display initial products */}
+                           {results.initialProducts.length > 0 ? (
+                                <Row xs={2} sm={3} md={3} className="g-3"> {/* Adjusted md columns to 3 */}
+                                   {results.initialProducts.map(product => (
+                                       // Pass handleNavClick down to ProductCard
+                                       // Make sure handleNavClick is passed as 'setPage' prop
+                                       <Col key={product.id}><ProductCard product={product} setPage={(pageId) => handleNavClick(null, pageId)} /></Col>
                                     ))}
                                 </Row>
                             ) : (
-                                <p className="text-center text-muted">No products found matching **"{searchTerm}"**.</p>
+                               <p className="text-center text-muted">No products found matching "{searchTerm}".</p>
                             )}
                         </Col>
 
                         {/* Right Column: Blog/Journal Results */}
                         <Col md={3} className="search-journal-col">
                             <div className="d-flex justify-content-between align-items-center mb-3">
+                                {/* Display total count */}
                                 <h6 className="search-results-heading">{results.blogCount} JOURNAL</h6>
-                                <a href="#" className="search-view-all-link" onClick={handleViewAllBlogs}>VIEW ALL</a>
+                                {/* Link navigates to blog page */}
+                                {results.blogCount > 3 && ( // Only show if more than 3 results exist
+                                  <a href="#" className="search-view-all-link" onClick={handleViewAllBlogs}>VIEW ALL</a>
+                                )}
                             </div>
-                            
-                            {results.blogs.length > 0 ? (
+
+                            {/* Display initial blogs */}
+                           {results.initialBlogs.length > 0 ? (
                                 <div className="d-grid gap-3">
-                                    {results.blogs.map(blog => (
-                                        <SearchBlogPreview key={blog.id} post={blog} />
+                                   {results.initialBlogs.map(blog => (
+                                       // Pass handleNavClick for blog preview navigation
+                                       <SearchBlogPreview key={blog.id} post={blog} handleNavClick={(pageId) => handleNavClick(null, pageId)} />
                                     ))}
                                 </div>
                             ) : (
-                                <p className="text-center text-muted">No blog posts found matching **"{searchTerm}"**.</p>
+                               <p className="text-center text-muted">No blog posts found matching "{searchTerm}".</p>
                             )}
                         </Col>
                     </Row>
