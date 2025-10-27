@@ -5074,3 +5074,677 @@ body.product-detail-active {
 
 /* ... (rest of your main.css) ... */
 
+/* ================================================== */
+/* MOBILE RESPONSIVE STYLES (Updated) */
+/* ================================================== */
+
+/* Hamburger Menu Styles */
+.hamburger-menu {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 1051; /* Needs to be above backdrop */
+}
+
+.hamburger-menu span {
+    width: 25px;
+    height: 2px;
+    background-color: #1c1c1c; /* Default dark color */
+    margin: 3px 0;
+    transition: all 0.3s ease;
+}
+
+/* Hamburger color for transparent header state (Desktop only) */
+@media (min-width: 992px) {
+    .header-container:not(.scrolled):not(.nav-hovered):not(.page-with-solid-header) .hamburger-menu span {
+        background-color: #ffffff; /* White color */
+    }
+}
+
+/* Transform hamburger to X when open */
+.hamburger-menu.open span {
+     background-color: #1c1c1c; /* 'X' is always dark */
+}
+.hamburger-menu.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger-menu.open span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* --- MODIFICATION: Changed overlay to a panel --- */
+.mobile-nav-overlay {
+    position: fixed;
+    top: 0;
+    left: -320px; /* Start off-screen by max-width */
+    width: 85%; /* Take up 85% of screen */
+    max-width: 320px; /* But no more than 320px */
+    height: 100vh;
+    background-color: #ffffff;
+    z-index: 1050; /* High z-index for the panel */
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    padding-top: 70px; /* Reduced padding */
+    box-shadow: 0 0 15px rgba(0,0,0,0.1); /* Add shadow */
+}
+
+.mobile-nav-overlay.open {
+    left: 0; /* Slide in */
+}
+
+/* --- NEW: Backdrop for closing menu --- */
+.mobile-nav-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Dimmed background */
+    z-index: 1040; /* Below the menu panel */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.mobile-nav-backdrop.open {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+/* --- END NEW BACKDROP --- */
+
+
+.mobile-nav-content {
+    padding: 20px;
+}
+
+.mobile-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav-list > li {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.mobile-nav-list > li > a,
+.mobile-nav-list > li > button {
+    display: block;
+    padding: 15px 0;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #1c1c1c;
+    text-decoration: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Mobile Submenu Styles */
+.mobile-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: #f9f9f9; /* Slight background for submenu */
+}
+
+.mobile-submenu.open {
+    max-height: 500px; /* Or a larger value if needed */
+}
+
+.mobile-submenu a {
+    display: block;
+    padding: 10px 0 10px 20px;
+    font-size: 13px;
+    color: #555;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.mobile-submenu a:hover {
+    color: #a8853d;
+}
+
+/* Expand/Collapse Icon */
+.mobile-nav-list > li > button {
+    position: relative; /* For positioning the pseudo-element */
+}
+.mobile-nav-list > li > button::after {
+    content: '+';
+    float: right;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+    position: absolute; /* More precise control */
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.mobile-nav-list > li > button.expanded::after {
+    content: '−';
+}
+
+/* Mobile Header Adjustments */
+@media (max-width: 991px) {
+    :root {
+        --header-height: 90px !important; /* Force mobile header height */
+    }
+    body {
+        padding-top: 90px !important;
+    }
+
+    .page-with-solid-header body,
+    body.page-with-solid-header {
+        padding-top: 90px !important;
+    }
+
+    /* Show hamburger, hide desktop nav */
+    .hamburger-menu {
+        display: flex !important; /* Use !important to override other rules */
+    }
+
+    /*
+       ****************************************************************
+       * THE FIX: Force Dark Icons/Text on Mobile                     *
+       ****************************************************************
+    */
+    .hamburger-menu span {
+        background-color: #1c1c1c !important; /* Force dark hamburger lines */
+    }
+    .header-icons img,
+    .header-icons button img {
+        filter: none !important; /* Force dark icons (remove invert) */
+    }
+    .header-icons > span, /* 'Hi, User' text */
+    .header-icons button > span { /* 'Logout' text */
+        color: #1c1c1c !important; /* Force dark text */
+    }
+    /* This rule makes sure "LOGOUT" is gold */
+    .header-icons button > span {
+        color: #a8853d !important; /* Force gold text for logout link */
+    }
+    .hamburger-menu.open span {
+        background-color: #1c1c1c !important; /* Ensure 'X' is dark */
+    }
+    /*
+       ****************************************************************
+       * END OF THE FIX                         *
+       ****************************************************************
+    */
+
+
+    .main-nav {
+        display: none !important;
+    }
+    .main-nav-container {
+        display: none !important;
+    }
+
+    /* Adjust header layout */
+    .main-header {
+        padding: 15px 0 !important;
+    }
+    
+    .main-header .container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .main-header .logo {
+        position: static !important;
+        transform: none !important;
+        margin: 0 auto !important;
+        top: auto !important;
+        left: auto !important;
+        order: 2;
+    }
+    
+    .header-left-section {
+        order: 1;
+        flex-grow: 0;
+        flex-basis: 40px; /* Space for hamburger */
+    }
+    .header-center-section { /* Logo container */
+        order: 2;
+        flex-shrink: 1; /* Allow logo to shrink if needed */
+    }
+    .header-right-section { /* Icons container */
+        order: 3;
+        flex-grow: 0;
+        flex-basis: auto;
+    }
+
+    .amrapali-logo {
+        width: 100px !important;
+        height: auto !important;
+    }
+
+    .header-icons {
+        gap: 15px !important;
+        margin-top: 0 !important;
+        justify-content: flex-end !important;
+    }
+    
+    .header-icons > span { /* Hide Hi, User text */
+        display: none;
+    }
+
+    .header-container .header-icons > * {
+        margin-left: 15px !important; /* Override desktop margin */
+    }
+
+    .header-icons img,
+    .header-icons button img {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    /* Top bar adjustments */
+    .top-bar {
+        font-size: 10px;
+        padding: 8px 10px;
+    }
+
+    /* Shop dropdown - hide on mobile */
+    .shop-dropdown-menu {
+        display: none !important;
+    }
+
+    /* Hero carousel adjustments */
+    .hero-carousel {
+        margin-top: 0 !important; /* Remove negative margin on mobile */
+    }
+
+    .hero-carousel .carousel-item {
+        min-height: 400px;
+        height: 60vh; /* Use viewport height */
+        max-height: 450px;
+        padding-top: 0; /* Remove padding */
+        margin-top: 0; /* Ensure no negative margin */
+    }
+    
+    .homepage-active .hero-carousel .carousel-item {
+        height: 60vh; /* Same as others */
+        min-height: 350px;
+        padding-top: 0;
+        margin-top: 0;
+    }
+     .homepage-active body {
+        padding-top: 90px !important;
+    }
+
+    .hero-carousel .carousel-caption {
+        bottom: 10%; /* <<< INCREASED from 20px for safe area */
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        text-align: center;
+    }
+
+    .hero-carousel .btn-hero {
+        padding: 8px 20px;
+        font-size: 10px;
+        margin: 5px;
+    }
+    
+    .hero-carousel .carousel-indicators {
+        bottom: 25px; /* <<< NEW: Added safe area padding */
+    }
+
+    /* Collection banners */
+    .collection-hero-banner {
+        min-height: 350px;
+        margin-top: 0 !important;
+        padding-top: 90px;
+    }
+
+    .collection-hero-banner .hero-title {
+        font-size: 22px !important;
+    }
+
+    .collection-hero-banner .hero-subtitle {
+        font-size: 14px !important;
+        padding: 0 15px;
+    }
+
+    /* Filter bar adjustments */
+    .filter-bar-container {
+        top: 90px !important; /* Stick below 90px mobile header */
+        z-index: 990; /* Ensure it's below header */
+    }
+    .filter-bar-container .container {
+        justify-content: flex-end;
+    }
+    .filter-bar-container .sort-select {
+        flex-grow: 1;
+        font-size: 12px;
+    }
+     .filter-bar-container .filter-button {
+        font-size: 12px;
+     }
+
+    /* Currency dropdown positioning */
+    .currency-selector {
+        bottom: 25px; /* <<< INCREASED from 15px for safe area */
+        left: 15px;
+    }
+
+    .currency-button {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    /* Wishlist button */
+    .wishlist-button {
+        bottom: 25px; /* <<< INCREASED from 15px for safe area */
+        right: 15px;
+        width: 38px;
+        height: 38px;
+    }
+
+    /* Product grid adjustments */
+    .product-list-container .col-6,
+    .product-list-container .col {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+     .product-list-container .row {
+        --bs-gutter-x: 0.5rem;
+    }
+
+    .product-card {
+        margin-bottom: 0.5rem;
+    }
+
+    .product-name {
+        font-size: 14px;
+    }
+
+    .product-price {
+        font-size: 13px;
+    }
+
+    .product-actions {
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .btn-quick-view,
+    .btn-add-to-cart-grid {
+        padding: 10px 8px;
+        font-size: 10px;
+    }
+
+    /* Footer adjustments */
+    .site-footer {
+        padding: 40px 0;
+    }
+    .site-footer .row > div {
+        margin-bottom: 30px;
+    }
+    .footer-links { text-align: center; }
+    .footer-about { text-align: center; }
+    .social-icons { justify-content: center; }
+    .footer-bottom .d-flex { flex-direction: column; align-items: center !important; }
+    .payment-icons { margin-top: 10px; }
+
+
+    /* Section titles */
+    .section-main-title {
+        font-size: 22px;
+    }
+
+    .section-title {
+        font-size: 12px;
+    }
+
+    /* Homepage sections */
+    .homepage-section {
+        padding: 30px 0;
+    }
+     .homepage-section .row[class*="md-4"] > .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .product-of-week .row > [class*="md-"] {
+         flex: 0 0 100%;
+         max-width: 100%;
+    }
+
+    /* Explore section */
+    .explore-section {
+        height: 300px;
+        margin: 40px 0;
+    }
+
+    .explore-content p {
+        font-size: 16px;
+        padding: 0 30px;
+    }
+
+    /* Blog grid */
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Product detail page */
+     .product-detail-page-container .row > [class*="col-md-"] {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .product-detail-page-container .d-none.d-md-block { display: none !important; }
+    .product-detail-page-container .d-flex.d-md-none { display: flex !important; }
+    .product-main-detail-image { margin-bottom: 1rem; }
+
+    .product-detail-title {
+        font-size: 20px;
+    }
+    .product-detail-price {
+        font-size: 18px;
+    }
+    
+    /* Checkout page */
+    .checkout-logo {
+        width: 120px;
+    }
+    .checkout-section {
+        padding: 20px;
+    }
+    .checkout-container .row { flex-direction: column-reverse; }
+    .order-summary { position: static; margin-top: 20px; }
+    .payment-method label { flex-direction: column; align-items: flex-start; }
+    .payment-icons { margin-top: 8px; margin-left: 0; }
+    .btn-pay-now { width: 100%; }
+
+
+    /* Search bar overlay */
+    .search-bar-overlay {
+        top: 90px !important;
+        max-height: calc(100vh - 90px);
+    }
+    .search-input {
+        font-size: 16px;
+    }
+    .search-journal-col {
+        border-left: none;
+        border-top: 1px solid #e5e5e5;
+        padding-top: 20px;
+        margin-top: 20px;
+        padding-left: 0;
+    }
+     .search-products-col .row[class*="md-3"] > * {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    /* Team member cards */
+    .meet-the-team-page .row > * {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .team-member-card {
+        margin-bottom: 20px;
+    }
+
+    /* Category cards - stack vertically */
+    .category-card h4 {
+        font-size: 20px;
+    }
+
+    /* Slick slider arrows - smaller */
+    .slick-prev,
+    .slick-next {
+        width: 25px;
+        height: 25px;
+    }
+    .slick-prev { left: 5px; }
+    .slick-next { right: 5px; }
+}
+
+/* Tablet adjustments (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .product-list-container .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+     .search-products-col .row[class*="md-3"] > * {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+
+    .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .meet-the-team-page .row[class*="lg-3"] > *,
+    .meet-the-team-page .row[class*="lg-4"] > * {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+/* Small mobile (max-width: 576px) */
+@media (max-width: 576px) {
+    body {
+        padding-top: 80px !important;
+    }
+    :root {
+        --header-height: 80px !important;
+    }
+    .main-header { padding: 10px 0 !important; }
+
+    .main-header .logo img {
+        width: 90px !important;
+    }
+    .filter-bar-container {
+        top: 80px !important;
+    }
+    .search-bar-overlay {
+        top: 80px !important;
+        max-height: calc(100vh - 80px);
+    }
+
+
+    .hero-carousel .carousel-item {
+        min-height: 300px;
+        height: 50vh;
+    }
+
+    .hero-carousel .carousel-caption {
+        bottom: 25px; /* <<< INCREASED from 10px for safe area */
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+    }
+
+    .collection-hero-banner {
+        min-height: 300px;
+        padding-top: 80px;
+    }
+
+    .product-name {
+        font-size: 13px;
+    }
+
+    .product-price {
+        font-size: 12px;
+    }
+
+    /* --- MODIFICATION: Adjust drawer width --- */
+    .cart-drawer, .wishlist-drawer, .offcanvas {
+        width: 85% !important; /* Use percentage */
+        max-width: 320px !important; /* Add max-width */
+        right: -85% !important; /* Adjust starting position */
+    }
+    .cart-drawer.open, .wishlist-drawer.open, .offcanvas.show {
+        right: 0 !important;
+        left: auto !important;
+    }
+    /* This rule applies to the react-bootstrap Offcanvas component */
+    .offcanvas-start {
+        left: -85% !important;
+        right: auto !important;
+        width: 85% !important;
+        max-width: 320px !important;
+    }
+    .offcanvas-start.show {
+        left: 0 !important;
+        right: auto !important;
+    }
+    /* This rule applies to your custom menu panel */
+     .mobile-nav-overlay {
+        width: 85%;
+        max-width: 320px;
+        left: -85%; /* Match width */
+     }
+
+
+    /* Modal adjustments */
+    .wishlist-modal-window {
+        width: 95% !important;
+        max-width: 95% !important;
+    }
+
+    /* Checkout adjustments */
+    .order-summary {
+        position: static;
+        margin-top: 20px;
+    }
+
+    /* Footer stack vertically */
+    .site-footer .row > div {
+        margin-bottom: 30px;
+    }
+
+    /* Info section icons smaller */
+    .info-section .row > .col { flex-basis: 50%; }
+    .info-item img {
+        height: 30px;
+    }
+    .info-item p {
+        font-size: 10px;
+    }
+}
+
+/* Landscape mobile adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-carousel .carousel-item {
+        min-height: 100vh;
+    }
+
+    .mobile-nav-overlay {
+        padding-top: 60px;
+    }
+}
+
