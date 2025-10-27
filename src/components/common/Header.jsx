@@ -5,8 +5,8 @@ import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
 import { NavDropdown } from 'react-bootstrap';
 import ShopDropdownMenu from './ShopDropdownMenu'; //
 
-// Added handleLogout to props
-const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, viewingMemberId, isSearchOpen, toggleSearch, handleLogout }) => {
+// Removed handleLogout from props
+const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, viewingMemberId, isSearchOpen, toggleSearch }) => {
     const { toggleCart, cartItems } = useContext(CartContext); //
     const { isLoggedIn, currentUser } = useContext(AuthContext); // Use AuthContext
     const cartItemCount = cartItems.reduce((count, item) => count + (item.quantity || 0), 0); // Added fallback for quantity
@@ -27,7 +27,8 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         // Check if the current page allows transparent header initially
         const isHeroPageInitially = pagesWithHeroBannerEffect.includes(currentPage);
         // Header starts solid if NOT on a hero page OR if viewing a team member
-        return !isHeroPageInitially || isViewingMemberInitially || currentPage === 'login' || currentPage === 'register'; // Also solid for login/register
+        // Also solid for login/register/account/addresses
+        return !isHeroPageInitially || isViewingMemberInitially || ['login', 'register', 'account', 'addresses'].includes(currentPage);
     });
 
     // State to track if the top announcement bar should be hidden
@@ -63,11 +64,11 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
             const isScrolledPastThreshold = window.scrollY > 10;
             const isViewingMember = !!viewingMemberId;
             const isHeroPage = pagesWithHeroBannerEffect.includes(currentPage);
-            const isAuthPage = currentPage === 'login' || currentPage === 'register';
+            const isAuthRelatedPage = ['login', 'register', 'account', 'addresses'].includes(currentPage); // Include account pages
 
             // Determine if header should be solid
             const shouldBeSolid = isViewingMember ||
-                                  isAuthPage || // Always solid on login/register
+                                  isAuthRelatedPage || // Always solid on login/register/account/addresses
                                   !isHeroPage || // Solid if not on a hero page
                                   (isHeroPage && isScrolledPastThreshold); // Solid on hero page only after scrolling
 
@@ -88,7 +89,7 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         setIsNewArrivalsOpen(false);
         setIsCollectionsOpen(false);
     };
-    
+
     // *** ADDED: Mobile menu functions ***
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -110,7 +111,7 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
 
         // --- ADDED: Close mobile menu on click ---
         if (isMobileMenuOpen) {
-            toggleMobileMenu(); 
+            toggleMobileMenu();
         }
         // --- END ADDITION ---
 
@@ -158,7 +159,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         }
     };
 
-    // --- FIX: Rename function back to handleMouseLeave ---
     // Function to call ONLY when mouse leaves the ENTIRE nav container
     const handleMouseLeave = () => { // Renamed from handleMouseLeaveNavArea
         // Set a timer to close all dropdowns after a delay
@@ -200,6 +200,16 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         "POTPOURRI" // Added Potpourri
     ]; //
 
+    // --- NEW: Handler for the User Icon Click ---
+    const handleUserIconClick = () => {
+        if (isLoggedIn) {
+            setPage('account'); // Navigate to account page if logged in
+        } else {
+            setPage('login'); // Navigate to login page if logged out
+        }
+    };
+    // --- END NEW ---
+
     // --- Render Logic ---
     return (
         // *** ADDED: Fragment to wrap Header and Mobile Overlay ***
@@ -235,22 +245,14 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                         </div>
                          {/* Right Icons */}
                         <div className="header-icons d-flex align-items-center justify-content-end gap-3 flex-grow-1 header-right-section"> {/* Added class for targeting */}
-                            {/* Conditional Rendering: Show user info/logout OR login icon */}
-                            {isLoggedIn ? ( //
-                                <>
-                                    {/* Greeting */}
-                                    <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#1c1c1c' : '#ffffff', marginRight: '10px' }}> {/* */}
-                                        Hi, {currentUser?.firstName || 'User'} {/* */}
-                                    </span>
-                                    {/* Logout Button */}
-                                    <button onClick={handleLogout} className="btn btn-link p-0" style={{ textDecoration: 'none' }}>
-                                        <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#a8853d' : '#ffffff', textTransform: 'uppercase' }}>Logout</span> {/* */}
-                                    </button>
-                                </>
-                            ) : (
-                                // Login Icon (shown when logged out)
-                                <img src="/images/icons/user-icon.svg" alt="Login" onClick={() => setPage('login')} style={{ cursor: 'pointer' }} /> //
-                            )}
+                             {/* --- MODIFIED: Always show user icon --- */}
+                             <img
+                                 src="/images/icons/user-icon.svg"
+                                 alt={isLoggedIn ? "My Account" : "Login"}
+                                 onClick={handleUserIconClick} // Use the new handler
+                                 style={{ cursor: 'pointer' }}
+                             />
+                             {/* --- END MODIFICATION --- */}
                             {/* Search Icon */}
                             <img
                                src="/images/icons/search-icon.svg" // <-- Verify this path is correct
@@ -403,10 +405,10 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                     </ul>
                 </div>
             </div>
-            
+
             {/* *** NEW: Added a separate backdrop element *** */}
-            <div 
-                className={`mobile-nav-backdrop ${isMobileMenuOpen ? 'open' : ''}`} 
+            <div
+                className={`mobile-nav-backdrop ${isMobileMenuOpen ? 'open' : ''}`}
                 onClick={toggleMobileMenu}
             ></div>
         </> // *** END Fragment ***
@@ -414,4 +416,3 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
 };
 
 export default Header;
-

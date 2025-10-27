@@ -31,6 +31,8 @@ import OurStoryPage from './pages/OurStoryPage';
 import AllCollectionsPage from './pages/AllCollectionsPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import AccountPage from './pages/AccountPage'; // <-- IMPORT NEW PAGE
+import AddressesPage from './pages/AddressesPage'; // <-- IMPORT NEW PAGE
 import { allProducts, searchAll } from './utils/searchUtils'; // Import searchAll
 
 // --- Import Category Pages ---
@@ -68,27 +70,31 @@ function AppContent() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // *** NEW STATE for filters and sorting ***
   const [appliedFilters, setAppliedFilters] = useState({ color: null, price: null, style: null });
   const [sortOrder, setSortOrder] = useState('manual'); // 'manual' is the default "SORT"
 
   // Add useEffect to manage body class based on checkout/product detail page
   useEffect(() => {
-    // Add active class if on checkout, product detail, or service detail page
-    if (currentPage === 'checkout' || currentPage === 'product-detail' || currentPage === 'service-detail') {
+    // Add active class if on checkout, product detail, service detail, account, or addresses page
+    if (['checkout', 'product-detail', 'service-detail', 'account', 'addresses'].includes(currentPage)) {
       document.body.classList.add(`${currentPage}-active`);
     } else {
       // Remove specific classes if not on those pages
       document.body.classList.remove('checkout-active');
       document.body.classList.remove('product-detail-active');
-      document.body.classList.remove('service-detail-active'); // Ensure this is also removed
+      document.body.classList.remove('service-detail-active');
+      document.body.classList.remove('account-active'); // Ensure added if styling needed
+      document.body.classList.remove('addresses-active'); // Ensure added if styling needed
     }
     // Cleanup function
     return () => {
       document.body.classList.remove('checkout-active');
       document.body.classList.remove('product-detail-active');
       document.body.classList.remove('service-detail-active');
+      document.body.classList.remove('account-active');
+      document.body.classList.remove('addresses-active');
     };
   }, [currentPage]); // Re-run when currentPage changes
 
@@ -104,10 +110,8 @@ function AppContent() {
   };
 
   const handleLogout = () => {
-    logout(); //
-    setCurrentPage('home');
-    setSelectedServiceId(null); // Clear service view on logout
-    window.scrollTo(0, 0);
+    logout(); // Call logout from context
+    handleNavigation('home'); // Use navigation handler to redirect and reset state
   };
 
   const handleOpenFilter = () => setIsFilterOpen(true); //
@@ -230,6 +234,7 @@ function AppContent() {
         style: filters.style // Keep style here too if needed for filtering later
     });
     // Do NOT navigate here, just update the filter state for the current page
+    handleCloseFilter(); // Close drawer after applying filters
   };
   // *** END MODIFIED FUNCTION ***
 
@@ -245,13 +250,13 @@ function AppContent() {
       if (isSearchOpen) setIsSearchOpen(false);
       if (pageNameOrId !== 'search-results') setSearchQuery('');
       if (pageNameOrId !== 'collection') setSelectedCollection(null);
-      
+
       // *** ADDED: Reset filters and sort when navigating to a new page ***
       if (currentPage !== pageNameOrId) {
           setAppliedFilters({ color: null, price: null, style: null });
           setSortOrder('manual');
       }
-      
+
       if (!pageNameOrId.startsWith('product-detail-')) setSelectedProductId(null);
       if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null);
       if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
@@ -261,10 +266,17 @@ function AppContent() {
            setSearchQuery('');
        }
 
-
-      if (isLoggedIn && (pageNameOrId === 'login' || pageNameOrId === 'register')) {
-          pageNameOrId = 'home';
+      // --- UPDATED Auth Logic ---
+      // Redirect non-logged-in users trying to access account pages to login
+      if (!isLoggedIn && (pageNameOrId === 'account' || pageNameOrId === 'addresses')) {
+          pageNameOrId = 'login';
       }
+      // Redirect logged-in users trying to access login/register to account
+      if (isLoggedIn && (pageNameOrId === 'login' || pageNameOrId === 'register')) {
+          pageNameOrId = 'account';
+      }
+      // --- END UPDATED Auth Logic ---
+
 
        // --- Product Detail Logic ---
        if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('product-detail-')) {
@@ -345,9 +357,22 @@ function AppContent() {
                setCurrentPage('shop');
            }
        }
+      // --- NEW: Account and Addresses Logic ---
+      else if (pageNameOrId === 'account' && isLoggedIn) {
+          setCurrentPage('account');
+          // Clear other specific view states
+          setSelectedProductId(null); setViewingMemberId(null); setViewingPostId(null); setSelectedServiceId(null); setSelectedCollection(null); setSearchQuery('');
+      } else if (pageNameOrId === 'addresses' && isLoggedIn) {
+          setCurrentPage('addresses');
+          // Clear other specific view states
+          setSelectedProductId(null); setViewingMemberId(null); setViewingPostId(null); setSelectedServiceId(null); setSelectedCollection(null); setSearchQuery('');
+      }
        // Standard Page Navigation
        else if (typeof pageNameOrId === 'string') {
+           // Prevent direct navigation to account/addresses if not logged in (already handled above)
+           // Just set the page
            setCurrentPage(pageNameOrId);
+
            setSelectedProductId(null);
            setViewingMemberId(null);
            setViewingPostId(null);
@@ -489,26 +514,8 @@ function AppContent() {
    }
 
 
-    // Route Protection
-    const guestAllowedPages = [
-        'home', 'login', 'register', 'shop', 'jewellery', 'collection', 'bestsellers',
-        'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
-        'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
-        'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail',
-        'our-story', 'meet-the-team', 'team-member-detail',
-        'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
-        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-        'checkout', 'product-detail',
-        'service-detail',
-        'search-results',
-        'all-products'
-    ];
-    if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
-         return <LoginPage setPage={handleNavigation} />;
-    }
-    if (isLoggedIn && (currentPage === 'login' || currentPage === 'register')) {
-      return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
-    }
+    // Route Protection (Handled more robustly in handleNavigation now)
+    // *** REMOVED old guestAllowedPages logic ***
 
     // *** MODIFIED: Switch statement passes ALL filter/sort props to relevant pages ***
     const pageProps = {
@@ -537,7 +544,7 @@ function AppContent() {
         case 'sarees-chanderi': return <ChanderiSareesPage {...pageProps} />;
         case 'bestsellers': return <BestsellersPage {...pageProps} />;
         case 'shop': return <SareesPage {...pageProps} />;
-        
+
         // --- Pages without Filters & Sorting ---
         case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
         case 'gift-card': return <GiftCardPage setPage={handleNavigation} />;
@@ -557,9 +564,11 @@ function AppContent() {
         case 'login': return <LoginPage setPage={handleNavigation} />;
         case 'register': return <RegisterPage setPage={handleNavigation} />;
         case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
-        
+        case 'account': return <AccountPage setPage={handleNavigation} />; // <-- ADDED
+        case 'addresses': return <AddressesPage setPage={handleNavigation} />; // <-- ADDED
+
         // Default fallback
-        default: return <SareesPage {...pageProps} />;
+        default: return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; // Changed default to HomePage
     }
   };
 
@@ -583,7 +592,8 @@ function AppContent() {
        'blog',
        'blog-detail',
        'checkout', 'product-detail',
-       'service-detail'
+       'service-detail',
+       'account', 'addresses' // <-- Added account pages
    ];
    const isSolidHeaderForced = isSearchOpen ||
                               (currentPage === 'team-member-detail' && !!viewingMemberId) ||
@@ -597,7 +607,7 @@ function AppContent() {
    const hideHeader = currentPage === 'checkout';
    const hideFooter = currentPage === 'checkout';
 
-  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout'];
+  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout', 'account', 'addresses']; // <-- Added account pages
   const showRecentlyViewed = !hideRecentlyViewedOn.includes(currentPage);
 
 
@@ -612,7 +622,7 @@ function AppContent() {
             viewingMemberId={viewingMemberId}
             isSearchOpen={isSearchOpen}
             toggleSearch={toggleSearch}
-            handleLogout={handleLogout}
+            // handleLogout prop removed
           />
       )}
       {!hideHeader && (

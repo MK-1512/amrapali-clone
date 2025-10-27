@@ -5748,3 +5748,242 @@ body.product-detail-active {
     }
 }
 
+/* src/assets/css/main.css */
+/* ... (existing styles) ... */
+
+/* --------------------------------------------------- */
+/* ACCOUNT PAGE STYLES */
+/* --------------------------------------------------- */
+
+.account-page-container {
+    padding-top: 40px; /* Add space if header is solid */
+    padding-bottom: 60px;
+    font-family: 'Jost', sans-serif;
+    color: #1c1c1c;
+}
+
+.account-sidebar .account-logout-link {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #555;
+    padding: 8px 0; /* Adjust padding */
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.account-sidebar .account-logout-link:hover {
+    color: #a8853d; /* Theme gold */
+}
+
+.account-page-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.account-welcome-message {
+    font-size: 15px;
+    color: #555;
+}
+
+.account-section-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+    margin-bottom: 15px;
+}
+
+.address-details p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.btn-edit-addresses {
+    border-radius: 0;
+    padding: 10px 25px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-color: #1c1c1c;
+    color: #1c1c1c;
+}
+.btn-edit-addresses:hover {
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+
+/* --------------------------------------------------- */
+/* ADDRESSES PAGE STYLES */
+/* --------------------------------------------------- */
+
+.addresses-page-container {
+    padding-top: 40px;
+    padding-bottom: 60px;
+    font-family: 'Jost', sans-serif;
+    color: #1c1c1c;
+}
+
+.back-to-account-link {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: #555;
+    text-decoration: none;
+    padding: 0;
+}
+.back-to-account-link:hover {
+    color: #1c1c1c;
+}
+
+.addresses-page-title { /* Same as account page title */
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.btn-add-address { /* Same as edit address button */
+    border-radius: 0;
+    padding: 10px 25px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-color: #1c1c1c;
+    color: #1c1c1c;
+}
+.btn-add-address:hover {
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+
+.address-section-subtitle { /* Same as account section title */
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+    margin-bottom: 15px;
+}
+
+.address-display p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.address-actions .address-action-link {
+    font-size: 13px;
+    color: #555;
+    text-decoration: underline;
+    padding: 0;
+    margin-right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.address-actions .address-action-link:hover {
+    color: #1c1c1c;
+}
+
+/* Responsive adjustments for Account/Address pages */
+@media (max-width: 767px) {
+    .account-sidebar {
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 15px;
+    }
+}
+
+/* ... (rest of your existing styles) ... */
+
+/* src/assets/css/main.css */
+/* ... (additions from previous response for Account/Address pages) ... */
+
+/* --------------------------------------------------- */
+/* ADDRESS FORM PAGE STYLES */
+/* --------------------------------------------------- */
+
+.address-form-page-container {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+/* Use styles similar to Login/Register inputs */
+.address-form-input {
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
+    padding: 14px 18px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    box-shadow: none !important;
+}
+
+.address-form-input:focus {
+    border-color: #aaa;
+    background-color: #ffffff;
+    box-shadow: none !important;
+}
+
+.address-form-input::placeholder {
+    color: #999;
+}
+
+/* Style for the Save/Update button */
+.btn-save-address {
+    border-radius: 0;
+    padding: 14px 30px; /* Match login button padding */
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background-color: #1c1c1c; /* Dark button */
+    border-color: #1c1c1c;
+    color: #ffffff;
+}
+.btn-save-address:hover {
+     background-color: #333;
+     border-color: #333;
+     color: #ffffff;
+}
+
+/* Style for Set Default Checkbox */
+.address-form-page-container .form-check-label {
+    font-size: 14px;
+    color: #555;
+}
+.address-form-page-container .form-check-input {
+    margin-top: 0.3em; /* Adjust vertical alignment if needed */
+}
+
+/* Optional: Adjust spacing for address list entries */
+.address-entry {
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+}
+.address-entry:first-of-type {
+    border-top: none; /* No top border for the first 'other' address */
+    padding-top: 0;
+}
+
+/* ... (rest of existing styles) ... */
