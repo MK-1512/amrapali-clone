@@ -540,7 +540,7 @@ function AppContent() {
         
         // --- Pages without Filters & Sorting ---
         case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
-        case 'gift-card': return <GiftCardPage />;
+        case 'gift-card': return <GiftCardPage setPage={handleNavigation} />;
         case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />; // No filter bar on this page
         case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />;
         case 'our-story': return <OurStoryPage />;

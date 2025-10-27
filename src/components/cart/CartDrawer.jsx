@@ -123,7 +123,7 @@ const CartDrawer = ({ setPage }) => {
              Clear Cart
            </button>
             {/* Optional: Add onClick handler for View Cart if needed */}
-            <button className="btn btn-dark w-100 mb-2">VIEW CART</button>
+            {/* <button className="btn btn-dark w-100 mb-2">VIEW CART</button> */}
             {/* *** ADD onClick HANDLER TO CHECKOUT BUTTON *** */}
             <button className="btn btn-secondary w-100" onClick={handleCheckout}>CHECKOUT</button>
           </div>

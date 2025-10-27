@@ -119,7 +119,7 @@ const WishlistItemCard = ({ item, getFormattedPrice, removeFromWishlist, addToCa
             {/* Remove Button (Consider making this hover-only later if needed) */}
             <button
                 onClick={() => removeFromWishlist(item.id)} //
-                style={{ position: 'absolute', top: '5px', right: '5px', background: 'none', border: 'none', fontSize: '20px', color: '#999', cursor: 'pointer', padding: '0 5px', zIndex: 5 /* Ensure above image */ }}
+                style={{ position: 'absolute', top: '5px', right: '5px', background: 'none', border: 'none', fontSize: '20px', color: '#1c1c1c', cursor: 'pointer', padding: '0 5px', zIndex: 5 }}
                 aria-label={`Remove ${item.name} from wishlist`}
             >
                 ×
