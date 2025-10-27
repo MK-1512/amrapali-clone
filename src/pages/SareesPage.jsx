@@ -1,37 +1,40 @@
 // src/pages/SareesPage.jsx
 
-import React, { useState } from 'react'; // useState is no longer needed if not used elsewhere
+import React from 'react'; // Removed useState
 import ProductList from '../components/product/ProductList';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 import SareesHeroBanner from '../components/common/SareesHeroBanner';
 
-// *** MODIFIED: Accept filter state props from App.jsx ***
-const SareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
-    
-    // --- REMOVED Local State ---
-    // const [isFilterOpen, setIsFilterOpen] = useState(false);
-    // const handleOpenFilter = () => setIsFilterOpen(true);
-    // const handleCloseFilter = () => setIsFilterOpen(false);
+// *** MODIFIED: Accept all filter/sort props ***
+const SareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
     return (
         <>
             <SareesHeroBanner />
-            {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
-            <FilterBar handleOpenFilter={handleOpenFilter} />
+            {/* *** MODIFIED: Pass sort props to FilterBar *** */}
+            <FilterBar
+              handleOpenFilter={handleOpenFilter}
+              sortOrder={sortOrder}
+              onSortChange={onSortChange}
+            />
             <div className="container my-5">
                 <div className="row">
                     <div className="col-12">
-                        {/* --- Pass setPage down to ProductList --- */}
-                        <ProductList collectionName="sarees" setPage={setPage} />
+                        {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
+                        <ProductList
+                            collectionName="sarees"
+                            setPage={setPage}
+                            appliedFilters={appliedFilters} // <-- Pass down
+                            sortOrder={sortOrder} // <-- Pass down
+                        />
                     </div>
                 </div>
             </div>
-            {/* *** MODIFIED: Pass props from App.jsx *** */}
-            <FilterDrawer 
-                show={isFilterOpen} 
-                handleClose={handleCloseFilter} 
-                onApplyFilters={onApplyFilters} 
+            <FilterDrawer
+                show={isFilterOpen}
+                handleClose={handleCloseFilter}
+                onApplyFilters={onApplyFilters}
             />
         </>
     );

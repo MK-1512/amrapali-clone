@@ -9,9 +9,8 @@ import ProductCard from './ProductCard';
 import { allProducts } from '../../utils/searchUtils';
 import { products as sareeProducts } from '../../data/products';
 import { jewellery as jewelleryProducts } from '../../data/jewellery';
-
 // *** ADD IMPORTS FOR ALL COLLECTION-SPECIFIC PRODUCT ARRAYS ***
-import { bestsellerProducts } from '../../data/bestsellerProducts'; // Added just in case, though not directly used in collection logic
+import { bestsellerProducts } from '../../data/bestsellerProducts';
 import { soulfulWeavesProducts } from '../../data/soulfulWeaves';
 import { iktaraWeavesProducts } from '../../data/iktaraWeaves';
 import { raanjhanaWeavesProducts } from '../../data/raanjhanaWeaves';
@@ -33,7 +32,6 @@ import { potpourriProducts } from '../../data/potpourriProducts';
 
 // --- Define colors array locally or import ---
 const colors = [
-    // ... (keep colors array as defined before) ...
     { name: 'white', hex: '#FFFFFF' }, { name: 'beige', hex: '#f5f5dc' },
     { name: 'brown', hex: '#a52a2a' }, { name: 'orange', hex: '#ffa500' },
     { name: 'black', hex: '#000000' }, { name: 'purple', hex: '#800080' },
@@ -47,14 +45,14 @@ const colors = [
 // ---
 
 
-const ProductList = ({ collectionName, products: productsData = null, setPage, searchQuery = null, appliedFilters = { color: null, price: null, style: null } }) => {
+// *** MODIFIED: Accept appliedFilters and sortOrder props ***
+const ProductList = ({ collectionName, products: productsData = null, setPage, searchQuery = null, appliedFilters = { color: null, price: null, style: null }, sortOrder = 'manual' }) => {
 
     let productsPerPage = 16;
     let title = ""; // Keep title logic as is
 
     // --- Price Range Parsing Logic (Keep existing) ---
     const parsePriceRange = (rangeString) => {
-        // ... (keep existing implementation) ...
         if (!rangeString) return { min: 0, max: Infinity };
         if (rangeString.startsWith('above ')) {
             const min = parseInt(rangeString.replace('above ', ''), 10);
@@ -71,11 +69,11 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
     // --- End Price Range Logic ---
 
 
-    // Memoize product filtering/selection (Keep existing logic, now imports work)
+    // *** MODIFIED: useMemo now includes filtering and sorting logic ***
     const productsToDisplay = useMemo(() => {
         let initialProducts = []; // Start with an empty list
 
-        // 1. Determine the initial set of products based on search, props, or collection
+        // 1. Determine the initial set of products (Keep existing logic)
         if (searchQuery) {
             const lowerQuery = searchQuery.toLowerCase();
             initialProducts = allProducts.filter(p => {
@@ -84,30 +82,28 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
                 return nameMatch || tagsMatch;
             });
         } else if (productsData && Array.isArray(productsData)) {
-            initialProducts = productsData;
+            initialProducts = [...productsData]; // Create a copy to avoid mutating prop
         } else {
             const collectionKey = collectionName ? String(collectionName).trim().toUpperCase() : '';
-            // --- Determine initial list based on collectionKey (This should now work) ---
-            if (collectionKey === "POTPOURRI") initialProducts = potpourriProducts;
-            else if (collectionKey === "SOULFUL WEAVES - COTTON SAREES (NEW)") initialProducts = soulfulWeavesProducts;
-            else if (collectionKey === "IKTARA - JAMDANI WEAVES") initialProducts = iktaraWeavesProducts;
-            else if (collectionKey === "RAANJHANA - BENARASI WEAVES") initialProducts = raanjhanaWeavesProducts;
-            else if (collectionKey === "MASAKALI - CHANDERI WEAVES") initialProducts = masakaliWeavesProducts;
-            else if (collectionKey === "POPSICLE - EVERYDAY COTTONS") initialProducts = popsicleCottonsProducts;
-            else if (collectionKey === "DOODHE-AALTA - RED-BORDERED WHITE SAREES") initialProducts = doodheAaltaSareesProducts;
-            else if (collectionKey === "STORIES FROM HOME - COTTON SAREES") initialProducts = storiesFromHomeProducts;
-            else if (collectionKey === "ROOPKATHA - BALUCHARI AND SWARNACHARI") initialProducts = roopkathaWeavesProducts;
-            else if (collectionKey === "CANDYFLOSS - COTTON SAREES") initialProducts = candyflossCottonsProducts;
-            else if (collectionKey === "NOOR - ORGANZA BENARASI") initialProducts = noorOrganzaProducts;
-            else if (collectionKey === "SUNKISSED - MINIMALIST JEWELLERY") initialProducts = sunkissedJewelleryProducts;
-            else if (collectionKey === "A MIDAS TOUCH - TUSSAR SILK") initialProducts = aMidasTouchSilkProducts;
-            else if (collectionKey === "GOLDEN HOUR - ECLECTIC JEWELLERY") initialProducts = goldenHourJewelleryProducts;
-            else if (collectionKey === "EK SITARA - KOTA SAREES") initialProducts = ekSitaraKotaProducts;
-            else if (collectionKey === "SMART STAPLES - A WORKWEAR EDIT") initialProducts = smartStaplesProducts;
-            else if (collectionKey === 'JEWELLERY') initialProducts = jewelleryProducts;
-            else if (collectionKey === 'ALL PRODUCTS') initialProducts = allProducts; // Handle 'All Products'
-            // Default to Sarees if no specific collection or if 'SHOP'/'SAREES'
-            else if (!collectionKey || collectionKey === 'SHOP' || collectionKey === 'SAREES') initialProducts = sareeProducts;
+            if (collectionKey === "POTPOURRI") initialProducts = [...potpourriProducts];
+            else if (collectionKey === "SOULFUL WEAVES - COTTON SAREES (NEW)") initialProducts = [...soulfulWeavesProducts];
+            else if (collectionKey === "IKTARA - JAMDANI WEAVES") initialProducts = [...iktaraWeavesProducts];
+            else if (collectionKey === "RAANJHANA - BENARASI WEAVES") initialProducts = [...raanjhanaWeavesProducts];
+            else if (collectionKey === "MASAKALI - CHANDERI WEAVES") initialProducts = [...masakaliWeavesProducts];
+            else if (collectionKey === "POPSICLE - EVERYDAY COTTONS") initialProducts = [...popsicleCottonsProducts];
+            else if (collectionKey === "DOODHE-AALTA - RED-BORDERED WHITE SAREES") initialProducts = [...doodheAaltaSareesProducts];
+            else if (collectionKey === "STORIES FROM HOME - COTTON SAREES") initialProducts = [...storiesFromHomeProducts];
+            else if (collectionKey === "ROOPKATHA - BALUCHARI AND SWARNACHARI") initialProducts = [...roopkathaWeavesProducts];
+            else if (collectionKey === "CANDYFLOSS - COTTON SAREES") initialProducts = [...candyflossCottonsProducts];
+            else if (collectionKey === "NOOR - ORGANZA BENARASI") initialProducts = [...noorOrganzaProducts];
+            else if (collectionKey === "SUNKISSED - MINIMALIST JEWELLERY") initialProducts = [...sunkissedJewelleryProducts];
+            else if (collectionKey === "A MIDAS TOUCH - TUSSAR SILK") initialProducts = [...aMidasTouchSilkProducts];
+            else if (collectionKey === "GOLDEN HOUR - ECLECTIC JEWELLERY") initialProducts = [...goldenHourJewelleryProducts];
+            else if (collectionKey === "EK SITARA - KOTA SAREES") initialProducts = [...ekSitaraKotaProducts];
+            else if (collectionKey === "SMART STAPLES - A WORKWEAR EDIT") initialProducts = [...smartStaplesProducts];
+            else if (collectionKey === 'JEWELLERY') initialProducts = [...jewelleryProducts];
+            else if (collectionKey === 'ALL PRODUCTS') initialProducts = [...allProducts];
+            else if (!collectionKey || collectionKey === 'SHOP' || collectionKey === 'SAREES') initialProducts = [...sareeProducts];
             else {
                  console.warn("ProductList useMemo: Unrecognized collection key:", collectionKey);
                  initialProducts = [];
@@ -122,7 +118,6 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
             const colorName = colors.find(c => c.hex === appliedFilters.color)?.name;
             if (colorName) {
                 const lowerColor = colorName.toLowerCase();
-                console.log("Filtering by color:", lowerColor);
                 filteredProducts = filteredProducts.filter(p => {
                     const nameMatch = p?.name ? p.name.toLowerCase().includes(lowerColor) : false;
                     const tagsMatch = p?.tags ? p.tags.some(tag => tag.toLowerCase() === lowerColor) : false;
@@ -133,26 +128,29 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
             }
         }
 
-
         // Apply Price Filter
         if (appliedFilters?.price) {
             const { min, max } = parsePriceRange(appliedFilters.price);
-            console.log("Filtering by price range:", min, "-", max);
             filteredProducts = filteredProducts.filter(p => {
                 const price = p?.price ?? null;
                 if (typeof price !== 'number') return false;
-                const matches = price >= min && price <= max;
-                return matches;
+                return price >= min && price <= max;
             });
         }
 
-        // Apply Style Filter (Optional, keep if needed)
-        // if (appliedFilters?.style) { ... }
-
+        // --- 3. Apply Sorting (NEW) ---
+        if (sortOrder === 'price-asc') {
+            // Sort Low to High
+            filteredProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+        } else if (sortOrder === 'price-desc' || sortOrder === 'featured') {
+            // Sort High to Low (Treating 'Featured' as 'Price, high to low')
+            filteredProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+        }
+        // If sortOrder is 'manual', we do nothing and keep the original source order.
 
         return filteredProducts;
 
-    }, [searchQuery, productsData, collectionName, appliedFilters]); // Keep appliedFilters dependency
+    }, [searchQuery, productsData, collectionName, appliedFilters, sortOrder]); // *** ADD appliedFilters and sortOrder dependency ***
 
     // Keep existing useMemo for title calculation
     useMemo(() => {
@@ -160,6 +158,7 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
         if (searchQuery) {
              title = `Search Results for "${searchQuery}"`;
         } else if (collectionName) {
+             // ... (keep existing title mapping logic) ...
             const upperCollectionName = String(collectionName).toUpperCase().replace(/-/g, ' ');
             if (upperCollectionName === "NECKPIECES") title = "Neckpieces";
             else if (upperCollectionName === "EARRINGS") title = "Earrings";
@@ -188,7 +187,7 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
             else if (collectionName === 'SMART STAPLES - A Workwear Edit') title = "Smart Staples - A Workwear Edit";
             else if (collectionName === 'POTPOURRI') title = "Potpourri";
             else if (collectionName === 'sarees' || collectionName === 'shop') title = "Sarees";
-            else if (collectionName === 'All Products') title = "All Products"; // Handle All Products title
+            else if (collectionName === 'All Products') title = "All Products";
             else title = collectionName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         } else {
              title = "Products";

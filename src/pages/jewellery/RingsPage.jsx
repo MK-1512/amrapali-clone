@@ -14,19 +14,25 @@ const rings = jewellery.filter(item => {
 });
 
 
-// *** MODIFIED: Accept appliedFilters prop ***
-const RingsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
+// *** MODIFIED: Accept all filter/sort props ***
+const RingsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
   return (
     <>
       <RingsHeroBanner />
-      <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      {/* *** MODIFIED: Pass sort props to FilterBar *** */}
+      <FilterBar
+        handleOpenFilter={handleOpenFilter}
+        sortOrder={sortOrder}
+        onSortChange={onSortChange}
+      />
+      {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
       <ProductList
         products={rings}
         collectionName="rings"
         setPage={setPage}
         appliedFilters={appliedFilters} // <-- Pass down
+        sortOrder={sortOrder} // <-- Pass down
       />
       <FilterDrawer
         show={isFilterOpen}

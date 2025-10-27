@@ -13,19 +13,25 @@ const banglesCuffs = jewellery.filter(item => {
            nameLower.includes('bracelet');
 });
 
-// *** MODIFIED: Accept appliedFilters prop ***
-const BanglesCuffsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
+// *** MODIFIED: Accept all filter/sort props ***
+const BanglesCuffsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
   return (
     <>
       <BanglesCuffsHeroBanner />
-      <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      {/* *** MODIFIED: Pass sort props to FilterBar *** */}
+      <FilterBar
+        handleOpenFilter={handleOpenFilter}
+        sortOrder={sortOrder}
+        onSortChange={onSortChange}
+      />
+      {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
       <ProductList
         products={banglesCuffs}
         collectionName="bangles-cuffs"
         setPage={setPage}
         appliedFilters={appliedFilters} // <-- Pass down
+        sortOrder={sortOrder} // <-- Pass down
       />
       <FilterDrawer
         show={isFilterOpen}

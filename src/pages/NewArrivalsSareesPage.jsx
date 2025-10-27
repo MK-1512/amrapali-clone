@@ -4,21 +4,26 @@ import ProductList from '../components/product/ProductList';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 import NewArrivalsSareesHeroBanner from '../components/common/NewArrivalsSareesHeroBanner';
-// Assuming ProductList handles fetching default sarees if no 'products' prop is given
-// Or import { products as sareeProducts } from '../data/products'; if needed
+// import { products as sareeProducts } from '../data/products'; // Not needed if ProductList defaults
 
-// *** MODIFIED: Accept appliedFilters prop ***
-const NewArrivalsSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
+// *** MODIFIED: Accept all filter/sort props ***
+const NewArrivalsSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
     return (
         <>
             <NewArrivalsSareesHeroBanner />
-            <FilterBar handleOpenFilter={handleOpenFilter} />
-            {/* *** MODIFIED: Pass appliedFilters down *** */}
+            {/* *** MODIFIED: Pass sort props to FilterBar *** */}
+            <FilterBar
+              handleOpenFilter={handleOpenFilter}
+              sortOrder={sortOrder}
+              onSortChange={onSortChange}
+            />
+            {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
             <ProductList
-              collectionName="Sarees" // Or pass specific new arrival saree data if available
+              collectionName="Sarees"
               setPage={setPage}
               appliedFilters={appliedFilters} // <-- Pass down
+              sortOrder={sortOrder} // <-- Pass down
             />
             <FilterDrawer
               show={isFilterOpen}

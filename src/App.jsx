@@ -60,16 +60,18 @@ function AppContent() {
   const { isLoggedIn, logout } = useContext(AuthContext);
 
   const [currentPage, setCurrentPage] = useState('home');
-  const [viewingMemberId, setViewingMemberId] = useState(null); // Keep this state
+  const [viewingMemberId, setViewingMemberId] = useState(null);
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [viewingPostId, setViewingPostId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(''); // State for search term
-  const [appliedFilters, setAppliedFilters] = useState({ color: null, price: null, style: null }); // *** NEW STATE for filtering ***
-
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // *** NEW STATE for filters and sorting ***
+  const [appliedFilters, setAppliedFilters] = useState({ color: null, price: null, style: null });
+  const [sortOrder, setSortOrder] = useState('manual'); // 'manual' is the default "SORT"
 
   // Add useEffect to manage body class based on checkout/product detail page
   useEffect(() => {
@@ -196,6 +198,7 @@ function AppContent() {
         }
       // Reset filtering state when navigating via collection
       setAppliedFilters({ color: null, price: null, style: null });
+      setSortOrder('manual'); // Reset sort order
       return; // Stop further processing if collection navigated
     }
     if (filters.style) {
@@ -214,6 +217,7 @@ function AppContent() {
         }
        // Reset filtering state when navigating via style
       setAppliedFilters({ color: null, price: null, style: null });
+      setSortOrder('manual'); // Reset sort order
       return; // Stop further processing if style navigated
     }
 
@@ -229,24 +233,30 @@ function AppContent() {
   };
   // *** END MODIFIED FUNCTION ***
 
+  // *** NEW HANDLER for sorting ***
+  const handleSortChange = (newSortOrder) => {
+    setSortOrder(newSortOrder);
+    console.log("Sort order changed to:", newSortOrder); // For debugging
+  };
+  // *** END NEW HANDLER ***
 
   // Centralized Navigation Handler
   const handleNavigation = (pageNameOrId) => {
       if (isSearchOpen) setIsSearchOpen(false);
-      if (pageNameOrId !== 'search-results') setSearchQuery(''); // Clear search query on other navigations
+      if (pageNameOrId !== 'search-results') setSearchQuery('');
       if (pageNameOrId !== 'collection') setSelectedCollection(null);
-      // Clear specific views unless navigating TO them
-      if (!pageNameOrId.startsWith('product-detail-')) setSelectedProductId(null);
-      if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null); // Keep this to clear ID when navigating away
-      if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
-      if (!pageNameOrId.startsWith('service-detail-')) setSelectedServiceId(null); // <-- Clear service ID if not navigating to it
-
-      // *** ADDED: Reset applied filters when navigating away ***
-      if (currentPage !== pageNameOrId) { // Only reset if actually changing page
+      
+      // *** ADDED: Reset filters and sort when navigating to a new page ***
+      if (currentPage !== pageNameOrId) {
           setAppliedFilters({ color: null, price: null, style: null });
+          setSortOrder('manual');
       }
+      
+      if (!pageNameOrId.startsWith('product-detail-')) setSelectedProductId(null);
+      if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null);
+      if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
+      if (!pageNameOrId.startsWith('service-detail-')) setSelectedServiceId(null);
 
-      // --- ADD: Clear search query when navigating away from results ---
       if (currentPage === 'search-results' && pageNameOrId !== 'search-results') {
            setSearchQuery('');
        }
@@ -259,15 +269,14 @@ function AppContent() {
        // --- Product Detail Logic ---
        if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('product-detail-')) {
             const prodId = pageNameOrId.split('-')[2];
-            const productExists = allProducts.some(p => p && String(p.id) === String(prodId)); //
+            const productExists = allProducts.some(p => p && String(p.id) === String(prodId));
             if (prodId && productExists) {
                 setSelectedProductId(prodId);
                 setCurrentPage('product-detail');
-                // Ensure other views are reset
                 setViewingMemberId(null);
                 setViewingPostId(null);
                 setSelectedCollection(null);
-                setSelectedServiceId(null); // <-- Reset service ID
+                setSelectedServiceId(null);
             } else {
                 console.warn("Invalid product ID:", pageNameOrId);
                 setCurrentPage('shop'); // Fallback
@@ -275,66 +284,57 @@ function AppContent() {
        }
        // --- Service Detail Logic ---
        else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('service-detail-')) {
-            const serviceId = pageNameOrId.substring('service-detail-'.length); // Get ID after prefix
-            // Check if it's the known service ID
+            const serviceId = pageNameOrId.substring('service-detail-'.length);
             if (serviceId === 'fall-picot-service') {
                 setSelectedServiceId(serviceId);
                 setCurrentPage('service-detail');
-                // Reset other specific views
                 setSelectedProductId(null);
                 setViewingMemberId(null);
                 setViewingPostId(null);
                 setSelectedCollection(null);
             } else {
                  console.warn("Invalid service ID:", pageNameOrId);
-                 setCurrentPage('shop'); // Fallback or appropriate page like 'fall-picot' list
+                 setCurrentPage('shop');
             }
        }
        // --- END Service Detail Logic ---
 
        // ****** CORRECTED Team Member Logic ******
        else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('team-member-detail-')) {
-            // Correctly extract the ID using substring
             const memberId = pageNameOrId.substring('team-member-detail-'.length);
-            // Basic check if an ID was extracted
             if (memberId) {
-                setViewingMemberId(memberId); // Set the specific ID state
-                setCurrentPage('team-member-detail'); // Set the generic page type
-                // Ensure other views are reset (keep these lines)
+                setViewingMemberId(memberId);
+                setCurrentPage('team-member-detail');
                 setSelectedProductId(null);
                 setViewingPostId(null);
                 setSelectedCollection(null);
                 setSelectedServiceId(null);
             } else {
-                 // This case should ideally not happen if the prefix is present
                  console.warn("Could not extract team member ID from:", pageNameOrId);
-                 setCurrentPage('meet-the-team'); // Fallback to the list page
+                 setCurrentPage('meet-the-team');
             }
        }
        // ****** END CORRECTED Team Member Logic ******
 
        // Blog Detail Logic
        else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('blog-detail-')) {
-           const postId = parseInt(pageNameOrId.split('-')[2], 10); //
+           const postId = parseInt(pageNameOrId.split('-')[2], 10);
            if (!isNaN(postId)) {
                setViewingPostId(postId);
                setCurrentPage('blog-detail');
-                // Ensure other views are reset
                setSelectedProductId(null);
                setViewingMemberId(null);
                setSelectedCollection(null);
-               setSelectedServiceId(null); // <-- Reset service ID
+               setSelectedServiceId(null);
            } else {
                console.warn("Invalid blog post ID:", pageNameOrId);
-               setCurrentPage('blog'); // Fallback
+               setCurrentPage('blog');
            }
        }
        // --- ADD: Handle navigation TO search results (can be triggered externally too) ---
        else if (pageNameOrId === 'search-results') {
-           // Make sure searchQuery has a value before navigating, otherwise default to 'shop'
            if (searchQuery) {
                 setCurrentPage('search-results');
-                // Clear other specific views
                 setSelectedProductId(null);
                 setViewingMemberId(null);
                 setViewingPostId(null);
@@ -342,19 +342,17 @@ function AppContent() {
                 setSelectedCollection(null);
            } else {
                console.warn("Navigating to search results without a query. Redirecting to shop.");
-               setCurrentPage('shop'); // Fallback if no query
+               setCurrentPage('shop');
            }
        }
        // Standard Page Navigation
        else if (typeof pageNameOrId === 'string') {
            setCurrentPage(pageNameOrId);
-           // Clear ALL specific views if navigating to a standard page
            setSelectedProductId(null);
-           setViewingMemberId(null); // Clear team member ID when navigating to standard pages
+           setViewingMemberId(null);
            setViewingPostId(null);
-           setSelectedServiceId(null); // <-- Reset service ID
+           setSelectedServiceId(null);
             if (pageNameOrId !== 'collection') setSelectedCollection(null);
-           // Also clear search query if navigating to a standard page
            setSearchQuery('');
        }
 
@@ -390,7 +388,6 @@ function AppContent() {
           "SMART STAPLES - A WORKWEAR EDIT": { title: "SMART STAPLES - A WORKWEAR EDIT", subtitle: "Functional | Minimalistic | Contemporary\nPresenting a workwear collective comprising simple, clean-lined, versatile drapes that will go a long way in making a striking impression at work and beyond." },
       };
       if (collectionDetails[upperCollectionName]) return collectionDetails[upperCollectionName];
-      // Simple fallback for collection title if not found in details map
       const titlePart = collectionName.split('-')[0].trim();
       const formattedTitle = titlePart.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
       return { title: formattedTitle, subtitle: "Explore our collection." };
@@ -411,7 +408,7 @@ function AppContent() {
          return <BlogPage setPage={handleNavigation} currentPage={`blog-detail-${viewingPostId}`} />;
     }
 
-    // *** MODIFIED: Add appliedFilters prop to ProductList instances ***
+    // *** MODIFIED: Pass appliedFilters and sortOrder to ProductList instances ***
 
      // --- All Products Page ---
      if (currentPage === 'all-products') {
@@ -420,12 +417,17 @@ function AppContent() {
                 <Container className="py-4 text-center">
                     <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>ALL PRODUCTS</h1>
                 </Container>
-                <FilterBar handleOpenFilter={handleOpenFilter} />
+                <FilterBar
+                  handleOpenFilter={handleOpenFilter}
+                  sortOrder={sortOrder}
+                  onSortChange={handleSortChange}
+                />
                 <ProductList
                     products={allProducts}
                     collectionName="All Products"
                     setPage={handleNavigation}
-                    appliedFilters={appliedFilters} // <-- Pass applied filters
+                    appliedFilters={appliedFilters}
+                    sortOrder={sortOrder}
                 />
                 <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} />
             </>
@@ -443,11 +445,16 @@ function AppContent() {
                     title={title}
                     subtitle={subtitleLines.map((line, index) => <React.Fragment key={index}>{line}{index < subtitleLines.length - 1 && <br />}</React.Fragment>)}
                  />
-                <FilterBar handleOpenFilter={handleOpenFilter} />
+                <FilterBar
+                  handleOpenFilter={handleOpenFilter}
+                  sortOrder={sortOrder}
+                  onSortChange={handleSortChange}
+                />
                 <ProductList
                     collectionName={selectedCollection}
                     setPage={handleNavigation}
-                    appliedFilters={appliedFilters} // <-- Pass applied filters
+                    appliedFilters={appliedFilters}
+                    sortOrder={sortOrder}
                 />
                 <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} />
             </>
@@ -463,15 +470,20 @@ function AppContent() {
                     <h1 className="search-results-page-title" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>SEARCH RESULTS</h1>
                     <p className="text-muted">Showing results for "{searchQuery}"</p>
                 </Container>
-                {/* <FilterBar handleOpenFilter={handleOpenFilter} /> */} {/* Optional */}
+                <FilterBar
+                  handleOpenFilter={handleOpenFilter}
+                  sortOrder={sortOrder}
+                  onSortChange={handleSortChange}
+                />
                 <ProductList
                     products={searchResults.fullProductList}
                     searchQuery={searchQuery}
                     collectionName={`Search: ${searchQuery}`}
                     setPage={handleNavigation}
-                    appliedFilters={appliedFilters} // <-- Pass applied filters
+                    appliedFilters={appliedFilters}
+                    sortOrder={sortOrder}
                 />
-                {/* <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} /> */} {/* Optional */}
+                <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} />
             </>
        );
    }
@@ -498,26 +510,38 @@ function AppContent() {
       return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
     }
 
-    // *** MODIFIED: Switch statement passes appliedFilters AND filter state/handlers to relevant pages ***
+    // *** MODIFIED: Switch statement passes ALL filter/sort props to relevant pages ***
+    const pageProps = {
+      setPage: handleNavigation,
+      onApplyFilters: handleFilterApply,
+      isFilterOpen: isFilterOpen,
+      handleOpenFilter: handleOpenFilter,
+      handleCloseFilter: handleCloseFilter,
+      appliedFilters: appliedFilters,
+      sortOrder: sortOrder,
+      onSortChange: handleSortChange
+    };
+
     switch (currentPage) {
-        // --- Pass appliedFilters AND filter state/handlers to pages that render ProductList/FilterDrawer ---
-        case 'jewellery': return <JewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'neckpieces': return <NeckpiecesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'earrings': return <EarringsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'bangles-cuffs': return <BanglesCuffsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'rings': return <RingsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'new-arrivals-sarees': return <NewArrivalsSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'sarees-cotton': return <CottonSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'sarees-silk-tussar': return <SilkTussarSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'sarees-linen': return <LinenSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'sarees-chanderi': return <ChanderiSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'bestsellers': return <BestsellersPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        case 'shop': return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
-        // --- Pages without filtering ---
+        // --- Pages with Filters & Sorting ---
+        case 'jewellery': return <JewelleryPage {...pageProps} />;
+        case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage {...pageProps} />;
+        case 'neckpieces': return <NeckpiecesPage {...pageProps} />;
+        case 'earrings': return <EarringsPage {...pageProps} />;
+        case 'bangles-cuffs': return <BanglesCuffsPage {...pageProps} />;
+        case 'rings': return <RingsPage {...pageProps} />;
+        case 'new-arrivals-sarees': return <NewArrivalsSareesPage {...pageProps} />;
+        case 'sarees-cotton': return <CottonSareesPage {...pageProps} />;
+        case 'sarees-silk-tussar': return <SilkTussarSareesPage {...pageProps} />;
+        case 'sarees-linen': return <LinenSareesPage {...pageProps} />;
+        case 'sarees-chanderi': return <ChanderiSareesPage {...pageProps} />;
+        case 'bestsellers': return <BestsellersPage {...pageProps} />;
+        case 'shop': return <SareesPage {...pageProps} />;
+        
+        // --- Pages without Filters & Sorting ---
         case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
         case 'gift-card': return <GiftCardPage />;
-        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />;
+        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />; // No filter bar on this page
         case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />;
         case 'our-story': return <OurStoryPage />;
         case 'meet-the-team': return <MeetTheTeamPage onSelectMember={handleNavigation} />;
@@ -533,12 +557,13 @@ function AppContent() {
         case 'login': return <LoginPage setPage={handleNavigation} />;
         case 'register': return <RegisterPage setPage={handleNavigation} />;
         case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
-        // Detail pages handled above
-        default: return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        
+        // Default fallback
+        default: return <SareesPage {...pageProps} />;
     }
   };
 
-  // Keep existing header/footer/recently viewed visibility logic
+  // Determine header/footer visibility and style
    const pagesThatMightStartTransparent = [
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
@@ -614,12 +639,12 @@ function AppContent() {
       {!hideFooter && (
         <Footer setPage={handleNavigation} toggleSearch={toggleSearch} />
       )}
-      {/* NO global FilterDrawer needed here */}
+      {/* Removed global FilterDrawer, as it's now handled by each page/render block */}
     </div>
   );
 }
 
-// Keep existing App wrapper with Providers
+// Wrap AppContent in Providers
 function App() {
   return (
     <AuthProvider>

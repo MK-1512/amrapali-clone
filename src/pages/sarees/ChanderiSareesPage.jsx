@@ -6,21 +6,27 @@ import FilterDrawer from '../../components/filters/FilterDrawer';
 import ChanderiSareesHeroBanner from '../../components/common/ChanderiSareesHeroBanner';
 import { getFilteredSarees } from '../../utils/productUtils';
 
-// *** MODIFIED: Accept appliedFilters prop ***
-const ChanderiSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
+// *** MODIFIED: Accept all filter/sort props ***
+const ChanderiSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
   const chanderiSarees = useMemo(() => getFilteredSarees(['chanderi'], 16, 'Chanderi'), []);
 
   return (
     <>
       <ChanderiSareesHeroBanner />
-      <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      {/* *** MODIFIED: Pass sort props to FilterBar *** */}
+      <FilterBar
+        handleOpenFilter={handleOpenFilter}
+        sortOrder={sortOrder}
+        onSortChange={onSortChange}
+      />
+      {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
       <ProductList
         products={chanderiSarees}
         collectionName="Chanderi Sarees"
         setPage={setPage}
         appliedFilters={appliedFilters} // <-- Pass down
+        sortOrder={sortOrder} // <-- Pass down
       />
       <FilterDrawer
         show={isFilterOpen}

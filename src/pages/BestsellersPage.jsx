@@ -1,30 +1,21 @@
 // src/pages/BestsellersPage.jsx
 
-import React, { useState, useMemo } from 'react';
+import React from 'react'; // Removed useState and useMemo
 import { bestsellerProducts } from '../data/bestsellerProducts';
-import ProductList from '../components/product/ProductList'; // Assuming ProductList is used implicitly or explicitly
-import ProductCard from '../components/product/ProductCard'; // Keep if used directly for pagination
-import Pagination from '../components/common/Pagination';
+import ProductList from '../components/product/ProductList'; // Import ProductList
+// import ProductCard from '../components/product/ProductCard'; // No longer needed if using ProductList
+// import Pagination from '../components/common/Pagination'; // No longer needed if using ProductList
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 
 
-// *** MODIFIED: Accept appliedFilters prop ***
-const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
-    // Keep pagination state if rendering cards directly
+// *** MODIFIED: Accept all filter/sort props ***
+const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
+    
+    // --- REMOVED Local State for pagination ---
     // const [currentPage, setCurrentPage] = useState(1);
     // const productsPerPage = 16;
-    // const totalPages = Math.ceil(bestsellerProducts.length / productsPerPage);
-    // const currentProducts = useMemo(() => {
-    //     const firstPageIndex = (currentPage - 1) * productsPerPage;
-    //     const lastPageIndex = firstPageIndex + productsPerPage;
-    //     return bestsellerProducts.slice(firstPageIndex, lastPageIndex);
-    // }, [currentPage]);
-    // const handlePageChange = (pageNumber) => {
-    //     setCurrentPage(pageNumber);
-    //     window.scrollTo(0, 0);
-    // };
-
+    // ... etc ...
 
     return (
         <>
@@ -40,35 +31,23 @@ const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilt
               </div>
             </div>
 
-            <FilterBar handleOpenFilter={handleOpenFilter} />
-
-            {/* *** MODIFIED: Use ProductList and pass appliedFilters *** */}
-            {/* Replace direct rendering + pagination with ProductList */}
-            <ProductList
-                products={bestsellerProducts} // Pass bestseller data
-                collectionName="Bestsellers" // Optional: for title logic if needed
-                setPage={setPage}
-                appliedFilters={appliedFilters} // <-- Pass down
+            {/* *** MODIFIED: Pass sort props to FilterBar *** */}
+            <FilterBar
+              handleOpenFilter={handleOpenFilter}
+              sortOrder={sortOrder}
+              onSortChange={onSortChange}
             />
 
-            {/* Remove direct rendering and pagination if using ProductList
-            <div className="container my-5 product-list-container">
-                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-                    {currentProducts.map((product) => (
-                        <div className="col" key={product.id}>
-                            <ProductCard product={product} setPage={setPage} />
-                        </div>
-                    ))}
-                </div>
-                {totalPages > 1 && (
-                     <Pagination
-                         currentPage={currentPage}
-                         totalPages={totalPages}
-                         onPageChange={handlePageChange}
-                     />
-                 )}
-            </div>
-            */}
+            {/* *** MODIFIED: Use ProductList and pass all props *** */}
+            <ProductList
+                products={bestsellerProducts} // Pass bestseller data
+                collectionName="Bestsellers"
+                setPage={setPage}
+                appliedFilters={appliedFilters} // <-- Pass down
+                sortOrder={sortOrder} // <-- Pass down
+            />
+            
+            {/* --- REMOVED direct rendering/pagination --- */}
 
              <FilterDrawer
                 show={isFilterOpen}

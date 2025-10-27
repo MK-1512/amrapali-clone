@@ -22,23 +22,29 @@ const earrings = jewellery.filter(item => {
            nameLower === 'moon-o-poly' ||
            nameLower === 'folded moon' ||
            nameLower === 'daydreamer' ||
-           nameLower === 'boss babe ring'; // Note: This might be incorrect if 'boss babe ring' is only a ring
+           nameLower === 'boss babe ring';
 });
 
 
-// *** MODIFIED: Accept appliedFilters prop ***
-const EarringsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
+// *** MODIFIED: Accept all filter/sort props ***
+const EarringsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
   return (
     <>
       <EarringsHeroBanner />
-      <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      {/* *** MODIFIED: Pass sort props to FilterBar *** */}
+      <FilterBar
+        handleOpenFilter={handleOpenFilter}
+        sortOrder={sortOrder}
+        onSortChange={onSortChange}
+      />
+      {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
       <ProductList
         products={earrings}
         collectionName="earrings"
         setPage={setPage}
         appliedFilters={appliedFilters} // <-- Pass down
+        sortOrder={sortOrder} // <-- Pass down
       />
       <FilterDrawer
         show={isFilterOpen}
