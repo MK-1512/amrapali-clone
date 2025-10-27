@@ -4,22 +4,24 @@ import { Container, Row, Col, Button, Form, Tabs, Tab, Image } from 'react-boots
 import { CartContext } from '../context/CartContext';
 import { CurrencyContext } from '../context/CurrencyContext';
 import { WishlistContext } from '../context/WishlistContext';
-import { RecentlyViewedContext } from '../context/RecentlyViewedContext'; // --- 1. IMPORT
+import { RecentlyViewedContext } from '../context/RecentlyViewedContext';
 import { formatPrice } from '../utils/currencyUtils';
 import { allProducts } from '../utils/searchUtils';
 import ProductCard from '../components/product/ProductCard';
 
-const FALL_PICOT_PRICE_INR = 125; 
+// NOTE: FALL_PICOT_PRICE_INR is no longer needed here.
+// const FALL_PICOT_PRICE_INR = 125; 
 
 const ProductDetailPage = ({ productId, setPage }) => {
     const [quantity, setQuantity] = useState(1);
-    const [addFallPicot, setAddFallPicot] = useState(false);
+    // --- REMOVED addFallPicot state ---
+    // const [addFallPicot, setAddFallPicot] = useState(false);
     const [mainImage, setMainImage] = useState('');
 
     const { addToCart } = useContext(CartContext);
     const { selectedCurrency } = useContext(CurrencyContext);
     const { addToWishlist, isProductInWishlist } = useContext(WishlistContext);
-    const { addProduct: addRecentlyViewed } = useContext(RecentlyViewedContext); // --- 2. GET CONTEXT FUNCTION
+    const { addProduct: addRecentlyViewed } = useContext(RecentlyViewedContext);
 
     const product = useMemo(() => allProducts.find(p => p && String(p.id) === String(productId)), [productId]);
 
@@ -27,20 +29,17 @@ const ProductDetailPage = ({ productId, setPage }) => {
         if (product?.image1) { 
             setMainImage(product.image1);
             setQuantity(1);
-            setAddFallPicot(false);
+            // --- REMOVED addFallPicot reset ---
+            // setAddFallPicot(false);
             
-            // --- 3. ADD PRODUCT TO RECENTLY VIEWED ---
             if (product) {
                 addRecentlyViewed(product);
             }
-            // --- END ---
-
         } else if (product) {
              setMainImage('https://placehold.co/600x800/EEE/31343C?text=Image+Not+Found');
         }
-    }, [product, addRecentlyViewed]); // --- 4. ADD DEPENDENCY ---
+    }, [product, addRecentlyViewed]);
 
-    // Add useEffect for body class
     useEffect(() => {
         document.body.classList.add('product-detail-active');
         return () => {
@@ -59,21 +58,20 @@ const ProductDetailPage = ({ productId, setPage }) => {
 
     const handleAddToCart = () => {
         if (!product) return;
+        // --- MODIFIED productToAdd (options hardcoded to empty) ---
         const productToAdd = {
             ...product,
             quantity: quantity,
-            // Include options only if Fall & Picot is relevant and selected
-            options: (product.tags?.includes('Saree') || product.tags?.includes('Banarasi')) && addFallPicot
-                     ? { 'Fall & Picot': true }
-                     : {}
+            options: {} // Always add with no options
         };
+        // --- END MODIFICATION ---
         addToCart(productToAdd);
     };
 
      const handleBuyNow = () => {
         if (!product) return;
-        handleAddToCart(); // Add to cart first
-        setPage('checkout'); // Navigate
+        handleAddToCart(); 
+        setPage('checkout'); 
     };
 
     const relatedProducts = useMemo(() =>
@@ -90,35 +88,30 @@ const ProductDetailPage = ({ productId, setPage }) => {
         );
     }
 
+    // --- MODIFIED Price Calculation (removed addon cost) ---
     const basePriceINR = product.price || 0;
-    // Check if product is a saree before adding fall/picot cost
-    const isSaree = product.tags?.includes('Saree') || product.tags?.includes('Banarasi') || product.tags?.includes('Linen') || product.tags?.includes('Cotton') || product.tags?.includes('Chanderi') || product.tags?.includes('Silk') || product.tags?.includes('Tussar');
-    const fallPicotCostINR = isSaree && addFallPicot ? FALL_PICOT_PRICE_INR : 0;
-    const totalPriceINR = (basePriceINR + fallPicotCostINR) * quantity;
+    // const isSaree = ... (no longer needed for price)
+    // const fallPicotCostINR = 0; (no longer needed)
+    const totalPriceINR = basePriceINR * quantity; // Removed fallPicotCostINR
+    // --- END MODIFICATION ---
 
-    // Use product.details if available, otherwise provide sensible fallbacks
     const details = product.details || {};
     const description = details.description || "No description available.";
     const care = details.care || "Care instructions unavailable.";
     const shipping = details.shipping || "Shipping details unavailable.";
 
-    // Determine which thumbnails to show (handle missing images)
     const thumbnails = [product.image1, product.image2].filter(Boolean);
-    // Add duplicates if less than 2 images for layout consistency (optional)
     while (thumbnails.length > 0 && thumbnails.length < 2) {
        thumbnails.push(thumbnails[0]);
     }
-     // Create more thumbnails if needed for visual example
      const displayThumbnails = [...thumbnails, ...thumbnails, thumbnails[0]].slice(0, 5);
 
 
     return (
         <Container className="product-detail-page-container my-5">
-             {/* Back button */}
              <Button variant="link" onClick={() => window.history.back()} className="mb-3 ps-0 text-dark text-decoration-none">&lt; Back</Button>
             <Row>
                 <Col md={1} className="d-none d-md-block">
-                    {/* Thumbnails */}
                     <div className="d-flex flex-column gap-2">
                         {displayThumbnails.map((img, index) => (
                            <Image
@@ -134,7 +127,6 @@ const ProductDetailPage = ({ productId, setPage }) => {
                 </Col>
                 <Col md={5}>
                     <Image src={mainImage} fluid className="product-main-detail-image mb-3 mb-md-0" />
-                     {/* Thumbnails for mobile */}
                      <div className="d-flex d-md-none gap-2 mt-2 overflow-auto">
                         {displayThumbnails.map((img, index) => (
                            <Image
@@ -153,11 +145,13 @@ const ProductDetailPage = ({ productId, setPage }) => {
                     <h1 className="product-detail-title">{product.name}</h1>
                     <p className="product-detail-price">
                         {getFormattedPrice(totalPriceINR)}
-                         {product.originalPrice != null && quantity === 1 && fallPicotCostINR === 0 && ( // Show original only if no addon/qty change
+                        {/* --- MODIFIED Original Price display (removed fallPicotCostINR check) --- */}
+                         {product.originalPrice != null && quantity === 1 && (
                             <span className="text-muted text-decoration-line-through ms-2">
                                 {getFormattedPrice(product.originalPrice)}
                             </span>
                         )}
+                        {/* --- END MODIFICATION --- */}
                     </p>
 
                     <div className="mb-3">
@@ -169,24 +163,9 @@ const ProductDetailPage = ({ productId, setPage }) => {
                         </div>
                     </div>
 
-                    {/* Conditionally render Add-ons only for sarees */}
-                    {isSaree && (
-                        <div className="product-addons mb-4">
-                            <Form.Check
-                                type="checkbox"
-                                id="fall-picot-checkbox"
-                                checked={addFallPicot}
-                                onChange={(e) => setAddFallPicot(e.target.checked)}
-                                className="addon-checkbox"
-                            >
-                                <Form.Check.Input type="checkbox" />
-                                <Form.Check.Label>
-                                    <span className="addon-label-text">Fall & Picot</span>
-                                    <span className="addon-label-price ms-2">({getFormattedPrice(FALL_PICOT_PRICE_INR)})</span>
-                                </Form.Check.Label>
-                            </Form.Check>
-                        </div>
-                    )}
+                    {/* --- REMOVED Addon Checkbox Block --- */}
+                    {/* {isSaree && ( ... )} */}
+                    {/* --- END REMOVAL --- */}
 
 
                     <div className="d-grid gap-2 mb-3">
@@ -219,12 +198,10 @@ const ProductDetailPage = ({ productId, setPage }) => {
                     </Button>
 
 
-                    {/* Details Tabs - Adjusted Content */}
                     <div className="product-detail-tabs mt-4">
                         <Tabs defaultActiveKey="details" id="product-info-tabs" className="mb-3">
                             <Tab eventKey="details" title="Details">
                                 <p>{description}</p>
-                                {/* Display relevant details based on product type */}
                                 {details.colors && <p><strong>Colors:</strong> {details.colors}</p>}
                                 {details.fabric && <p><strong>Fabric:</strong> {details.fabric}</p>}
                                 {details.baseMaterial && <p><strong>Base Material:</strong> {details.baseMaterial}</p>}
@@ -237,11 +214,9 @@ const ProductDetailPage = ({ productId, setPage }) => {
                                 {details.disclaimer && <p className="mt-2"><small><strong>Disclaimer:</strong> {details.disclaimer}</small></p>}
                             </Tab>
                             <Tab eventKey="care" title="Care">
-                                {/* Use dangerouslySetInnerHTML if care instructions might contain HTML or newlines */}
                                 <p dangerouslySetInnerHTML={{ __html: care.replace(/\n/g, '<br />') }}></p>
                             </Tab>
                             <Tab eventKey="shipping" title="Shipping & Returns">
-                                {/* Use dangerouslySetInnerHTML for shipping as well */}
                                 <p dangerouslySetInnerHTML={{ __html: shipping.replace(/\n/g, '<br />') }}></p>
                             </Tab>
                         </Tabs>
@@ -256,7 +231,6 @@ const ProductDetailPage = ({ productId, setPage }) => {
                         {relatedProducts.map(related => (
                              related && related.id ? (
                                 <Col key={related.id}>
-                                    {/* Pass setPage down */}
                                     <ProductCard product={related} setPage={setPage} />
                                 </Col>
                              ) : null
