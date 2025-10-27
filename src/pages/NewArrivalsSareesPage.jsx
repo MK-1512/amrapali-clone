@@ -1,27 +1,25 @@
 // src/pages/NewArrivalsSareesPage.jsx
-import React, { useState } from 'react'; // useState is no longer needed if not used elsewhere
+import React from 'react'; // Removed useState
 import ProductList from '../components/product/ProductList';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 import NewArrivalsSareesHeroBanner from '../components/common/NewArrivalsSareesHeroBanner';
-import { products as sareeProducts } from '../data/products'; // Import saree data
+// Assuming ProductList handles fetching default sarees if no 'products' prop is given
+// Or import { products as sareeProducts } from '../data/products'; if needed
 
-// *** MODIFIED: Accept filter state props from App.jsx ***
-const NewArrivalsSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
-
-    // --- REMOVED Local State ---
-    // const [isFilterOpen, setIsFilterOpen] = useState(false);
-    // const handleOpenFilter = () => setIsFilterOpen(true);
-    // const handleCloseFilter = () => setIsFilterOpen(false);
+// *** MODIFIED: Accept appliedFilters prop ***
+const NewArrivalsSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
 
     return (
         <>
             <NewArrivalsSareesHeroBanner />
-            {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
             <FilterBar handleOpenFilter={handleOpenFilter} />
-            {/* Pass setPage down to ProductList */}
-            <ProductList collectionName="Sarees" setPage={setPage} /> {/* Assuming 'Sarees' uses default product list */}
-            {/* *** MODIFIED: Pass props from App.jsx *** */}
+            {/* *** MODIFIED: Pass appliedFilters down *** */}
+            <ProductList
+              collectionName="Sarees" // Or pass specific new arrival saree data if available
+              setPage={setPage}
+              appliedFilters={appliedFilters} // <-- Pass down
+            />
             <FilterDrawer
               show={isFilterOpen}
               handleClose={handleCloseFilter}

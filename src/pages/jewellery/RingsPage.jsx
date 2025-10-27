@@ -1,37 +1,33 @@
 // src/pages/jewellery/RingsPage.jsx
-import React, { useState } from 'react'; // useState is no longer needed if not used elsewhere
+import React from 'react'; // Removed useState
 import ProductList from '../../components/product/ProductList';
 import FilterBar from '../../components/filters/FilterBar';
 import FilterDrawer from '../../components/filters/FilterDrawer';
 import RingsHeroBanner from '../../components/common/RingsHeroBanner';
 import { jewellery } from '../../data/jewellery';
 
-// ... (keep existing filter logic for rings) ...
 const rings = jewellery.filter(item => {
     const nameLower = typeof item.name === 'string' ? item.name.toLowerCase() : '';
-    // Filter specifically for items named 'ring' or known ring names
     return nameLower.includes('ring') ||
-           nameLower === 'checkmate ring' || // Example explicit names if needed
+           nameLower === 'checkmate ring' ||
            nameLower === 'shield me ring';
 });
 
 
-// *** MODIFIED: Accept filter state props from App.jsx ***
-const RingsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
-
-  // --- REMOVED Local State ---
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const handleOpenFilter = () => setIsFilterOpen(true);
-  // const handleCloseFilter = () => setIsFilterOpen(false);
+// *** MODIFIED: Accept appliedFilters prop ***
+const RingsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
 
   return (
     <>
       <RingsHeroBanner />
-      {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
       <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* Pass setPage down to ProductList */}
-      <ProductList products={rings} collectionName="rings" setPage={setPage} />
-      {/* *** MODIFIED: Pass props from App.jsx *** */}
+      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      <ProductList
+        products={rings}
+        collectionName="rings"
+        setPage={setPage}
+        appliedFilters={appliedFilters} // <-- Pass down
+      />
       <FilterDrawer
         show={isFilterOpen}
         handleClose={handleCloseFilter}

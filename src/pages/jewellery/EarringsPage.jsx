@@ -1,12 +1,11 @@
 // src/pages/jewellery/EarringsPage.jsx
-import React, { useState } from 'react'; // useState is no longer needed if not used elsewhere
+import React from 'react'; // Removed useState
 import ProductList from '../../components/product/ProductList';
 import FilterBar from '../../components/filters/FilterBar';
 import FilterDrawer from '../../components/filters/FilterDrawer';
 import EarringsHeroBanner from '../../components/common/EarringsHeroBanner';
 import { jewellery } from '../../data/jewellery';
 
-// ... (keep existing filter logic for earrings) ...
 const earrings = jewellery.filter(item => {
     const nameLower = typeof item.name === 'string' ? item.name.toLowerCase() : '';
     return nameLower.includes('earring') ||
@@ -27,22 +26,20 @@ const earrings = jewellery.filter(item => {
 });
 
 
-// *** MODIFIED: Accept filter state props from App.jsx ***
-const EarringsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
-
-  // --- REMOVED Local State ---
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const handleOpenFilter = () => setIsFilterOpen(true);
-  // const handleCloseFilter = () => setIsFilterOpen(false);
+// *** MODIFIED: Accept appliedFilters prop ***
+const EarringsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
 
   return (
     <>
       <EarringsHeroBanner />
-      {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
       <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* Pass setPage down to ProductList */}
-      <ProductList products={earrings} collectionName="earrings" setPage={setPage} />
-      {/* *** MODIFIED: Pass props from App.jsx *** */}
+      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      <ProductList
+        products={earrings}
+        collectionName="earrings"
+        setPage={setPage}
+        appliedFilters={appliedFilters} // <-- Pass down
+      />
       <FilterDrawer
         show={isFilterOpen}
         handleClose={handleCloseFilter}

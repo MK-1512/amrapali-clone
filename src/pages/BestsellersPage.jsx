@@ -1,36 +1,30 @@
 // src/pages/BestsellersPage.jsx
 
 import React, { useState, useMemo } from 'react';
-// Correct import: Import the data, not the component itself recursively
 import { bestsellerProducts } from '../data/bestsellerProducts';
-import ProductCard from '../components/product/ProductCard';
+import ProductList from '../components/product/ProductList'; // Assuming ProductList is used implicitly or explicitly
+import ProductCard from '../components/product/ProductCard'; // Keep if used directly for pagination
 import Pagination from '../components/common/Pagination';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 
 
-// *** MODIFIED: Accept filter state props from App.jsx ***
-const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const productsPerPage = 16;
+// *** MODIFIED: Accept appliedFilters prop ***
+const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
+    // Keep pagination state if rendering cards directly
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const productsPerPage = 16;
+    // const totalPages = Math.ceil(bestsellerProducts.length / productsPerPage);
+    // const currentProducts = useMemo(() => {
+    //     const firstPageIndex = (currentPage - 1) * productsPerPage;
+    //     const lastPageIndex = firstPageIndex + productsPerPage;
+    //     return bestsellerProducts.slice(firstPageIndex, lastPageIndex);
+    // }, [currentPage]);
+    // const handlePageChange = (pageNumber) => {
+    //     setCurrentPage(pageNumber);
+    //     window.scrollTo(0, 0);
+    // };
 
-    // --- REMOVED Local State ---
-    // const [isFilterOpen, setIsFilterOpen] = useState(false);
-    // const handleOpenFilter = () => setIsFilterOpen(true);
-    // const handleCloseFilter = () => setIsFilterOpen(false);
-
-    const totalPages = Math.ceil(bestsellerProducts.length / productsPerPage);
-
-    const currentProducts = useMemo(() => {
-        const firstPageIndex = (currentPage - 1) * productsPerPage;
-        const lastPageIndex = firstPageIndex + productsPerPage;
-        return bestsellerProducts.slice(firstPageIndex, lastPageIndex);
-    }, [currentPage]);
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-        window.scrollTo(0, 0);
-    };
 
     return (
         <>
@@ -46,19 +40,26 @@ const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilt
               </div>
             </div>
 
-            {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
             <FilterBar handleOpenFilter={handleOpenFilter} />
 
+            {/* *** MODIFIED: Use ProductList and pass appliedFilters *** */}
+            {/* Replace direct rendering + pagination with ProductList */}
+            <ProductList
+                products={bestsellerProducts} // Pass bestseller data
+                collectionName="Bestsellers" // Optional: for title logic if needed
+                setPage={setPage}
+                appliedFilters={appliedFilters} // <-- Pass down
+            />
+
+            {/* Remove direct rendering and pagination if using ProductList
             <div className="container my-5 product-list-container">
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
                     {currentProducts.map((product) => (
                         <div className="col" key={product.id}>
-                            {/* Pass setPage prop down */}
                             <ProductCard product={product} setPage={setPage} />
                         </div>
                     ))}
                 </div>
-
                 {totalPages > 1 && (
                      <Pagination
                          currentPage={currentPage}
@@ -67,8 +68,8 @@ const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilt
                      />
                  )}
             </div>
+            */}
 
-             {/* *** MODIFIED: Pass props from App.jsx *** */}
              <FilterDrawer
                 show={isFilterOpen}
                 handleClose={handleCloseFilter}

@@ -68,6 +68,8 @@ function AppContent() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [searchQuery, setSearchQuery] = useState(''); // State for search term
+  const [appliedFilters, setAppliedFilters] = useState({ color: null, price: null, style: null }); // *** NEW STATE for filtering ***
+
 
   // Add useEffect to manage body class based on checkout/product detail page
   useEffect(() => {
@@ -146,86 +148,87 @@ function AppContent() {
       setViewingPostId(null);
   };
 
-  // *** NEW FUNCTION to handle filter application ***
+  // *** MODIFIED: handleFilterApply to set appliedFilters state ***
   const handleFilterApply = (filters) => {
-    console.log("Filters received in App:", filters); // For debugging
+    console.log("Filters received in App:", filters);
 
-    // --- Navigation Logic based on Filters ---
-
-    // 1. Prioritize Collection Filter for Navigation
+    // --- Navigation Logic based on Filters (Keep this logic first) ---
     if (filters.collection) {
       const collectionKey = filters.collection.toLowerCase();
-      switch (collectionKey) {
-        case 'all products':
-          handleNavigation('all-products'); // Navigate using a new key
-          break;
-        case 'all sarees':
-          handleNavigation('shop'); // Navigate to main sarees page
-          break;
-        case 'all jewellery':
-          handleNavigation('jewellery'); // Navigate to main jewellery page
-          break;
-        case 'cotton':
-          handleNavigation('sarees-cotton');
-          break;
-        case 'silk and tussar':
-          handleNavigation('sarees-silk-tussar');
-          break;
-        case 'linen':
-          handleNavigation('sarees-linen');
-          break;
-        case 'chanderi':
-          handleNavigation('sarees-chanderi');
-          break;
-        case 'neckpieces':
-          handleNavigation('neckpieces');
-          break;
-        case 'earrings':
-          handleNavigation('earrings');
-          break;
-        case 'bangles-cuffs':
-          handleNavigation('bangles-cuffs');
-          break;
-        case 'rings':
-          handleNavigation('rings');
-          break;
-        default:
-          console.warn("Unhandled collection filter:", filters.collection);
-          // Optionally navigate to a default page or show an error
-          handleNavigation('shop'); // Fallback to shop
-      }
+      // ... (keep existing switch statement for collection navigation) ...
+        switch (collectionKey) {
+            case 'all products':
+              handleNavigation('all-products'); // Use the new page key
+              break;
+            case 'all sarees':
+              handleNavigation('shop'); // Navigate to main sarees page
+              break;
+            case 'all jewellery':
+              handleNavigation('jewellery'); // Navigate to main jewellery page
+              break;
+            case 'cotton':
+              handleNavigation('sarees-cotton');
+              break;
+            case 'silk and tussar':
+              handleNavigation('sarees-silk-tussar');
+              break;
+            case 'linen':
+              handleNavigation('sarees-linen');
+              break;
+            case 'chanderi':
+              handleNavigation('sarees-chanderi');
+              break;
+            case 'neckpieces':
+              handleNavigation('neckpieces');
+              break;
+            case 'earrings':
+              handleNavigation('earrings');
+              break;
+            case 'bangles-cuffs':
+              handleNavigation('bangles-cuffs');
+              break;
+            case 'rings':
+              handleNavigation('rings');
+              break;
+            default:
+              console.warn("Unhandled collection filter:", filters.collection);
+              handleNavigation('shop'); // Fallback to shop
+        }
+      // Reset filtering state when navigating via collection
+      setAppliedFilters({ color: null, price: null, style: null });
       return; // Stop further processing if collection navigated
     }
-
-    // 2. Handle Style Filter for Navigation (if no collection selected)
     if (filters.style) {
       const styleKey = filters.style.toLowerCase();
-      switch (styleKey) {
-        case 'casual':
-          // Navigate to Popsicle collection page (as an example for casual)
-          handleSelectCollection('POPSICLE - Everyday Cottons');
-          break;
-        case 'special occasion':
-          // Navigate to Raanjhana collection page (as an example for special occasion)
-          handleSelectCollection('RAANJHANA - Benarasi Weaves');
-          break;
-        default:
-          console.warn("Unhandled style filter:", filters.style);
-          handleNavigation('bestsellers'); // Fallback to bestsellers for now
-      }
+      // ... (keep existing switch statement for style navigation) ...
+        switch (styleKey) {
+            case 'casual':
+              handleSelectCollection('POPSICLE - Everyday Cottons');
+              break;
+            case 'special occasion':
+              handleSelectCollection('RAANJHANA - Benarasi Weaves');
+              break;
+            default:
+              console.warn("Unhandled style filter:", filters.style);
+              handleNavigation('bestsellers'); // Fallback to bestsellers for now
+        }
+       // Reset filtering state when navigating via style
+      setAppliedFilters({ color: null, price: null, style: null });
       return; // Stop further processing if style navigated
     }
 
-    // --- TODO: Filtering Logic (Phase 2) ---
-    // If only Color or Price Range is selected, we need to apply filtering
-    // to the *current* page's product list. This requires more state management.
-    console.log("Color/Price filters selected - filtering logic not implemented yet.");
-    if (filters.color || filters.price) {
-        // We'll add this logic later. For now, just log it.
-        // Might need to update a state like `appliedFilters` and pass it to ProductList
-    }
+    // --- Filtering Logic (NEW) ---
+    // If we didn't navigate, update the appliedFilters state
+    console.log("Applying Color/Price filters:", filters);
+    setAppliedFilters({
+        color: filters.color,
+        price: filters.price,
+        style: filters.style // Keep style here too if needed for filtering later
+    });
+    // Do NOT navigate here, just update the filter state for the current page
   };
-  // *** END NEW FUNCTION ***
+  // *** END MODIFIED FUNCTION ***
+
 
   // Centralized Navigation Handler
   const handleNavigation = (pageNameOrId) => {
@@ -237,6 +240,11 @@ function AppContent() {
       if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null); // Keep this to clear ID when navigating away
       if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
       if (!pageNameOrId.startsWith('service-detail-')) setSelectedServiceId(null); // <-- Clear service ID if not navigating to it
+
+      // *** ADDED: Reset applied filters when navigating away ***
+      if (currentPage !== pageNameOrId) { // Only reset if actually changing page
+          setAppliedFilters({ color: null, price: null, style: null });
+      }
 
       // --- ADD: Clear search query when navigating away from results ---
       if (currentPage === 'search-results' && pageNameOrId !== 'search-results') {
@@ -359,27 +367,27 @@ function AppContent() {
       const upperCollectionName = collectionName.toUpperCase();
       // --- (Keep your existing collectionDetails object here) ---
        const collectionDetails = {
-          "POTPOURRI": { title: "POTPOURRI", subtitle: "A mix of beautiful sarees." }, //
-          "COTTON SAREES": { title: "COTTON SAREES", subtitle: "Comfortable and stylish cotton sarees." }, //
-          "SILK & TUSSAR SAREES": { title: "SILK & TUSSAR SAREES", subtitle: "Elegant Silk and Tussar sarees." }, //
-          "LINEN SAREES": { title: "LINEN SAREES", subtitle: "Breathable and beautiful Linen sarees." }, //
-          "CHANDERI SAREES": { title: "CHANDERI SAREES", subtitle: "Light and luxurious Chanderi sarees." }, //
-          "FALL AND PICOT": { title: "FALL AND PICOT", subtitle: "Make your saree shopping experience more hassle-free..." }, //
-          "SOULFUL WEAVES - COTTON SAREES (NEW)": { title: "SOULFUL WEAVES", subtitle: "A celebration of soft textures, timeless weaves and understated elegance." }, //
-          "IKTARA - JAMDANI WEAVES": { title: "IKTARA - JAMDANI STORIES", subtitle: "A timeless weave of tradition and craftsmanship, the process of jamdani weaving is considered one of the most advanced hand-weaving techniques in the world. Woven by artisans of Bengal in the softest cotton, these textiles make for handmade luxury at its best." }, //
-          "RAANJHANA - BENARASI WEAVES": { title: "RAANJHANA - BANARASI WEAVES", subtitle: "Presenting 'Raanjhana', an exquisite edit of Banaras weaves, made of stories wrapped in silk, colors dipped in richness and designs woven from blooms all around us." }, //
-          "MASAKALI - CHANDERI WEAVES": { title: "MASAKALI", subtitle: "Lightweight and handwoven, the understated glamour of these six yards exude a remarkable aura around its wearer. Coming straight from the looms of Chanderi, here's our curation of this fascinating small town, that boasts of its legendary weave :)" }, //
-          "POPSICLE - EVERYDAY COTTONS": { title: "POPSICLE", subtitle: "Easy breezy soft cottons in bright vibrant hues" }, //
-          "DOODHE-AALTA - RED-BORDERED WHITE SAREES": { title: "DOODHE-AALTA", subtitle: "The iconic 'Laal Paadh Shada Saree' or the Red-bordered White Saree synonymous with the culture and tradition of West Bengal, celebrates femininity in all its glory. \n Take your pick from our specially curated collection of the quintessential doodhe-alta sarees and immerse yourself in the mélange of scarlet and snow." }, //
-          "STORIES FROM HOME - COTTON SAREES": { title: "STORIES FROM HOME", subtitle: "Looking closely, there are so many memories and feelings that lurk in every corner of our homes that often smell of nostalgia and longing.\nThey often say, home is a feeling and we think quite rightly so, because every time we hear home, we think of stories of love and belonging, of remembrance and nostalgia and of memories and experiences that shaped us into who we are today :)\nOn the occasion of our 6th anniversary, presenting to you, 'Stories from Home' in 8 beautiful shades, that resembles the softness of our grandmothers' laps and warmth of the morning sun." }, //
-          "ROOPKATHA - BALUCHARI AND SWARNACHARI": { title: "ROOPKATHA", subtitle: "Live your moment of fairytale, by embracing an ancient heritage craft, that weaves tales of mythology and history, on silk, synonymous with royal opulence and grandeur -\nBalucharis and Swarnacharis." }, //
-          "CANDYFLOSS - COTTON SAREES": { title: "CANDYFLOSS", subtitle: "Presenting an assortment of soft, extremely airy, easy-breezy, effortless, handloom pure cotton drapes, with cute braided tassles in beautiful hues, to elevate your mood and spirit." }, //
-          "NOOR - ORGANZA BENARASI": { title: "NOOR - A TALE OF ORGANZA", subtitle: "Echoing voices of the looms that lingered in the narrow lanes and ghats of Benaras, this exquisite edition of ultra-fine, dreamy, ethereal organza drapes is a special one.\nThe kadhua weave banarasi borders add a touch of royal opulence to the otherwise minimal, flowy silhouette, making it a timeless closet treasure :)" }, //
-          "SUNKISSED - MINIMALIST JEWELLERY": { title: "SUNKISSED", subtitle: "Modern and Minimalist | Fuss-free and understated Pieces that will tag along with you everyday and collect stories; as you do.\nPieces that are rather complementary, just like yin and yang.\nPieces that add a little sunshine to your life :)" }, //
-          "A MIDAS TOUCH - TUSSAR SILK": { title: "A MIDAS TOUCH", subtitle: "" }, //
-          "GOLDEN HOUR - ECLECTIC JEWELLERY": { title: "GOLDEN HOUR", subtitle: "Presenting an eclectic edit of versatile and modern, handcrafted contemporary pieces, that perfectly marries femininity and edge.\nEach of these exquisite beauty is a work of art, created by independent artisans in Jaipur and it was quite an interesting journey to source, curate and build this collection. It's yours now :)" }, //
-          "EK SITARA - KOTA SAREES": { title: "EK SITARA", subtitle: "An air of subtle sophistication, lightweight yet luxurious, a blend of cotton and silk with real gold in the zari, straight from the master weavers of Kaithoon, Kota." }, //
-          "SMART STAPLES - A WORKWEAR EDIT": { title: "SMART STAPLES - A WORKWEAR EDIT", subtitle: "Functional | Minimalistic | Contemporary\nPresenting a workwear collective comprising simple, clean-lined, versatile drapes that will go a long way in making a striking impression at work and beyond." }, //
+          "POTPOURRI": { title: "POTPOURRI", subtitle: "A mix of beautiful sarees." },
+          "COTTON SAREES": { title: "COTTON SAREES", subtitle: "Comfortable and stylish cotton sarees." },
+          "SILK & TUSSAR SAREES": { title: "SILK & TUSSAR SAREES", subtitle: "Elegant Silk and Tussar sarees." },
+          "LINEN SAREES": { title: "LINEN SAREES", subtitle: "Breathable and beautiful Linen sarees." },
+          "CHANDERI SAREES": { title: "CHANDERI SAREES", subtitle: "Light and luxurious Chanderi sarees." },
+          "FALL AND PICOT": { title: "FALL AND PICOT", subtitle: "Make your saree shopping experience more hassle-free..." },
+          "SOULFUL WEAVES - COTTON SAREES (NEW)": { title: "SOULFUL WEAVES", subtitle: "A celebration of soft textures, timeless weaves and understated elegance." },
+          "IKTARA - JAMDANI WEAVES": { title: "IKTARA - JAMDANI STORIES", subtitle: "A timeless weave of tradition and craftsmanship, the process of jamdani weaving is considered one of the most advanced hand-weaving techniques in the world. Woven by artisans of Bengal in the softest cotton, these textiles make for handmade luxury at its best." },
+          "RAANJHANA - BENARASI WEAVES": { title: "RAANJHANA - BANARASI WEAVES", subtitle: "Presenting 'Raanjhana', an exquisite edit of Banaras weaves, made of stories wrapped in silk, colors dipped in richness and designs woven from blooms all around us." },
+          "MASAKALI - CHANDERI WEAVES": { title: "MASAKALI", subtitle: "Lightweight and handwoven, the understated glamour of these six yards exude a remarkable aura around its wearer. Coming straight from the looms of Chanderi, here's our curation of this fascinating small town, that boasts of its legendary weave :)" },
+          "POPSICLE - EVERYDAY COTTONS": { title: "POPSICLE", subtitle: "Easy breezy soft cottons in bright vibrant hues" },
+          "DOODHE-AALTA - RED-BORDERED WHITE SAREES": { title: "DOODHE-AALTA", subtitle: "The iconic 'Laal Paadh Shada Saree' or the Red-bordered White Saree synonymous with the culture and tradition of West Bengal, celebrates femininity in all its glory. \n Take your pick from our specially curated collection of the quintessential doodhe-alta sarees and immerse yourself in the mélange of scarlet and snow." },
+          "STORIES FROM HOME - COTTON SAREES": { title: "STORIES FROM HOME", subtitle: "Looking closely, there are so many memories and feelings that lurk in every corner of our homes that often smell of nostalgia and longing.\nThey often say, home is a feeling and we think quite rightly so, because every time we hear home, we think of stories of love and belonging, of remembrance and nostalgia and of memories and experiences that shaped us into who we are today :)\nOn the occasion of our 6th anniversary, presenting to you, 'Stories from Home' in 8 beautiful shades, that resembles the softness of our grandmothers' laps and warmth of the morning sun." },
+          "ROOPKATHA - BALUCHARI AND SWARNACHARI": { title: "ROOPKATHA", subtitle: "Live your moment of fairytale, by embracing an ancient heritage craft, that weaves tales of mythology and history, on silk, synonymous with royal opulence and grandeur -\nBalucharis and Swarnacharis." },
+          "CANDYFLOSS - COTTON SAREES": { title: "CANDYFLOSS", subtitle: "Presenting an assortment of soft, extremely airy, easy-breezy, effortless, handloom pure cotton drapes, with cute braided tassles in beautiful hues, to elevate your mood and spirit." },
+          "NOOR - ORGANZA BENARASI": { title: "NOOR - A TALE OF ORGANZA", subtitle: "Echoing voices of the looms that lingered in the narrow lanes and ghats of Benaras, this exquisite edition of ultra-fine, dreamy, ethereal organza drapes is a special one.\nThe kadhua weave banarasi borders add a touch of royal opulence to the otherwise minimal, flowy silhouette, making it a timeless closet treasure :)" },
+          "SUNKISSED - MINIMALIST JEWELLERY": { title: "SUNKISSED", subtitle: "Modern and Minimalist | Fuss-free and understated Pieces that will tag along with you everyday and collect stories; as you do.\nPieces that are rather complementary, just like yin and yang.\nPieces that add a little sunshine to your life :)" },
+          "A MIDAS TOUCH - TUSSAR SILK": { title: "A MIDAS TOUCH", subtitle: "" },
+          "GOLDEN HOUR - ECLECTIC JEWELLERY": { title: "GOLDEN HOUR", subtitle: "Presenting an eclectic edit of versatile and modern, handcrafted contemporary pieces, that perfectly marries femininity and edge.\nEach of these exquisite beauty is a work of art, created by independent artisans in Jaipur and it was quite an interesting journey to source, curate and build this collection. It's yours now :)" },
+          "EK SITARA - KOTA SAREES": { title: "EK SITARA", subtitle: "An air of subtle sophistication, lightweight yet luxurious, a blend of cotton and silk with real gold in the zari, straight from the master weavers of Kaithoon, Kota." },
+          "SMART STAPLES - A WORKWEAR EDIT": { title: "SMART STAPLES - A WORKWEAR EDIT", subtitle: "Functional | Minimalistic | Contemporary\nPresenting a workwear collective comprising simple, clean-lined, versatile drapes that will go a long way in making a striking impression at work and beyond." },
       };
       if (collectionDetails[upperCollectionName]) return collectionDetails[upperCollectionName];
       // Simple fallback for collection title if not found in details map
@@ -391,96 +399,82 @@ function AppContent() {
   const renderPage = () => {
     // Render specific detail pages first
      if (currentPage === 'product-detail' && selectedProductId) {
-        return <ProductDetailPage productId={selectedProductId} setPage={handleNavigation} />; //
+        return <ProductDetailPage productId={selectedProductId} setPage={handleNavigation} />;
     }
-    // --- Render Service Detail Page ---
      if (currentPage === 'service-detail' && selectedServiceId === 'fall-picot-service') {
-        return <FallPicotDetailPage setPage={handleNavigation} />; //
+        return <FallPicotDetailPage setPage={handleNavigation} />;
     }
-    // --- End Service Detail ---
-
-    // ****** CORRECTED: Render TeamMemberDetailPage using viewingMemberId ******
      if (currentPage === 'team-member-detail' && viewingMemberId) {
-        // Use the viewingMemberId state here
         return <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => handleNavigation('meet-the-team')} />;
     }
-    // ****** END CORRECTION ******
-
     if (currentPage === 'blog-detail' && viewingPostId) {
-         return <BlogPage setPage={handleNavigation} currentPage={`blog-detail-${viewingPostId}`} />; //
+         return <BlogPage setPage={handleNavigation} currentPage={`blog-detail-${viewingPostId}`} />;
     }
 
-    // *** NEW: Add case for 'all-products' ***
-    if (currentPage === 'all-products') {
-      return (
-          <>
-              {/* Optional: Add a banner for All Products */}
-              <Container className="py-4 text-center">
-                  <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>ALL PRODUCTS</h1>
-              </Container>
-              <FilterBar handleOpenFilter={handleOpenFilter} />
-              <ProductList
-                  products={allProducts} // Use the consolidated list
-                  collectionName="All Products" // Set a title
-                  setPage={handleNavigation}
-                  // Pass applied filters here eventually for color/price
-              />
-              {/* Pass handleFilterApply down to the drawer */}
-              <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} />
-          </>
-      );
-    }
-    // *** END NEW CASE ***
+    // *** MODIFIED: Add appliedFilters prop to ProductList instances ***
+
+     // --- All Products Page ---
+     if (currentPage === 'all-products') {
+        return (
+            <>
+                <Container className="py-4 text-center">
+                    <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>ALL PRODUCTS</h1>
+                </Container>
+                <FilterBar handleOpenFilter={handleOpenFilter} />
+                <ProductList
+                    products={allProducts}
+                    collectionName="All Products"
+                    setPage={handleNavigation}
+                    appliedFilters={appliedFilters} // <-- Pass applied filters
+                />
+                <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} />
+            </>
+        );
+     }
 
 
-    // Render generic Collection page
-    // *** MODIFIED: Pass App.jsx filter state/handlers ***
+    // --- Collection Page ---
      if (currentPage === 'collection' && selectedCollection) {
         const { title, subtitle } = getCollectionBannerDetails(selectedCollection);
         const subtitleLines = subtitle ? subtitle.split('\n') : [];
         return (
             <>
-                <CollectionHeroBanner //
+                <CollectionHeroBanner
                     title={title}
                     subtitle={subtitleLines.map((line, index) => <React.Fragment key={index}>{line}{index < subtitleLines.length - 1 && <br />}</React.Fragment>)}
                  />
-                <FilterBar handleOpenFilter={handleOpenFilter} /> {/* Uses App.jsx handler */}
-                <ProductList collectionName={selectedCollection} setPage={handleNavigation} /> {/* */}
-                <FilterDrawer 
-                  show={isFilterOpen} 
-                  handleClose={handleCloseFilter} 
-                  onApplyFilters={handleFilterApply} 
-                /> {/* Uses App.jsx state/handlers */}
+                <FilterBar handleOpenFilter={handleOpenFilter} />
+                <ProductList
+                    collectionName={selectedCollection}
+                    setPage={handleNavigation}
+                    appliedFilters={appliedFilters} // <-- Pass applied filters
+                />
+                <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} />
             </>
         );
     }
 
-   // --- ADD: Render Search Results Page ---
+   // --- Search Results Page ---
    if (currentPage === 'search-results' && searchQuery) {
-       // Perform the search again here to get the full list for ProductList
-       const searchResults = searchAll(searchQuery); // Use the utility function
+       const searchResults = searchAll(searchQuery);
        return (
             <>
-                {/* Optional: Add a simple banner/title for search results */}
                 <Container className="py-4 text-center">
                     <h1 className="search-results-page-title" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>SEARCH RESULTS</h1>
                     <p className="text-muted">Showing results for "{searchQuery}"</p>
                 </Container>
-                {/* FilterBar might be useful here too, if uncommented, pass App.jsx props */}
-                {/* <FilterBar handleOpenFilter={handleOpenFilter} /> */}
-                <ProductList //
-                    // Pass the full list of matching products
+                {/* <FilterBar handleOpenFilter={handleOpenFilter} /> */} {/* Optional */}
+                <ProductList
                     products={searchResults.fullProductList}
-                    // Pass searchQuery for ProductList to handle title/logic
                     searchQuery={searchQuery}
-                    collectionName={`Search: ${searchQuery}`} // Pass search term for title/logic
+                    collectionName={`Search: ${searchQuery}`}
                     setPage={handleNavigation}
+                    appliedFilters={appliedFilters} // <-- Pass applied filters
                 />
-                {/* <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} /> */}
+                {/* <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} /> */} {/* Optional */}
             </>
        );
    }
-   // --- END: Render Search Results Page ---
 
 
     // Route Protection
@@ -489,107 +483,103 @@ function AppContent() {
         'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
         'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
         'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail',
-        'our-story', 'meet-the-team', 'team-member-detail', // Ensure team-member-detail is allowed
+        'our-story', 'meet-the-team', 'team-member-detail',
         'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
         'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
         'checkout', 'product-detail',
-        'service-detail', // <-- Add service detail
-        'search-results', // <-- Add search results page
-        'all-products' // *** ADDED: Allow guest access ***
+        'service-detail',
+        'search-results',
+        'all-products'
     ];
     if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
-         return <LoginPage setPage={handleNavigation} />; //
+         return <LoginPage setPage={handleNavigation} />;
     }
     if (isLoggedIn && (currentPage === 'login' || currentPage === 'register')) {
-      return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; //
+      return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
     }
 
-    // *** MODIFIED: Switch statement now passes filter state/handlers to pages ***
+    // *** MODIFIED: Switch statement passes appliedFilters AND filter state/handlers to relevant pages ***
     switch (currentPage) {
-        case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; //
-        case 'gift-card': return <GiftCardPage />; //
-
-        // --- Pages with Filters ---
-        case 'jewellery': return <JewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'neckpieces': return <NeckpiecesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'earrings': return <EarringsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'bangles-cuffs': return <BanglesCuffsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'rings': return <RingsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'new-arrivals-sarees': return <NewArrivalsSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'sarees-cotton': return <CottonSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'sarees-silk-tussar': return <SilkTussarSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'sarees-linen': return <LinenSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'sarees-chanderi': return <ChanderiSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'bestsellers': return <BestsellersPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        case 'shop': return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
-        // --- End Pages with Filters ---
-
-        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />; // Pass setPage here
-        case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />; //
-        case 'our-story': return <OurStoryPage />; //
+        // --- Pass appliedFilters AND filter state/handlers to pages that render ProductList/FilterDrawer ---
+        case 'jewellery': return <JewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'neckpieces': return <NeckpiecesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'earrings': return <EarringsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'bangles-cuffs': return <BanglesCuffsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'rings': return <RingsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'new-arrivals-sarees': return <NewArrivalsSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'sarees-cotton': return <CottonSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'sarees-silk-tussar': return <SilkTussarSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'sarees-linen': return <LinenSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'sarees-chanderi': return <ChanderiSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'bestsellers': return <BestsellersPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        case 'shop': return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
+        // --- Pages without filtering ---
+        case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
+        case 'gift-card': return <GiftCardPage />;
+        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />;
+        case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />;
+        case 'our-story': return <OurStoryPage />;
         case 'meet-the-team': return <MeetTheTeamPage onSelectMember={handleNavigation} />;
-        case 'all-collections': return <AllCollectionsPage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; //
-        case 'faq': return <FaqPage />; //
-        case 'shipping-policy': return <ShippingPolicyPage />; //
-        case 'refund-policy': return <RefundPolicyPage />; //
-        case 'contact': return <ContactPage />; //
-        case 'terms-service': return <TermsServicePage />; //
-        case 'terms-conditions': return <TermsConditionsPage />; //
-        case 'privacy-policy': return <PrivacyPolicyPage />; //
-        case 'disclaimer-policy': return <DisclaimerPolicyPage />; //
-        case 'login': return <LoginPage setPage={handleNavigation} />; //
-        case 'register': return <RegisterPage setPage={handleNavigation} />; //
-        case 'checkout': return <CheckoutPage setPage={handleNavigation} />; //
-        // Detail pages are handled above
-        default: return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'all-collections': return <AllCollectionsPage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
+        case 'faq': return <FaqPage />;
+        case 'shipping-policy': return <ShippingPolicyPage />;
+        case 'refund-policy': return <RefundPolicyPage />;
+        case 'contact': return <ContactPage />;
+        case 'terms-service': return <TermsServicePage />;
+        case 'terms-conditions': return <TermsConditionsPage />;
+        case 'privacy-policy': return <PrivacyPolicyPage />;
+        case 'disclaimer-policy': return <DisclaimerPolicyPage />;
+        case 'login': return <LoginPage setPage={handleNavigation} />;
+        case 'register': return <RegisterPage setPage={handleNavigation} />;
+        case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
+        // Detail pages handled above
+        default: return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} appliedFilters={appliedFilters} />;
     }
   };
 
-  // Determine header/footer visibility and style
+  // Keep existing header/footer/recently viewed visibility logic
    const pagesThatMightStartTransparent = [
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
        'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
        'new-arrivals-sarees',
        'new-arrivals-jewellery',
-       'fall-picot', // Include fall-picot list page
+       'fall-picot',
        'all-collections',
-       'search-results', // Add search results page
-       'all-products' // *** ADDED: Allow transparent header ***
+       'search-results',
+       'all-products'
    ];
    const staticSolidHeaderPages = [
        'login', 'register', 'our-story', 'faq',
        'shipping-policy', 'refund-policy', 'contact',
        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-       'meet-the-team', 'team-member-detail', // Keep team-member-detail here for solid header
+       'meet-the-team', 'team-member-detail',
        'blog',
        'blog-detail',
        'checkout', 'product-detail',
-       'service-detail' // <-- Add service detail page
+       'service-detail'
    ];
    const isSolidHeaderForced = isSearchOpen ||
-                              (currentPage === 'team-member-detail' && !!viewingMemberId) || // Check BOTH page and ID for team detail
+                              (currentPage === 'team-member-detail' && !!viewingMemberId) ||
                               !!viewingPostId ||
                               !!selectedProductId ||
-                              !!selectedServiceId || // <-- Add service ID check
+                              !!selectedServiceId ||
                               staticSolidHeaderPages.includes(currentPage) ||
                               !pagesThatMightStartTransparent.includes(currentPage);
-   const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId && !selectedProductId && !selectedServiceId; // <-- Add service ID check
+   const isHomePage = currentPage === 'home' && !viewingMemberId && !viewingPostId && !selectedProductId && !selectedServiceId;
 
-   // Hide header/footer on checkout
    const hideHeader = currentPage === 'checkout';
    const hideFooter = currentPage === 'checkout';
 
-  // --- FIX: Remove 'search-results' from pages hiding Recently Viewed ---
-  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout']; // Removed 'search-results'
+  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout'];
   const showRecentlyViewed = !hideRecentlyViewedOn.includes(currentPage);
 
 
   return (
     <div className={`App ${isSolidHeaderForced || hideHeader ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
       {!hideHeader && (
-          <Header //
+          <Header
             setPage={handleNavigation}
             currentPage={currentPage}
             resetTeamView={() => setViewingMemberId(null)}
@@ -601,44 +591,42 @@ function AppContent() {
           />
       )}
       {!hideHeader && (
-        <SearchBar //
+        <SearchBar
             isSearchOpen={isSearchOpen}
             handleCloseSearch={toggleSearch}
             handleNavClick={(e, pageName) => {
                 e.preventDefault();
                 handleNavigation(pageName);
             }}
-            onSearchSubmit={handleSearchSubmit} // Pass the new handler
+            onSearchSubmit={handleSearchSubmit}
         />
        )}
       <main>
         {renderPage()}
-        {/* Recently Viewed will now show on search results */}
-        {showRecentlyViewed && <RecentlyViewed setPage={handleNavigation} />} {/* */}
+        {showRecentlyViewed && <RecentlyViewed setPage={handleNavigation} />}
       </main>
 
       {/* Global Components */}
-      <CartDrawer setPage={handleNavigation} /> {/* */}
-      <WishlistModal handleNavClick={handleNavigation} /> {/* */}
-      <CurrencyDropdown /> {/* */}
-      <WishlistButton /> {/* */}
+      <CartDrawer setPage={handleNavigation} />
+      <WishlistModal handleNavClick={handleNavigation} />
+      <CurrencyDropdown />
+      <WishlistButton />
       {!hideFooter && (
-        <Footer setPage={handleNavigation} toggleSearch={toggleSearch} /> //
+        <Footer setPage={handleNavigation} toggleSearch={toggleSearch} />
       )}
-      {/* *** REMOVED: Global FilterDrawer instance to prevent conflict *** */}
-      {/* <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} /> */}
+      {/* NO global FilterDrawer needed here */}
     </div>
   );
 }
 
-// Wrap AppContent in Providers
+// Keep existing App wrapper with Providers
 function App() {
   return (
-    <AuthProvider> {/* */}
-      <CartProvider> {/* */}
-        <CurrencyProvider> {/* */}
-          <RecentlyViewedProvider> {/* */}
-            <WishlistProvider> {/* */}
+    <AuthProvider>
+      <CartProvider>
+        <CurrencyProvider>
+          <RecentlyViewedProvider>
+            <WishlistProvider>
                <AppContent />
             </WishlistProvider>
           </RecentlyViewedProvider>

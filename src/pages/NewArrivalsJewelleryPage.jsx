@@ -1,27 +1,25 @@
 // src/pages/NewArrivalsJewelleryPage.jsx
-import React, { useState } from 'react'; // useState is no longer needed if not used elsewhere
+import React from 'react'; // Removed useState
 import ProductList from '../components/product/ProductList';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 import NewArrivalsJewelleryHeroBanner from '../components/common/NewArrivalsJewelleryHeroBanner';
 import { jewellery } from '../data/jewellery'; // Import the jewellery data
 
-// *** MODIFIED: Accept filter state props from App.jsx ***
-const NewArrivalsJewelleryPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
-
-  // --- REMOVED Local State ---
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const handleOpenFilter = () => setIsFilterOpen(true);
-  // const handleCloseFilter = () => setIsFilterOpen(false);
+// *** MODIFIED: Accept appliedFilters prop ***
+const NewArrivalsJewelleryPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
 
   return (
     <>
       <NewArrivalsJewelleryHeroBanner />
-      {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
       <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* Pass setPage down to ProductList */}
-      <ProductList products={jewellery} collectionName="New Arrivals - Jewellery" setPage={setPage} />
-      {/* *** MODIFIED: Pass props from App.jsx *** */}
+      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      <ProductList
+        products={jewellery} // Assuming new arrivals are derived or handled within ProductList/data
+        collectionName="New Arrivals - Jewellery"
+        setPage={setPage}
+        appliedFilters={appliedFilters} // <-- Pass down
+      />
       <FilterDrawer
         show={isFilterOpen}
         handleClose={handleCloseFilter}

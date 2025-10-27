@@ -1,30 +1,27 @@
 // src/pages/sarees/LinenSareesPage.jsx
-import React, { useState, useMemo } from 'react'; // useState is no longer needed if not used elsewhere
+import React, { useMemo } from 'react'; // Removed useState
 import ProductList from '../../components/product/ProductList';
 import FilterBar from '../../components/filters/FilterBar';
 import FilterDrawer from '../../components/filters/FilterDrawer';
 import LinenSareesHeroBanner from '../../components/common/LinenSareesHeroBanner';
 import { getFilteredSarees } from '../../utils/productUtils';
 
-// *** MODIFIED: Accept filter state props from App.jsx ***
-const LinenSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
+// *** MODIFIED: Accept appliedFilters prop ***
+const LinenSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters }) => {
 
-  // --- REMOVED Local State ---
-  // const [isFilterOpen, setIsFilterOpen] = useState(false);
-  // const handleOpenFilter = () => setIsFilterOpen(true);
-  // const handleCloseFilter = () => setIsFilterOpen(false);
-
-  // Keep useMemo for product filtering
-  const linenSarees = useMemo(() => getFilteredSarees(['linen'], 16, 'Linen'), []); // Assuming 16 products based on original code
+  const linenSarees = useMemo(() => getFilteredSarees(['linen'], 16, 'Linen'), []);
 
   return (
     <>
       <LinenSareesHeroBanner />
-      {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
       <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* Pass setPage down to ProductList */}
-      <ProductList products={linenSarees} collectionName="Linen Sarees" setPage={setPage} />
-      {/* *** MODIFIED: Pass props from App.jsx *** */}
+      {/* *** MODIFIED: Pass appliedFilters down *** */}
+      <ProductList
+        products={linenSarees}
+        collectionName="Linen Sarees"
+        setPage={setPage}
+        appliedFilters={appliedFilters} // <-- Pass down
+      />
       <FilterDrawer
         show={isFilterOpen}
         handleClose={handleCloseFilter}
