@@ -6,12 +6,19 @@ import { Offcanvas, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 // --- DATA MOCKUPS (based on your video) ---
 
 const collections = [
-  'All Products',
+'All Products',
   'All Sarees',
   'All Jewellery',
-  'chanderi',
+  // Saree Categories
   'cotton',
-  'silk and tussar'
+  'silk and tussar',
+  'linen', // Added
+  'chanderi',
+  // Jewellery Categories (Match names used in App.jsx page keys)
+  'neckpieces', // Added
+  'earrings', // Added
+  'bangles-cuffs', // Added
+  'rings', // Added
 ];
 
 const priceRanges = [
@@ -88,7 +95,7 @@ const filterStyles = `
     border-top: 1px solid #e5e5e5;
   }
   .color-swatch {
-    width: 24px; 
+    width: 24px;
     height: 24px;
     border: 1px solid #ccc;
     cursor: pointer;
@@ -115,35 +122,42 @@ const filterStyles = `
 `;
 
 // --- COMPONENT ---
-
-const FilterDrawer = ({ show, handleClose }) => {
-  // 1. Add state for all filter types
+// *** MODIFIED: Accept onApplyFilters prop ***
+const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
+  // 1. Add state for all filter types (Keep existing)
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [selectedStyle, setSelectedStyle] = useState(null);
 
-  // 2. Handle resetting all filters
+  // 2. Handle resetting all filters (Keep existing)
   const handleReset = () => {
     setSelectedCollection(null);
     setSelectedColor(null);
     setSelectedPrice(null);
     setSelectedStyle(null);
   };
-  
-  // 3. Handle applying filters (for now, it just logs)
+
+  // *** MODIFIED: handleApply now calls onApplyFilters prop ***
   const handleApply = () => {
-    console.log("Applying filters:", {
+    // Package selected filters into an object
+    const filters = {
       collection: selectedCollection,
       color: selectedColor,
       price: selectedPrice,
       style: selectedStyle,
-    });
-    // In the future, this will pass the state up to SareesPage
-    handleClose();
+    };
+    console.log("Applying filters:", filters); // Keep log for debugging
+
+    // Call the function passed from the parent, providing the selected filters
+    if (onApplyFilters) {
+      onApplyFilters(filters);
+    }
+
+    handleClose(); // Close the drawer
   };
 
-  // Helper to render the color swatch with a tooltip
+  // Helper to render the color swatch with a tooltip (Keep existing)
   const renderColorSwatch = (color) => (
     <OverlayTrigger
       key={color.name}
@@ -161,12 +175,12 @@ const FilterDrawer = ({ show, handleClose }) => {
   return (
     <>
       <style>{filterStyles}</style>
-      
+
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>FILTERS</Offcanvas.Title>
         </Offcanvas.Header>
-        
+
         <Offcanvas.Body>
           {/* COLLECTION Section */}
           <div className="filter-section mb-4">
@@ -183,7 +197,7 @@ const FilterDrawer = ({ show, handleClose }) => {
               ))}
             </ul>
           </div>
-          
+
           {/* COLOR Section */}
           <div className="filter-section mb-4">
             <h5>COLOR</h5>
@@ -224,9 +238,10 @@ const FilterDrawer = ({ show, handleClose }) => {
             </ul>
           </div>
         </Offcanvas.Body>
-        
+
         {/* Footer with Apply/Reset buttons */}
         <div className="offcanvas-footer p-3">
+          {/* Apply button calls the modified handleApply */}
           <Button variant="dark" className="w-100 mb-2" onClick={handleApply}>
             APPLY
           </Button>

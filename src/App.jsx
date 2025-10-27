@@ -146,6 +146,87 @@ function AppContent() {
       setViewingPostId(null);
   };
 
+  // *** NEW FUNCTION to handle filter application ***
+  const handleFilterApply = (filters) => {
+    console.log("Filters received in App:", filters); // For debugging
+
+    // --- Navigation Logic based on Filters ---
+
+    // 1. Prioritize Collection Filter for Navigation
+    if (filters.collection) {
+      const collectionKey = filters.collection.toLowerCase();
+      switch (collectionKey) {
+        case 'all products':
+          handleNavigation('all-products'); // Navigate using a new key
+          break;
+        case 'all sarees':
+          handleNavigation('shop'); // Navigate to main sarees page
+          break;
+        case 'all jewellery':
+          handleNavigation('jewellery'); // Navigate to main jewellery page
+          break;
+        case 'cotton':
+          handleNavigation('sarees-cotton');
+          break;
+        case 'silk and tussar':
+          handleNavigation('sarees-silk-tussar');
+          break;
+        case 'linen':
+          handleNavigation('sarees-linen');
+          break;
+        case 'chanderi':
+          handleNavigation('sarees-chanderi');
+          break;
+        case 'neckpieces':
+          handleNavigation('neckpieces');
+          break;
+        case 'earrings':
+          handleNavigation('earrings');
+          break;
+        case 'bangles-cuffs':
+          handleNavigation('bangles-cuffs');
+          break;
+        case 'rings':
+          handleNavigation('rings');
+          break;
+        default:
+          console.warn("Unhandled collection filter:", filters.collection);
+          // Optionally navigate to a default page or show an error
+          handleNavigation('shop'); // Fallback to shop
+      }
+      return; // Stop further processing if collection navigated
+    }
+
+    // 2. Handle Style Filter for Navigation (if no collection selected)
+    if (filters.style) {
+      const styleKey = filters.style.toLowerCase();
+      switch (styleKey) {
+        case 'casual':
+          // Navigate to Popsicle collection page (as an example for casual)
+          handleSelectCollection('POPSICLE - Everyday Cottons');
+          break;
+        case 'special occasion':
+          // Navigate to Raanjhana collection page (as an example for special occasion)
+          handleSelectCollection('RAANJHANA - Benarasi Weaves');
+          break;
+        default:
+          console.warn("Unhandled style filter:", filters.style);
+          handleNavigation('bestsellers'); // Fallback to bestsellers for now
+      }
+      return; // Stop further processing if style navigated
+    }
+
+    // --- TODO: Filtering Logic (Phase 2) ---
+    // If only Color or Price Range is selected, we need to apply filtering
+    // to the *current* page's product list. This requires more state management.
+    console.log("Color/Price filters selected - filtering logic not implemented yet.");
+    if (filters.color || filters.price) {
+        // We'll add this logic later. For now, just log it.
+        // Might need to update a state like `appliedFilters` and pass it to ProductList
+    }
+  };
+  // *** END NEW FUNCTION ***
+
   // Centralized Navigation Handler
   const handleNavigation = (pageNameOrId) => {
       if (isSearchOpen) setIsSearchOpen(false);
@@ -329,7 +410,31 @@ function AppContent() {
          return <BlogPage setPage={handleNavigation} currentPage={`blog-detail-${viewingPostId}`} />; //
     }
 
+    // *** NEW: Add case for 'all-products' ***
+    if (currentPage === 'all-products') {
+      return (
+          <>
+              {/* Optional: Add a banner for All Products */}
+              <Container className="py-4 text-center">
+                  <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>ALL PRODUCTS</h1>
+              </Container>
+              <FilterBar handleOpenFilter={handleOpenFilter} />
+              <ProductList
+                  products={allProducts} // Use the consolidated list
+                  collectionName="All Products" // Set a title
+                  setPage={handleNavigation}
+                  // Pass applied filters here eventually for color/price
+              />
+              {/* Pass handleFilterApply down to the drawer */}
+              <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} />
+          </>
+      );
+    }
+    // *** END NEW CASE ***
+
+
     // Render generic Collection page
+    // *** MODIFIED: Pass App.jsx filter state/handlers ***
      if (currentPage === 'collection' && selectedCollection) {
         const { title, subtitle } = getCollectionBannerDetails(selectedCollection);
         const subtitleLines = subtitle ? subtitle.split('\n') : [];
@@ -339,9 +444,13 @@ function AppContent() {
                     title={title}
                     subtitle={subtitleLines.map((line, index) => <React.Fragment key={index}>{line}{index < subtitleLines.length - 1 && <br />}</React.Fragment>)}
                  />
-                <FilterBar handleOpenFilter={handleOpenFilter} /> {/* */}
+                <FilterBar handleOpenFilter={handleOpenFilter} /> {/* Uses App.jsx handler */}
                 <ProductList collectionName={selectedCollection} setPage={handleNavigation} /> {/* */}
-                <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> {/* */}
+                <FilterDrawer 
+                  show={isFilterOpen} 
+                  handleClose={handleCloseFilter} 
+                  onApplyFilters={handleFilterApply} 
+                /> {/* Uses App.jsx state/handlers */}
             </>
         );
     }
@@ -357,7 +466,7 @@ function AppContent() {
                     <h1 className="search-results-page-title" style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>SEARCH RESULTS</h1>
                     <p className="text-muted">Showing results for "{searchQuery}"</p>
                 </Container>
-                {/* FilterBar might be useful here too */}
+                {/* FilterBar might be useful here too, if uncommented, pass App.jsx props */}
                 {/* <FilterBar handleOpenFilter={handleOpenFilter} /> */}
                 <ProductList //
                     // Pass the full list of matching products
@@ -367,7 +476,7 @@ function AppContent() {
                     collectionName={`Search: ${searchQuery}`} // Pass search term for title/logic
                     setPage={handleNavigation}
                 />
-                {/* <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> */}
+                {/* <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} /> */}
             </>
        );
    }
@@ -385,7 +494,8 @@ function AppContent() {
         'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
         'checkout', 'product-detail',
         'service-detail', // <-- Add service detail
-        'search-results' // <-- Add search results page
+        'search-results', // <-- Add search results page
+        'all-products' // *** ADDED: Allow guest access ***
     ];
     if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
          return <LoginPage setPage={handleNavigation} />; //
@@ -394,29 +504,31 @@ function AppContent() {
       return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; //
     }
 
-    // Switch statement for standard pages
+    // *** MODIFIED: Switch statement now passes filter state/handlers to pages ***
     switch (currentPage) {
         case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; //
         case 'gift-card': return <GiftCardPage />; //
-        case 'jewellery': return <JewelleryPage setPage={handleNavigation} />; //
-        case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage setPage={handleNavigation} />; //
-        case 'neckpieces': return <NeckpiecesPage setPage={handleNavigation} />; //
-        case 'earrings': return <EarringsPage setPage={handleNavigation} />; //
-        case 'bangles-cuffs': return <BanglesCuffsPage setPage={handleNavigation} />; //
-        case 'rings': return <RingsPage setPage={handleNavigation} />; //
-        case 'new-arrivals-sarees': return <NewArrivalsSareesPage setPage={handleNavigation} />; //
-        case 'sarees-cotton': return <CottonSareesPage setPage={handleNavigation} />; //
-        case 'sarees-silk-tussar': return <SilkTussarSareesPage setPage={handleNavigation} />; //
-        case 'sarees-linen': return <LinenSareesPage setPage={handleNavigation} />; //
-        case 'sarees-chanderi': return <ChanderiSareesPage setPage={handleNavigation} />; //
+
+        // --- Pages with Filters ---
+        case 'jewellery': return <JewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'neckpieces': return <NeckpiecesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'earrings': return <EarringsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'bangles-cuffs': return <BanglesCuffsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'rings': return <RingsPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'new-arrivals-sarees': return <NewArrivalsSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'sarees-cotton': return <CottonSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'sarees-silk-tussar': return <SilkTussarSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'sarees-linen': return <LinenSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'sarees-chanderi': return <ChanderiSareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'bestsellers': return <BestsellersPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        case 'shop': return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
+        // --- End Pages with Filters ---
+
         case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />; // Pass setPage here
-        // If BlogPage handles the list view:
         case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />; //
         case 'our-story': return <OurStoryPage />; //
-        case 'bestsellers': return <BestsellersPage setPage={handleNavigation} />; //
-        // ****** CORRECTED: Pass handleNavigation correctly to MeetTheTeamPage ******
         case 'meet-the-team': return <MeetTheTeamPage onSelectMember={handleNavigation} />;
-        // ****** END CORRECTION ******
         case 'all-collections': return <AllCollectionsPage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; //
         case 'faq': return <FaqPage />; //
         case 'shipping-policy': return <ShippingPolicyPage />; //
@@ -426,12 +538,11 @@ function AppContent() {
         case 'terms-conditions': return <TermsConditionsPage />; //
         case 'privacy-policy': return <PrivacyPolicyPage />; //
         case 'disclaimer-policy': return <DisclaimerPolicyPage />; //
-        case 'shop': return <SareesPage setPage={handleNavigation} />; //
         case 'login': return <LoginPage setPage={handleNavigation} />; //
         case 'register': return <RegisterPage setPage={handleNavigation} />; //
         case 'checkout': return <CheckoutPage setPage={handleNavigation} />; //
-        // Detail pages are handled above the switch
-        default: return <SareesPage setPage={handleNavigation} />; //
+        // Detail pages are handled above
+        default: return <SareesPage setPage={handleNavigation} onApplyFilters={handleFilterApply} isFilterOpen={isFilterOpen} handleOpenFilter={handleOpenFilter} handleCloseFilter={handleCloseFilter} />; //
     }
   };
 
@@ -444,7 +555,8 @@ function AppContent() {
        'new-arrivals-jewellery',
        'fall-picot', // Include fall-picot list page
        'all-collections',
-       'search-results' // Add search results page
+       'search-results', // Add search results page
+       'all-products' // *** ADDED: Allow transparent header ***
    ];
    const staticSolidHeaderPages = [
        'login', 'register', 'our-story', 'faq',
@@ -513,7 +625,8 @@ function AppContent() {
       {!hideFooter && (
         <Footer setPage={handleNavigation} toggleSearch={toggleSearch} /> //
       )}
-      <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} /> {/* */}
+      {/* *** REMOVED: Global FilterDrawer instance to prevent conflict *** */}
+      {/* <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} onApplyFilters={handleFilterApply} /> */}
     </div>
   );
 }

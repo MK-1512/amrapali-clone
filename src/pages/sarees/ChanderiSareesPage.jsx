@@ -1,26 +1,35 @@
 // src/pages/sarees/ChanderiSareesPage.jsx
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react'; // useState is no longer needed if not used elsewhere
 import ProductList from '../../components/product/ProductList';
 import FilterBar from '../../components/filters/FilterBar';
 import FilterDrawer from '../../components/filters/FilterDrawer';
 import ChanderiSareesHeroBanner from '../../components/common/ChanderiSareesHeroBanner';
 import { getFilteredSarees } from '../../utils/productUtils';
 
-// --- FIX: Accept setPage prop ---
-const ChanderiSareesPage = ({ setPage }) => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const handleOpenFilter = () => setIsFilterOpen(true);
-  const handleCloseFilter = () => setIsFilterOpen(false);
+// *** MODIFIED: Accept filter state props from App.jsx ***
+const ChanderiSareesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
 
-  const chanderiSarees = useMemo(() => getFilteredSarees(['chanderi'], 16, 'Chanderi'), []);
+  // --- REMOVED Local State ---
+  // const [isFilterOpen, setIsFilterOpen] = useState(false);
+  // const handleOpenFilter = () => setIsFilterOpen(true);
+  // const handleCloseFilter = () => setIsFilterOpen(false);
+
+  // Keep useMemo for product filtering
+  const chanderiSarees = useMemo(() => getFilteredSarees(['chanderi'], 16, 'Chanderi'), []); // Assuming 16 products
 
   return (
     <>
       <ChanderiSareesHeroBanner />
+      {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
       <FilterBar handleOpenFilter={handleOpenFilter} />
-      {/* --- FIX: Pass setPage down to ProductList --- */}
+      {/* Pass setPage down to ProductList */}
       <ProductList products={chanderiSarees} collectionName="Chanderi Sarees" setPage={setPage} />
-      <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
+      {/* *** MODIFIED: Pass props from App.jsx *** */}
+      <FilterDrawer
+        show={isFilterOpen}
+        handleClose={handleCloseFilter}
+        onApplyFilters={onApplyFilters}
+      />
     </>
   );
 };

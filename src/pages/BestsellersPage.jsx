@@ -9,14 +9,15 @@ import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 
 
-// Accept setPage prop
-const BestsellersPage = ({ setPage }) => {
+// *** MODIFIED: Accept filter state props from App.jsx ***
+const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 16;
 
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const handleOpenFilter = () => setIsFilterOpen(true);
-    const handleCloseFilter = () => setIsFilterOpen(false);
+    // --- REMOVED Local State ---
+    // const [isFilterOpen, setIsFilterOpen] = useState(false);
+    // const handleOpenFilter = () => setIsFilterOpen(true);
+    // const handleCloseFilter = () => setIsFilterOpen(false);
 
     const totalPages = Math.ceil(bestsellerProducts.length / productsPerPage);
 
@@ -45,6 +46,7 @@ const BestsellersPage = ({ setPage }) => {
               </div>
             </div>
 
+            {/* *** MODIFIED: Pass prop handler from App.jsx *** */}
             <FilterBar handleOpenFilter={handleOpenFilter} />
 
             <div className="container my-5 product-list-container">
@@ -66,11 +68,14 @@ const BestsellersPage = ({ setPage }) => {
                  )}
             </div>
 
-             <FilterDrawer show={isFilterOpen} handleClose={handleCloseFilter} />
+             {/* *** MODIFIED: Pass props from App.jsx *** */}
+             <FilterDrawer
+                show={isFilterOpen}
+                handleClose={handleCloseFilter}
+                onApplyFilters={onApplyFilters}
+             />
         </>
     );
 };
 
-// --- FIX: Add this export line ---
 export default BestsellersPage;
-// --- END FIX ---
