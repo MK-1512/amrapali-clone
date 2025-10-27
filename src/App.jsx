@@ -60,7 +60,7 @@ function AppContent() {
   const { isLoggedIn, logout } = useContext(AuthContext);
 
   const [currentPage, setCurrentPage] = useState('home');
-  const [viewingMemberId, setViewingMemberId] = useState(null);
+  const [viewingMemberId, setViewingMemberId] = useState(null); // Keep this state
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -153,7 +153,7 @@ function AppContent() {
       if (pageNameOrId !== 'collection') setSelectedCollection(null);
       // Clear specific views unless navigating TO them
       if (!pageNameOrId.startsWith('product-detail-')) setSelectedProductId(null);
-      if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null);
+      if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null); // Keep this to clear ID when navigating away
       if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
       if (!pageNameOrId.startsWith('service-detail-')) setSelectedServiceId(null); // <-- Clear service ID if not navigating to it
 
@@ -203,22 +203,27 @@ function AppContent() {
        }
        // --- END Service Detail Logic ---
 
-       // Team Member Logic
+       // ****** CORRECTED Team Member Logic ******
        else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('team-member-detail-')) {
-            const memberId = pageNameOrId.split('-')[3]; //
+            // Correctly extract the ID using substring
+            const memberId = pageNameOrId.substring('team-member-detail-'.length);
+            // Basic check if an ID was extracted
             if (memberId) {
-                setViewingMemberId(memberId);
-                setCurrentPage('team-member-detail');
-                // Ensure other views are reset
+                setViewingMemberId(memberId); // Set the specific ID state
+                setCurrentPage('team-member-detail'); // Set the generic page type
+                // Ensure other views are reset (keep these lines)
                 setSelectedProductId(null);
                 setViewingPostId(null);
                 setSelectedCollection(null);
-                setSelectedServiceId(null); // <-- Reset service ID
+                setSelectedServiceId(null);
             } else {
-                 console.warn("Invalid team member ID:", pageNameOrId);
-                 setCurrentPage('meet-the-team'); // Fallback
+                 // This case should ideally not happen if the prefix is present
+                 console.warn("Could not extract team member ID from:", pageNameOrId);
+                 setCurrentPage('meet-the-team'); // Fallback to the list page
             }
        }
+       // ****** END CORRECTED Team Member Logic ******
+
        // Blog Detail Logic
        else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('blog-detail-')) {
            const postId = parseInt(pageNameOrId.split('-')[2], 10); //
@@ -256,7 +261,7 @@ function AppContent() {
            setCurrentPage(pageNameOrId);
            // Clear ALL specific views if navigating to a standard page
            setSelectedProductId(null);
-           setViewingMemberId(null);
+           setViewingMemberId(null); // Clear team member ID when navigating to standard pages
            setViewingPostId(null);
            setSelectedServiceId(null); // <-- Reset service ID
             if (pageNameOrId !== 'collection') setSelectedCollection(null);
@@ -312,9 +317,14 @@ function AppContent() {
         return <FallPicotDetailPage setPage={handleNavigation} />; //
     }
     // --- End Service Detail ---
+
+    // ****** CORRECTED: Render TeamMemberDetailPage using viewingMemberId ******
      if (currentPage === 'team-member-detail' && viewingMemberId) {
-        return <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => handleNavigation('meet-the-team')} />; //
+        // Use the viewingMemberId state here
+        return <TeamMemberDetailPage memberId={viewingMemberId} onBack={() => handleNavigation('meet-the-team')} />;
     }
+    // ****** END CORRECTION ******
+
     if (currentPage === 'blog-detail' && viewingPostId) {
          return <BlogPage setPage={handleNavigation} currentPage={`blog-detail-${viewingPostId}`} />; //
     }
@@ -370,7 +380,7 @@ function AppContent() {
         'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
         'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
         'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail',
-        'our-story', 'meet-the-team', 'team-member-detail',
+        'our-story', 'meet-the-team', 'team-member-detail', // Ensure team-member-detail is allowed
         'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
         'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
         'checkout', 'product-detail',
@@ -404,7 +414,9 @@ function AppContent() {
         case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />; //
         case 'our-story': return <OurStoryPage />; //
         case 'bestsellers': return <BestsellersPage setPage={handleNavigation} />; //
-        case 'meet-the-team': return <MeetTheTeamPage onSelectMember={(id) => handleNavigation(`team-member-detail-${id}`)} />; //
+        // ****** CORRECTED: Pass handleNavigation correctly to MeetTheTeamPage ******
+        case 'meet-the-team': return <MeetTheTeamPage onSelectMember={handleNavigation} />;
+        // ****** END CORRECTION ******
         case 'all-collections': return <AllCollectionsPage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; //
         case 'faq': return <FaqPage />; //
         case 'shipping-policy': return <ShippingPolicyPage />; //
@@ -438,14 +450,14 @@ function AppContent() {
        'login', 'register', 'our-story', 'faq',
        'shipping-policy', 'refund-policy', 'contact',
        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-       'meet-the-team', 'team-member-detail',
+       'meet-the-team', 'team-member-detail', // Keep team-member-detail here for solid header
        'blog',
        'blog-detail',
        'checkout', 'product-detail',
        'service-detail' // <-- Add service detail page
    ];
    const isSolidHeaderForced = isSearchOpen ||
-                              !!viewingMemberId ||
+                              (currentPage === 'team-member-detail' && !!viewingMemberId) || // Check BOTH page and ID for team detail
                               !!viewingPostId ||
                               !!selectedProductId ||
                               !!selectedServiceId || // <-- Add service ID check

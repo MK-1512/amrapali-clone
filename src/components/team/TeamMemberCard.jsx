@@ -7,7 +7,7 @@ const TeamMemberCard = ({ member, onSelectMember }) => {
   // This function is called when any part of the card is clicked.
   const handleCardClick = () => {
     // It passes the member's ID up to the App component to trigger the page change.
-    onSelectMember(member.id);
+    onSelectMember(`team-member-detail-${member.id}`);
   };
 
   return (
