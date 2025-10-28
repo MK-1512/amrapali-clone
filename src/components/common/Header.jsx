@@ -1,55 +1,54 @@
 // src/components/common/Header.jsx
-import React, { useState, useEffect, useContext, useRef } from 'react'; // Import useRef
-import { CartContext } from '../../context/CartContext'; //
-import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import { CartContext } from '../../context/CartContext';
+import { AuthContext } from '../../context/AuthContext';
 import { NavDropdown } from 'react-bootstrap';
-import ShopDropdownMenu from './ShopDropdownMenu'; //
+import ShopDropdownMenu from './ShopDropdownMenu';
 
 // Added handleLogout to props
 const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, viewingMemberId, isSearchOpen, toggleSearch, handleLogout }) => {
-    const { toggleCart, cartItems } = useContext(CartContext); //
-    const { isLoggedIn, currentUser } = useContext(AuthContext); // Use AuthContext
-    const cartItemCount = cartItems.reduce((count, item) => count + (item.quantity || 0), 0); // Added fallback for quantity
+    const { toggleCart, cartItems } = useContext(CartContext);
+    const { isLoggedIn, currentUser } = useContext(AuthContext);
+    const cartItemCount = cartItems.reduce((count, item) => count + (item.quantity || 0), 0);
 
-    // List of pages where the header can start transparent and become solid on scroll
     const pagesWithHeroBannerEffect = [
         'home', 'shop', 'jewellery', 'collection', 'bestsellers',
         'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
         'new-arrivals-jewellery', 'new-arrivals-sarees',
         'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi',
         'fall-picot', 'all-collections',
-        'search-results' // Include search results page
-    ]; //
+        'search-results', 'all-products'
+    ];
 
-    // State to track if the header background should be solid or transparent
+     const staticSolidHeaderPages = [
+       'login', 'register', 'our-story', 'faq',
+       'shipping-policy', 'refund-policy', 'contact',
+       'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
+       'meet-the-team', 'team-member-detail',
+       'blog', 'blog-detail', 'gift-card',
+       'account', 'addresses'
+    ];
+
     const [isHeaderSolid, setIsHeaderSolid] = useState(() => {
         const isViewingMemberInitially = !!viewingMemberId;
-        // Check if the current page allows transparent header initially
         const isHeroPageInitially = pagesWithHeroBannerEffect.includes(currentPage);
-        // Header starts solid if NOT on a hero page OR if viewing a team member
-        return !isHeroPageInitially || isViewingMemberInitially || currentPage === 'login' || currentPage === 'register'; // Also solid for login/register
+        const isStaticSolidPage = staticSolidHeaderPages.includes(currentPage);
+        return isStaticSolidPage || !isHeroPageInitially || isViewingMemberInitially;
     });
 
-    // State to track if the top announcement bar should be hidden
     const [isTopBarHidden, setIsTopBarHidden] = useState(() => window.scrollY > 10);
-    // State to track if the navigation area is being hovered (affects styles when header is transparent)
-    const [isNavHovered, setIsNavHovered] = useState(false); // Keep for header background style
+    const [isNavHovered, setIsNavHovered] = useState(false);
 
-    // Dropdown states
-    const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false); //
-    const [isNewArrivalsOpen, setIsNewArrivalsOpen] = useState(false); //
-    const [isCollectionsOpen, setIsCollectionsOpen] = useState(false); //
+    const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
+    const [isNewArrivalsOpen, setIsNewArrivalsOpen] = useState(false);
+    const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
 
-    // *** ADDED: State for mobile menu ***
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [expandedSubmenu, setExpandedSubmenu] = useState(null);
 
-    // --- NEW: Timer state for closing dropdowns ---
-    const closeTimerRef = useRef(null); // Use useRef to store the timer ID
+    const closeTimerRef = useRef(null);
 
-    // --- Cleanup timer on component unmount ---
     useEffect(() => {
-        // Clear any lingering timer when the component unmounts
         return () => {
             if (closeTimerRef.current) {
                 clearTimeout(closeTimerRef.current);
@@ -57,244 +56,200 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         };
     }, []);
 
-    // Effect to update header style (solid/transparent) and top bar visibility based on scroll position and current page
     useEffect(() => {
         const handleStateUpdate = () => {
             const isScrolledPastThreshold = window.scrollY > 10;
             const isViewingMember = !!viewingMemberId;
             const isHeroPage = pagesWithHeroBannerEffect.includes(currentPage);
-            const isAuthPage = currentPage === 'login' || currentPage === 'register';
+            const isStaticSolidPage = staticSolidHeaderPages.includes(currentPage);
 
-            // Determine if header should be solid
-            const shouldBeSolid = isViewingMember ||
-                                  isAuthPage || // Always solid on login/register
-                                  !isHeroPage || // Solid if not on a hero page
-                                  (isHeroPage && isScrolledPastThreshold); // Solid on hero page only after scrolling
+            const shouldBeSolid = isStaticSolidPage ||
+                                  isViewingMember ||
+                                  !isHeroPage ||
+                                  (isHeroPage && isScrolledPastThreshold);
 
             setIsHeaderSolid(shouldBeSolid);
-            setIsTopBarHidden(isScrolledPastThreshold); // Hide top bar based on scroll
+            setIsTopBarHidden(isScrolledPastThreshold);
         };
 
-        handleStateUpdate(); // Run once on mount/update
-        window.addEventListener('scroll', handleStateUpdate); // Add scroll listener
-        // Cleanup listener on unmount
+        handleStateUpdate();
+        window.addEventListener('scroll', handleStateUpdate);
         return () => window.removeEventListener('scroll', handleStateUpdate);
-    }, [currentPage, viewingMemberId]); // Re-run effect if page or team member view changes
+    }, [currentPage, viewingMemberId]);
 
 
-    // Helper function to close all dropdown menus
     const closeAllDropdowns = () => {
         setIsShopDropdownOpen(false);
         setIsNewArrivalsOpen(false);
         setIsCollectionsOpen(false);
     };
-    
-    // *** ADDED: Mobile menu functions ***
+
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
-        setExpandedSubmenu(null); // Reset submenus when closing
+        setExpandedSubmenu(null);
     };
 
     const toggleSubmenu = (submenu) => {
         setExpandedSubmenu(expandedSubmenu === submenu ? null : submenu);
     };
 
-
-    // Click handler for navigation links (MODIFIED to close mobile menu)
     const handleNavClick = (e, pageName) => {
-        // Allow default behavior for external links if needed in the future
-        if (e) e.preventDefault(); // Prevent default link behavior
-        // --- Clear timer on click ---
-        if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-        closeAllDropdowns(); // Close any open dropdowns
-
-        // --- ADDED: Close mobile menu on click ---
-        if (isMobileMenuOpen) {
-            toggleMobileMenu(); 
-        }
-        // --- END ADDITION ---
-
-        if (resetTeamView) resetTeamView(); // Reset team view state if function provided
-        if (handleSelectCollection) handleSelectCollection(null); // Clear selected collection if function provided
-        setPage(pageName); // Call the main navigation function passed from App.jsx
-    };
-
-    // Click handler specifically for collection items in dropdowns (MODIFIED to close mobile menu)
-    const onCollectionItemClick = (e, collectionName) => {
-        e.preventDefault();
-         // --- Clear timer on click ---
+        if (e) e.preventDefault();
         if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
         closeAllDropdowns();
 
-        // --- ADDED: Close mobile menu on click ---
         if (isMobileMenuOpen) {
             toggleMobileMenu();
         }
-        // --- END ADDITION ---
 
         if (resetTeamView) resetTeamView();
-        if (handleSelectCollection) handleSelectCollection(collectionName); // Set the selected collection
-        setPage('collection'); // Navigate to the generic 'collection' page
+        if (handleSelectCollection) handleSelectCollection(null);
+        setPage(pageName);
     };
 
-    // --- REVISED: Hover Logic with Delay (Focus on Clearing/Setting Timer) ---
-    const DROPDOWN_CLOSE_DELAY = 150; // ms delay before closing
+    const onCollectionItemClick = (e, collectionName) => {
+        e.preventDefault();
+        if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+        closeAllDropdowns();
 
-    // Function to call when mouse enters ANY nav item or dropdown area
-    const handleMouseEnter = (menu = null) => { // Accept null for non-dropdown items
-        // Clear any pending close timer immediately
+        if (isMobileMenuOpen) {
+            toggleMobileMenu();
+        }
+
+        if (resetTeamView) resetTeamView();
+        if (handleSelectCollection) handleSelectCollection(collectionName);
+        setPage('collection');
+    };
+
+    const DROPDOWN_CLOSE_DELAY = 150;
+
+    const handleMouseEnter = (menu = null) => {
         if (closeTimerRef.current) {
             clearTimeout(closeTimerRef.current);
             closeTimerRef.current = null;
         }
-        // Open the target menu and close others if a menu is specified
         if (menu) {
             setIsShopDropdownOpen(menu === 'shop');
             setIsNewArrivalsOpen(menu === 'new-arrivals');
             setIsCollectionsOpen(menu === 'collections');
         } else {
-             // If entering a non-dropdown link, close any open dropdowns immediately
              closeAllDropdowns();
         }
     };
 
-    // --- FIX: Rename function back to handleMouseLeave ---
-    // Function to call ONLY when mouse leaves the ENTIRE nav container
-    const handleMouseLeave = () => { // Renamed from handleMouseLeaveNavArea
-        // Set a timer to close all dropdowns after a delay
+    const handleMouseLeave = () => {
         closeTimerRef.current = setTimeout(() => {
             closeAllDropdowns();
-            closeTimerRef.current = null; // Clear ref after execution
+            closeTimerRef.current = null;
         }, DROPDOWN_CLOSE_DELAY);
     };
-    // --- END: Revised Hover Logic ---
 
-
-    // Helper function to determine if a navigation link should be marked as active
     const isLinkActive = (pageName) => {
-        // Special cases for parent menu items
-       if (pageName === 'shop-parent') return ['shop', 'home', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi'].includes(currentPage);
-       if (pageName === 'jewellery-parent') return ['jewellery', 'neckpieces', 'earrings', 'bangles-cuffs', 'rings'].includes(currentPage);
+       if (pageName === 'shop-parent') return ['shop', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen', 'sarees-chanderi', 'jewellery', 'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'fall-picot'].includes(currentPage);
        if (pageName === 'new-arrivals-parent') return ['new-arrivals-sarees', 'new-arrivals-jewellery'].includes(currentPage);
-       // Check if currently viewing any collection page
        if (pageName === 'collection') return currentPage === 'collection';
-       // Default check for direct page match
        return currentPage === pageName;
     };
 
-    // Dynamically set header classes based on state
     const headerClasses = `
       header-container
       ${isHeaderSolid ? 'scrolled' : ''}
       ${isTopBarHidden ? 'top-bar-hidden' : ''}
       ${isNavHovered ? 'nav-hovered' : ''}
-    `; //
+    `;
 
-    // List of collections for the dropdown menu
     const collections = [
         "SOULFUL WEAVES - Cotton Sarees (NEW)", "IKTARA - Jamdani Weaves", "RAANJHANA - Benarasi Weaves",
         "MASAKALI - Chanderi Weaves", "POPSICLE - Everyday Cottons", "DOODHE-AALTA - Red-Bordered White Sarees",
         "STORIES FROM HOME - Cotton Sarees", "ROOPKATHA - Baluchari and Swarnachari", "CANDYFLOSS - Cotton Sarees",
         "NOOR - Organza Benarasi", "SUNKISSED - Minimalist Jewellery", "A MIDAS TOUCH - Tussar Silk",
         "GOLDEN HOUR - Eclectic Jewellery", "EK SITARA - Kota Sarees", "SMART STAPLES - A Workwear Edit",
-        "POTPOURRI" // Added Potpourri
-    ]; //
+        "POTPOURRI"
+    ];
 
-    // --- Render Logic ---
     return (
-        // *** ADDED: Fragment to wrap Header and Mobile Overlay ***
         <>
             <header className={headerClasses}>
-                {/* Top Announcement Bar */}
-                 <div className="top-bar text-center py-2"> {/* */}
+                 <div className="top-bar text-center py-2">
                     5% OFF ON YOUR FIRST ORDER | WELCOME 5
                 </div>
-                {/* Main Header Area (Logo, Icons, Nav) */}
                 <div
                     className="main-header-content"
-                    // --- Keep hover for background style ---
-                    onMouseEnter={() => setIsNavHovered(true)} // Apply hover styles when mouse enters nav area
-                    onMouseLeave={() => setIsNavHovered(false)} // Remove hover styles when mouse leaves nav area
+                    onMouseEnter={() => setIsNavHovered(true)}
+                    onMouseLeave={() => setIsNavHovered(false)}
                 >
-                    {/* Logo and Icons Row */}
-                    <div className="main-header container d-flex justify-content-between align-items-center py-3"> {/* */}
-                       {/* Left spacer / Hamburger Menu */}
-                       <div className="flex-grow-1 header-left-section"> {/* Added class for targeting */}
-                            {/* *** ADDED: Hamburger Menu Button *** */}
+                    <div className="main-header container d-flex justify-content-between align-items-center py-3">
+                       <div className="flex-grow-1 header-left-section">
                             <div className={`hamburger-menu ${isMobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}>
                                 <span></span>
                                 <span></span>
                                 <span></span>
                             </div>
                        </div>
-                        {/* Logo (centered absolutely) */}
-                        <div className="logo text-center header-center-section"> {/* Added class for targeting */}
+                        <div className="logo text-center header-center-section">
                            <a href="#" onClick={(e) => handleNavClick(e, 'home')}>
-                                <img src="/images/logo.png" alt="Amrapali Boutique" className="amrapali-logo" /> {/* */}
+                                <img src="/images/logo.png" alt="Amrapali Boutique" className="amrapali-logo" />
                             </a>
                         </div>
                          {/* Right Icons */}
-                        <div className="header-icons d-flex align-items-center justify-content-end gap-3 flex-grow-1 header-right-section"> {/* Added class for targeting */}
-                            {/* Conditional Rendering: Show user info/logout OR login icon */}
-                            {isLoggedIn ? ( //
+                        <div className="header-icons d-flex align-items-center justify-content-end gap-3 flex-grow-1 header-right-section">
+                            {isLoggedIn ? (
                                 <>
-                                    {/* Greeting */}
-                                    <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#1c1c1c' : '#ffffff', marginRight: '10px' }}> {/* */}
-                                        Hi, {currentUser?.firstName || 'User'} {/* */}
-                                    </span>
-                                    {/* Logout Button */}
-                                    <button onClick={handleLogout} className="btn btn-link p-0" style={{ textDecoration: 'none' }}>
-                                        <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#a8853d' : '#ffffff', textTransform: 'uppercase' }}>Logout</span> {/* */}
-                                    </button>
+                                    {/* --- REMOVED GREETING --- */}
+                                    {/* <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#1c1c1c' : '#ffffff', marginRight: '10px' }}>
+                                        Hi, {currentUser?.firstName || 'User'}
+                                    </span> */}
+                                    {/* User Icon links to Account Page */}
+                                    <img src="/images/icons/user-icon.svg"
+                                         alt="Account"
+                                         onClick={() => handleNavClick(null, 'account')}
+                                         style={{ cursor: 'pointer' }} />
+                                    {/* --- REMOVED LOGOUT TEXT BUTTON --- */}
+                                    {/* <button onClick={handleLogout} className="btn btn-link p-0" style={{ textDecoration: 'none' }}>
+                                        <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#a8853d' : '#ffffff', textTransform: 'uppercase' }}>Logout</span>
+                                    </button> */}
                                 </>
                             ) : (
                                 // Login Icon (shown when logged out)
-                                <img src="/images/icons/user-icon.svg" alt="Login" onClick={() => setPage('login')} style={{ cursor: 'pointer' }} /> //
+                                <img src="/images/icons/user-icon.svg" alt="Login" onClick={() => handleNavClick(null, 'login')} style={{ cursor: 'pointer' }} />
                             )}
                             {/* Search Icon */}
                             <img
-                               src="/images/icons/search-icon.svg" // <-- Verify this path is correct
+                               src="/images/icons/search-icon.svg"
                                alt="Search"
-                               onClick={toggleSearch} // Calls the toggleSearch function from App.jsx
+                               onClick={toggleSearch}
                                style={{ cursor: 'pointer' }}
                             />
                             {/* Cart Icon and Badge */}
-                            <button onClick={toggleCart} className="btn btn-link text-dark p-0 position-relative"> {/* */}
-                                <img src="/images/icons/cart-icon.svg" alt="Cart" /> {/* */}
-                                {/* Show badge only if cart has items */}
-                                {cartItemCount > 0 && <span className="cart-count-badge">{cartItemCount}</span>} {/* */}
+                            <button onClick={toggleCart} className="btn btn-link text-dark p-0 position-relative">
+                                <img src="/images/icons/cart-icon.svg" alt="Cart" />
+                                {cartItemCount > 0 && <span className="cart-count-badge">{cartItemCount}</span>}
                             </button>
                         </div>
                     </div>
 
                     {/* Navigation Row */}
                     <div
-                        className="main-nav-container" //
-                        // --- ADD: Attach the main leave handler here ---
-                        onMouseLeave={handleMouseLeave} // Use the renamed function
+                        className="main-nav-container"
+                        onMouseLeave={handleMouseLeave}
                     >
                          <nav className="main-nav container">
-                            {/* Main navigation links */}
                             <ul className="list-unstyled d-flex justify-content-center gap-5 mb-0 py-2">
                                 {/* SHOP Dropdown */}
                                 <li
-                                    className="nav-item-shop" //
-                                    // --- Use only handleMouseEnter here ---
+                                    className="nav-item-shop"
                                     onMouseEnter={() => handleMouseEnter('shop')}
                                 >
                                     <a href="#"
-                                       className={`nav-link d-flex align-items-center ${isLinkActive('shop-parent') ? 'active' : ''}`} // Added d-flex and align-items-center
+                                       className={`nav-link d-flex align-items-center ${isLinkActive('shop-parent') ? 'active' : ''}`}
                                        onClick={(e) => handleNavClick(e, 'shop')}>
                                       <span>SHOP</span>
-                                      {/* --- CHANGE Arrow Style & Remove Rotation --- */}
-                                      <span className="dropdown-toggle-arrow ms-1"></span> {/* Use CSS class for arrow */}
+                                      <span className="dropdown-toggle-arrow ms-1"></span>
                                     </a>
-                                    {/* Render ShopDropdownMenu conditionally */}
-                                    {isShopDropdownOpen && ( //
-                                        <ShopDropdownMenu //
-                                            handleNavClick={handleNavClick} // Pass nav click handler
-                                            // --- Pass handleMouseEnter to clear timer ---
-                                            onMouseEnter={() => handleMouseEnter('shop')} // Keep open when entering menu
+                                    {isShopDropdownOpen && (
+                                        <ShopDropdownMenu
+                                            handleNavClick={handleNavClick}
+                                            onMouseEnter={() => handleMouseEnter('shop')}
                                         />
                                     )}
                                 </li>
@@ -306,14 +261,13 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                                      <NavDropdown
                                          title="NEW ARRIVALS"
                                          id="new-arrivals-dropdown"
-                                         show={isNewArrivalsOpen} // Control visibility with state
-                                         onToggle={() => {}} // Keep this empty
-                                         className={`nav-link p-0 ${isLinkActive('new-arrivals-parent') ? 'active' : ''}`} // Apply active class if relevant page is active
+                                         show={isNewArrivalsOpen}
+                                         onToggle={() => {}}
+                                         className={`nav-link p-0 ${isLinkActive('new-arrivals-parent') ? 'active' : ''}`}
                                          onMouseEnter={() => handleMouseEnter('new-arrivals')}
                                      >
-                                        {/* Dropdown items */}
-                                        <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-sarees')}>Sarees</NavDropdown.Item> {/* */}
-                                        <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-jewellery')}>Jewellery</NavDropdown.Item> {/* */}
+                                        <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-sarees')}>Sarees</NavDropdown.Item>
+                                        <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-jewellery')}>Jewellery</NavDropdown.Item>
                                      </NavDropdown>
                                  </li>
                                   {/* COLLECTIONS Dropdown */}
@@ -324,36 +278,34 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                                      <NavDropdown
                                          title="COLLECTIONS"
                                          id="collections-dropdown"
-                                         show={isCollectionsOpen} // Control visibility with state
-                                         onToggle={() => {}} // Keep this empty
-                                         className={`nav-link p-0 ${isLinkActive('collection') ? 'active' : ''}`} // Apply active class if on a collection page
+                                         show={isCollectionsOpen}
+                                         onToggle={() => {}}
+                                         className={`nav-link p-0 ${isLinkActive('collection') ? 'active' : ''}`}
                                          onMouseEnter={() => handleMouseEnter('collections')}
                                      >
-                                         {/* Map through collections array to create dropdown items */}
                                          {collections.map(collection => (
                                              <NavDropdown.Item key={collection} onClick={(e) => onCollectionItemClick(e, collection)}>
                                                  {collection}
                                              </NavDropdown.Item>
                                          ))}
-                                          {/* Link to All Collections Page */}
                                          <NavDropdown.Divider />
-                                         <NavDropdown.Item onClick={(e) => handleNavClick(e, 'all-collections')}> {/* */}
+                                         <NavDropdown.Item onClick={(e) => handleNavClick(e, 'all-collections')}>
                                              View All Collections
                                          </NavDropdown.Item>
                                      </NavDropdown>
                                  </li>
                                  {/* Other standard navigation links */}
-                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('bestsellers') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'bestsellers')}> BESTSELLERS </a></li> {/* */}
-                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('meet-the-team') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'meet-the-team')}> MEET THE TEAM </a></li> {/* */}
-                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('blog') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'blog')}> BLOG </a></li> {/* */}
-                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('gift-card') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'gift-card')}> GIFT CARD </a></li> {/* */}
+                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('bestsellers') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'bestsellers')}> BESTSELLERS </a></li>
+                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('meet-the-team') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'meet-the-team')}> MEET THE TEAM </a></li>
+                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('blog') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'blog')}> BLOG </a></li>
+                                 <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('gift-card') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'gift-card')}> GIFT CARD </a></li>
                              </ul>
                          </nav>
                      </div>
                 </div>
             </header>
 
-            {/* *** ADDED: Mobile Navigation Overlay from OTHER AI *** */}
+            {/* Mobile Navigation Overlay */}
             <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
                 <div className="mobile-nav-content">
                     <ul className="mobile-nav-list">
@@ -362,7 +314,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                                 Shop
                             </button>
                             <div className={`mobile-submenu ${expandedSubmenu === 'shop' ? 'open' : ''}`}>
-                                {/* Use the modified handleNavClick that also closes the menu */}
                                 <a href="#" onClick={(e) => { handleNavClick(e, 'shop'); }}>All Sarees</a>
                                 <a href="#" onClick={(e) => { handleNavClick(e, 'sarees-cotton'); }}>Cotton</a>
                                 <a href="#" onClick={(e) => { handleNavClick(e, 'sarees-silk-tussar'); }}>Silk & Tussar</a>
@@ -386,7 +337,15 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                             </div>
                         </li>
                         <li>
-                            <a href="#" onClick={(e) => { handleNavClick(e, 'all-collections'); }}>Collections</a>
+                             <button onClick={() => toggleSubmenu('collections')} className={expandedSubmenu === 'collections' ? 'expanded' : ''}>
+                                Collections
+                             </button>
+                             <div className={`mobile-submenu ${expandedSubmenu === 'collections' ? 'open' : ''}`}>
+                                 {collections.map(collection => (
+                                     <a key={collection} href="#" onClick={(e) => { onCollectionItemClick(e, collection); }}>{collection}</a>
+                                 ))}
+                                 <a href="#" onClick={(e) => { handleNavClick(e, 'all-collections'); }} style={{marginTop: '10px', fontWeight: 'bold'}}>View All Collections</a>
+                            </div>
                         </li>
                         <li>
                             <a href="#" onClick={(e) => { handleNavClick(e, 'bestsellers'); }}>Bestsellers</a>
@@ -403,15 +362,14 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                     </ul>
                 </div>
             </div>
-            
-            {/* *** NEW: Added a separate backdrop element *** */}
-            <div 
-                className={`mobile-nav-backdrop ${isMobileMenuOpen ? 'open' : ''}`} 
+
+            {/* Mobile Nav Backdrop */}
+            <div
+                className={`mobile-nav-backdrop ${isMobileMenuOpen ? 'open' : ''}`}
                 onClick={toggleMobileMenu}
             ></div>
-        </> // *** END Fragment ***
+        </>
     );
 };
 
 export default Header;
-

@@ -7,14 +7,20 @@ export const AuthContext = createContext();
 const getUsersFromStorage = () => {
     try {
         const storedUsersString = localStorage.getItem('users');
-        console.log("AuthContext (getUsersFromStorage): Raw string from localStorage:", storedUsersString); // Log raw string
-        // If nothing is stored or the string is empty/invalid JSON, return an empty object
         const users = storedUsersString ? JSON.parse(storedUsersString) : {};
-        console.log("AuthContext (getUsersFromStorage): Parsed users object:", users); // Log parsed object
+        // --- Ensure users object has addresses array ---
+        Object.keys(users).forEach(email => {
+            if (!users[email].addresses) {
+                users[email].addresses = [];
+            }
+            // Ensure address IDs exist
+            users[email].addresses.forEach((addr, index) => {
+               if (!addr.id) addr.id = Date.now() + index; // Assign simple unique ID if missing
+            });
+        });
         return users;
     } catch (error) {
         console.error("AuthContext (getUsersFromStorage): Error parsing 'users' from localStorage:", error);
-        // If parsing fails, return an empty object to prevent further errors
         return {};
     }
 };
@@ -22,13 +28,7 @@ const getUsersFromStorage = () => {
 // Helper function to safely save users to localStorage
 const saveUsersToStorage = (usersObject) => {
     try {
-        const stringToSave = JSON.stringify(usersObject);
-        console.log("AuthContext (saveUsersToStorage): Object being saved:", usersObject); // Log object before stringify
-        localStorage.setItem('users', stringToSave);
-        console.log("AuthContext (saveUsersToStorage): Successfully called localStorage.setItem.");
-        // Optional: Verify immediately after saving
-        // const verificationRead = localStorage.getItem('users');
-        // console.log("AuthContext (saveUsersToStorage): Verification read after save:", verificationRead);
+        localStorage.setItem('users', JSON.stringify(usersObject));
     } catch (error) {
         console.error("AuthContext (saveUsersToStorage): Error saving 'users' to localStorage:", error);
     }
@@ -39,102 +39,211 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Check localStorage on initial load for existing session
+  // Load session or initialize state
   useEffect(() => {
     const storedUserSession = localStorage.getItem('currentUser');
     if (storedUserSession) {
       try {
-        const user = JSON.parse(storedUserSession);
-        // Basic validation: ensure user object has expected properties
-        if (user && user.email && user.firstName) {
-            setCurrentUser(user);
+        const userSessionData = JSON.parse(storedUserSession);
+        // Load full user data including addresses from 'users' storage
+        const allUsers = getUsersFromStorage();
+        const userEmailKey = userSessionData.email?.toLowerCase();
+
+        if (userEmailKey && allUsers[userEmailKey]) {
+            const fullUserData = allUsers[userEmailKey];
+             // Ensure addresses array exists
+             if (!fullUserData.addresses) {
+                 fullUserData.addresses = [];
+             }
+            setCurrentUser(fullUserData); // Set full user data including addresses
             setIsLoggedIn(true);
-            console.log("AuthContext: Session loaded for:", user.email);
+            console.log("AuthContext: Session loaded for:", fullUserData.email);
         } else {
-             console.warn("AuthContext: Invalid user session data found in localStorage.");
-             localStorage.removeItem('currentUser'); // Clear invalid data
+             console.warn("AuthContext: User session data found but user not in main storage, clearing session.");
+             localStorage.removeItem('currentUser');
         }
       } catch (error) {
         console.error("AuthContext: Failed to parse user session from localStorage", error);
-        localStorage.removeItem('currentUser'); // Clear corrupted data
+        localStorage.removeItem('currentUser');
       }
     } else {
-        console.log("AuthContext: No active user session found in localStorage.");
+        console.log("AuthContext: No active user session found.");
     }
-  }, []); // Run only once on initial mount
+  }, []);
 
-  // Login function - Refined with lowercase email
+  // Login function
   const login = useCallback((email, password) => {
-    const lowerCaseEmail = email.toLowerCase(); // Convert email to lowercase
-    console.log("AuthContext: Login attempt for email (lowercase):", lowerCaseEmail);
-    const storedUsers = getUsersFromStorage(); // Use helper to get users safely
+    const lowerCaseEmail = email.toLowerCase();
+    const storedUsers = getUsersFromStorage();
 
-    // Check if the user object exists for the given lowercase email key
     if (storedUsers.hasOwnProperty(lowerCaseEmail)) {
         const user = storedUsers[lowerCaseEmail];
-        console.log("AuthContext: User data found for login:", user);
-
-        // Verify the password matches
-        if (user.password === password) { // Direct password comparison (UNSAFE)
-            console.log("AuthContext: Password match successful for:", lowerCaseEmail);
-            // Prepare user data for the session state (exclude password)
-            const userDataForSession = { email: user.email, firstName: user.firstName }; // Use original case email for session if desired, or lowerCaseEmail
-            setCurrentUser(userDataForSession); // Update state
-            setIsLoggedIn(true); // Update state
-            // Store the session data (without password) in localStorage
-            localStorage.setItem('currentUser', JSON.stringify(userDataForSession));
+        if (user.password === password) {
+            // Ensure addresses array exists on login
+             if (!user.addresses) {
+                 user.addresses = [];
+             }
+            setCurrentUser(user); // Set full user data
+            setIsLoggedIn(true);
+            // Store only essential info for session check, full data loaded from 'users'
+            localStorage.setItem('currentUser', JSON.stringify({ email: user.email, firstName: user.firstName }));
             console.log("AuthContext: User session created for:", lowerCaseEmail);
-            return true; // Login successful
-        } else {
-            console.warn("AuthContext: Login failed: Password mismatch for email:", lowerCaseEmail);
-            return false; // Password incorrect
+            return true;
         }
-    } else {
-        console.warn("AuthContext: Login failed: User email not found in stored data:", lowerCaseEmail);
-        return false; // User email not found
     }
-  }, []); // Empty dependency array: function is stable
+    console.warn("AuthContext: Login failed for email:", lowerCaseEmail);
+    return false;
+  }, []);
 
-  // Logout function - Remains the same
+  // Logout function
   const logout = useCallback(() => {
-    setCurrentUser(null); // Clear user state
-    setIsLoggedIn(false); // Update login status
-    localStorage.removeItem('currentUser'); // Clear session from localStorage
-    console.log("AuthContext: User logged out and session cleared.");
-  }, []); // Empty dependency array
+    setCurrentUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem('currentUser');
+    console.log("AuthContext: User logged out.");
+  }, []);
 
-  // Register function - Refined with lowercase email
+  // Register function
   const register = useCallback((firstName, lastName, email, password) => {
-    const lowerCaseEmail = email.toLowerCase(); // Convert email to lowercase
-    console.log("AuthContext: Registration attempt for email (lowercase):", lowerCaseEmail);
-    const storedUsers = getUsersFromStorage(); // Use helper to get users safely
+    const lowerCaseEmail = email.toLowerCase();
+    const storedUsers = getUsersFromStorage();
 
-    // Check if lowercase email already exists as a key using hasOwnProperty
     if (storedUsers.hasOwnProperty(lowerCaseEmail)) {
       console.warn("AuthContext: Registration failed: Email already exists", lowerCaseEmail);
       return { success: false, message: 'Email already exists.' };
     }
 
-    // Add new user data using lowercase email as the key (UNSAFE: Storing password directly)
-    // Store the original case email within the user object if needed, but use lowercase for the key
-    const newUser = { firstName, lastName, email: email, password };
+    const newUser = {
+        firstName,
+        lastName,
+        email: email, // Store original case email if needed
+        password,
+        addresses: [] // Initialize with empty addresses array
+    };
     storedUsers[lowerCaseEmail] = newUser;
-
-    // Save the updated users object back to localStorage using helper
     saveUsersToStorage(storedUsers);
     console.log("AuthContext: Registered new user:", newUser);
+    return { success: true };
+  }, []);
 
-    return { success: true }; // Registration successful
+  // --- NEW ADDRESS MANAGEMENT FUNCTIONS ---
 
-  }, []); // Empty dependency array
+  const updateCurrentUserAddresses = (updatedAddresses) => {
+      if (!currentUser || !currentUser.email) return;
 
-  // Value provided by the context
+      const lowerCaseEmail = currentUser.email.toLowerCase();
+      const storedUsers = getUsersFromStorage();
+
+      if (storedUsers[lowerCaseEmail]) {
+          // Update addresses in the stored user data
+          storedUsers[lowerCaseEmail].addresses = updatedAddresses;
+          saveUsersToStorage(storedUsers);
+
+          // Update the currentUser state
+          setCurrentUser(prevUser => ({
+              ...prevUser,
+              addresses: updatedAddresses
+          }));
+          console.log("AuthContext: Updated addresses for", lowerCaseEmail);
+      } else {
+           console.error("AuthContext: Cannot update addresses, user not found in storage.");
+      }
+  };
+
+  const addAddress = useCallback((addressData) => {
+    if (!currentUser) return;
+    const newAddress = {
+      ...addressData,
+      id: Date.now() + Math.random(), // Simple unique ID
+      isDefault: addressData.isDefault || false, // Ensure isDefault exists
+    };
+
+    let updatedAddresses = [...currentUser.addresses];
+
+    if (newAddress.isDefault) {
+      // Unset previous default
+      updatedAddresses = updatedAddresses.map(addr => ({ ...addr, isDefault: false }));
+    } else if (updatedAddresses.length === 0) {
+        // Make the first address default if none exists
+        newAddress.isDefault = true;
+    }
+
+    updatedAddresses.push(newAddress);
+    updateCurrentUserAddresses(updatedAddresses);
+
+  }, [currentUser]);
+
+  const editAddress = useCallback((updatedAddressData) => {
+     if (!currentUser || !updatedAddressData.id) return;
+
+      let updatedAddresses = currentUser.addresses.map(addr =>
+          addr.id === updatedAddressData.id ? { ...addr, ...updatedAddressData } : addr
+      );
+
+      if (updatedAddressData.isDefault) {
+          // Unset other defaults if this one is set as default
+          updatedAddresses = updatedAddresses.map(addr =>
+              addr.id === updatedAddressData.id ? addr : { ...addr, isDefault: false }
+          );
+      } else {
+          // Check if we just unset the only default address
+          const defaultExists = updatedAddresses.some(addr => addr.isDefault);
+          // If no default exists and there are addresses, make the first one default
+          if (!defaultExists && updatedAddresses.length > 0) {
+               updatedAddresses[0].isDefault = true;
+          }
+      }
+
+      updateCurrentUserAddresses(updatedAddresses);
+
+  }, [currentUser]);
+
+  const deleteAddress = useCallback((addressId) => {
+     if (!currentUser) return;
+
+      let addressWasDefault = false;
+      let updatedAddresses = currentUser.addresses.filter(addr => {
+          if (addr.id === addressId) {
+              addressWasDefault = addr.isDefault;
+              return false; // Exclude this address
+          }
+          return true;
+      });
+
+      // If the deleted address was the default, and there are remaining addresses, set the first one as default
+      if (addressWasDefault && updatedAddresses.length > 0) {
+           updatedAddresses[0].isDefault = true;
+      }
+
+      updateCurrentUserAddresses(updatedAddresses);
+
+  }, [currentUser]);
+
+  const setDefaultAddress = useCallback((addressId) => {
+      if (!currentUser) return;
+
+      const updatedAddresses = currentUser.addresses.map(addr => ({
+          ...addr,
+          isDefault: addr.id === addressId
+      }));
+
+      updateCurrentUserAddresses(updatedAddresses);
+
+  }, [currentUser]);
+
+  // --- END NEW FUNCTIONS ---
+
   const contextValue = {
     currentUser,
     isLoggedIn,
     login,
     logout,
     register,
+    // --- Expose address functions ---
+    addAddress,
+    editAddress,
+    deleteAddress,
+    setDefaultAddress,
   };
 
   return (
@@ -143,4 +252,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-

@@ -5748,3 +5748,438 @@ body.product-detail-active {
     }
 }
 
+/* src/assets/css/main.css */
+
+/* ... Keep all existing styles ... */
+
+/* --------------------------------------------------- */
+/* ACCOUNT PAGE STYLES */
+/* --------------------------------------------------- */
+
+.account-page-container {
+    padding-top: 40px; /* Add space if header isn't solid */
+    min-height: 60vh;
+}
+
+.account-page-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.account-welcome-message {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.account-left-column {
+    position: relative;
+    padding-right: 30px; /* Space between columns */
+}
+
+.logout-link {
+    position: absolute;
+    top: -15px; /* Adjust position */
+    left: 0;
+    font-size: 12px;
+    color: #555;
+    text-decoration: none;
+    padding: 0;
+}
+.logout-link:hover {
+    color: #1c1c1c;
+}
+
+
+.account-section-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.no-orders-message,
+.no-address-message {
+    font-size: 14px;
+    color: #777;
+    margin-top: 10px;
+}
+
+.address-display p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+
+.edit-addresses-btn {
+    border-radius: 0;
+    font-size: 12px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-color: #ccc;
+    color: #555;
+}
+
+.edit-addresses-btn:hover {
+    background-color: #f0f0f0;
+    border-color: #aaa;
+    color: #1c1c1c;
+}
+
+/* --------------------------------------------------- */
+/* ADDRESSES MANAGEMENT PAGE STYLES */
+/* --------------------------------------------------- */
+.addresses-page-container {
+    padding-top: 40px;
+    min-height: 60vh;
+}
+
+.back-link {
+    font-size: 13px;
+    color: #555;
+    text-decoration: none;
+    padding: 0;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+.back-link:hover {
+    color: #1c1c1c;
+}
+
+.addresses-page-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.add-address-btn {
+    border-radius: 0;
+    font-size: 12px;
+    padding: 12px 25px;
+    letter-spacing: 0.1em;
+    background-color: #ffb3ba; /* Match Buy Now */
+    border-color: #ffb3ba;
+}
+.add-address-btn:hover {
+     background-color: #ff9aa1;
+     border-color: #ff9aa1;
+}
+
+
+.address-entry {
+    border: 1px solid #eee;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.default-address-tag {
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #a8853d; /* Gold color */
+    padding: 3px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.address-entry p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 4px;
+}
+.address-entry .address-name {
+    font-weight: 500;
+    color: #1c1c1c;
+    margin-bottom: 8px;
+}
+
+.address-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.address-actions .btn-link {
+    font-size: 13px;
+    color: #555;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 2px 0; /* Minimal padding */
+    margin-bottom: 5px; /* Space between links */
+}
+
+.address-actions .btn-link:hover {
+    color: #1c1c1c;
+}
+
+/* --------------------------------------------------- */
+/* ADDRESS MODAL STYLES */
+/* --------------------------------------------------- */
+.address-modal .modal-title {
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #1c1c1c;
+}
+
+.address-modal .modal-body {
+    padding: 25px;
+}
+
+.address-form-control,
+.address-form-select {
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
+    padding: 12px 15px; /* Match login/register */
+    font-size: 14px;
+    background-color: #f9f9f9;
+    box-shadow: none;
+}
+.address-form-control::placeholder { color: #999; }
+.address-form-control:focus,
+.address-form-select:focus {
+    border-color: #aaa;
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.address-form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 40px;
+}
+
+.address-modal .form-check-label {
+    font-size: 14px;
+    color: #555;
+}
+
+.address-modal .btn {
+     border-radius: 0;
+     font-size: 12px;
+     padding: 10px 20px;
+     letter-spacing: 0.1em;
+     text-transform: uppercase;
+}
+.address-modal .save-address-submit-btn {
+    background-color: #ffb3ba; /* Match Buy Now */
+    border-color: #ffb3ba;
+    color: white;
+}
+.address-modal .save-address-submit-btn:hover {
+    background-color: #ff9aa1;
+    border-color: #ff9aa1;
+}
+
+/* --------------------------------------------------- */
+/* DELETE CONFIRMATION DIALOG STYLES */
+/* --------------------------------------------------- */
+.delete-confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1060; /* Above modal */
+}
+
+.delete-confirm-dialog {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+.delete-confirm-dialog h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+.delete-confirm-dialog p {
+     font-size: 14px;
+     color: #555;
+     margin-bottom: 20px;
+}
+
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+.mobile-submenu {
+    max-height: 0;
+    overflow: hidden; /* Keep hidden when closed */
+    transition: max-height 0.3s ease;
+    background-color: #f9f9f9;
+    /* --- ADD overflow-y: auto --- */
+    overflow-y: auto; /* Ensure scrolling is possible if content exceeds max-height */
+    /* --- END ADD --- */
+
+}
+
+.mobile-submenu.open {
+    /* --- INCREASE max-height slightly --- */
+    max-height: 60vh; /* Use viewport height unit, adjust value if needed */
+    /* --- END INCREASE --- */
+}
+
+/* ... rest of main.css ... */
+
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+.product-image-container {
+    position: relative;
+    overflow: hidden; /* Keep this */
+    cursor: pointer;
+    border: 1px solid #f0f0f0;
+    /* --- REVERTED: Removed padding-bottom: 0 --- */
+}
+
+/* ... other image styles ... */
+
+/* Product actions (buttons) */
+.product-actions {
+    position: absolute;
+    /* --- REVERTED: Let it default to positioning relative to bottom edge (implicitly outside initially) --- */
+    /* bottom: 0; */
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Keep slightly reduced gap */
+    padding: 10px; /* Keep slightly reduced padding */
+    z-index: 2;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7)); /* Keep gradient */
+
+    /* Start hidden (slid down) */
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.product-card:hover .product-actions {
+    /* Slide up to be fully visible */
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Adjust button size slightly */
+.btn-quick-view,
+.btn-add-to-cart-grid {
+    width: 100%;
+    padding: 10px 8px; /* Slightly smaller padding */
+    font-size: 11px; /* Slightly smaller font */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 0;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Jost', sans-serif;
+    line-height: 1.2;
+}
+
+/* --- Keep specific button styles --- */
+.btn-add-to-cart-grid {
+    background-color: #ffb3ba;
+    color: #ffffff;
+    border: none;
+}
+.btn-add-to-cart-grid:hover { background-color: #ff9aa1; }
+.btn-add-to-cart-grid:disabled { background-color: #cccccc; color: #888888; cursor: not-allowed; }
+.btn-quick-view {
+    background-color: #ffffff;
+    color: #1c1c1c;
+    border: 1px solid #e5e5e5;
+}
+.btn-quick-view:hover { background-color: #1c1c1c; color: #ffffff; border-color: #1c1c1c; }
+
+
+/* ... rest of main.css ... */
+
+/* --- Optional Mobile Specific Adjustments (Keep smaller buttons/padding) --- */
+@media (max-width: 576px) {
+    /* ... other mobile styles ... */
+
+    .product-actions {
+        gap: 5px;
+        padding: 8px;
+    }
+
+    .btn-quick-view,
+    .btn-add-to-cart-grid {
+        padding: 8px 6px;
+        font-size: 10px;
+    }
+
+    /* ... rest of mobile styles ... */
+}
+
+/* src/assets/css/main.css */
+
+/* ... other styles ... */
+
+@media (max-width: 991px) {
+    /* ... existing mobile styles ... */
+
+    .main-header .container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: nowrap !important;
+        /* --- FIX: Override container padding --- */
+        padding-left: 15px !important;  /* Add specific small padding */
+        padding-right: 15px !important; /* Add specific small padding */
+        max-width: 100% !important;     /* Ensure it takes full width */
+        /* --- END FIX --- */
+    }
+
+    /* Optional: Adjust icon margins slightly if needed after padding change */
+    .header-container .header-icons > * {
+        margin-left: 10px !important; /* Slightly reduce space between icons */
+    }
+    .header-icons {
+        gap: 10px !important; /* Slightly reduce gap */
+    }
+
+
+    /* ... rest of mobile styles ... */
+}
+
+/* ... rest of main.css ... */

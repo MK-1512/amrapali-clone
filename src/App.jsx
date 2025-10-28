@@ -56,6 +56,12 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DisclaimerPolicyPage from './pages/DisclaimerPolicyPage';
 import { Container } from 'react-bootstrap'; // Import Container for search results title
 
+// --- NEW IMPORTS for Account/Address ---
+import AccountPage from './pages/AccountPage';
+import AddressesPage from './pages/AddressesPage';
+// --- END NEW IMPORTS ---
+
+
 function AppContent() {
   const { isLoggedIn, logout } = useContext(AuthContext);
 
@@ -68,7 +74,7 @@ function AppContent() {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedServiceId, setSelectedServiceId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // *** NEW STATE for filters and sorting ***
   const [appliedFilters, setAppliedFilters] = useState({ color: null, price: null, style: null });
   const [sortOrder, setSortOrder] = useState('manual'); // 'manual' is the default "SORT"
@@ -103,12 +109,7 @@ function AppContent() {
     window.scrollTo(0, 0);
   };
 
-  const handleLogout = () => {
-    logout(); //
-    setCurrentPage('home');
-    setSelectedServiceId(null); // Clear service view on logout
-    window.scrollTo(0, 0);
-  };
+  // handleLogout is passed down from context where needed (Header, AccountPage)
 
   const handleOpenFilter = () => setIsFilterOpen(true); //
   const handleCloseFilter = () => setIsFilterOpen(false); //
@@ -242,16 +243,22 @@ function AppContent() {
 
   // Centralized Navigation Handler
   const handleNavigation = (pageNameOrId) => {
+      // --- Add check to prevent navigation loops ---
+      if (pageNameOrId === currentPage) {
+          // console.log("Navigation prevented: already on page", pageNameOrId);
+          return; 
+      }
+      
       if (isSearchOpen) setIsSearchOpen(false);
       if (pageNameOrId !== 'search-results') setSearchQuery('');
       if (pageNameOrId !== 'collection') setSelectedCollection(null);
-      
+
       // *** ADDED: Reset filters and sort when navigating to a new page ***
       if (currentPage !== pageNameOrId) {
           setAppliedFilters({ color: null, price: null, style: null });
           setSortOrder('manual');
       }
-      
+
       if (!pageNameOrId.startsWith('product-detail-')) setSelectedProductId(null);
       if (!pageNameOrId.startsWith('team-member-detail-')) setViewingMemberId(null);
       if (!pageNameOrId.startsWith('blog-detail-')) setViewingPostId(null);
@@ -263,7 +270,9 @@ function AppContent() {
 
 
       if (isLoggedIn && (pageNameOrId === 'login' || pageNameOrId === 'register')) {
-          pageNameOrId = 'home';
+          pageNameOrId = 'home'; // Redirect logged in users away from login/register
+          // Add check to prevent loop if already home
+          if (pageNameOrId === currentPage) return;
       }
 
        // --- Product Detail Logic ---
@@ -345,6 +354,35 @@ function AppContent() {
                setCurrentPage('shop');
            }
        }
+      // --- NEW: Account/Addresses Navigation Logic ---
+      else if (pageNameOrId === 'account') {
+          if (isLoggedIn) {
+              setCurrentPage('account');
+              // Clear other specific views
+              setViewingMemberId(null);
+              setViewingPostId(null);
+              setSelectedProductId(null);
+              setSelectedServiceId(null);
+              setSelectedCollection(null);
+          } else {
+              setCurrentPage('login'); // Redirect to login if not logged in
+          }
+      }
+      else if (pageNameOrId === 'addresses') {
+           if (isLoggedIn) {
+              setCurrentPage('addresses');
+              // Clear other specific views
+              setViewingMemberId(null);
+              setViewingPostId(null);
+              setSelectedProductId(null);
+              setSelectedServiceId(null);
+              setSelectedCollection(null);
+           } else {
+               setCurrentPage('login'); // Redirect to login
+           }
+      }
+       // --- END NEW Account/Addresses Logic ---
+
        // Standard Page Navigation
        else if (typeof pageNameOrId === 'string') {
            setCurrentPage(pageNameOrId);
@@ -353,7 +391,7 @@ function AppContent() {
            setViewingPostId(null);
            setSelectedServiceId(null);
             if (pageNameOrId !== 'collection') setSelectedCollection(null);
-           setSearchQuery('');
+           setSearchQuery(''); // Clear search query when navigating normally
        }
 
       window.scrollTo(0, 0);
@@ -392,6 +430,48 @@ function AppContent() {
       const formattedTitle = titlePart.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
       return { title: formattedTitle, subtitle: "Explore our collection." };
   };
+
+   // --- NEW: Wrapper function for handling logout AND navigation ---
+   const handleLogoutWrapper = () => {
+    logout(); // Call the logout function from context to clear state/storage
+    handleNavigation('home'); // Explicitly navigate to home page AFTER logout
+  };
+  // --- END NEW Wrapper ---
+
+
+  // --- *** FIX *** ---
+  // MOVED REDIRECT LOGIC to a top-level useEffect hook
+  // This hook runs AFTER every render where currentPage or isLoggedIn changes
+  useEffect(() => {
+    // This is the list of pages guests are allowed to see
+    const guestAllowedPages = [
+        'home', 'login', 'register', 'shop', 'jewellery', 'collection', 'bestsellers',
+        'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
+        'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
+        'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail',
+        'our-story', 'meet-the-team', 'team-member-detail',
+        'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
+        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
+         'checkout', 'product-detail', 'service-detail', 'search-results', 'all-products',
+        'gift-card' // <-- *** ADDED 'gift-card' HERE ***
+    ];
+
+     // Redirect guests trying to access protected pages
+    if (!isLoggedIn && !guestAllowedPages.includes(currentPage) && currentPage !== 'login' && currentPage !== 'register') {
+         console.log("Redirect check: Guest on protected page. Redirecting to login.");
+         handleNavigation('login');
+    }
+     // Redirect logged-in users away from login/register
+    if (isLoggedIn && (currentPage === 'login' || currentPage === 'register')) {
+      console.log("Redirect check: Logged-in user on auth page. Redirecting to home.");
+      handleNavigation('home');
+    }
+  // Add dependencies. handleNavigation is a function defined in AppContent
+  // and should be stable, but it's safer to include it.
+  // We added checks inside handleNavigation to prevent loops.
+  }, [currentPage, isLoggedIn, handleNavigation]);
+  // --- *** END FIX *** ---
+
 
   const renderPage = () => {
     // Render specific detail pages first
@@ -476,9 +556,9 @@ function AppContent() {
                   onSortChange={handleSortChange}
                 />
                 <ProductList
-                    products={searchResults.fullProductList}
-                    searchQuery={searchQuery}
-                    collectionName={`Search: ${searchQuery}`}
+                    products={searchResults.fullProductList} // Pass full list for pagination within ProductList
+                    searchQuery={searchQuery} // Keep passing query for title/context
+                    collectionName={`Search: ${searchQuery}`} // Keep for title
                     setPage={handleNavigation}
                     appliedFilters={appliedFilters}
                     sortOrder={sortOrder}
@@ -489,26 +569,9 @@ function AppContent() {
    }
 
 
-    // Route Protection
-    const guestAllowedPages = [
-        'home', 'login', 'register', 'shop', 'jewellery', 'collection', 'bestsellers',
-        'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
-        'new-arrivals-sarees', 'sarees-cotton', 'sarees-silk-tussar', 'sarees-linen',
-        'sarees-chanderi', 'fall-picot', 'blog', 'blog-detail',
-        'our-story', 'meet-the-team', 'team-member-detail',
-        'all-collections', 'faq', 'shipping-policy', 'refund-policy', 'contact',
-        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
-        'checkout', 'product-detail',
-        'service-detail',
-        'search-results',
-        'all-products'
-    ];
-    if (!isLoggedIn && !guestAllowedPages.includes(currentPage)) {
-         return <LoginPage setPage={handleNavigation} />;
-    }
-    if (isLoggedIn && (currentPage === 'login' || currentPage === 'register')) {
-      return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
-    }
+    // --- *** FIX *** ---
+    // REMOVED conditional useEffect calls from here
+    // --- *** END FIX *** ---
 
     // *** MODIFIED: Switch statement passes ALL filter/sort props to relevant pages ***
     const pageProps = {
@@ -537,7 +600,7 @@ function AppContent() {
         case 'sarees-chanderi': return <ChanderiSareesPage {...pageProps} />;
         case 'bestsellers': return <BestsellersPage {...pageProps} />;
         case 'shop': return <SareesPage {...pageProps} />;
-        
+
         // --- Pages without Filters & Sorting ---
         case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
         case 'gift-card': return <GiftCardPage setPage={handleNavigation} />;
@@ -557,9 +620,17 @@ function AppContent() {
         case 'login': return <LoginPage setPage={handleNavigation} />;
         case 'register': return <RegisterPage setPage={handleNavigation} />;
         case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
-        
+
+        // --- NEW: Account and Addresses ---
+        case 'account':
+            // Pass the NEW handleLogoutWrapper
+            return <AccountPage setPage={handleNavigation} handleLogout={handleLogoutWrapper} />;
+        case 'addresses':
+            return <AddressesPage setPage={handleNavigation} />;
+        // --- END NEW ---
+
         // Default fallback
-        default: return <SareesPage {...pageProps} />;
+        default: return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />; // Changed default to HomePage
     }
   };
 
@@ -574,17 +645,20 @@ function AppContent() {
        'all-collections',
        'search-results',
        'all-products'
-   ];
+   ]; //
    const staticSolidHeaderPages = [
        'login', 'register', 'our-story', 'faq',
        'shipping-policy', 'refund-policy', 'contact',
        'terms-service', 'terms-conditions', 'privacy-policy', 'disclaimer-policy',
        'meet-the-team', 'team-member-detail',
        'blog',
-       'blog-detail',
+       'blog-detail', 'gift-card', // Added gift-card back
        'checkout', 'product-detail',
-       'service-detail'
-   ];
+       'service-detail',
+       // --- NEW: Add account and addresses here ---
+       'account', 'addresses'
+       // --- END NEW ---
+   ]; //
    const isSolidHeaderForced = isSearchOpen ||
                               (currentPage === 'team-member-detail' && !!viewingMemberId) ||
                               !!viewingPostId ||
@@ -597,7 +671,7 @@ function AppContent() {
    const hideHeader = currentPage === 'checkout';
    const hideFooter = currentPage === 'checkout';
 
-  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout'];
+  const hideRecentlyViewedOn = ['home', 'meet-the-team', 'team-member-detail', 'blog', 'blog-detail', 'checkout', 'account', 'addresses']; // Added account, addresses
   const showRecentlyViewed = !hideRecentlyViewedOn.includes(currentPage);
 
 
@@ -612,7 +686,7 @@ function AppContent() {
             viewingMemberId={viewingMemberId}
             isSearchOpen={isSearchOpen}
             toggleSearch={toggleSearch}
-            handleLogout={handleLogout}
+            handleLogout={handleLogoutWrapper} // <-- Pass the NEW wrapper function here
           />
       )}
       {!hideHeader && (
@@ -620,7 +694,7 @@ function AppContent() {
             isSearchOpen={isSearchOpen}
             handleCloseSearch={toggleSearch}
             handleNavClick={(e, pageName) => {
-                e.preventDefault();
+                if (e) e.preventDefault();
                 handleNavigation(pageName);
             }}
             onSearchSubmit={handleSearchSubmit}
@@ -639,19 +713,18 @@ function AppContent() {
       {!hideFooter && (
         <Footer setPage={handleNavigation} toggleSearch={toggleSearch} />
       )}
-      {/* Removed global FilterDrawer, as it's now handled by each page/render block */}
     </div>
   );
 }
 
-// Wrap AppContent in Providers
+// Wrap AppContent in Providers (No changes needed here)
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <CurrencyProvider>
           <RecentlyViewedProvider>
-            <WishlistProvider>
+            <WishlistProvider> {/* WishlistProvider needs AuthContext */}
                <AppContent />
             </WishlistProvider>
           </RecentlyViewedProvider>

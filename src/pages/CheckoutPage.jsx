@@ -5,7 +5,7 @@ import { CartContext } from '../context/CartContext';
 import { CurrencyContext } from '../context/CurrencyContext';
 import { formatPrice } from '../utils/currencyUtils';
 
-// --- List of Indian States (Add more as needed) ---
+// --- List of Indian States ---
 const indianStates = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
     "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
@@ -13,22 +13,18 @@ const indianStates = [
     "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
     "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal",
     "Andaman and Nicobar Islands", "Chandigarh", "Dadra and Nagar Haveli and Daman and Diu",
-    "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadwee p", "Puducherry"
+    "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
 ];
-// --- End State List ---
 
 // Accept setPage prop for navigation
 const CheckoutPage = ({ setPage }) => {
-    // Add useEffect to add/remove body class for styling adjustments
     useEffect(() => {
         document.body.classList.add('checkout-active');
-        // Cleanup function to remove the class when the component unmounts
         return () => {
             document.body.classList.remove('checkout-active');
         };
-    }, []); // Empty dependency array ensures this runs only on mount and unmount
+    }, []);
 
-    // Context and State hooks
     const { cartItems } = useContext(CartContext);
     const { selectedCurrency } = useContext(CurrencyContext);
     const [email, setEmail] = useState('');
@@ -46,36 +42,31 @@ const CheckoutPage = ({ setPage }) => {
     const [paymentMethod, setPaymentMethod] = useState('razorpay');
     const [billingAddressOption, setBillingAddressOption] = useState('same');
 
-    // Calculation logic
     const subtotalINR = cartItems.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0);
-    const shippingCostINR = 0; // Assuming free shipping
+    const shippingCostINR = 0;
     const taxesINR = typeof subtotalINR === 'number' ? subtotalINR * 0.0156 : 0;
     const totalINR = typeof subtotalINR === 'number' ? subtotalINR + shippingCostINR + taxesINR : 0;
     const getFormattedPrice = (price) => formatPrice(price || 0, selectedCurrency.code || 'INR');
 
-    // Form submission handler (placeholder)
     const handlePaymentSubmit = (e) => {
         e.preventDefault();
         console.log("Form submitted!");
-        // --- TODO: Add Validation and Payment Gateway Integration ---
         alert(`Submitting payment via ${paymentMethod} for ${getFormattedPrice(totalINR)} (Integration Pending)`);
     };
 
-    // Handler for logo click to navigate home
     const handleLogoClick = (e) => {
         e.preventDefault();
         if (setPage) {
-            setPage('home'); // Navigate to home page
+            setPage('home');
         } else {
             console.error("setPage function not passed to CheckoutPage");
         }
     };
 
-    // Handler for return link to navigate to shop page (where cart is usually accessed)
     const handleReturnToCart = (e) => {
         e.preventDefault();
         if (setPage) {
-            setPage('shop'); // Navigate back to the main shop/sarees page
+            setPage('shop');
         } else {
              console.error("setPage function not passed to CheckoutPage");
         }
@@ -89,7 +80,6 @@ const CheckoutPage = ({ setPage }) => {
                         {/* Left Column */}
                         <Col lg={6} md={7} className="mb-4">
                             <div className="checkout-header">
-                                {/* Logo links to home page */}
                                 <a href="#" onClick={handleLogoClick}>
                                     <img src="/images/logo.png" alt="Amrapali" className="checkout-logo" />
                                 </a>
@@ -117,8 +107,7 @@ const CheckoutPage = ({ setPage }) => {
                                 <Form.Group className="mb-3">
                                     <Form.Select className="checkout-form-select" value={country} onChange={(e) => setCountry(e.target.value)} required>
                                         <option value="India">India</option>
-                                        <option value="USA">United States</option>
-                                        <option value="UK">United Kingdom</option>
+                                        {/* Add other countries if needed */}
                                     </Form.Select>
                                 </Form.Group>
                                 <Row>
@@ -134,13 +123,12 @@ const CheckoutPage = ({ setPage }) => {
                                             <Form.Select className="checkout-form-select" value={state} onChange={(e) => setState(e.target.value)} required>
                                                 <option value="">State</option>
                                                 {country === 'India' && indianStates.map(st => (<option key={st} value={st}>{st}</option>))}
-                                                {/* Add state/province options for other countries if needed */}
                                             </Form.Select>
                                         </Form.Group>
                                     </Col>
-                                    <Col md={4}><Form.Group className="mb-3"><Form.Control type="text" placeholder="PIN code" className="checkout-form-control" value={pinCode} onChange={(e) => setPinCode(e.target.value)} required pattern="\d{5,6}" title="Enter a valid PIN or Zip code" /></Form.Group></Col> {/* Adjusted pattern for more flexibility */}
+                                    <Col md={4}><Form.Group className="mb-3"><Form.Control type="text" placeholder="PIN code" className="checkout-form-control" value={pinCode} onChange={(e) => setPinCode(e.target.value)} required pattern="\d{5,6}" title="Enter a valid PIN or Zip code" /></Form.Group></Col>
                                 </Row>
-                                <Form.Group className="mb-3"><Form.Control type="tel" placeholder="Phone" className="checkout-form-control" value={phone} onChange={(e) => setPhone(e.target.value)} required pattern="[0-9\s\-()+]{7,20}" title="Enter a valid phone number" /></Form.Group> {/* Adjusted pattern */}
+                                <Form.Group className="mb-3"><Form.Control type="tel" placeholder="Phone" className="checkout-form-control" value={phone} onChange={(e) => setPhone(e.target.value)} required pattern="[0-9\s\-()+]{7,20}" title="Enter a valid phone number" /></Form.Group>
                                 <Form.Check type="checkbox" label="Save this information for next time" id="saveInfoCheckbox"/>
                             </div>
 
@@ -169,15 +157,15 @@ const CheckoutPage = ({ setPage }) => {
                                         <Form.Check.Input type="radio" />
                                         <Form.Check.Label>
                                             <span className="payment-method-title">Razorpay Secure (UPI, Cards, Int'l Cards, Wallets)</span>
-                                            {/* --- ICON PATHS (Ensure files exist in public/images/icons/) --- */}
+                                            {/* --- *** UPDATED ICON URLS *** --- */}
                                             <span className="payment-icons">
-                                                <img src="/Users/mk/Desktop/INTERN/amrapali-clone/public/images/payment-upi.svg" alt="UPI" title="UPI"/>
-                                                <img src="/images/payment-visa.svg" alt="Visa" title="Visa"/>
-                                                <img src="/images/payment-mastercard.svg" alt="Mastercard" title="Mastercard"/>
-                                                <img src="/images/payment-amex.svg" alt="American Express" title="American Express"/>
-                                                {/* Add more icons as needed */}
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI" title="UPI" style={{ height: '18px' }}/> {/* Adjusted height */}
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1280px-Visa_Inc._logo.svg.png" alt="Visa" title="Visa"/>
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1280px-MasterCard_Logo.svg.png" alt="Mastercard" title="Mastercard"/>
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/American_Express_logo_%282018%29.svg/1280px-American_Express_logo_%282018%29.svg.png" alt="American Express" title="American Express"/>
                                                 <span style={{ fontSize: '11px', color: '#777' }}>+17</span>
                                             </span>
+                                            {/* --- *** END URL UPDATE *** --- */}
                                         </Form.Check.Label>
                                     </Form.Check>
                                     {paymentMethod === 'razorpay' && (
@@ -191,13 +179,14 @@ const CheckoutPage = ({ setPage }) => {
                                         <Form.Check.Input type="radio" />
                                         <Form.Check.Label>
                                             <span className="payment-method-title">Cashfree Payments (UPI,Cards,Wallets,NetBanking)</span>
-                                             {/* --- ICON PATHS (Ensure files exist in public/images/icons/) --- */}
+                                            {/* --- *** UPDATED ICON URLS *** --- */}
                                             <span className="payment-icons">
-                                                <img src="/images/icons/payment-upi.svg" alt="UPI" title="UPI"/>
-                                                <img src="/images/icons/payment-visa.svg" alt="Visa" title="Visa"/>
+                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI" title="UPI" style={{ height: '18px' }}/> {/* Adjusted height */}
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1280px-Visa_Inc._logo.svg.png" alt="Visa" title="Visa"/>
                                                 {/* Add more icons as needed */}
                                                 <span style={{ fontSize: '11px', color: '#777' }}>+10</span>
                                             </span>
+                                             {/* --- *** END URL UPDATE *** --- */}
                                         </Form.Check.Label>
                                     </Form.Check>
                                     {paymentMethod === 'cashfree' && (
