@@ -75,7 +75,7 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         handleStateUpdate();
         window.addEventListener('scroll', handleStateUpdate);
         return () => window.removeEventListener('scroll', handleStateUpdate);
-    }, [currentPage, viewingMemberId]);
+    }, [currentPage, viewingMemberId, pagesWithHeroBannerEffect, staticSolidHeaderPages]); // <-- Added dependencies
 
 
     const closeAllDropdowns = () => {
@@ -97,7 +97,7 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         if (e) e.preventDefault();
         if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
         closeAllDropdowns();
-
+        setIsNavHovered(false);
         if (isMobileMenuOpen) {
             toggleMobileMenu();
         }
@@ -111,14 +111,14 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         e.preventDefault();
         if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
         closeAllDropdowns();
-
+        setIsNavHovered(false);
         if (isMobileMenuOpen) {
             toggleMobileMenu();
         }
 
         if (resetTeamView) resetTeamView();
         if (handleSelectCollection) handleSelectCollection(collectionName);
-        setPage('collection');
+        // setPage('collection'); // <--- THIS WAS THE BUG. IT HAS BEEN REMOVED.
     };
 
     const DROPDOWN_CLOSE_DELAY = 150;
