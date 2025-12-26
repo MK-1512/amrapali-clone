@@ -1,21 +1,17 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 export const AuthContext = createContext();
 
-// Helper function to safely get users from localStorage
 const getUsersFromStorage = () => {
     try {
         const storedUsersString = localStorage.getItem('users');
         const users = storedUsersString ? JSON.parse(storedUsersString) : {};
-        // --- Ensure users object has addresses array ---
         Object.keys(users).forEach(email => {
             if (!users[email].addresses) {
                 users[email].addresses = [];
             }
-            // Ensure address IDs exist
             users[email].addresses.forEach((addr, index) => {
-               if (!addr.id) addr.id = Date.now() + index; // Assign simple unique ID if missing
+               if (!addr.id) addr.id = Date.now() + index;
             });
         });
         return users;
@@ -25,7 +21,6 @@ const getUsersFromStorage = () => {
     }
 };
 
-// Helper function to safely save users to localStorage
 const saveUsersToStorage = (usersObject) => {
     try {
         localStorage.setItem('users', JSON.stringify(usersObject));
@@ -39,23 +34,20 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Load session or initialize state
   useEffect(() => {
     const storedUserSession = localStorage.getItem('currentUser');
     if (storedUserSession) {
       try {
         const userSessionData = JSON.parse(storedUserSession);
-        // Load full user data including addresses from 'users' storage
         const allUsers = getUsersFromStorage();
         const userEmailKey = userSessionData.email?.toLowerCase();
 
         if (userEmailKey && allUsers[userEmailKey]) {
             const fullUserData = allUsers[userEmailKey];
-             // Ensure addresses array exists
              if (!fullUserData.addresses) {
                  fullUserData.addresses = [];
              }
-            setCurrentUser(fullUserData); // Set full user data including addresses
+            setCurrentUser(fullUserData);
             setIsLoggedIn(true);
             console.log("AuthContext: Session loaded for:", fullUserData.email);
         } else {
@@ -71,7 +63,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // Login function
   const login = useCallback((email, password) => {
     const lowerCaseEmail = email.toLowerCase();
     const storedUsers = getUsersFromStorage();
@@ -79,13 +70,11 @@ export const AuthProvider = ({ children }) => {
     if (storedUsers.hasOwnProperty(lowerCaseEmail)) {
         const user = storedUsers[lowerCaseEmail];
         if (user.password === password) {
-            // Ensure addresses array exists on login
              if (!user.addresses) {
                  user.addresses = [];
              }
-            setCurrentUser(user); // Set full user data
+            setCurrentUser(user);
             setIsLoggedIn(true);
-            // Store only essential info for session check, full data loaded from 'users'
             localStorage.setItem('currentUser', JSON.stringify({ email: user.email, firstName: user.firstName }));
             console.log("AuthContext: User session created for:", lowerCaseEmail);
             return true;
@@ -95,7 +84,6 @@ export const AuthProvider = ({ children }) => {
     return false;
   }, []);
 
-  // Logout function
   const logout = useCallback(() => {
     setCurrentUser(null);
     setIsLoggedIn(false);
@@ -103,7 +91,6 @@ export const AuthProvider = ({ children }) => {
     console.log("AuthContext: User logged out.");
   }, []);
 
-  // Register function
   const register = useCallback((firstName, lastName, email, password) => {
     const lowerCaseEmail = email.toLowerCase();
     const storedUsers = getUsersFromStorage();
@@ -116,9 +103,9 @@ export const AuthProvider = ({ children }) => {
     const newUser = {
         firstName,
         lastName,
-        email: email, // Store original case email if needed
+        email: email,
         password,
-        addresses: [] // Initialize with empty addresses array
+        addresses: []
     };
     storedUsers[lowerCaseEmail] = newUser;
     saveUsersToStorage(storedUsers);
@@ -126,7 +113,6 @@ export const AuthProvider = ({ children }) => {
     return { success: true };
   }, []);
 
-  // --- NEW ADDRESS MANAGEMENT FUNCTIONS ---
 
   const updateCurrentUserAddresses = (updatedAddresses) => {
       if (!currentUser || !currentUser.email) return;
@@ -135,11 +121,9 @@ export const AuthProvider = ({ children }) => {
       const storedUsers = getUsersFromStorage();
 
       if (storedUsers[lowerCaseEmail]) {
-          // Update addresses in the stored user data
           storedUsers[lowerCaseEmail].addresses = updatedAddresses;
           saveUsersToStorage(storedUsers);
 
-          // Update the currentUser state
           setCurrentUser(prevUser => ({
               ...prevUser,
               addresses: updatedAddresses
@@ -154,17 +138,15 @@ export const AuthProvider = ({ children }) => {
     if (!currentUser) return;
     const newAddress = {
       ...addressData,
-      id: Date.now() + Math.random(), // Simple unique ID
-      isDefault: addressData.isDefault || false, // Ensure isDefault exists
+      id: Date.now() + Math.random(),
+      isDefault: addressData.isDefault || false,
     };
 
     let updatedAddresses = [...currentUser.addresses];
 
     if (newAddress.isDefault) {
-      // Unset previous default
       updatedAddresses = updatedAddresses.map(addr => ({ ...addr, isDefault: false }));
     } else if (updatedAddresses.length === 0) {
-        // Make the first address default if none exists
         newAddress.isDefault = true;
     }
 
@@ -181,14 +163,11 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (updatedAddressData.isDefault) {
-          // Unset other defaults if this one is set as default
           updatedAddresses = updatedAddresses.map(addr =>
               addr.id === updatedAddressData.id ? addr : { ...addr, isDefault: false }
           );
       } else {
-          // Check if we just unset the only default address
           const defaultExists = updatedAddresses.some(addr => addr.isDefault);
-          // If no default exists and there are addresses, make the first one default
           if (!defaultExists && updatedAddresses.length > 0) {
                updatedAddresses[0].isDefault = true;
           }
@@ -205,12 +184,11 @@ export const AuthProvider = ({ children }) => {
       let updatedAddresses = currentUser.addresses.filter(addr => {
           if (addr.id === addressId) {
               addressWasDefault = addr.isDefault;
-              return false; // Exclude this address
+              return false;
           }
           return true;
       });
 
-      // If the deleted address was the default, and there are remaining addresses, set the first one as default
       if (addressWasDefault && updatedAddresses.length > 0) {
            updatedAddresses[0].isDefault = true;
       }
@@ -231,7 +209,6 @@ export const AuthProvider = ({ children }) => {
 
   }, [currentUser]);
 
-  // --- END NEW FUNCTIONS ---
 
   const contextValue = {
     currentUser,
@@ -239,7 +216,6 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     register,
-    // --- Expose address functions ---
     addAddress,
     editAddress,
     deleteAddress,

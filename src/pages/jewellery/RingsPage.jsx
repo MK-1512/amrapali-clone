@@ -1,5 +1,4 @@
-// src/pages/jewellery/RingsPage.jsx
-import React from 'react'; // Removed useState
+import React from 'react';
 import ProductList from '../../components/product/ProductList';
 import FilterBar from '../../components/filters/FilterBar';
 import FilterDrawer from '../../components/filters/FilterDrawer';
@@ -14,25 +13,22 @@ const rings = jewellery.filter(item => {
 });
 
 
-// *** MODIFIED: Accept all filter/sort props ***
 const RingsPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
   return (
     <>
       <RingsHeroBanner />
-      {/* *** MODIFIED: Pass sort props to FilterBar *** */}
       <FilterBar
         handleOpenFilter={handleOpenFilter}
         sortOrder={sortOrder}
         onSortChange={onSortChange}
       />
-      {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
       <ProductList
         products={rings}
         collectionName="rings"
         setPage={setPage}
-        appliedFilters={appliedFilters} // <-- Pass down
-        sortOrder={sortOrder} // <-- Pass down
+        appliedFilters={appliedFilters}
+        sortOrder={sortOrder}
       />
       <FilterDrawer
         show={isFilterOpen}

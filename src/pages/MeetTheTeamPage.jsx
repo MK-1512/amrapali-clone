@@ -3,9 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { teamMembers } from '../data/team';
 import TeamMemberCard from '../components/team/TeamMemberCard';
 
-// This component now receives 'onSelectMember' from App.jsx
 const MeetTheTeamPage = ({ onSelectMember }) => {
-  // Split the team members into two rows for the custom layout
   const firstRowMembers = teamMembers.slice(0, 3);
   const secondRowMembers = teamMembers.slice(3, 7);
 
@@ -21,21 +19,17 @@ const MeetTheTeamPage = ({ onSelectMember }) => {
         </Col>
       </Row>
 
-      {/* First row with 3 members */}
       <Row xs={1} md={2} lg={3} className="g-4 mb-4 justify-content-center">
         {firstRowMembers.map((member) => (
           <Col key={member.id}>
-            {/* The onSelectMember function is passed down to each card */}
             <TeamMemberCard member={member} onSelectMember={onSelectMember} />
           </Col>
         ))}
       </Row>
 
-      {/* Second row with 4 members */}
       <Row xs={1} md={2} lg={4} className="g-4 mb-5 justify-content-center">
         {secondRowMembers.map((member) => (
           <Col key={member.id}>
-            {/* This prop is essential for the "Read More" button to work */}
             <TeamMemberCard member={member} onSelectMember={onSelectMember} />
           </Col>
         ))}

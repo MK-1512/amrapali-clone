@@ -1,58 +1,56 @@
-// src/pages/AddressesPage.jsx
 import React, { useContext, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext';
-import AddressModal from '../components/account/AddressModal'; // Import the modal
+import AddressModal from '../components/account/AddressModal';
 
 const AddressesPage = ({ setPage }) => {
   const { currentUser, addAddress, editAddress, deleteAddress, setDefaultAddress } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
-  const [editingAddress, setEditingAddress] = useState(null); // null for adding, address object for editing
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null); // Store ID of address to delete
+  const [editingAddress, setEditingAddress] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
 
   const handleOpenAddModal = () => {
-    setEditingAddress(null); // Ensure we're adding
+    setEditingAddress(null);
     setShowModal(true);
   };
 
   const handleOpenEditModal = (address) => {
-    setEditingAddress(address); // Set the address to edit
+    setEditingAddress(address);
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setEditingAddress(null); // Clear editing state
+    setEditingAddress(null);
   };
 
   const handleSaveAddress = (addressData) => {
     if (editingAddress) {
-      editAddress({ ...editingAddress, ...addressData }); // Merge existing ID with new data
+      editAddress({ ...editingAddress, ...addressData });
     } else {
-      addAddress(addressData); // Add new address
+      addAddress(addressData);
     }
     handleCloseModal();
   };
 
   const handleDeleteClick = (addressId) => {
-    setShowDeleteConfirm(addressId); // Show confirmation for this ID
+    setShowDeleteConfirm(addressId);
   };
 
   const handleConfirmDelete = () => {
     if (showDeleteConfirm) {
       deleteAddress(showDeleteConfirm);
     }
-    setShowDeleteConfirm(null); // Close confirmation
+    setShowDeleteConfirm(null);
   };
 
-  // --- Simple Confirmation Dialog (Replace with a styled modal later if desired) ---
   const DeleteConfirmationDialog = () => {
     if (!showDeleteConfirm) return null;
     const addressToDelete = currentUser.addresses.find(addr => addr.id === showDeleteConfirm);
 
     return (
-       <div className="delete-confirm-overlay"> {/* Basic overlay */}
-           <div className="delete-confirm-dialog"> {/* Basic dialog box */}
+       <div className="delete-confirm-overlay">
+           <div className="delete-confirm-dialog">
                <h4>Delete Address?</h4>
                <p>Are you sure you wish to delete this address?</p>
                <pre style={{ fontSize: '12px', textAlign: 'left', background: '#f5f5f5', padding: '10px', borderRadius: '4px', whiteSpace: 'pre-wrap' }}>
@@ -112,16 +110,14 @@ const AddressesPage = ({ setPage }) => {
         )}
       </Container>
 
-      {/* Render the Add/Edit Modal */}
       <AddressModal
         show={showModal}
         handleClose={handleCloseModal}
         handleSave={handleSaveAddress}
-        addressData={editingAddress} // Pass current address data for editing, or null for adding
-        setDefaultAddress={setDefaultAddress} // Pass function to handle default change
+        addressData={editingAddress}
+        setDefaultAddress={setDefaultAddress}
       />
 
-      {/* Render the Delete Confirmation */}
       <DeleteConfirmationDialog />
     </>
   );

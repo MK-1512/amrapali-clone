@@ -1,9 +1,8 @@
-// src/pages/RegisterPage.jsx
-import React, { useState, useContext } from 'react'; // Import useState and useContext
-import { AuthContext } from '../context/AuthContext'; // Import AuthContext
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const RegisterPage = ({ setPage }) => {
-  const { register } = useContext(AuthContext); // Get register function
+  const { register } = useContext(AuthContext);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -16,17 +15,15 @@ const RegisterPage = ({ setPage }) => {
     setError('');
     setSuccess('');
 
-    // Basic validation (add more as needed)
     if (!firstName || !lastName || !email || !password) {
       setError('All fields are required.');
       return;
     }
 
-    const result = register(firstName, lastName, email, password); // Use context register
+    const result = register(firstName, lastName, email, password);
 
     if (result.success) {
       setSuccess('Account created successfully! Redirecting to login...');
-      // Optionally redirect after a short delay
       setTimeout(() => {
         setPage('login');
       }, 1500);

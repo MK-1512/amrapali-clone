@@ -1,11 +1,9 @@
-// src/components/common/Header.jsx
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { CartContext } from '../../context/CartContext';
 import { AuthContext } from '../../context/AuthContext';
 import { NavDropdown } from 'react-bootstrap';
 import ShopDropdownMenu from './ShopDropdownMenu';
 
-// Added handleLogout to props
 const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, viewingMemberId, isSearchOpen, toggleSearch, handleLogout }) => {
     const { toggleCart, cartItems } = useContext(CartContext);
     const { isLoggedIn, currentUser } = useContext(AuthContext);
@@ -75,7 +73,7 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
         handleStateUpdate();
         window.addEventListener('scroll', handleStateUpdate);
         return () => window.removeEventListener('scroll', handleStateUpdate);
-    }, [currentPage, viewingMemberId, pagesWithHeroBannerEffect, staticSolidHeaderPages]); // <-- Added dependencies
+    }, [currentPage, viewingMemberId, pagesWithHeroBannerEffect, staticSolidHeaderPages]);
 
 
     const closeAllDropdowns = () => {
@@ -118,7 +116,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
 
         if (resetTeamView) resetTeamView();
         if (handleSelectCollection) handleSelectCollection(collectionName);
-        // setPage('collection'); // <--- THIS WAS THE BUG. IT HAS BEEN REMOVED.
     };
 
     const DROPDOWN_CLOSE_DELAY = 150;
@@ -191,36 +188,23 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                                 <img src="/images/logo.png" alt="Amrapali Boutique" className="amrapali-logo" />
                             </a>
                         </div>
-                         {/* Right Icons */}
                         <div className="header-icons d-flex align-items-center justify-content-end gap-3 flex-grow-1 header-right-section">
                             {isLoggedIn ? (
                                 <>
-                                    {/* --- REMOVED GREETING --- */}
-                                    {/* <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#1c1c1c' : '#ffffff', marginRight: '10px' }}>
-                                        Hi, {currentUser?.firstName || 'User'}
-                                    </span> */}
-                                    {/* User Icon links to Account Page */}
                                     <img src="/images/icons/user-icon.svg"
                                          alt="Account"
                                          onClick={() => handleNavClick(null, 'account')}
                                          style={{ cursor: 'pointer' }} />
-                                    {/* --- REMOVED LOGOUT TEXT BUTTON --- */}
-                                    {/* <button onClick={handleLogout} className="btn btn-link p-0" style={{ textDecoration: 'none' }}>
-                                        <span style={{ fontSize: '13px', color: isHeaderSolid || isNavHovered ? '#a8853d' : '#ffffff', textTransform: 'uppercase' }}>Logout</span>
-                                    </button> */}
                                 </>
                             ) : (
-                                // Login Icon (shown when logged out)
                                 <img src="/images/icons/user-icon.svg" alt="Login" onClick={() => handleNavClick(null, 'login')} style={{ cursor: 'pointer' }} />
                             )}
-                            {/* Search Icon */}
                             <img
                                src="/images/icons/search-icon.svg"
                                alt="Search"
                                onClick={toggleSearch}
                                style={{ cursor: 'pointer' }}
                             />
-                            {/* Cart Icon and Badge */}
                             <button onClick={toggleCart} className="btn btn-link text-dark p-0 position-relative">
                                 <img src="/images/icons/cart-icon.svg" alt="Cart" />
                                 {cartItemCount > 0 && <span className="cart-count-badge">{cartItemCount}</span>}
@@ -228,14 +212,12 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                         </div>
                     </div>
 
-                    {/* Navigation Row */}
                     <div
                         className="main-nav-container"
                         onMouseLeave={handleMouseLeave}
                     >
                          <nav className="main-nav container">
                             <ul className="list-unstyled d-flex justify-content-center gap-5 mb-0 py-2">
-                                {/* SHOP Dropdown */}
                                 <li
                                     className="nav-item-shop"
                                     onMouseEnter={() => handleMouseEnter('shop')}
@@ -253,7 +235,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                                         />
                                     )}
                                 </li>
-                                 {/* NEW ARRIVALS Dropdown */}
                                  <li
                                      className="nav-item dropdown"
                                     onMouseEnter={() => handleMouseEnter('new-arrivals')}
@@ -270,7 +251,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                                         <NavDropdown.Item onClick={(e) => handleNavClick(e, 'new-arrivals-jewellery')}>Jewellery</NavDropdown.Item>
                                      </NavDropdown>
                                  </li>
-                                  {/* COLLECTIONS Dropdown */}
                                  <li
                                      className="nav-item dropdown"
                                     onMouseEnter={() => handleMouseEnter('collections')}
@@ -294,7 +274,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                                          </NavDropdown.Item>
                                      </NavDropdown>
                                  </li>
-                                 {/* Other standard navigation links */}
                                  <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('bestsellers') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'bestsellers')}> BESTSELLERS </a></li>
                                  <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('meet-the-team') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'meet-the-team')}> MEET THE TEAM </a></li>
                                  <li onMouseEnter={() => handleMouseEnter(null)}><a href="#" className={`nav-link ${isLinkActive('blog') ? 'active' : ''}`} onClick={(e) => handleNavClick(e, 'blog')}> BLOG </a></li>
@@ -305,7 +284,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                 </div>
             </header>
 
-            {/* Mobile Navigation Overlay */}
             <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`}>
                 <div className="mobile-nav-content">
                     <ul className="mobile-nav-list">
@@ -363,7 +341,6 @@ const Header = ({ setPage, currentPage, resetTeamView, handleSelectCollection, v
                 </div>
             </div>
 
-            {/* Mobile Nav Backdrop */}
             <div
                 className={`mobile-nav-backdrop ${isMobileMenuOpen ? 'open' : ''}`}
                 onClick={toggleMobileMenu}

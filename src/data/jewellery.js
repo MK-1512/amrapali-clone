@@ -1,6 +1,4 @@
-// src/data/jewellery.js
 
-// --- Default Jewellery Details ---
 const defaultJewelleryDetails = {
   description: "A cute take on the classic hoops – this light-weight, pair of earrings is a perfect pick to add a fresh vibe to your everyday look.",
   baseMaterial: "Base Material: Brass",

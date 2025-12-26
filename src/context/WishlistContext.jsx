@@ -1,10 +1,8 @@
-// src/context/WishlistContext.jsx
-import React, { createContext, useState, useCallback, useMemo, useContext, useEffect } from 'react'; // <-- IMPORT useEffect
+import React, { createContext, useState, useCallback, useMemo, useContext, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
 
 export const WishlistContext = createContext();
 
-// --- Sub-Component: Save Your List Modal (Nested within Provider) ---
 const SaveListModal = ({ show, handleClose, handleNavClick }) => {
     const [viewSaveForm, setViewSaveForm] = useState(false); 
     if (!show) return null; 
@@ -76,7 +74,6 @@ const SaveListModal = ({ show, handleClose, handleNavClick }) => {
     );
 };
 
-// --- 1. NEW FUNCTION: Load initial wishlist from localStorage ---
 const getInitialWishlist = () => {
   try {
     const savedWishlist = localStorage.getItem('wishlistItems');
@@ -86,22 +83,18 @@ const getInitialWishlist = () => {
     return [];
   }
 };
-// --- END NEW FUNCTION ---
 
 
 export const WishlistProvider = ({ children, handleNavClick }) => {
     const { isLoggedIn } = useContext(AuthContext); 
 
-    // --- 2. UPDATED: Use the new function to set initial state ---
     const [wishlistItems, setWishlistItems] = useState(getInitialWishlist());
     const [isWishlistOpen, setIsWishlistOpen] = useState(false); 
     const [showGuestModal, setShowGuestModal] = useState(false); 
 
-    // --- 3. NEW useEffect: Save wishlist to localStorage on any change ---
     useEffect(() => {
       localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
     }, [wishlistItems]);
-    // --- END NEW useEffect ---
 
     const toggleWishlist = useCallback(() => { 
         setIsWishlistOpen(prev => !prev); 

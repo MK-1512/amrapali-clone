@@ -1,24 +1,20 @@
-// src/components/filters/FilterDrawer.jsx
 
 import React, { useState } from 'react';
 import { Offcanvas, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-// --- DATA MOCKUPS (based on your video) ---
 
 const collections = [
 'All Products',
   'All Sarees',
   'All Jewellery',
-  // Saree Categories
   'cotton',
   'silk and tussar',
-  'linen', // Added
+  'linen',
   'chanderi',
-  // Jewellery Categories (Match names used in App.jsx page keys)
-  'neckpieces', // Added
-  'earrings', // Added
-  'bangles-cuffs', // Added
-  'rings', // Added
+  'neckpieces',
+  'earrings',
+  'bangles-cuffs',
+  'rings',
 ];
 
 const priceRanges = [
@@ -33,7 +29,6 @@ const styles = [
   'special occasion'
 ];
 
-// All 18 colors from the video
 const colors = [
   { name: 'white', hex: '#FFFFFF' },
   { name: 'beige', hex: '#f5f5dc' },
@@ -55,7 +50,6 @@ const colors = [
   { name: 'gold', hex: '#ffd700' },
 ];
 
-// --- STYLES (can be moved to main.css) ---
 const filterStyles = `
   .filter-section h5 {
     font-size: 13px;
@@ -121,16 +115,12 @@ const filterStyles = `
   }
 `;
 
-// --- COMPONENT ---
-// *** MODIFIED: Accept onApplyFilters prop ***
 const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
-  // 1. Add state for all filter types (Keep existing)
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [selectedStyle, setSelectedStyle] = useState(null);
 
-  // 2. Handle resetting all filters (Keep existing)
   const handleReset = () => {
     setSelectedCollection(null);
     setSelectedColor(null);
@@ -138,26 +128,22 @@ const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
     setSelectedStyle(null);
   };
 
-  // *** MODIFIED: handleApply now calls onApplyFilters prop ***
   const handleApply = () => {
-    // Package selected filters into an object
     const filters = {
       collection: selectedCollection,
       color: selectedColor,
       price: selectedPrice,
       style: selectedStyle,
     };
-    console.log("Applying filters:", filters); // Keep log for debugging
+    console.log("Applying filters:", filters);
 
-    // Call the function passed from the parent, providing the selected filters
     if (onApplyFilters) {
       onApplyFilters(filters);
     }
 
-    handleClose(); // Close the drawer
+    handleClose();
   };
 
-  // Helper to render the color swatch with a tooltip (Keep existing)
   const renderColorSwatch = (color) => (
     <OverlayTrigger
       key={color.name}
@@ -182,7 +168,6 @@ const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
         </Offcanvas.Header>
 
         <Offcanvas.Body>
-          {/* COLLECTION Section */}
           <div className="filter-section mb-4">
             <h5>COLLECTION</h5>
             <ul className="filter-list">
@@ -198,7 +183,6 @@ const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
             </ul>
           </div>
 
-          {/* COLOR Section */}
           <div className="filter-section mb-4">
             <h5>COLOR</h5>
             <div className="d-flex flex-wrap gap-2">
@@ -206,7 +190,6 @@ const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
             </div>
           </div>
 
-          {/* PRICE RANGE Section */}
           <div className="filter-section mb-4">
             <h5>PRICE RANGE</h5>
             <ul className="filter-list">
@@ -222,7 +205,6 @@ const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
             </ul>
           </div>
 
-          {/* STYLE Section */}
           <div className="filter-section mb-4">
             <h5>STYLE</h5>
             <ul className="filter-list">
@@ -239,9 +221,7 @@ const FilterDrawer = ({ show, handleClose, onApplyFilters }) => {
           </div>
         </Offcanvas.Body>
 
-        {/* Footer with Apply/Reset buttons */}
         <div className="offcanvas-footer p-3">
-          {/* Apply button calls the modified handleApply */}
           <Button variant="dark" className="w-100 mb-2" onClick={handleApply}>
             APPLY
           </Button>

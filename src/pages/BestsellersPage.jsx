@@ -1,21 +1,13 @@
-// src/pages/BestsellersPage.jsx
 
-import React from 'react'; // Removed useState and useMemo
+import React from 'react';
 import { bestsellerProducts } from '../data/bestsellerProducts';
-import ProductList from '../components/product/ProductList'; // Import ProductList
-// import ProductCard from '../components/product/ProductCard'; // No longer needed if using ProductList
-// import Pagination from '../components/common/Pagination'; // No longer needed if using ProductList
+import ProductList from '../components/product/ProductList';
 import FilterBar from '../components/filters/FilterBar';
 import FilterDrawer from '../components/filters/FilterDrawer';
 
 
-// *** MODIFIED: Accept all filter/sort props ***
 const BestsellersPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
     
-    // --- REMOVED Local State for pagination ---
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const productsPerPage = 16;
-    // ... etc ...
 
     return (
         <>

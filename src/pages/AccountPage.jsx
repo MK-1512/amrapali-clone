@@ -1,29 +1,24 @@
-// src/pages/AccountPage.jsx
 import React, { useContext, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { AuthContext } from '../context/AuthContext';
 
-// Accept setPage and handleLogout props
 const AccountPage = ({ setPage, handleLogout }) => {
   const { currentUser } = useContext(AuthContext);
 
-  // Use optional chaining and nullish coalescing for safety
   const primaryAddress = currentUser?.addresses?.find(addr => addr.isDefault) ?? currentUser?.addresses?.[0] ?? null;
 
   const handleEditAddresses = () => {
-    setPage('addresses'); // Navigate to the addresses management page
+    setPage('addresses');
   };
 
-  // Redirect if user somehow lands here without being logged in
   useEffect(() => {
     if (!currentUser) {
         setPage('login');
     }
-  }, [currentUser, setPage]); // Add dependencies
+  }, [currentUser, setPage]);
 
-  // Render null or a loading indicator while checking currentUser
   if (!currentUser) {
-    return null; // Or <p>Loading...</p>
+    return null;
   }
 
 
@@ -37,16 +32,12 @@ const AccountPage = ({ setPage, handleLogout }) => {
       </Row>
 
       <Row>
-        {/* Left Column: Orders & Logout */}
         <Col md={8} className="account-left-column">
-          {/* Keep previous margin, but we'll add margin-top to the next element */}
           <Button variant="link" onClick={handleLogout} className="logout-link mb-4">
             LOGOUT
           </Button>
 
-          {/* --- ADDED mt-5 (margin-top) TO MY ORDERS HEADING --- */}
           <h2 className="account-section-title mt-5">MY ORDERS</h2>
-          {/* --- END spacing fix --- */}
 
           <p className="no-orders-message">You haven't placed any orders yet.</p>
           {/* Add order history rendering here later */}

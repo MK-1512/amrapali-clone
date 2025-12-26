@@ -1,8 +1,5 @@
-// src/data/aMidasTouchSilk.js
 
-// Collection: A MIDAS TOUCH - Tussar Silk
 
-// --- Default Saree Details (same template as Soulful Weaves, customized for this collection) ---
 const defaultSareeDetails = {
   fabric: "Tussar Silk",
   technique: "Benarasi Weave",
@@ -18,7 +15,6 @@ const defaultSareeDetails = {
      shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
 };
 
-// --- Product List ---
 export const aMidasTouchSilkProducts = [
   {
     id: 1101,
@@ -118,7 +114,6 @@ export const aMidasTouchSilkProducts = [
   },
 ];
 
-// --- Helper Function ---
 export const getProductsByCollection = (collectionName) => {
   const upperName = collectionName ? collectionName.toUpperCase() : "";
   if (upperName.includes("SOULFUL WEAVES")) return soulfulWeavesProducts;

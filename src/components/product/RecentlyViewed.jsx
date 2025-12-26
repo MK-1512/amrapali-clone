@@ -1,11 +1,9 @@
-// src/components/product/RecentlyViewed.jsx
 import React, { useContext } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Slider from 'react-slick';
 import { RecentlyViewedContext } from '../../context/RecentlyViewedContext';
 import ProductCard from './ProductCard';
 
-// This component needs the 'setPage' prop to pass to ProductCard
 const RecentlyViewed = ({ setPage }) => {
     const { viewedProducts } = useContext(RecentlyViewedContext);
 
@@ -14,7 +12,7 @@ const RecentlyViewed = ({ setPage }) => {
         infinite: false,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 1, // Scroll one at a time
+        slidesToScroll: 1,
         responsive: [
             {
                 breakpoint: 1024,
@@ -33,7 +31,6 @@ const RecentlyViewed = ({ setPage }) => {
         ]
     };
 
-    // Don't render the section if there are no viewed products
     if (!viewedProducts || viewedProducts.length === 0) {
         return null;
     }
@@ -45,7 +42,6 @@ const RecentlyViewed = ({ setPage }) => {
                 {viewedProducts.map(product => (
                     product && product.id ? (
                         <div key={product.id} className="p-2">
-                            {/* Pass setPage prop down to ProductCard */}
                             <ProductCard product={product} setPage={setPage} />
                         </div>
                     ) : null 

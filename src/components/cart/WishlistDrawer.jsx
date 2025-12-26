@@ -1,10 +1,8 @@
-// src/components/cart/WishlistDrawer.jsx
 import React, { useContext, useState } from 'react';
 import { WishlistContext } from '../../context/WishlistContext';
 import { CurrencyContext } from '../../context/CurrencyContext';
 import { formatPrice } from '../../utils/currencyUtils';
 
-// --- Sub-Component: Confirmation Modal for Clearing List ---
 const ClearListConfirmationModal = ({ show, handleClose, handleConfirm }) => {
     if (!show) return null;
     return (
@@ -37,7 +35,6 @@ const ClearListConfirmationModal = ({ show, handleClose, handleConfirm }) => {
         </div>
     );
 };
-// --- End Confirmation Modal ---
 
 
 const WishlistDrawer = () => {
@@ -48,36 +45,25 @@ const WishlistDrawer = () => {
         removeFromWishlist, 
         toggleGuestModal, 
         isUserLoggedIn,
-        clearWishlist // Assuming this function is added to context later
+        clearWishlist
     } = useContext(WishlistContext);
     const { selectedCurrency } = useContext(CurrencyContext);
     const [showClearConfirm, setShowClearConfirm] = useState(false);
     const [showActionsDropdown, setShowActionsDropdown] = useState(false);
 
-    // Mock implementation of clearWishlist until context update
     const mockClearWishlist = () => {
-         // This mock implementation should be replaced by the context function later.
          console.log("Mock clearing wishlist.");
          setWishlistItems([]);
     };
     
-    // Fallback/Mock clear list implementation if context doesn't expose it
     const handleClearList = () => {
-        // Use mock or context function if available
         if (typeof clearWishlist === 'function') {
             clearWishlist();
         } else {
-            // NOTE: This will be fixed when WishlistContext is updated
-            // For now, we manually handle state if context mock is limited.
-            // But we can assume context will handle it.
-            // Temporarily use local state change for demo if full context isn't available:
-             // mockClearWishlist(); 
-             // We'll rely on the context having clearWishlist in the final step.
              console.log("Waiting for context clearWishlist to be implemented.");
         }
         setShowClearConfirm(false);
         setShowActionsDropdown(false);
-        // Show the clearance notification here if possible
     };
 
     const getFormattedPrice = (price) => {
@@ -98,20 +84,17 @@ const WishlistDrawer = () => {
 
     return (
         <>
-            {/* Confirmation Modal */}
             <ClearListConfirmationModal 
                 show={showClearConfirm} 
                 handleClose={() => setShowClearConfirm(false)} 
                 handleConfirm={handleClearList} 
             />
 
-            {/* Overlay: Closes the drawer when clicked outside */}
             <div 
                 className={`cart-overlay ${isWishlistOpen ? 'open' : ''}`} 
                 onClick={toggleWishlist}
             ></div>
             
-            {/* Drawer */}
             <div className={`cart-drawer wishlist-drawer ${isWishlistOpen ? 'open' : ''}`}>
                 <div className="cart-header d-flex justify-content-between align-items-center p-3 border-bottom">
                     <h5 style={{ fontSize: '16px' }}>MY WISHLIST</h5>
@@ -123,7 +106,6 @@ const WishlistDrawer = () => {
                          >
                             Guest Shopper
                          </span>
-                         {/* More options button */}
                          {wishlistItems.length > 0 && (
                              <div 
                                 className="wishlist-actions-dropdown" 

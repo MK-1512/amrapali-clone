@@ -1,11 +1,9 @@
-// src/data/allCollectionsMeta.js
 
 export const collectionsData = [
-    // --- Named Collections ---
     {
         id: 'potpourri',
         title: 'Potpourri',
-        image: '/images/potpourri-hero-bg.jpg', // Make sure you have this image
+        image: '/images/potpourri-hero-bg.jpg',
         navKey: 'POTPOURRI',
         navType: 'collection'
     },
@@ -115,12 +113,11 @@ export const collectionsData = [
         navType: 'collection'
     },
 
-    // --- Shop Dropdown Categories (as Pages) ---
      {
         id: 'sarees-all',
         title: 'Sarees',
-        image: '/images/sarees-all-hero-bg.jpg', // General sarees image
-        navKey: 'shop', // Navigates to the main shop/sarees page
+        image: '/images/sarees-all-hero-bg.jpg',
+        navKey: 'shop',
         navType: 'page'
     },
     {
@@ -147,7 +144,7 @@ export const collectionsData = [
      {
         id: 'sarees-chanderi',
         title: 'Chanderi',
-        image: '/images/chanderi-hero-bg.jpg', // Re-using masakali image, replace if specific one exists
+        image: '/images/chanderi-hero-bg.jpg',
         navKey: 'sarees-chanderi',
         navType: 'page'
     },
@@ -193,29 +190,25 @@ export const collectionsData = [
         navKey: 'fall-picot',
         navType: 'page'
     },
-    // --- Other Important Links ---
     {
         id: 'bestsellers',
-        title: 'Most Loved', // As shown in video
+        title: 'Most Loved',
         image: '/images/bestsellers-hero.jpg',
         navKey: 'bestsellers',
         navType: 'page'
     },
     {
         id: 'new-arrivals-sarees',
-        title: 'New Arrivals', // Assuming Sarees New Arrivals
-        image: '/images/hero-bg.jpg', // Default hero image
+        title: 'New Arrivals',
+        image: '/images/hero-bg.jpg',
         navKey: 'new-arrivals-sarees',
         navType: 'page'
     },
      {
         id: 'gift-card',
         title: 'E-Gift Card',
-        image: '/images/gift-card.jpg', // Use gift card image
+        image: '/images/gift-card.jpg',
         navKey: 'gift-card',
         navType: 'page'
     },
-    // Add other collections from the video if you implement them later
-    // e.g., A Little Birdie, A Midas Touch (if different from Tussar Silk page), A Mixed Bag etc.
-    // Make sure you have corresponding images in /public/images/
 ];

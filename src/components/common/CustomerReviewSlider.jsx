@@ -1,10 +1,8 @@
-// src/components/common/CustomerReviewSlider.jsx
 import React from 'react';
 import Slider from 'react-slick';
 import { Container, Row, Col } from 'react-bootstrap';
 import { customerReviews, totalReviewsCount, averageRating } from '../../data/customerReviews';
 
-// Star Rating Component
 const StarRating = ({ rating }) => {
     const totalStars = 5;
     return (
@@ -16,7 +14,6 @@ const StarRating = ({ rating }) => {
     );
 };
 
-// Individual Review Card
 const ReviewCard = ({ review }) => {
     const cardStyle = {
         padding: '20px',
@@ -25,7 +22,7 @@ const ReviewCard = ({ review }) => {
         color: '#555',
         fontSize: '14px',
         lineHeight: 1.7,
-        margin: '0 10px', // Add horizontal margin for spacing between cards
+        margin: '0 10px',
     };
     const imageStyle = {
         width: '60px',
@@ -53,35 +50,31 @@ const ReviewCard = ({ review }) => {
 };
 
 
-// Main Slider Component
 const CustomerReviewSlider = () => {
     const settings = {
-        dots: false, // Hide dots
+        dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 3, // Show 3 reviews at a time
-        slidesToScroll: 1, // Scroll one review at a time
+        slidesToShow: 3,
+        slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 5000,
         pauseOnHover: true,
-        arrows: true, // Show arrows
+        arrows: true,
         responsive: [
             {
-                breakpoint: 992, // Medium screens
+                breakpoint: 992,
                 settings: {
                     slidesToShow: 2,
                 }
             },
             {
-                breakpoint: 768, // Small screens
+                breakpoint: 768,
                 settings: {
                     slidesToShow: 1,
                 }
             }
         ],
-         // Custom Arrows (Optional, but matches video better)
-        // prevArrow: <button className="slick-prev slick-arrow" aria-label="Previous" type="button" style={{left: '-25px'}}>‹</button>,
-        // nextArrow: <button className="slick-next slick-arrow" aria-label="Next" type="button" style={{right: '-25px'}}>›</button>,
     };
 
     const overallRatingStyle = {
@@ -97,11 +90,9 @@ const CustomerReviewSlider = () => {
 
     return (
         <Container className="homepage-section customer-review-slider-section">
-            {/* Title */}
-            <p className="section-title">SERVICES</p> {/* Changed title as per video */}
+            <p className="section-title">SERVICES</p>
             <h3 className="section-main-title">Let customers speak for us</h3>
 
-            {/* Overall Rating */}
             <div className="text-center">
                  <div style={overallRatingStyle}>
                      {[...Array(5)].map((_, index) => (
@@ -112,10 +103,9 @@ const CustomerReviewSlider = () => {
             </div>
 
 
-            {/* Slider */}
             <Slider {...settings}>
                 {customerReviews.map(review => (
-                    <div key={review.id}> {/* Key on the wrapper div */}
+                    <div key={review.id}>
                         <ReviewCard review={review} />
                     </div>
                 ))}

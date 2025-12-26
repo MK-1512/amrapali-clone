@@ -1,8 +1,6 @@
-// src/components/account/AddressModal.jsx
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Row, Col } from 'react-bootstrap';
 
-// --- List of Indian States (Same as CheckoutPage) ---
 const indianStates = [
     "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh",
     "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana",
@@ -11,11 +9,9 @@ const indianStates = [
     "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand",
     "West Bengal"
 ];
-// --- End State List ---
 
 
 const AddressModal = ({ show, handleClose, handleSave, addressData, setDefaultAddress }) => {
-  // Initialize form state
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,17 +20,16 @@ const AddressModal = ({ show, handleClose, handleSave, addressData, setDefaultAd
     address1: '',
     address2: '',
     city: '',
-    country: 'India', // Default to India
+    country: 'India',
     state: '',
     zip: '',
     isDefault: false,
   });
 
-  // Populate form if editing existing addressData
   useEffect(() => {
     if (addressData) {
       setFormData({
-        id: addressData.id || undefined, // Keep ID if editing
+        id: addressData.id || undefined,
         firstName: addressData.firstName || '',
         lastName: addressData.lastName || '',
         company: addressData.company || '',
@@ -48,14 +43,13 @@ const AddressModal = ({ show, handleClose, handleSave, addressData, setDefaultAd
         isDefault: addressData.isDefault || false,
       });
     } else {
-      // Reset form if adding a new address
       setFormData({
         firstName: '', lastName: '', company: '', phone: '',
         address1: '', address2: '', city: '', country: 'India',
         state: '', zip: '', isDefault: false,
       });
     }
-  }, [addressData, show]); // Re-populate when addressData or show changes
+  }, [addressData, show]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -67,7 +61,6 @@ const AddressModal = ({ show, handleClose, handleSave, addressData, setDefaultAd
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Basic validation could be added here
     handleSave(formData);
   };
 
@@ -78,7 +71,6 @@ const AddressModal = ({ show, handleClose, handleSave, addressData, setDefaultAd
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
-          {/* Form Fields - Similar structure to CheckoutPage */}
           <Row>
             <Col md={6}>
               <Form.Group className="mb-3">
@@ -111,10 +103,8 @@ const AddressModal = ({ show, handleClose, handleSave, addressData, setDefaultAd
             </Col>
             <Col md={4}>
               <Form.Group className="mb-3">
-                {/* --- TODO: Update Country Dropdown if needed --- */}
                 <Form.Select name="country" value={formData.country} onChange={handleChange} required className="address-form-select">
                   <option value="India">India</option>
-                  {/* Add other countries if necessary */}
                 </Form.Select>
               </Form.Group>
             </Col>
@@ -128,7 +118,6 @@ const AddressModal = ({ show, handleClose, handleSave, addressData, setDefaultAd
              <Form.Select name="state" value={formData.state} onChange={handleChange} required={formData.country === 'India'} className="address-form-select">
                  <option value="">State</option>
                  {formData.country === 'India' && indianStates.map(st => (<option key={st} value={st}>{st}</option>))}
-                 {/* Add state/province options for other countries if needed */}
              </Form.Select>
            </Form.Group>
 

@@ -1,23 +1,22 @@
-// src/pages/LoginPage.jsx
-import React, { useState, useContext } from 'react'; // Import useState and useContext
-import { AuthContext } from '../context/AuthContext'; // Import AuthContext
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const LoginPage = ({ setPage }) => {
-  const { login } = useContext(AuthContext); // Get login function from context
+  const { login } = useContext(AuthContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError(''); // Clear previous errors
+    setError('');
 
-    const success = login(email, password); // Use context login
+    const success = login(email, password);
 
     if (success) {
-      setPage('home'); // Redirect to home on successful login
+      setPage('home');
     } else {
-      setError('Invalid email or password. Please try again.'); // Show error message
+      setError('Invalid email or password. Please try again.');
     }
   };
 
@@ -27,17 +26,17 @@ const LoginPage = ({ setPage }) => {
         <div className="col-md-6 col-lg-4">
           <h1 className="login-title text-center mb-4">LOGIN</h1>
           <p className="login-subtitle text-center mb-4">Please enter your e-mail and password:</p>
-          {error && <p className="text-danger text-center mb-3">{error}</p>} {/* Display error */}
-          <form onSubmit={handleSubmit}> {/* Add onSubmit handler */}
+          {error && <p className="text-danger text-center mb-3">{error}</p>}
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <input
                 type="email"
                 className="form-control login-input"
                 id="loginEmail"
                 placeholder="Email"
-                value={email} // Control input value
-                onChange={(e) => setEmail(e.target.value)} // Update state on change
-                required // Add basic validation
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="mb-3 position-relative">
@@ -46,11 +45,10 @@ const LoginPage = ({ setPage }) => {
                 className="form-control login-input"
                 id="loginPassword"
                 placeholder="Password"
-                value={password} // Control input value
-                onChange={(e) => setPassword(e.target.value)} // Update state on change
-                required // Add basic validation
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
-              {/* Forgot password link - functionality not implemented */}
               <a href="#" className="forgot-password-link">Forgot password?</a>
             </div>
             <button type="submit" className="btn btn-login w-100 mb-3">

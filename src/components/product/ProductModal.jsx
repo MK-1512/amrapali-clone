@@ -1,26 +1,19 @@
-// src/components/product/ProductModal.jsx
 import React, { useContext, useState, useEffect } from 'react';
 import { Modal, Button, Form, Image, Row, Col } from 'react-bootstrap';
 import { CartContext } from '../../context/CartContext';
 import { CurrencyContext } from '../../context/CurrencyContext';
 import { formatPrice } from '../../utils/currencyUtils';
 
-// NOTE: FALL_PICOT_PRICE_INR is no longer needed here, but removing it is optional.
-// const FALL_PICOT_PRICE_INR = 125; 
 
 const ProductModal = ({ product, show, handleClose, setPage }) => {
     const { addToCart } = useContext(CartContext);
     const { selectedCurrency } = useContext(CurrencyContext);
     const [quantity, setQuantity] = useState(1);
-    // --- REMOVED addFallPicot state ---
-    // const [addFallPicot, setAddFallPicot] = useState(false); 
     const [mainImage, setMainImage] = useState(product?.image1 || 'https://placehold.co/600x800/EEE/31343C?text=Image+1');
 
     useEffect(() => {
         if (show && product) {
             setQuantity(1);
-            // --- REMOVED addFallPicot reset ---
-            // setAddFallPicot(false); 
             setMainImage(product.image1 || 'https://placehold.co/600x800/EEE/31343C?text=Image+1');
         }
     }, [show, product]);
@@ -33,19 +26,15 @@ const ProductModal = ({ product, show, handleClose, setPage }) => {
     const handleAddToCart = () => {
         if (!product) return;
         
-        // --- MODIFIED productToAdd (options hardcoded to empty) ---
         const productToAdd = {
             ...product,
             quantity: quantity,
-            options: {} // Always add with no options
+            options: {}
         };
-        // --- END MODIFICATION ---
 
         addToCart(productToAdd);
         
         setQuantity(1);
-        // --- REMOVED addFallPicot reset ---
-        // setAddFallPicot(false); 
         handleClose();
     };
 
@@ -76,18 +65,13 @@ const ProductModal = ({ product, show, handleClose, setPage }) => {
         );
     }
 
-    // --- MODIFIED Price Calculation (removed addon cost) ---
     const basePriceINR = product.price || 0;
-    const totalPriceINR = basePriceINR * quantity; // Removed fallPicotCostINR
-    // --- END MODIFICATION ---
+    const totalPriceINR = basePriceINR * quantity;
 
     const image1 = product.image1 || null;
     const image2 = product.image2 || null;
     const availableImages = [image1, image2].filter(Boolean);
 
-    // --- REMOVED showFallPicotAddon logic ---
-    // const isSaree = ...
-    // const showFallPicotAddon = ...
 
 
     return (
@@ -107,13 +91,11 @@ const ProductModal = ({ product, show, handleClose, setPage }) => {
                         <h2>{product.name}</h2>
                         <p className="product-price fs-4 mb-3">
                             {getFormattedPrice(totalPriceINR)}
-                            {/* --- MODIFIED Original Price display (removed addFallPicot check) --- */}
                             {product.originalPrice != null && quantity === 1 && (
                                 <span className="text-muted text-decoration-line-through ms-2 fs-5">
                                     {getFormattedPrice(product.originalPrice)}
                                 </span>
                             )}
-                            {/* --- END MODIFICATION --- */}
                         </p>
 
                         <div className="mb-3">
@@ -125,9 +107,6 @@ const ProductModal = ({ product, show, handleClose, setPage }) => {
                             </div>
                         </div>
 
-                        {/* --- REMOVED Addon Checkbox Block --- */}
-                        {/* {showFallPicotAddon && ( ... )} */}
-                        {/* --- END REMOVAL --- */}
 
                         <Button
                             variant="dark"

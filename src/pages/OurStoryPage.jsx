@@ -1,9 +1,7 @@
-// src/pages/OurStoryPage.jsx
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 const OurStoryPage = () => {
-    // Styles specific to this page
     const pageStyles = `
     .our-story-container {
         padding-top: 60px; /* Space from header */

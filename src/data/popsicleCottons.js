@@ -1,7 +1,4 @@
-// src/data/popsicleCottons.js
 
-// Extracted from video: Screen Recording 2025-10-21 at 1.32.30 PM.mov
-// Collection: POPSICLE - Everyday Cottons
 const defaultSareeDetails = {
 
 description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
@@ -28,14 +25,13 @@ shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free
 
 };
 export const popsicleCottonsProducts = [
-  // --- Page 1 (Products 1-12) ---
   {
-    id: 601, // Starting IDs from 601
+    id: 601,
     name: "STARDUST",
     price: 2000,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_7044_99edea9e-8b4c-4e48-bb42-6d3534097139_800x.jpg?v=1704601782", // Extracted ~0:02
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC01015_800x.jpg?v=1704601782", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_7044_99edea9e-8b4c-4e48-bb42-6d3534097139_800x.jpg?v=1704601782",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC01015_800x.jpg?v=1704601782",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -46,8 +42,8 @@ export const popsicleCottonsProducts = [
     name: "BARBIE",
     price: 2000,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_5775_800x.jpg?v=1704561406", // Extracted ~0:02
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00972_8bdd9677-4f48-4fe3-a9ed-1fd3f781e72c_800x.jpg?v=1704564969", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_5775_800x.jpg?v=1704561406",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00972_8bdd9677-4f48-4fe3-a9ed-1fd3f781e72c_800x.jpg?v=1704564969",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -58,8 +54,8 @@ export const popsicleCottonsProducts = [
     name: "SUNBAKED",
     price: 2000,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_7014_800x.jpg?v=1704601509", // Extracted ~0:02
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00995_800x.jpg?v=1704601509", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_7014_800x.jpg?v=1704601509",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00995_800x.jpg?v=1704601509",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -70,8 +66,8 @@ export const popsicleCottonsProducts = [
     name: "RED VELVET",
     price: 2000,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_5828_800x.jpg?v=1704565475", // Extracted ~0:02
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00987_800x.jpg?v=1704565530", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_5828_800x.jpg?v=1704565475",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00987_800x.jpg?v=1704565530",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -82,8 +78,8 @@ export const popsicleCottonsProducts = [
     name: "VINTAGE FOREST",
     price: 2000,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_5794_800x.jpg?v=1704565319", // Extracted ~0:06
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC01005_800x.jpg?v=1704565319", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_5794_800x.jpg?v=1704565319",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC01005_800x.jpg?v=1704565319",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -94,8 +90,8 @@ export const popsicleCottonsProducts = [
     name: "SUNNY SIDE UP",
     price: 2200,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4576_800x.jpg?v=1692075198", // Extracted ~0:06
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4681_800x.jpg?v=1692075198", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4576_800x.jpg?v=1692075198",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4681_800x.jpg?v=1692075198",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -106,8 +102,8 @@ export const popsicleCottonsProducts = [
     name: "ROSE PISTA",
     price: 2200,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4086_800x.jpg?v=1692074621", // Extracted ~0:06
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4666_800x.jpg?v=1692074621", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4086_800x.jpg?v=1692074621",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4666_800x.jpg?v=1692074621",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -118,8 +114,8 @@ export const popsicleCottonsProducts = [
     name: "MARMALADE",
     price: 2200,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4993_800x.jpg?v=1692074412", // Extracted ~0:06
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4669_800x.jpg?v=1692074412", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4993_800x.jpg?v=1692074412",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4669_800x.jpg?v=1692074412",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -130,8 +126,8 @@ export const popsicleCottonsProducts = [
     name: "FERN-TASTIC",
     price: 2200,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_2620_800x.jpg?v=1692074210", // Extracted ~0:09
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4653_800x.jpg?v=1692074210", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_2620_800x.jpg?v=1692074210",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4653_800x.jpg?v=1692074210",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -142,8 +138,8 @@ export const popsicleCottonsProducts = [
     name: "ROCKY ROAD",
     price: 2200,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_2652_800x.jpg?v=1719589593", // Extracted ~0:09
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4659_800x.jpg?v=1719589593", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_2652_800x.jpg?v=1719589593",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4659_800x.jpg?v=1719589593",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -154,8 +150,8 @@ export const popsicleCottonsProducts = [
     name: "CANDY CRUST",
     price: 2200,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_2593_800x.jpg?v=1692073601", // Extracted ~0:09
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4645_800x.jpg?v=1692073601", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_2593_800x.jpg?v=1692073601",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSCF4645_800x.jpg?v=1692073601",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
     availability: "In stock",
@@ -166,18 +162,16 @@ export const popsicleCottonsProducts = [
     name: "GINGERBREAD",
     price: 2000,
     originalPrice: null,
-    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_7070_800x.jpg?v=1704614586", // Extracted ~0:09
-    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00966_db0a0a1a-63e8-4127-9981-3d9c5e5ecd26_800x.jpg?v=1704614586", // Placeholder
+    image1: "https://www.amrapaliboutique.in/cdn/shop/files/IMG_7070_800x.jpg?v=1704614586",
+    image2: "https://www.amrapaliboutique.in/cdn/shop/files/DSC00966_db0a0a1a-63e8-4127-9981-3d9c5e5ecd26_800x.jpg?v=1704614586",
     tags: ["Cotton", "Everyday"],
     collections: ["POPSICLE - Everyday Cottons"],
-    availability: "Sold out", // Marked Sold Out
+    availability: "Sold out",
     details: { ...defaultSareeDetails}
   },
 ];
 
-// Helper function (optional)
 export const getProductsByCollection = (collectionName) => {
-  // ... other collection checks ...
   if (collectionName === "POPSICLE - Everyday Cottons") {
     return popsicleCottonsProducts;
   }

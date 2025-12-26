@@ -1,6 +1,5 @@
-// src/App.jsx
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // <-- ADDED ROUTER HOOKS
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from './components/common/Header';
 import HomePage from './pages/HomePage';
 import SareesPage from './pages/SareesPage';
@@ -32,10 +31,9 @@ import OurStoryPage from './pages/OurStoryPage';
 import AllCollectionsPage from './pages/AllCollectionsPage';
 import CheckoutPage from './pages/CheckoutPage';
 import ProductDetailPage from './pages/ProductDetailPage';
-import { allProducts, searchAll } from './utils/searchUtils'; // Import searchAll
+import { allProducts, searchAll } from './utils/searchUtils';
 import ScrollToTop from './components/common/ScrollToTop';
 
-// --- Import Category Pages ---
 import NeckpiecesPage from './pages/jewellery/NeckpiecesPage';
 import EarringsPage from './pages/jewellery/EarringsPage';
 import BanglesCuffsPage from './pages/jewellery/BanglesCuffsPage';
@@ -56,21 +54,17 @@ import TermsServicePage from './pages/TermsServicePage';
 import TermsConditionsPage from './pages/TermsConditionsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import DisclaimerPolicyPage from './pages/DisclaimerPolicyPage';
-import { Container } from 'react-bootstrap'; // Import Container for search results title
+import { Container } from 'react-bootstrap';
 
-// --- NEW IMPORTS for Account/Address ---
 import AccountPage from './pages/AccountPage';
 import AddressesPage from './pages/AddressesPage';
-// --- END NEW IMPORTS ---
 
 
-// This component now contains all your app's logic
 function MainAppLogic() {
   const { isLoggedIn, logout } = useContext(AuthContext);
-  const navigate = useNavigate(); // <-- Get navigation function
-  const location = useLocation(); // <-- Get current URL location
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // All your existing state remains the same
   const [currentPage, setCurrentPage] = useState('home');
   const [viewingMemberId, setViewingMemberId] = useState(null);
   const [selectedCollection, setSelectedCollection] = useState(null);
@@ -83,7 +77,6 @@ function MainAppLogic() {
   const [appliedFilters, setAppliedFilters] = useState({ color: null, price: null, style: null });
   const [sortOrder, setSortOrder] = useState('manual');
 
-  // This existing useEffect for body class is fine
   useEffect(() => {
     if (currentPage === 'checkout' || currentPage === 'product-detail' || currentPage === 'service-detail') {
       document.body.classList.add(`${currentPage}-active`);
@@ -100,15 +93,12 @@ function MainAppLogic() {
   }, [currentPage]);
 
 
-  // --- NEW: useEffect to sync URL to State (Fixes Reload) ---
   useEffect(() => {
     const path = location.pathname;
     const searchParams = new URLSearchParams(location.search);
 
-    // Helper to consolidate state setting and auth checks
     const setPageState = (page, id = null, type = null) => {
       
-      // Auth Redirect Logic
       const guestAllowedPages = [
           'home', 'login', 'register', 'shop', 'jewellery', 'collection', 'bestsellers',
           'neckpieces', 'earrings', 'bangles-cuffs', 'rings', 'new-arrivals-jewellery',
@@ -121,21 +111,18 @@ function MainAppLogic() {
           'gift-card'
       ];
 
-      // Redirect logged-in users from login/register
       if (isLoggedIn && (page === 'login' || page === 'register')) {
           console.log("Redirect check: Logged-in user on auth page. Redirecting to home.");
-          navigate('/'); // Use navigate to redirect
-          return; // Stop this state update, as a new one will trigger
+          navigate('/');
+          return;
       }
 
-      // Redirect guests from protected pages
       if (!isLoggedIn && !guestAllowedPages.includes(page)) {
           console.log("Redirect check: Guest on protected page. Redirecting to login.");
-          navigate('/login'); // Use navigate to redirect
-          return; // Stop this state update, as a new one will trigger
+          navigate('/login');
+          return;
       }
 
-      // If no redirect, set the state based on the URL
       setCurrentPage(page);
       setSelectedProductId(type === 'product' ? id : null);
       setSelectedServiceId(type === 'service' ? id : null);
@@ -145,7 +132,6 @@ function MainAppLogic() {
       setSearchQuery(type === 'search' ? id : '');
     };
 
-    // --- Map URL Paths back to your State ---
     if (path.startsWith('/product/')) {
       const id = path.split('/')[2];
       setPageState('product-detail', id, 'product');
@@ -165,38 +151,28 @@ function MainAppLogic() {
       const query = searchParams.get('q') || '';
       setPageState('search-results', query, 'search');
     } else {
-      // Handle static pages (e.g., '/shop', '/login', or '/' for home)
       const pageKey = path.substring(1) || 'home';
       setPageState(pageKey);
     }
     
-  }, [location, isLoggedIn, navigate]); // This hook runs on URL change or login status change
+  }, [location, isLoggedIn, navigate]);
 
 
-  // --- UPDATED: handleNavigation (Fixes History) ---
-  // This function now *changes the URL* instead of setting state directly.
-  // We wrap it in useCallback so it's stable when passed to contexts/props.
   const handleNavigation = useCallback((pageNameOrId) => {
-    // Check if it's the same page to prevent loops
     const pathKey = (typeof pageNameOrId === 'string') ? pageNameOrId.split('-')[0] : 'home';
     if (pathKey === currentPage && !pageNameOrId.includes('-detail-')) {
-       // console.log("Navigation prevented: already on page", pageNameOrId);
-       // return; // Keep this commented out if state-based nav needs to re-trigger
     }
 
-    // Clear conflicting states (same as before)
     if (isSearchOpen) setIsSearchOpen(false);
     if (pageNameOrId !== 'search-results') setSearchQuery('');
     if (pageNameOrId !== 'collection') setSelectedCollection(null);
 
-    // Reset filters and sort when navigating to a new page
     if (currentPage !== pageNameOrId) {
         setAppliedFilters({ color: null, price: null, style: null });
         setSortOrder('manual');
     }
 
-    // --- NEW: Convert page key to URL path ---
-    let path = '/'; // Default to home
+    let path = '/';
     if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('product-detail-')) {
         const prodId = pageNameOrId.split('-')[2];
         const productExists = allProducts.some(p => p && String(p.id) === String(prodId));
@@ -204,7 +180,7 @@ function MainAppLogic() {
            path = `/product/${prodId}`;
         } else {
            console.warn("Invalid product ID:", pageNameOrId);
-           path = '/shop'; // Fallback
+           path = '/shop';
         }
     } else if (typeof pageNameOrId === 'string' && pageNameOrId.startsWith('service-detail-')) {
         const serviceId = pageNameOrId.substring('service-detail-'.length);
@@ -240,30 +216,23 @@ function MainAppLogic() {
     } else if (pageNameOrId === 'home') {
         path = '/';
     } else if (typeof pageNameOrId === 'string') {
-        // Handle all other static pages like 'shop', 'login', 'account'
         path = `/${pageNameOrId}`;
     }
 
-    // --- Use navigate() to change URL ---
-    // Only navigate if the path is actually different
     if (path !== (location.pathname + location.search)) {
       navigate(path);
     }
     
-    // The useEffect[location] hook will now catch this change and update state.
-    // We no longer set state here directly.
 
     
   }, [isSearchOpen, searchQuery, navigate, location.pathname, location.search, currentPage, allProducts]);
 
 
   const handleOpenLogin = () => {
-    // This function remains largely the same, but uses handleNavigation
     if (isLoggedIn) return;
     handleNavigation('login');
   };
 
-  // handleLogout is now defined in handleLogoutWrapper
   const handleOpenFilter = () => setIsFilterOpen(true);
   const handleCloseFilter = () => setIsFilterOpen(false);
 
@@ -276,26 +245,22 @@ function MainAppLogic() {
       if (!isSearchOpen) window.scrollTo(0, 0);
   };
 
-   // --- UPDATED: handleSearchSubmit ---
    const handleSearchSubmit = (term, type) => {
-       // Set query *before* navigating
        setSearchQuery(term); 
-       setIsSearchOpen(false); // Close the search overlay
+       setIsSearchOpen(false);
        
        if (type === 'products') {
-           navigate(`/search?q=${encodeURIComponent(term)}`); // Navigate to search URL
+           navigate(`/search?q=${encodeURIComponent(term)}`);
        } else if (type === 'blogs') {
-            navigate('/blog'); // Navigate to blog URL
+            navigate('/blog');
        }
        window.scrollTo(0, 0);
    };
 
-   // --- UPDATED: handleSelectCollection ---
    const handleSelectCollection = (collectionName) => {
       setSelectedProductId(null);
       setSelectedServiceId(null);
       if (collectionName) {
-        // Navigate to the collection URL
         navigate(`/collection/${encodeURIComponent(collectionName)}`);
       }
       handleCloseFilter();
@@ -303,7 +268,6 @@ function MainAppLogic() {
       setViewingPostId(null);
   };
 
-  // This function remains the same
   const handleFilterApply = (filters) => {
     console.log("Filters received in App:", filters);
 
@@ -377,13 +341,11 @@ function MainAppLogic() {
     });
   };
 
-  // This function remains the same
   const handleSortChange = (newSortOrder) => {
     setSortOrder(newSortOrder);
     console.log("Sort order changed to:", newSortOrder);
   };
 
-  // This function remains the same
   const getCollectionBannerDetails = (collectionName) => {
        if (!collectionName) { return { title: "Collection", subtitle: "" }; }
       const upperCollectionName = collectionName.toUpperCase();
@@ -416,20 +378,16 @@ function MainAppLogic() {
       return { title: formattedTitle, subtitle: "Explore our collection." };
   };
 
-   // --- NEW: Wrapper function for handling logout AND navigation ---
    const handleLogoutWrapper = useCallback(() => {
-    logout(); // Call the logout function from context to clear state/storage
-    navigate('/'); // Explicitly navigate to home page AFTER logout
-  }, [logout, navigate]); // Add dependencies
+    logout();
+    navigate('/');
+  }, [logout, navigate]);
 
 
-  // The redirect logic has been MOVED to the new useEffect[location] hook
 
 
   const renderPage = () => {
-    // This function remains exactly the same as your original
     
-    // Render specific detail pages first
      if (currentPage === 'product-detail' && selectedProductId) {
         return <ProductDetailPage productId={selectedProductId} setPage={handleNavigation} />;
     }
@@ -443,7 +401,6 @@ function MainAppLogic() {
          return <BlogPage setPage={handleNavigation} currentPage={`blog-detail-${viewingPostId}`} />;
     }
 
-     // --- All Products Page ---
      if (currentPage === 'all-products') {
         return (
             <>
@@ -468,7 +425,6 @@ function MainAppLogic() {
      }
 
 
-    // --- Collection Page ---
      if (currentPage === 'collection' && selectedCollection) {
         const { title, subtitle } = getCollectionBannerDetails(selectedCollection);
         const subtitleLines = subtitle ? subtitle.split('\n') : [];
@@ -494,7 +450,6 @@ function MainAppLogic() {
         );
     }
 
-   // --- Search Results Page ---
    if (currentPage === 'search-results' && searchQuery) {
        const searchResults = searchAll(searchQuery);
        return (
@@ -509,9 +464,9 @@ function MainAppLogic() {
                   onSortChange={handleSortChange}
                 />
                 <ProductList
-                    products={searchResults.fullProductList} // Pass full list for pagination within ProductList
-                    searchQuery={searchQuery} // Keep passing query for title/context
-                    collectionName={`Search: ${searchQuery}`} // Keep for title
+                    products={searchResults.fullProductList}
+                    searchQuery={searchQuery}
+                    collectionName={`Search: ${searchQuery}`}
                     setPage={handleNavigation}
                     appliedFilters={appliedFilters}
                     sortOrder={sortOrder}
@@ -521,7 +476,6 @@ function MainAppLogic() {
        );
    }
 
-    // --- Switch statement passes ALL filter/sort props to relevant pages ---
     const pageProps = {
       setPage: handleNavigation,
       onApplyFilters: handleFilterApply,
@@ -534,7 +488,6 @@ function MainAppLogic() {
     };
 
     switch (currentPage) {
-        // --- Pages with Filters & Sorting ---
         case 'jewellery': return <JewelleryPage {...pageProps} />;
         case 'new-arrivals-jewellery': return <NewArrivalsJewelleryPage {...pageProps} />;
         case 'neckpieces': return <NeckpiecesPage {...pageProps} />;
@@ -549,10 +502,9 @@ function MainAppLogic() {
         case 'bestsellers': return <BestsellersPage {...pageProps} />;
         case 'shop': return <SareesPage {...pageProps} />;
 
-        // --- Pages without Filters & Sorting ---
         case 'home': return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
         case 'gift-card': return <GiftCardPage setPage={handleNavigation} />;
-        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />; // No filter bar on this page
+        case 'fall-picot': return <FallPicotPage setPage={handleNavigation} />;
         case 'blog': return <BlogPage setPage={handleNavigation} currentPage={'blog'} />;
         case 'our-story': return <OurStoryPage />;
         case 'meet-the-team': return <MeetTheTeamPage onSelectMember={handleNavigation} />;
@@ -569,20 +521,15 @@ function MainAppLogic() {
         case 'register': return <RegisterPage setPage={handleNavigation} />;
         case 'checkout': return <CheckoutPage setPage={handleNavigation} />;
 
-        // --- NEW: Account and Addresses ---
         case 'account':
-            // Pass the NEW handleLogoutWrapper
             return <AccountPage setPage={handleNavigation} handleLogout={handleLogoutWrapper} />;
         case 'addresses':
             return <AddressesPage setPage={handleNavigation} />;
-        // --- END NEW ---
 
-        // Default fallback
         default: return <HomePage setPage={handleNavigation} onCollectionItemClick={handleSelectCollection} />;
     }
   };
 
-  // This logic remains the same
   const pagesThatMightStartTransparent = [
        'home', 'shop', 'jewellery', 'collection', 'bestsellers',
        'neckpieces', 'earrings', 'bangles-cuffs', 'rings',
@@ -622,7 +569,6 @@ function MainAppLogic() {
 
 
   return (
-    // --- UPDATED: Pass handleNavigation to WishlistProvider ---
     <WishlistProvider handleNavClick={handleNavigation}>
       <ScrollToTop />
       <div className={`App ${isSolidHeaderForced || hideHeader ? 'page-with-solid-header' : ''} ${isHomePage ? 'homepage-active' : ''} ${isSearchOpen ? 'search-open' : ''}`}>
@@ -635,14 +581,14 @@ function MainAppLogic() {
               viewingMemberId={viewingMemberId}
               isSearchOpen={isSearchOpen}
               toggleSearch={toggleSearch}
-              handleLogout={handleLogoutWrapper} // <-- Pass the wrapper
+              handleLogout={handleLogoutWrapper}
             />
         )}
         {!hideHeader && (
           <SearchBar
               isSearchOpen={isSearchOpen}
               handleCloseSearch={toggleSearch}
-              handleNavClick={(e, pageName) => handleNavigation(pageName)} // Pass main nav function
+              handleNavClick={(e, pageName) => handleNavigation(pageName)}
               onSearchSubmit={handleSearchSubmit}
           />
         )}
@@ -651,7 +597,6 @@ function MainAppLogic() {
           {showRecentlyViewed && <RecentlyViewed setPage={handleNavigation} />}
         </main>
 
-        {/* Global Components */}
         <CartDrawer setPage={handleNavigation} />
         <WishlistModal handleNavClick={handleNavigation} />
         <CurrencyDropdown />
@@ -664,14 +609,12 @@ function MainAppLogic() {
   );
 }
 
-// --- UPDATED: App component renders MainAppLogic ---
 function App() {
   return (
     <AuthProvider>
       <CartProvider>
         <CurrencyProvider>
           <RecentlyViewedProvider>
-            {/* MainAppLogic contains WishlistProvider and all page logic */}
             <MainAppLogic /> 
           </RecentlyViewedProvider>
         </CurrencyProvider>

@@ -1,6 +1,4 @@
-// src/data/blogPosts.js
 
-// Placeholder function - replace/expand with actual image URLs
 const getBlogImageUrl = (imageName) => {
   const imageMap = {
       'stuti-amrutam': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/4_480x480.png?v=1615147306',
@@ -9,60 +7,58 @@ const getBlogImageUrl = (imageName) => {
       'srabasti-sohini-hutke': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/3_480x480.png?v=1615147692',
       'sheena-blue-sheep': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/2_480x480.png?v=1615147782',
       'monalisha-earthaments': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/5_480x480.png?v=1615147854',
-      'durga-puja-lookbook-shoshthi': 'https://www.amrapaliboutique.in/cdn/shop/files/DSC04840_large.jpg?v=1755244558', // Blog 2
-      'durga-puja-lookbook-shoptomi': 'https://www.amrapaliboutique.in/cdn/shop/products/1_50ec2301-32b2-4b22-8de5-0eb5c302df5e-01_large.jpg?v=1597527808', // Blog 2
-      'durga-puja-lookbook-oshtomi': 'https://www.amrapaliboutique.in/cdn/shop/files/IMG_1548-2_large.jpg?v=1723689942', // Blog 2
-      'durga-puja-lookbook-nobomi': 'https://www.amrapaliboutique.in/cdn/shop/products/IMG_0236_large.jpg?v=1653779543', // Blog 2
-      'durga-puja-lookbook-doshomi': 'https://www.amrapaliboutique.in/cdn/shop/products/1_86860e97-b214-4e31-9cb0-0280688dd681_large.jpg?v=1618650673', // Blog 2
-      'sari-love-image': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/DSC_2524_large.jpg?v=1587219513', // Blog 3 - Placeholder
-      'rakhi-gift-matka-jamdani': 'https://www.amrapaliboutique.in/cdn/shop/products/1_fcd78349-4218-400e-8e1a-ef359c4513fd_large.jpg?v=1581768880', // Blog 4
-      'rakhi-gift-linen-polka': 'https://www.amrapaliboutique.in/cdn/shop/products/DSC02573_large.jpg?v=1651044569', // Blog 4
-      'rakhi-gift-cotton-slub': 'https://www.amrapaliboutique.in/cdn/shop/products/1_2_6b6c12ea-89e4-4f43-83ae-193bfb14b9e7_large.jpg?v=1609319643', // Blog 4
-      'rakhi-gift-manipuri': 'https://www.amrapaliboutique.in/cdn/shop/products/1_3_88a70303-edb0-40f2-844a-9aaa053482c8_large.jpg?v=1589819889', // Blog 4
-      'rakhi-gift-gift-card': '/images/gift-card.jpg', // Blog 4 - Local image
-      'mother-inspiration-childhood': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369', // Blog 5
-      'mother-inspiration-exhibition': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/13177129_959424554179116_2239616112321277466_n_large.jpg?v=1587220575', // Blog 5
-      'mother-inspiration-opening': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/81512875_2674002656054622_1346586003799801856_o_large.jpg?v=1587220813', // Blog 5
-      'handloom-making': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/DSC01308_large.jpg?v=1593011833', // Blog 6
-      'handloom-collage': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/combo_large.jpg?v=1593013015', // Blog 6
-      'handloom-process': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/DSC01243_large.jpg?v=1593013084', // Blog 6
-      'accessorize-choker': 'https://www.amrapaliboutique.in/cdn/shop/products/AUK00741_large.jpg?v=1657294729', // Blog 7
-      'accessorize-studs': 'https://www.amrapaliboutique.in/cdn/shop/products/IMG_7767_large.jpg?v=1642803540', // Blog 7
-      'accessorize-ring': '/images/products/jewel1_1.webp', // Blog 7
-      'accessorize-pendant': 'https://www.amrapaliboutique.in/cdn/shop/products/DSC06952_large.jpg?v=1642793977', // Blog 7
-      'accessorize-kada': 'https://www.amrapaliboutique.in/cdn/shop/products/IMG_4229_large.jpg?v=1655800618', // Blog 7
-      'must-have-white-red': '/images/products/saree2_1.webp', // Blog 8
-      'must-have-black': '/images/products/saree6_1.webp', // Blog 8
-      'must-have-lightweight': '/images/products/saree12_1.webp', // Blog 8
-      'must-have-benarasi': '/images/products/saree18_1.webp', // Blog 8
-      'must-have-silk': '/images/products/saree14_1.webp', // Blog 8
-      'must-have-tussar': '/images/products/saree11_1.webp', // Blog 8
-      'must-have-white': '/images/products/saree4_1.webp', // Blog 8
-      'must-have-mood': '/images/products/saree3_1.webp', // Blog 8
-      // --- FIX: Added missing image keys for Blog 9 ---
+      'durga-puja-lookbook-shoshthi': 'https://www.amrapaliboutique.in/cdn/shop/files/DSC04840_large.jpg?v=1755244558',
+      'durga-puja-lookbook-shoptomi': 'https://www.amrapaliboutique.in/cdn/shop/products/1_50ec2301-32b2-4b22-8de5-0eb5c302df5e-01_large.jpg?v=1597527808',
+      'durga-puja-lookbook-oshtomi': 'https://www.amrapaliboutique.in/cdn/shop/files/IMG_1548-2_large.jpg?v=1723689942',
+      'durga-puja-lookbook-nobomi': 'https://www.amrapaliboutique.in/cdn/shop/products/IMG_0236_large.jpg?v=1653779543',
+      'durga-puja-lookbook-doshomi': 'https://www.amrapaliboutique.in/cdn/shop/products/1_86860e97-b214-4e31-9cb0-0280688dd681_large.jpg?v=1618650673',
+      'sari-love-image': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/DSC_2524_large.jpg?v=1587219513',
+      'rakhi-gift-matka-jamdani': 'https://www.amrapaliboutique.in/cdn/shop/products/1_fcd78349-4218-400e-8e1a-ef359c4513fd_large.jpg?v=1581768880',
+      'rakhi-gift-linen-polka': 'https://www.amrapaliboutique.in/cdn/shop/products/DSC02573_large.jpg?v=1651044569',
+      'rakhi-gift-cotton-slub': 'https://www.amrapaliboutique.in/cdn/shop/products/1_2_6b6c12ea-89e4-4f43-83ae-193bfb14b9e7_large.jpg?v=1609319643',
+      'rakhi-gift-manipuri': 'https://www.amrapaliboutique.in/cdn/shop/products/1_3_88a70303-edb0-40f2-844a-9aaa053482c8_large.jpg?v=1589819889',
+      'rakhi-gift-gift-card': '/images/gift-card.jpg',
+      'mother-inspiration-childhood': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369',
+      'mother-inspiration-exhibition': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/13177129_959424554179116_2239616112321277466_n_large.jpg?v=1587220575',
+      'mother-inspiration-opening': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/81512875_2674002656054622_1346586003799801856_o_large.jpg?v=1587220813',
+      'handloom-making': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/DSC01308_large.jpg?v=1593011833',
+      'handloom-collage': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/combo_large.jpg?v=1593013015',
+      'handloom-process': 'https://cdn.shopify.com/s/files/1/0082/5091/6915/files/DSC01243_large.jpg?v=1593013084',
+      'accessorize-choker': 'https://www.amrapaliboutique.in/cdn/shop/products/AUK00741_large.jpg?v=1657294729',
+      'accessorize-studs': 'https://www.amrapaliboutique.in/cdn/shop/products/IMG_7767_large.jpg?v=1642803540',
+      'accessorize-ring': '/images/products/jewel1_1.webp',
+      'accessorize-pendant': 'https://www.amrapaliboutique.in/cdn/shop/products/DSC06952_large.jpg?v=1642793977',
+      'accessorize-kada': 'https://www.amrapaliboutique.in/cdn/shop/products/IMG_4229_large.jpg?v=1655800618',
+      'must-have-white-red': '/images/products/saree2_1.webp',
+      'must-have-black': '/images/products/saree6_1.webp',
+      'must-have-lightweight': '/images/products/saree12_1.webp',
+      'must-have-benarasi': '/images/products/saree18_1.webp',
+      'must-have-silk': '/images/products/saree14_1.webp',
+      'must-have-tussar': '/images/products/saree11_1.webp',
+      'must-have-white': '/images/products/saree4_1.webp',
+      'must-have-mood': '/images/products/saree3_1.webp',
       'guide-college-goers': '/images/products/saree21_1.webp',
       'guide-boss-lady': '/images/products/saree20_1.webp',
-      'guide-newly-weds': '/images/products/saree4_1.webp', // Reusing image as per data
-      'guide-classics': '/images/products/saree18_1.webp', // Reusing image
-      'guide-non-conformists': '/images/products/saree12_1.webp', // Reusing image
-      'guide-vintage-souls': '/images/products/saree14_1.webp', // Reusing image
+      'guide-newly-weds': '/images/products/saree4_1.webp',
+      'guide-classics': '/images/products/saree18_1.webp',
+      'guide-non-conformists': '/images/products/saree12_1.webp',
+      'guide-vintage-souls': '/images/products/saree14_1.webp',
       'guide-globetrotters': '/images/products/saree7_1.webp',
       'guide-beginners': '/images/products/saree16_1.webp',
       'guide-daily-draper': '/images/products/saree15_1.webp',
-      // --- END FIX ---
   };
-  return imageMap[imageName] || `https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found`; // Fallback
+  return imageMap[imageName] || `https://placehold.co/600x400/cccccc/ffffff?text=Image+Not+Found`;
 };
 
 export const blogPosts = [
   {
-    id: 1, // WOMEN WHO INSPIRE
+    id: 1,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/01_700x.jpg?v=1614881332',
     title: 'WOMEN WHO INSPIRE - JOURNEY OF 6 INCREDIBLE BRANDS LED BY WOMEN ENTREPRENEURS',
     excerpt: 'On the occasion of International Women’s Day, we at Amrapali spoke to a few women entrepreneurs across various businesses to find out about thei...',
     date: 'March 08, 2021',
     author: 'Amrapali Boutique',
-    structuredContent: [ /* ... Content for blog 1 as added previously ... */
+    structuredContent: [
         { type: 'paragraph', text: '‘This is a man’s world but it wouldn’t be anything, nothing without a woman or a girl’, sang James Brown’s caveat. Needless to say, women are fierce and independent, bold and undaunted. Women never failed to capture the spirit of progress ushering a brave new world. From our grandmas to moms to sisters to female teachers to girlfriends, the women in our lives have always fueled our zest to do something while striving for excellence. They know what makes each of their family members happy, they know the perfect blend of spices to cook that oh-so-yummy dish, they make huge projects happen at their workplaces and they always know what is where in the house, always! Every woman breaks the glass ceiling of fears everyday in some way. Their strength and enthusiasm is infectious and influential.' },
         { type: 'paragraph', text: 'Thanks to the advent of social media for which we often come across such inspirational stories of women who run a small business from scratch. We, being a women-led venture ourselves, know how tough times can be during one’s entrepreneurial voyage. At the same time, it’s equally rewarding, undoubtedly.' },
         { type: 'paragraph', text: 'On the occasion of International Women’s Day, we, at Amrapali, spoke to a few women entrepreneurs across various businesses, to find out about their brand journey, how they overcame the unprecedented struggles, and what they wish to advise all small business enthusiasts out there.' },
@@ -157,7 +153,7 @@ export const blogPosts = [
     ]
   },
   {
-    id: 2, // DURGA PUJA LOOKBOOK
+    id: 2,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/durga-pujo-blog_gif_1200x.jpg?v=1602591487',
     title: 'DURGA PUJA LOOKBOOK AMIDST A NEW NORMAL',
     excerpt: 'Ah! It’s October! Another year, another round of festivities. So here we are with our style inspiration guide - sarees we have handpicked with love...',
@@ -195,17 +191,16 @@ export const blogPosts = [
     ]
   },
     {
-    id: 3, // WHERE MY LOVE FOR SARI...
+    id: 3,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/5_-_desktop_0d901e16-8bdd-41e5-857c-8ca59bb94d6e_700x.jpg?v=1587224339',
     title: 'WHERE MY LOVE FOR SARI ORIGINATES FROM?',
     excerpt: 'Perhaps it came from the mother who goes around the day draped in a saree at such ease and poise or maybe the grandmother whose soft cotton lap tol...',
     date: 'APRIL 18, 2020',
-    author: 'Amrapali Boutique', // Or 'SHRAMONA PODDAR' if preferred
-    // --- CORRECTED: Use structuredContent ---
+    author: 'Amrapali Boutique',
     structuredContent: [
       { 
         type: 'blockquote', 
-        style: 'poem', // This matches the special style in BlogPage.jsx
+        style: 'poem',
         content: [
           'Wailing like a loud siren',
           'looking like a blob of cotton',
@@ -218,7 +213,7 @@ export const blogPosts = [
           'with a cloth splattered with warmth all over.',
           'Twenty six years later,',
           'I still like to wrap myself around one.',
-          '', // Stanza break
+          '',
           'As a five year old, I got into a fight',
           'with our house help, to let me drape',
           'maa\'s saree before she could fold it.',
@@ -231,7 +226,7 @@ export const blogPosts = [
           'at such ease and poise.',
           'Like mother, like daughter-',
           'I wanted to be.',
-          '', // Stanza break
+          '',
           'I grew up watching my grandma and maa',
           'wearing the six yards of unstitched cloth',
           'in record breaking time,',
@@ -240,7 +235,7 @@ export const blogPosts = [
           'digging my face',
           'into the softness of their laps,',
           'listening to tales from their childhood and mine.',
-          '', // Stanza break
+          '',
           'My love for sarees came to me',
           'almost naturally, passing on',
           'from a generation to other.',
@@ -257,7 +252,7 @@ export const blogPosts = [
           'In a world of fast fashion-',
           'To stick by the tradition',
           'with a touch of modernity.',
-          '', // Stanza break
+          '',
           'Sarees. They are pieces of nostalgia',
           'Wrapped with the spirit of womanhood,',
           'that makes me feel so powerful',
@@ -271,14 +266,13 @@ export const blogPosts = [
           'perhaps a little more.'
         ]
       },
-      // Add the image that appears after the poem
       { type: 'image', url: getBlogImageUrl('sari-love-image'), alt: 'Woman in saree' }
     ]
   },
 
 
    {
-    id: 4, // 5 WEARABLE PIECES OF ART
+    id: 4,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/18_-_desktop_3a7c5917-23ab-46aa-a23c-84e036548abb_700x.jpg?v=1595828862',
     title: '5 Wearable Pieces of Art to Gift your Sister this Rakhi',
     excerpt: `With Raksha Bandhan just around the corner, why not make your sister's day a little brighter and show her how much she means to you by gifting her ...`,
@@ -310,7 +304,7 @@ export const blogPosts = [
     ]
   },
   {
-    id: 5, // THE INSPIRATION BEHIND AMRAPALI
+    id: 5,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/6_desktop_700x.jpg?v=1587224669',
     title: 'The Inspiration Behind Amrapali – story of our mother',
     excerpt: `‘You are never too old or too young to dream’, my mother taught this to me at a very young age when I didn’t quite have enough grey hair on my head...`,
@@ -334,7 +328,7 @@ export const blogPosts = [
     ]
   },
   {
-    id: 6, // THE ‘IMPERFECT’ BEAUTY OF HANDLOOM
+    id: 6,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/DSC01233_700x.jpg?v=1593011452',
     title: 'The ‘imperfect’ beauty of Handloom',
     excerpt: `Flawless. Perfect. Unblemished. Untainted. These are words that will perhaps never be used to describe a ‘handloom’ saree. Handloom - a fabric wove...`,
@@ -357,7 +351,7 @@ export const blogPosts = [
     ]
   },
   {
-    id: 7, // 5 TIPS ON HOW TO ACCESSORIZE
+    id: 7,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/3_-_desktop_700x.jpg?v=1587301462',
     title: '5 Tips On How To Accessorize Your Desi Look',
     excerpt:`When you are donning a saree, jewelry – out of all accessories -  can transform an entire look when styled right. So what we have here for you are ...`,
@@ -391,7 +385,7 @@ export const blogPosts = [
     ]
   },
    {
-    id: 8, // 8 MUST-HAVE SAREES
+    id: 8,
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/DSC_6256_1eca4af5-e62a-4f1a-899d-51efd130e69c_700x.jpg?v=1587224219',
     title: '8 Must-Have Sarees For A Timeless Wardrobe',
     excerpt:`Be it a wedding, a soirée, a corporate affair, a brunch, or perhaps an inner urge to drape a saree on a casual workday, or that feeling of teaming ...`,
@@ -439,7 +433,7 @@ export const blogPosts = [
     image: 'https://www.amrapaliboutique.in/cdn/shop/articles/16_-_desktop_1200x.jpg?v=1587224572',
     title: 'The Ultimate Guide to All Things Saree For Different Fashion Folks',
     excerpt: `Saree. The imperishable fashion apparel that we know of, not just in terms of its aureate gloriousness but also in terms of its far-flung versatili...`,
-    date: 'JUNE 25, 2020', // Date from video
+    date: 'JUNE 25, 2020',
     author: 'Amrapali Boutique',
     structuredContent: [
       { type: 'paragraph', text: 'Saree. The imperishable fashion apparel that we know of, not just in terms of its aureate gloriousness but also in terms of its far-flung versatility. In this article, we are going to emphasize on the latter aspect. It makes for the best sustainable and down-to-earth sartorial fashion choice for every woman. The clothes we wear, are the immediate illustrations of our idiosyncrasies. And sarees, however, manage to fit into almost everyone’s wardrobe. We’re here to coach you on how you can adopt the various kinds of six-yards of gorgeousness that best suits your profession & style preferences!' },
@@ -482,6 +476,5 @@ export const blogPosts = [
       { type: 'paragraph', text: 'Rise high above the trends & veer your style towards the classics. Such is the charm of sarees and you can effortlessly rely on its magnificence on every mood and hap you encounter with!' }
     ]
   }
-  // ... other blog posts
 ];
 

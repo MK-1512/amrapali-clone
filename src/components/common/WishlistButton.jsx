@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
-import { WishlistContext } from '../../context/WishlistContext'; // <-- NEW IMPORT
+import { WishlistContext } from '../../context/WishlistContext';
 
-const WishlistButton = () => { // Removed props, now uses context
-  const { toggleWishlist, wishlistCount } = useContext(WishlistContext); // <-- USE CONTEXT
+const WishlistButton = () => {
+  const { toggleWishlist, wishlistCount } = useContext(WishlistContext);
 
   return (
     <button 
       className="wishlist-button" 
-      onClick={toggleWishlist} // <-- USE CONTEXT HANDLER
+      onClick={toggleWishlist}
       aria-label="Wishlist"
     >
       <svg 
@@ -22,7 +22,7 @@ const WishlistButton = () => { // Removed props, now uses context
       >
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
       </svg>
-      {wishlistCount > 0 && ( // <-- USE CONTEXT COUNT
+      {wishlistCount > 0 && (
         <span className="wishlist-badge">{wishlistCount}</span>
       )}
     </button>

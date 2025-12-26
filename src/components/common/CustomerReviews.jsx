@@ -1,7 +1,5 @@
-// src/components/common/CustomerReviews.jsx
 import React, { useState, useRef } from 'react';
 
-// A new sub-component for the star rating input
 const StarRatingInput = ({ rating, setRating }) => {
     const [hoverRating, setHoverRating] = useState(0);
 
@@ -14,7 +12,7 @@ const StarRatingInput = ({ rating, setRating }) => {
                     onMouseEnter={() => setHoverRating(star)}
                     onMouseLeave={() => setHoverRating(0)}
                     onClick={() => setRating(star)}
-                    style={{ cursor: 'pointer', transition: 'color 0.2s ease', fontSize: '24px', color: (hoverRating || rating) >= star ? '#ffb3ba' : '#e0e0e0' }} // Added inline styles for stars
+                    style={{ cursor: 'pointer', transition: 'color 0.2s ease', fontSize: '24px', color: (hoverRating || rating) >= star ? '#ffb3ba' : '#e0e0e0' }}
                 >
                     ★
                 </span>
@@ -24,58 +22,48 @@ const StarRatingInput = ({ rating, setRating }) => {
 };
 
 
-// A new sub-component for the form itself
 const WriteReviewForm = ({ onCancel }) => {
-    // State for all form fields
     const [rating, setRating] = useState(0);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [title, setTitle] = useState('');
     const [reviewBody, setReviewBody] = useState('');
-    const [file, setFile] = useState(null); // State to hold the selected file
-    const [error, setError] = useState(''); // State for error messages
-    const [success, setSuccess] = useState(''); // State for success message
+    const [file, setFile] = useState(null);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
-    // Create a ref for the hidden file input
     const fileInputRef = useRef(null);
 
-    // Handler to trigger file input click
     const handleImageUploadClick = () => {
-        fileInputRef.current.click(); // Programmatically click the hidden file input
+        fileInputRef.current.click();
     };
 
-    // Handler for when a file is selected
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
             console.log("File selected:", selectedFile.name);
-            setFile(selectedFile); // Store the file object in state
+            setFile(selectedFile);
         }
     };
 
-    // Handler for form submission
     const handleSubmitReview = (e) => {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault();
         setError('');
         setSuccess('');
 
-        // Basic Validation
         if (!name || !email || !title || !reviewBody || rating === 0) {
             setError('Please fill in all required fields (Name, Email, Rating, Title, Review).');
             return;
         }
 
-        // Simulate Submission
         console.log("Submitting review with the following data:");
         console.log({ name, email, rating, title, reviewBody });
         if (file) {
             console.log("Including file:", file.name);
         }
 
-        // Show success message and clear form (simulating a real submission)
         setSuccess('Thank you! Your review has been submitted for moderation.');
 
-        // Clear the form
         setName('');
         setEmail('');
         setTitle('');
@@ -83,20 +71,14 @@ const WriteReviewForm = ({ onCancel }) => {
         setRating(0);
         setFile(null);
         if (fileInputRef.current) {
-             fileInputRef.current.value = ""; // Reset file input
+             fileInputRef.current.value = "";
         }
 
-        // Optional: Hide the form after submission after a delay
-        // setTimeout(() => {
-        //     if(onCancel) onCancel();
-        // }, 2000);
     };
 
     return (
         <div className="write-review-form">
-            {/* Attach onSubmit handler to a <form> element */}
             <form onSubmit={handleSubmitReview}>
-                {/* Display Error/Success Messages */}
                 {error && <p className="text-danger text-center mb-3">{error}</p>}
                 {success && <p className="text-success text-center mb-3">{success}</p>}
 
@@ -109,7 +91,7 @@ const WriteReviewForm = ({ onCancel }) => {
                         placeholder="Enter your name (public)"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        required // Added required
+                        required
                     />
                 </div>
                  <div className="review-form-group">
@@ -121,7 +103,7 @@ const WriteReviewForm = ({ onCancel }) => {
                         placeholder="Enter your email (private)"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required // Added required
+                        required
                     />
                 </div>
                  <div className="review-form-group">
@@ -137,7 +119,7 @@ const WriteReviewForm = ({ onCancel }) => {
                         placeholder="Give your review a title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        required // Added required
+                        required
                     />
                 </div>
                  <div className="review-form-group">
@@ -148,42 +130,36 @@ const WriteReviewForm = ({ onCancel }) => {
                         placeholder="Write your comments here"
                         value={reviewBody}
                         onChange={(e) => setReviewBody(e.target.value)}
-                        required // Added required
+                        required
                     ></textarea>
                 </div>
                 <div className="review-form-group">
                     <label>Picture/Video (optional)</label>
-                    {/* Make the placeholder clickable */}
                     <div
                         className="image-upload-placeholder"
-                        onClick={handleImageUploadClick} // <-- Add click handler
+                        onClick={handleImageUploadClick}
                         role="button"
                         tabIndex="0"
-                        onKeyPress={(e) => e.key === 'Enter' && handleImageUploadClick()} // For accessibility
+                        onKeyPress={(e) => e.key === 'Enter' && handleImageUploadClick()}
                     >
-                        {/* Display file name if selected */}
                         {file ? (
                             <span style={{fontSize: '12px', color: '#555', padding: '10px', textAlign: 'center', wordBreak: 'break-all'}}>{file.name}</span>
                         ) : (
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
                         )}
                     </div>
-                    {/* Add the hidden file input */}
                     <input
                         type="file"
                         ref={fileInputRef}
                         onChange={handleFileChange}
-                        style={{ display: 'none' }} // <-- Hide the default input
-                        accept="image/*,video/*" // Specify acceptable file types
+                        style={{ display: 'none' }}
+                        accept="image/*,video/*"
                     />
                 </div>
                 <p className="privacy-notice">
                     How we use your data: We'll only contact you about the review you left, and only if necessary. By submitting your review, you agree to Judge.me's terms, privacy and content policies.
                 </p>
-                {/* Change button type to "submit" */}
                 <button type="submit" className="submit-review-btn">Submit Review</button>
-                {/* Optional Cancel Button */}
-                {/* <button type="button" onClick={onCancel} style={{ marginLeft: '10px', background: 'none', border: '1px solid #ccc', color: '#555' }} className="submit-review-btn">Cancel</button> */}
 
             </form>
         </div>
@@ -191,9 +167,7 @@ const WriteReviewForm = ({ onCancel }) => {
 };
 
 
-// Main CustomerReviews component
 const CustomerReviews = () => {
-  // Mock data (replace with actual data fetching if needed)
   const reviewData = {
     totalReviews: 1,
     averageRating: 5,
@@ -204,7 +178,6 @@ const CustomerReviews = () => {
       { stars: 2, percentage: 0, count: 0 },
       { stars: 1, percentage: 0, count: 0 },
     ],
-    // Add mock reviews if needed for display
     reviews: [
         {
             id: 1,
@@ -216,7 +189,6 @@ const CustomerReviews = () => {
             verified: true,
             avatarInitial: 'S'
         }
-        // Add more mock reviews here
     ]
   };
 
@@ -244,11 +216,8 @@ const CustomerReviews = () => {
         </button>
       </div>
 
-      {/* Wrapper still controls visibility via CSS */}
       <div className={`review-form-wrapper ${isWritingReview ? 'open' : ''}`}>
-        {/* --- FIX: Render WriteReviewForm UNCONDITIONALLY --- */}
         <WriteReviewForm onCancel={() => setIsWritingReview(false)} />
-        {/* --- END FIX --- */}
       </div>
 
       <div className="reviews-body">
@@ -288,7 +257,6 @@ const CustomerReviews = () => {
           </div>
         </div>
         <div className="reviews-list">
-          {/* Map through actual reviews data */}
           {reviewData.reviews.map((review) => (
             <div className="review-card" key={review.id}>
               <div className="author-avatar">{review.avatarInitial || review.author.charAt(0)}</div>
@@ -307,7 +275,6 @@ const CustomerReviews = () => {
               </div>
             </div>
           ))}
-          {/* Display message if no reviews */}
           {reviewData.reviews.length === 0 && (
             <p className="text-center text-muted mt-4">No reviews yet.</p>
           )}

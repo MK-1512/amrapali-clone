@@ -1,4 +1,3 @@
-/* General Styling */
 body {
     font-family: 'Jost', sans-serif;
     color: #1c1c1c;
@@ -15,9 +14,6 @@ body.page-with-solid-header {
     position: relative;
 }
 
-/* --------------------------------------------------- */
-/* HEADER STYLES */
-/* --------------------------------------------------- */
 
 .header-container {
     position: fixed;
@@ -84,9 +80,6 @@ body.page-with-solid-header {
     border-bottom: 1px solid #e5e5e5;
 }
 
-/* --------------------------------------------------- */
-/* NAVLINK & ICON STATES */
-/* --------------------------------------------------- */
 
 .header-container .nav-link {
     color: #ffffff !important;
@@ -133,41 +126,34 @@ body.page-with-solid-header {
 .header-container .header-icons button img:hover {
     transform: scale(1.08);
 }
-/* --- NEW --- */
 .cart-count-badge {
     position: absolute;
     top: -5px;
     right: -8px;
-    background-color: #ffffff; /* Solid white BG */
-    color: #1c1c1c; /* Black text */
+    background-color: #ffffff;
+    color: #1c1c1c;
     font-size: 11px;
     font-weight: 600;
     padding: 1px 5px;
     border-radius: 10px;
     min-width: 18px;
     text-align: center;
-    border: 1px solid #ffffff; /* White border (matches BG) */
+    border: 1px solid #ffffff;
     transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
     line-height: 1.3;
 }
-/* --- END NEW --- */
-/* --- NEW --- */
 .page-with-solid-header .cart-count-badge,
 .header-container.scrolled .cart-count-badge,
 .header-container.nav-hovered:not(.scrolled) .cart-count-badge,
 .homepage-active .cart-count-badge {
-   background-color: #1c1c1c; /* Black BG */
-    color: #ffffff; /* White text */
+   background-color: #1c1c1c;
+    color: #ffffff;
     border-color: #1c1c1c;
 }
-/* --- END NEW --- */
 .nav-link.active {
     border-bottom: 2px solid #a8853d;
 }
 
-/* --------------------------------------------------- */
-/* NAV HOVER & SCROLL STATES */
-/* --------------------------------------------------- */
 
 .header-container.nav-hovered:not(.scrolled) .main-header-content {
     background-color: #ffffff;
@@ -190,7 +176,6 @@ body.page-with-solid-header {
     background-color: #ffffff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
-/* CHANGE: Only hide top bar based on actual scroll, not just solid header state */
 .header-container.top-bar-hidden .top-bar {
     transform: translateY(-100%);
 }
@@ -212,14 +197,11 @@ body.page-with-solid-header {
     color: #a8853d !important;
 }
 
-/* --------------------------------------------------- */
-/* FILTER BAR + CURRENCY SELECTOR */
-/* --------------------------------------------------- */
 .filter-bar-container { 
     background-color: #ffffff; 
     border-bottom: 1px solid #e5e5e5;
     position: sticky;
-    top: 170px; /* <--- THIS IS THE FIX (138px - 38px) */
+    top: 170px;
     z-index: 90;
     padding: 10px 0;
 }
@@ -237,10 +219,10 @@ body.page-with-solid-header {
 }
 
 .currency-selector {
-    position: fixed;   /* Changed from 'relative' */
-    bottom: 25px;      /* Matches wishlist button */
-    left: 25px;        /* Puts it in the left corner */
-    z-index: 999;      /* Matches wishlist button */
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 999;
     display: inline-flex;
     align-items: center;
 }
@@ -356,9 +338,6 @@ body.page-with-solid-header {
     font-size: 14px;
 }
 
-/* --------------------------------------------------- */
-/* WISHLIST BUTTON */
-/* --------------------------------------------------- */
 
 .wishlist-button {
     position: fixed;
@@ -405,9 +384,6 @@ body.page-with-solid-header {
     text-align: center;
 }
 
-/* --------------------------------------------------- */
-/* HERO BANNER STYLES */
-/* --------------------------------------------------- */
 
 .hero-banner {
     position: relative;
@@ -432,7 +408,7 @@ body.page-with-solid-header {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.35);
     z-index: 1;
-    pointer-events: none; /* ADD THIS - prevents overlay from blocking interactions */
+    pointer-events: none;
 }
 .hero-content {
     position: relative;
@@ -458,9 +434,6 @@ h1.hero-title {
     margin: 0 auto;
 }
 
-/* --------------------------------------------------- */
-/* CART DRAWER STYLES */
-/* --------------------------------------------------- */
 
 .cart-drawer {
     position: fixed;
@@ -630,15 +603,11 @@ h1.hero-title {
     visibility: visible;
 }
 
-/* --------------------------------------------------- */
-/* PRODUCT STYLES (NEW UPDATED SECTION) */
-/* --------------------------------------------------- */
 
 .product-list-container .col-6,
 .product-list-container .col-sm-6,
 .product-list-container .col-md-4,
 .product-list-container .col-lg-3 {
-    /* Adjust padding for a tighter grid, like the reference site */
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -648,7 +617,6 @@ h1.hero-title {
     text-align: center;
     position: relative;
     background-color: #ffffff;
-    /* This ensures the card doesn't jump on hover */
     margin-bottom: 1rem;
 }
 
@@ -697,7 +665,6 @@ h1.hero-title {
     border-radius: 2px;
 }
 
-/* Product actions (buttons) */
 .product-actions {
     position: absolute;
     bottom: 0;
@@ -710,14 +677,12 @@ h1.hero-title {
     z-index: 2;
     background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
     
-    /* Start hidden (slid down) */
     transform: translateY(100%);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .product-card:hover .product-actions {
-    /* Slide in from bottom */
     transform: translateY(0);
     opacity: 1;
 }
@@ -739,13 +704,13 @@ h1.hero-title {
 }
 
 .btn-add-to-cart-grid {
-    background-color: #ffb3ba; /* Amrapali's pink */
+    background-color: #ffb3ba;
     color: #ffffff;
     border: none;
 }
 
 .btn-add-to-cart-grid:hover {
-    background-color: #ff9aa1; /* Darker pink */
+    background-color: #ff9aa1;
 }
 
 .btn-add-to-cart-grid:disabled {
@@ -766,7 +731,6 @@ h1.hero-title {
     border-color: #1c1c1c;
 }
 
-/* Product info below image */
 .product-info {
     padding: 15px 5px;
     text-align: center;
@@ -778,7 +742,7 @@ h1.hero-title {
 
 .product-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 17px; /* Slightly larger and more readable */
+    font-size: 17px;
     font-weight: 500;
     color: #1c1c1c;
     margin-bottom: 8px;
@@ -786,7 +750,7 @@ h1.hero-title {
 }
 
 .product-name-link:hover .product-name {
-    color: #a8853d; /* Your theme's gold color */
+    color: #a8853d;
 }
 
 .product-price {
@@ -797,7 +761,7 @@ h1.hero-title {
 }
 
 .product-price .sale-price {
-    color: #d13f4b; /* Your theme's red color */
+    color: #d13f4b;
     font-weight: 500;
 }
 
@@ -807,9 +771,6 @@ h1.hero-title {
     font-size: 13px;
 }
 
-/* --------------------------------------------------- */
-/* GIFT CARD PAGE STYLES (Original) */
-/* --------------------------------------------------- */
 
 .product-page-container {
     padding-top: 60px;
@@ -858,7 +819,6 @@ h1.hero-title {
     letter-spacing: 0.02em;
 }
 
-/* Denomination Dropdown */
 .denomination-dropdown {
     width: 100%;
     padding: 16px 20px;
@@ -888,7 +848,6 @@ h1.hero-title {
     font-size: 14px;
 }
 
-/* Quantity Selector */
 .quantity-selector {
     display: inline-flex;
     align-items: center;
@@ -937,7 +896,6 @@ h1.hero-title {
     justify-content: center;
 }
 
-/* Action Buttons */
 .action-buttons {
     display: grid;
     gap: 15px;
@@ -1019,7 +977,6 @@ h1.hero-title {
     color: #4db8a8;
 }
 
-/* Product Description Section */
 .product-description-section {
     margin-top: 0;
     padding: 0;
@@ -1042,7 +999,6 @@ h1.hero-title {
     margin: 0;
 }
 
-/* Product Accordion */
 .product-accordion {
     margin-top: 0;
 }
@@ -1099,7 +1055,6 @@ h1.hero-title {
     font-size: 13px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 991px) {
     .product-page-container {
         padding-top: 40px;
@@ -1110,9 +1065,6 @@ h1.hero-title {
     }
 }
 
-/* --------------------------------------------------- */
-/* FOOTER STYLES */
-/* --------------------------------------------------- */
 
 .site-footer {
     background-color: #f9f9f9;
@@ -1187,9 +1139,6 @@ h1.hero-title {
     margin-left: 10px;
 }
 
-/* --------------------------------------------------- */
-/* RESPONSIVE STYLES */
-/* --------------------------------------------------- */
 
 @media (max-width: 576px) {
     .cart-drawer {
@@ -1198,13 +1147,9 @@ h1.hero-title {
     }
 }
 
-/* --------------------------------------------------- */
-/* NEW COLLECTION BANNER STYLES */
-/* --------------------------------------------------- */
 
-/* This is the new base rule for both banners */
 .collection-hero-banner {
-    position: relative; /* ADD THIS */
+    position: relative;
     min-height: calc(100vh - 91px);
     margin-top: -138px;
     padding-top: 138px;
@@ -1217,35 +1162,15 @@ h1.hero-title {
     background-position: center;
 }
 
-/* On pages with a SOLID header (like gift-card), 
-  the 'page-with-solid-header' class gives the header
-  a white background, but the layout is handled by the 
-  body's 138px padding, so this one rule works for all cases.
-*/
-/* Specific background image for the Saree banner */
 .saree-hero-banner {
     background-image: url('/images/hero-bg.jpg'); 
 }
 
-/* Specific background image for the Jewellery banner */
 .jewellery-hero-banner {
     background-image: url('/images/jewellery-hero-bg.jpg');
 }
 
-/* This REMOVES your old .hero-banner rule.
-  If you still have it, delete it or comment it out.
-*/
-/*
-.hero-banner {
-    position: relative;
-    height: calc(100vh - 90px);
-    ...
-}
-*/
 
-/* --------------------------------------------------- */
-/* MEET THE TEAM PAGE STYLES */
-/* --------------------------------------------------- */
 
 .meet-the-team-page .page-title {
     font-family: 'Jost', sans-serif;
@@ -1266,7 +1191,7 @@ h1.hero-title {
 
 .team-member-card {
     position: relative;
-    overflow: hidden; /* Important for the hover effect */
+    overflow: hidden;
     cursor: pointer;
 }
 
@@ -1278,7 +1203,7 @@ h1.hero-title {
     display: block;
     width: 100%;
     height: auto;
-    filter: grayscale(100%); /* Black and white effect */
+    filter: grayscale(100%);
     transition: filter 0.3s ease;
 }
 
@@ -1304,38 +1229,37 @@ h1.hero-title {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%; /* Cover the entire card */
-    background-color: rgba(50, 50, 50, 0.85); /* Semi-transparent gray */
+    height: 100%;
+    background-color: rgba(50, 50, 50, 0.85);
     color: #fff;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
+    justify-content: center;
+    align-items: center;
     text-align: center;
     
-    opacity: 0; /* Hidden by default */
-    transform: translateY(100%); /* Start below the card */
+    opacity: 0;
+    transform: translateY(100%);
     transition: transform 0.4s ease, opacity 0.4s ease;
     box-sizing: border-box;
 }
 
 .team-member-card:hover .card-hover-overlay {
     opacity: 1;
-    transform: translateY(0); /* Slide up */
+    transform: translateY(0);
 }
 
 .team-member-card:hover .card-name-overlay {
-    opacity: 0; /* Hide the name on hover */
+    opacity: 0;
 }
 
 .card-hover-overlay .short-bio {
     font-size: 13px;
     line-height: 1.6;
     margin-bottom: 15px;
-    /* Limit text lines if needed */
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* Show max 4 lines */
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;  
     overflow: hidden;
 }
@@ -1347,13 +1271,7 @@ h1.hero-title {
     padding: 8px 15px;
 }
 
-/* --------------------------------------------------- */
-/* TEAM MEMBER DETAIL PAGE STYLES */
-/* --------------------------------------------------- */
 
-/* --------------------------------------------------- */
-/* MEET THE TEAM PAGE STYLES (New & Updated) */
-/* --------------------------------------------------- */
 
 .meet-the-team-page .page-title {
     font-family: 'Jost', sans-serif;
@@ -1372,13 +1290,12 @@ h1.hero-title {
     color: #555;
 }
 
-/* --- NEW 3D FLIP STYLES --- */
 
 .team-member-card {
     background-color: transparent;
     width: 100%;
-    aspect-ratio: 3 / 4; /* Maintain a consistent card shape */
-    perspective: 1000px; /* This is needed for the 3D effect */
+    aspect-ratio: 3 / 4;
+    perspective: 1000px;
     cursor: pointer;
 }
 
@@ -1391,16 +1308,16 @@ h1.hero-title {
 }
 
 .team-member-card:hover .card-inner {
-    transform: rotateY(180deg); /* This is the flip animation */
+    transform: rotateY(180deg);
 }
 
 .card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    -webkit-backface-visibility: hidden; /* For Safari */
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    overflow: hidden; /* Prevent content spill */
+    overflow: hidden;
 }
 
 .card-front {
@@ -1411,7 +1328,7 @@ h1.hero-title {
 .card-back {
     background-color: rgba(50, 50, 50, 0.9);
     color: white;
-    transform: rotateY(180deg); /* The back starts flipped */
+    transform: rotateY(180deg);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1459,9 +1376,6 @@ h1.hero-title {
 }
 
 
-/* --------------------------------------------------- */
-/* TEAM MEMBER DETAIL PAGE STYLES */
-/* --------------------------------------------------- */
 
 .team-member-detail-page .member-name {
     font-family: 'Jost', sans-serif;
@@ -1494,9 +1408,6 @@ h1.hero-title {
      margin-bottom: 30px;
 }
 
-/* --------------------------------------------------- */
-/* CUSTOMER REVIEWS SECTION STYLES */
-/* --------------------------------------------------- */
 
 .customer-reviews-container {
     background-color: #ffffff;
@@ -1577,7 +1488,7 @@ h1.hero-title {
 }
 
 .rating-row .star-label {
-    width: 100px; /* Fixed width for alignment */
+    width: 100px;
 }
 
 .progress-bar-container {
@@ -1678,18 +1589,14 @@ h1.hero-title {
     line-height: 1.8;
     color: #555;
 }
-/* --------------------------------------------------- */
-/* WRITE A REVIEW FORM STYLES (FINAL VERSION) */
-/* --------------------------------------------------- */
 
-/* This container handles the smooth slide-down animation */
 .review-form-wrapper {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .review-form-wrapper.open {
-    max-height: 1000px; /* A large value to allow the content to expand */
+    max-height: 1000px;
 }
 
 .write-review-form {
@@ -1729,7 +1636,6 @@ h1.hero-title {
     resize: vertical;
 }
 
-/* Star Rating Input Styles */
 .star-rating-input {
     display: flex;
     gap: 4px;
@@ -1744,7 +1650,6 @@ h1.hero-title {
     color: #ffb3ba;
 }
 
-/* Image Upload Placeholder Styles */
 .image-upload-placeholder {
     width: 100px;
     height: 100px;
@@ -1760,7 +1665,6 @@ h1.hero-title {
     border-color: #aaa;
 }
 
-/* Privacy Notice & Submit Button */
 .privacy-notice {
     font-size: 12px;
     color: #888;
@@ -1811,13 +1715,13 @@ h1.hero-title {
     display: block;
     overflow: hidden;
     margin-bottom: 25px;
-    aspect-ratio: 16 / 10.5; /* Forces a consistent aspect ratio */
-    background-color: #f0f0f0; /* Placeholder color for loading */
+    aspect-ratio: 16 / 10.5;
+    background-color: #f0f0f0;
 }
 .blog-post-image-link img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensures image fills the container without distortion */
+    object-fit: cover;
     transition: transform 0.4s ease;
 }
 .blog-post-card:hover .blog-post-image-link img {
@@ -1889,9 +1793,6 @@ h1.hero-title {
 }
 
 
-/* --------------------------------------------------- */
-/* RESPONSIVE STYLES */
-/* --------------------------------------------------- */
 @media (max-width: 991px) {
     .blog-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1902,23 +1803,19 @@ h1.hero-title {
     .cart-drawer { width: 100%; right: -100%; }
 }
 
-/* Specific background image for the Saree banner */
 .saree-hero-banner {
     background-image: url('/images/hero-bg.jpg'); 
 }
 
-/* Specific background image for the Jewellery banner */
 .jewellery-hero-banner {
     background-image: url('/images/jewellery-hero-bg.jpg');
 }
 
-/* Specific background image for the Bestsellers banner */
 .bestsellers-hero-banner {
     background-image: url('/images/bestsellers-hero.jpg');
-    background-position: center 40%; /* Adjust as needed */
+    background-position: center 40%;
 }
 
-/* For pages that should always have solid header (but still show top bar) */
 .header-container.solid-header {
     background-color: #ffffff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
@@ -1937,122 +1834,105 @@ h1.hero-title {
     border-bottom: 1px solid #e5e5e5;
 }
 
-/* Only hide top bar when user ACTUALLY scrolls */
-/* ADD THIS RULE (or ensure it exists and is correct) */
 .header-container.top-bar-hidden .top-bar {
     transform: translateY(-100%);
 }
-/* --------------------------------------------------- */
-/* HERO CAROUSEL STYLES (HomePage specific) */
-/* --------------------------------------------------- */
 
 .hero-carousel {
-  margin-top: -138px; /* Pulls it up behind the header */
-  /* Ensures indicators are clickable above content if needed */
+  margin-top: -138px;
   position: relative;
   z-index: 1;
 }
 
 .hero-carousel .carousel-item {
-  height: 100vh; /* Make item take full viewport height initially */
-  min-height: 550px; /* Minimum height */
-  padding-top: 138px; /* Push content down below header space */
+  height: 100vh;
+  min-height: 550px;
+  padding-top: 138px;
   background-size: cover;
   background-position: center center;
-  box-sizing: border-box; /* Include padding in height calculation */
+  box-sizing: border-box;
 }
 
-/* Caption Positioning - Overriding Bootstrap defaults */
 .hero-carousel .carousel-caption {
   position: absolute;
-  bottom: 10%; /* Adjust vertical position from bottom */
-  left: 5%;    /* Adjust horizontal position from left */
-  right: auto; /* IMPORTANT: Override default right: 15% */
-  top: auto;   /* IMPORTANT: Override default top: 20px */
-  text-align: left; /* Align content inside caption to the left */
-  padding: 10px; /* Reduce padding slightly */
-  background: none; /* Remove default background */
-  max-width: 300px; /* Limit width */
-  transform: none; /* Override potential centering transforms */
-  z-index: 10; /* Ensure it's above the item */
+  bottom: 10%;
+  left: 5%;
+  right: auto;
+  top: auto;
+  text-align: left;
+  padding: 10px;
+  background: none;
+  max-width: 300px;
+  transform: none;
+  z-index: 10;
 }
 
-/* Ensure caption contents (buttons) align left */
 .hero-carousel .carousel-caption > * {
   text-align: left;
 }
 
 
-/* Hero Button Styling */
 .hero-carousel .btn-hero {
   background-color: #ffffff;
   color: #1c1c1c;
   border: none;
-  border-radius: 0; /* Sharp corners */
+  border-radius: 0;
   padding: 10px 25px;
-  font-size: 11px; /* Slightly smaller font */
+  font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-top: 10px;
-  margin-right: 10px; /* Space between buttons if two exist */
+  margin-right: 10px;
   transition: background-color 0.3s ease;
-  display: inline-block; /* Allows side-by-side */
+  display: inline-block;
   cursor: pointer;
-  text-decoration: none; /* Remove underline if using <a> tag */
+  text-decoration: none;
 }
 .hero-carousel .btn-hero:hover {
-  background-color: #f0f0f0; /* Slightly off-white hover */
+  background-color: #f0f0f0;
   color: #1c1c1c;
 }
 
-/* Indicator Styling (Dots) */
 .hero-carousel .carousel-indicators {
-  bottom: 30px; /* Adjust vertical position */
+  bottom: 30px;
   margin-bottom: 0;
-  z-index: 15; /* Ensure indicators are above caption */
+  z-index: 15;
 }
 .hero-carousel .carousel-indicators [data-bs-target] {
   box-sizing: content-box;
   flex: 0 1 auto;
-  width: 9px;  /* Dot size */
-  height: 9px; /* Dot size */
+  width: 9px;
+  height: 9px;
   padding: 0;
-  margin-right: 5px; /* Spacing */
-  margin-left: 5px;  /* Spacing */
+  margin-right: 5px;
+  margin-left: 5px;
   text-indent: -999px;
   cursor: pointer;
   background-color: #fff;
   background-clip: padding-box;
   border: 0;
-  /* Adjust border-radius for perfect circle */
   border-radius: 50%;
   opacity: 0.5;
   transition: opacity .6s ease;
 }
 .hero-carousel .carousel-indicators .active {
-  opacity: 1; /* Active dot is fully opaque */
+  opacity: 1;
 }
 
-/* --- Ensure other general styles don't conflict --- */
-/* (Keep your existing .homepage-section, .section-title etc. styles) */
 
-/* ... (rest of your main.css) ... */
 
-/* main.css */
 
 .hero-carousel .carousel-item {
   height: 100vh;
   min-height: 550px;
   padding-top: 138px;
-  /* background-size: cover; */ /* Let's remove this if using ::before */
   background-position: center center;
   box-sizing: border-box;
-  position: relative; /* Needed for the ::before overlay */
-  background-color: #eee; /* Fallback color */
+  position: relative;
+  background-color: #eee;
 }
 
-/* Add overlay */
 .hero-carousel .carousel-item::before {
     content: '';
     position: absolute;
@@ -2060,44 +1940,36 @@ h1.hero-title {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.15); /* Adjust opacity (0.15 = 15%) */
-    z-index: 2; /* Below caption/indicators, above image */
+    background-color: rgba(0, 0, 0, 0.15);
+    z-index: 2;
 }
 
-/* Ensure the background image is behind the overlay */
 .hero-carousel .carousel-item {
     background-repeat: no-repeat;
-    /* Use 'contain' if you want the whole image visible, possibly with letterboxing */
-    /* background-size: contain; */
-    /* Use 'cover' to fill the area, potentially cropping */
      background-size: cover;
 }
 
-/* Make sure caption and indicators are above overlay */
 .hero-carousel .carousel-caption {
-    /* ... existing styles ... */
     z-index: 10;
 }
 .hero-carousel .carousel-indicators {
-     /* ... existing styles ... */
     z-index: 15;
 }
 
 .explore-section {
     background:  url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369') no-repeat center center;
     background-size: cover;
-    background-attachment: scroll; /* Added this */
-    height: 500px; /* Changed from min-height to height */
+    background-attachment: scroll;
+    height: 500px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative;
     color: white;
-    margin: 60px 0; /* Added margin */
+    margin: 60px 0;
 }
 
-/* This pseudo-element creates the dark overlay */
 .explore-section::before {
     content: '';
     position: absolute;
@@ -2106,67 +1978,59 @@ h1.hero-title {
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.4);
-    z-index: 0; /* Added z-index */
+    z-index: 0;
 }
 
-/* This ensures the text and button are on top of the overlay */
 .explore-content {
     position: relative;
     z-index: 1;
-    padding: 40px 20px; /* Added padding */
+    padding: 40px 20px;
 }
 
 .explore-content p {
     font-size: 18px;
-    max-width: 500px; /* Increased from 400px */
+    max-width: 500px;
     margin: 0 auto 25px auto;
     color: #ffffff;
-    line-height: 1.6; /* Added line-height */
+    line-height: 1.6;
 }
 
 .explore-content .btn-explore {
     background-color: transparent;
     color: #ffffff;
     border: 1px solid #ffffff;
-    padding: 12px 35px; /* Increased padding */
+    padding: 12px 35px;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: all 0.3s ease;
     border-radius: 0;
-    font-weight: 500; /* Added font-weight */
+    font-weight: 500;
 }
 
 .explore-content .btn-explore:hover {
     background-color: #ffffff;
     color: #1c1c1c;
 }
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
-/* --- HERO CAROUSEL STYLES --- */
 
 .hero-carousel {
-  margin-top: -138px; /* Default: Pulls it up behind the header */
+  margin-top: -138px;
   position: relative;
   z-index: 1;
   transition: margin-top 0.4s ease;
 }
 
-/* Override margin-top only on homepage */
 .homepage-active .hero-carousel {
   margin-top: 0;
 }
 
 .hero-carousel .carousel-item {
-  /* Default height calculation - for pages where banner is BEHIND header */
   min-height: calc(100vh - 91px);
 
-  /* Default padding when banner is behind header */
   padding-top: 138px;
 
-  /* Other existing styles */
   background-position: center center;
   box-sizing: border-box;
   position: relative;
@@ -2176,19 +2040,14 @@ h1.hero-title {
 }
 
 
-/* --- OVERRIDE FOR HOMEPAGE ITEM HEIGHT AND PADDING --- */
 .homepage-active .hero-carousel .carousel-item {
-    /* CHANGE: Use a fixed viewport height percentage */
-    height: 75vh; /* Adjust this value (e.g., 70vh, 80vh) as needed */
-    /* REMOVE: height: calc(100vh - 191px); */
-    min-height: 450px; /* Keep fallback minimum height */
-    padding-top: 0; /* Keep internal padding removed */
+    height: 75vh;
+    min-height: 450px;
+    padding-top: 0;
 }
 
 
-/* Overlay */
 .hero-carousel .carousel-item::before {
-    /* ... existing overlay styles ... */
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -2196,21 +2055,16 @@ h1.hero-title {
     z-index: 2;
 }
 
-/* Captions and Indicators Styling (Keep as is) */
-/* ... (keep caption, button, indicator styles) ... */
-.hero-carousel .carousel-caption { /*...*/ z-index: 10;}
-.hero-carousel .btn-hero { /*...*/ z-index: 10;}
-.hero-carousel .carousel-indicators { /*...*/ z-index: 15;}
+.hero-carousel .carousel-caption { z-index: 10;}
+.hero-carousel .btn-hero { z-index: 10;}
+.hero-carousel .carousel-indicators { z-index: 15;}
 
 
-/* Ensure Collection Banners still have negative margin & internal padding */
 .collection-hero-banner {
-    /* ... existing styles ... */
     position: relative;
     min-height: calc(100vh - 91px);
     margin-top: -138px;
     padding-top: 138px;
-    /* ... other collection banner styles ... */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2220,11 +2074,8 @@ h1.hero-title {
     background-position: center;
 }
 
-/* ... rest of main.css ... */
 
-/* src/assets/css/main.css */
 
-/* ... (Keep existing styles for .collection-hero-banner base) ... */
 .collection-hero-banner {
     position: relative;
     min-height: calc(100vh - 91px);
@@ -2235,70 +2086,62 @@ h1.hero-title {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    background-size: cover; /* Apply cover by default */
-    background-position: center; /* Apply center by default */
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-    background-color: #eee; /* Default fallback color */
+    background-color: #eee;
 }
 
-/* --- ADD Background Image Rules for Each Collection --- */
-/* (Ensure these paths match your public/images/ folder structure) */
 
 .hero-bg-soulful-weaves { background-image: url('/images/soulful-weaves-hero-bg.jpg'); }
-.hero-bg-iktara-jamdani-stories { background-image: url('/images/iktara-jamdani-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-raanjhana-banarasi-weaves { background-image: url('../../../public/images/raanjhana-benarasi-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-masakali { background-image: url('/images/masakali-chanderi-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-popsicle { background-image: url('/images/popsicle-cottons-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-doodhe-aalta{ background-image: url('/images/doodhe-aalta-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-stories-from-home { background-image: url('/images/stories-from-home-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-roopkatha{ background-image: url('/images/roopkatha-baluchari-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-candyfloss{ background-image: url('/images/candyfloss-cottons-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-noor-a-tale-of-organza { background-image: url('/images/noor-organza-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-sunkissed{ background-image: url('/images/sunkissed-jewellery-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-a-midas-touch { background-image: url('/images/midas-touch-tussar-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-golden-hour { background-image: url('/images/golden-hour-jewellery-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-ek-sitara { background-image: url('/images/ek-sitara-kota-hero-bg.jpg'); } /* Check name generated by function */
-.hero-bg-smart-staples-a-workwear-edit { background-image: url('/images/smart-staples-workwear-hero-bg.jpg'); } /* Check name generated by function */
+.hero-bg-iktara-jamdani-stories { background-image: url('/images/iktara-jamdani-hero-bg.jpg'); }
+.hero-bg-raanjhana-banarasi-weaves { background-image: url('../../../public/images/raanjhana-benarasi-hero-bg.jpg'); }
+.hero-bg-masakali { background-image: url('/images/masakali-chanderi-hero-bg.jpg'); }
+.hero-bg-popsicle { background-image: url('/images/popsicle-cottons-hero-bg.jpg'); }
+.hero-bg-doodhe-aalta{ background-image: url('/images/doodhe-aalta-hero-bg.jpg'); }
+.hero-bg-stories-from-home { background-image: url('/images/stories-from-home-hero-bg.jpg'); }
+.hero-bg-roopkatha{ background-image: url('/images/roopkatha-baluchari-hero-bg.jpg'); }
+.hero-bg-candyfloss{ background-image: url('/images/candyfloss-cottons-hero-bg.jpg'); }
+.hero-bg-noor-a-tale-of-organza { background-image: url('/images/noor-organza-hero-bg.jpg'); }
+.hero-bg-sunkissed{ background-image: url('/images/sunkissed-jewellery-hero-bg.jpg'); }
+.hero-bg-a-midas-touch { background-image: url('/images/midas-touch-tussar-hero-bg.jpg'); }
+.hero-bg-golden-hour { background-image: url('/images/golden-hour-jewellery-hero-bg.jpg'); }
+.hero-bg-ek-sitara { background-image: url('/images/ek-sitara-kota-hero-bg.jpg'); }
+.hero-bg-smart-staples-a-workwear-edit { background-image: url('/images/smart-staples-workwear-hero-bg.jpg'); }
 
-/* --- Keep Hero Content Styles --- */
 .collection-hero-banner .hero-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.3); /* Adjust overlay darkness */
-    z-index: 1; /* Below content */
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 .collection-hero-banner .hero-content {
-    position: relative; /* Ensure content is above overlay */
+    position: relative;
     z-index: 2;
     text-align: center;
-    color: #ffffff; /* Default text color */
-    padding: 0 20px; /* Add some padding */
+    color: #ffffff;
+    padding: 0 20px;
 }
 .collection-hero-banner .hero-title {
     font-size: 28px;
     margin-bottom: 10px;
-    font-family: 'Cormorant Garamond', serif; /* Match other titles */
+    font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
 .collection-hero-banner .hero-subtitle {
     opacity: 0.9;
-    max-width: 650px; /* Adjust width as needed */
+    max-width: 650px;
     margin: 0 auto;
     line-height: 1.7;
-    font-size: 16px; /* Match other subtitles */
+    font-size: 16px;
     font-family: 'Jost', sans-serif;
 }
 
 
-/* ... rest of main.css ... */
 
-/* --------------------------------------------------- */
-/* COLLECTION HERO BANNER STYLES (UPDATED FIX) */
-/* --------------------------------------------------- */
 
-/* Base styles for ALL collection hero banners */
 .collection-hero-banner {
     min-height: calc(100vh - 91px);
     margin-top: -138px;
@@ -2313,7 +2156,6 @@ h1.hero-title {
     position: relative;
 }
 
-/* Add overlay for better text readability */
 .collection-hero-banner::before {
     content: '';
     position: absolute;
@@ -2331,7 +2173,6 @@ h1.hero-title {
     z-index: 2;
 }
 
-/* Specific background images for each collection */
 .saree-hero-banner {
     background-image: url('/images/hero-bg.jpg');
 }
@@ -2340,21 +2181,12 @@ h1.hero-title {
     background-image: url('/images/jewellery-hero-bg.jpg');
 }
 
-/* NEW: Add these classes for the missing collections */
 .raanjhana-hero-banner {
     background-image: url('../../../public/images/raanjhana-benarasi-hero-bg.jpg');
     background-position: center 40%;
 }
 
-/* .soulful-weaves-hero-banner {
-    background-image: url('https://www.amrapaliboutique.in/cdn/shop/collections/COLLECTION_BANNERS_2000_X_600PX_5_1600x.jpg?v=1690961189');
-    background-position: center 40%;
-} */
 
-/* .iktara-hero-banner {
-    background-image: url('../../../public/images/iktara-jamdani-hero-bg.jpg');
-    background-position: center 40%;
-} */
 
 .smart-staples-hero-banner {
     background-image: url('https://www.amrapaliboutique.in/cdn/shop/collections/COLLECTION_BANNERS_2000_X_600PX_6_1600x.jpg?v=1691555868');
@@ -2376,7 +2208,6 @@ h1.hero-title {
     background-position: center 40%;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .collection-hero-banner {
         min-height: 400px;
@@ -2393,12 +2224,9 @@ h1.hero-title {
     }
 }
 
-/* --------------------------------------------------- */
-/* LOGIN PAGE STYLES */
-/* --------------------------------------------------- */
 
 .login-page-container {
-    padding-top: 60px; /* Add some space from the header */
+    padding-top: 60px;
     padding-bottom: 60px;
 }
 
@@ -2421,12 +2249,12 @@ h1.hero-title {
     border: 1px solid #e5e5e5;
     padding: 14px 18px;
     font-size: 14px;
-    background-color: #f9f9f9; /* Match video background */
-    box-shadow: none; /* Remove default bootstrap shadow */
+    background-color: #f9f9f9;
+    box-shadow: none;
 }
 
 .login-input:focus {
-    border-color: #aaa; /* Slightly darker border on focus */
+    border-color: #aaa;
     background-color: #ffffff;
     box-shadow: none;
 }
@@ -2451,7 +2279,7 @@ h1.hero-title {
 }
 
 .btn-login {
-    background-color: #ffb3ba; /* Amrapali pink */
+    background-color: #ffb3ba;
     color: #ffffff;
     border: none;
     border-radius: 0;
@@ -2464,7 +2292,7 @@ h1.hero-title {
 }
 
 .btn-login:hover {
-    background-color: #ff9aa1; /* Darker pink */
+    background-color: #ff9aa1;
     color: #ffffff;
 }
 
@@ -2483,16 +2311,13 @@ h1.hero-title {
     color: #1c1c1c;
 }
 
-/* --------------------------------------------------- */
-/* REGISTER PAGE STYLES */
-/* --------------------------------------------------- */
 
 .register-page-container {
     padding-top: 60px;
     padding-bottom: 60px;
 }
 
-.register-title { /* Style like login title */
+.register-title {
     font-family: 'Jost', sans-serif;
     font-size: 14px;
     font-weight: 600;
@@ -2501,12 +2326,12 @@ h1.hero-title {
     color: #1c1c1c;
 }
 
-.register-subtitle { /* Style like login subtitle */
+.register-subtitle {
     font-size: 14px;
     color: #555;
 }
 
-.register-input { /* Style like login input */
+.register-input {
     border-radius: 0;
     border: 1px solid #e5e5e5;
     padding: 14px 18px;
@@ -2515,18 +2340,18 @@ h1.hero-title {
     box-shadow: none;
 }
 
-.register-input:focus { /* Style like login input focus */
+.register-input:focus {
     border-color: #aaa;
     background-color: #ffffff;
     box-shadow: none;
 }
 
-.register-input::placeholder { /* Style like login input placeholder */
+.register-input::placeholder {
     color: #999;
 }
 
-.btn-register { /* Style like login button */
-    background-color: #ffb3ba; /* Amrapali pink */
+.btn-register {
+    background-color: #ffb3ba;
     color: #ffffff;
     border: none;
     border-radius: 0;
@@ -2538,46 +2363,41 @@ h1.hero-title {
     transition: background-color 0.3s ease;
 }
 
-.btn-register:hover { /* Style like login button hover */
-    background-color: #ff9aa1; /* Darker pink */
+.btn-register:hover {
+    background-color: #ff9aa1;
     color: #ffffff;
 }
 
-.back-to-login-text { /* Style like create account text */
+.back-to-login-text {
      font-size: 14px;
      color: #555;
 }
 
-.back-to-login-text a { /* Style like create account link */
+.back-to-login-text a {
     color: #555;
     text-decoration: underline;
     text-underline-offset: 3px;
 }
 
-.back-to-login-text a:hover { /* Style like create account link hover */
+.back-to-login-text a:hover {
     color: #1c1c1c;
 }
 
-/* --------------------------------------------------- */
-/* SHOP DROPDOWN MENU STYLES */
-/* --------------------------------------------------- */
 
 .nav-item-shop {
-  position: relative; /* Container for absolute positioning */
+  position: relative;
 }
 
 .shop-dropdown-menu {
   position: absolute;
-  top: 100%; /* Position below the nav item */
+  top: 100%;
   left: 0;
-  width: 100vw; /* Full viewport width */
+  width: 100vw;
   background-color: #ffffff;
   border-top: 1px solid #e5e5e5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 30px 0;
-  /* --- INCREASE Z-INDEX --- */
-  z-index: 1020; /* Increased value */
-  /* --- END Z-INDEX --- */
+  z-index: 1020;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -2593,19 +2413,18 @@ h1.hero-title {
 }
 
 .shop-dropdown-menu .container {
-    max-width: 1140px; /* Or your standard container width */
+    max-width: 1140px;
     margin: 0 auto;
-    padding: 0 15px; /* Standard container padding */
+    padding: 0 15px;
 }
 
 
 .dropdown-col {
-  /* Add padding or specific styles for columns if needed */
 }
 
 .dropdown-col-title {
   font-family: 'Jost', sans-serif;
-  font-size: 11px; /* Smaller title */
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2616,16 +2435,16 @@ h1.hero-title {
 .dropdown-links .nav-link {
   font-family: 'Jost', sans-serif;
   font-size: 13px;
-  color: #555 !important; /* Override potential header link colors */
-  padding: 4px 0 !important; /* Adjust vertical spacing */
-  text-transform: none; /* Normal case */
+  color: #555 !important;
+  padding: 4px 0 !important;
+  text-transform: none;
   letter-spacing: 0.02em;
   transition: color 0.3s ease;
-  font-weight: 400; /* Lighter font weight */
+  font-weight: 400;
 }
 
 .dropdown-links .nav-link:hover {
-  color: #a8853d !important; /* Theme hover color */
+  color: #a8853d !important;
 }
 
 .dropdown-image-link {
@@ -2641,7 +2460,7 @@ h1.hero-title {
 
 .dropdown-image-link img {
   margin-bottom: 10px;
-  border: 1px solid #eee; /* Subtle border for images */
+  border: 1px solid #eee;
 }
 
 .dropdown-image-caption {
@@ -2654,108 +2473,86 @@ h1.hero-title {
   margin-top: 5px;
 }
 
-/* Adjustments for header hover state */
-/* Keep dropdown visible when hovering over it, needs container adjustment */
 .header-container.scrolled .nav-item-shop:hover .nav-link {
-    color: #a8853d !important; /* Keep SHOP link highlighted */
+    color: #a8853d !important;
 }
-/* Ensure dropdown background stays white even if header changes on hover */
 .header-container.nav-hovered:not(.scrolled) .shop-dropdown-menu {
     background-color: #ffffff;
 }
 
 .main-nav-container {
-  position: relative; /* Needed for absolute positioning of children */
+  position: relative;
 }
 
 .nav-item-shop {
-  position: static; /* Keep this static, dropdown will be relative to main-nav-container */
+  position: static;
 }
 
-/* ... existing .shop-dropdown-menu styles ... */
 .shop-dropdown-menu {
   position: absolute;
-  top: 100%; /* Position below the nav bar itself */
-  left: 0;   /* Align with the start of the main-nav-container */
-  right: 0;  /* Stretch to the end of the main-nav-container */
-  width: 100%; /* Make it full width of the main-nav-container */
-  max-width: 100%; /* Prevent exceeding parent width */
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 100%;
   background-color: #ffffff;
   border-top: 1px solid #e5e5e5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 30px 0;
-  z-index: 1020; /* Keep high z-index */
+  z-index: 1020;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px); /* Keep slight vertical transition */
+  transform: translateY(-10px);
   transition: opacity 0.3s ease, visibility 0s linear 0.3s, transform 0.3s ease;
-  /* Remove centering transforms and margins */
-  /* transform: translateX(-50%); */
-  /* margin-left: calc(-1 * (100vw - 100%) / 2); */
 }
 
-/* Center the inner container content */
 .shop-dropdown-menu .container {
-    max-width: 1140px; /* Or your standard container width */
-    margin: 0 auto; /* Center the content container */
-    padding: 0 15px; /* Standard container padding */
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 
 .nav-item-shop:hover .shop-dropdown-menu {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0); /* Animate vertically */
+  transform: translateY(0);
   transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
 }
 
-/* --------------------------------------------------- */
-/* SHOP DROPDOWN MENU STYLES (FIXED) */
-/* --------------------------------------------------- */
 
 .main-nav-container {
-  position: relative; /* This is the positioning parent for the dropdown */
+  position: relative;
 }
 
 .nav-item-shop {
-  /* No special position needed, it's just a list item */
 }
 
-/* This rule styles the dropdown menu itself. 
-  Visibility is controlled by React state (isShopDropdownOpen) in Header.jsx,
-  not by CSS hover.
-*/
 .shop-dropdown-menu {
   position: absolute;
-  top: 100%; /* Position it directly below the nav bar */
-  left: 0;   /* Align to the left edge of the main-nav-container */
-  right: 0;  /* Align to the right edge of the main-nav-container */
-  width: 100%; /* Make it full-width of its parent */
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
   background-color: #ffffff;
   border-top: 1px solid #e5e5e5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 30px 0;
-  z-index: 1020; /* Ensure it's on top */
+  z-index: 1020;
   
-  /* Transitions for smooth appearance/disappearance */
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
   transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
   
-  /* We don't need 'pointer-events: none' if we unmount it with React state */
 }
 
-/* This centers the content *inside* the full-width dropdown,
-  matching your site's main container.
-*/
 .shop-dropdown-menu .container {
-    max-width: 1140px; /* Or your standard container width */
-    margin: 0 auto; /* Center the content */
+    max-width: 1140px;
+    margin: 0 auto;
     padding: 0 15px;
 }
 
-/* Column titles */
 .dropdown-col-title {
   font-family: 'Jost', sans-serif;
   font-size: 11px;
@@ -2766,7 +2563,6 @@ h1.hero-title {
   color: #1c1c1c;
 }
 
-/* --- FIX: Remove underline from title links --- */
 .dropdown-col-title-link {
     padding: 0 !important;
     text-decoration: none !important;
@@ -2777,7 +2573,6 @@ h1.hero-title {
      color: #a8853d;
 }
 
-/* --- FIX: Remove underline from list links --- */
 .dropdown-links .nav-link {
   font-family: 'Jost', sans-serif;
   font-size: 13px;
@@ -2787,16 +2582,15 @@ h1.hero-title {
   letter-spacing: 0.02em;
   transition: color 0.3s ease;
   font-weight: 400;
-  text-decoration: none !important; /* This removes the underline */
+  text-decoration: none !important;
 }
 .dropdown-links .nav-link:hover {
   color: #a8853d !important;
 }
 
-/* Image links */
 .dropdown-image-link {
   display: block;
-  text-decoration: none !important; /* Ensure no underline on image links */
+  text-decoration: none !important;
   color: #1c1c1c;
   transition: opacity 0.3s ease;
 }
@@ -2804,12 +2598,11 @@ h1.hero-title {
   opacity: 0.85;
 }
 
-/* --- FIX: IMAGE SIZE --- */
 .dropdown-image-link img {
   width: 100%;
   display: block;
-  height: 200px; /* Sets a fixed height */
-  object-fit: cover; /* Ensures image fills the space without distortion */
+  height: 200px;
+  object-fit: cover;
   border: 1px solid #eee;
   margin-bottom: 0;
 }
@@ -2824,68 +2617,52 @@ h1.hero-title {
   margin-top: 10px;
 }
 
-/* Keep SHOP link highlighted when dropdown is open */
-/* (This still relies on hover, which is fine for link color) */
 .header-container.scrolled .nav-item-shop:hover .nav-link {
     color: #a8853d !important;
 }
-/* This rule is crucial for transparent header state */
 .header-container.nav-hovered:not(.scrolled) .nav-item-shop:hover .nav-link {
     color: #a8853d !important;
 }
 
-/* Ensure dropdown background stays white when header is transparent
-  but nav is hovered.
-*/
 .header-container.nav-hovered:not(.scrolled) .shop-dropdown-menu {
     background-color: #ffffff;
 }
 
-/* --------------------------------------------------- */
-/* SEARCH BAR OVERLAY STYLES (New Section) */
-/* --------------------------------------------------- */
 
-/* Base container for the search overlay */
 .search-bar-overlay {
     position: fixed;
-    /* This places the overlay exactly 138px down, sitting flush below the header */
     top: 175px; 
     left: 0;
     width: 100%;
-    height: 100vh; /* Set to full viewport height */
+    height: 100vh;
     
-    /* Start fully hidden/closed */
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
     
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 990; /* High enough to cover content, below the header (z-index 1000) */
+    z-index: 990;
     overflow-y: auto; 
     transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0.4s;
 }
 
-/* State when search is OPEN */
 .search-bar-overlay.open {
-    /* Slide it down to cover the content area */
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
     transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0s;
 }
 
-/* Content wrapper (to mimic the video layout) */
 .search-bar-overlay .container {
     max-width: 1140px;
 }
 
-/* Search Input Container Styling */
 .search-container {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #e5e5e5;
-    padding: 25px 0; /* Vertical padding to space it out from the top */
+    padding: 25px 0;
     margin-bottom: 20px;
 }
 
@@ -2926,7 +2703,6 @@ h1.hero-title {
     color: #1c1c1c;
 }
 
-/* Search Results Area Styling */
 .search-results-area {
     padding-bottom: 50px;
 }
@@ -2955,18 +2731,15 @@ h1.hero-title {
     color: #a8853d;
 }
 
-/* Product Column Customization */
 .search-products-col .row {
     margin: 0 -10px; 
 }
 
-/* Adjust padding for ProductCard elements inside the search results */
 .search-products-col .col {
     padding-left: 10px;
     padding-right: 10px;
 }
 
-/* Blog/Journal Column */
 .search-journal-col {
     border-left: 1px solid #e5e5e5;
     padding-left: 25px;
@@ -3002,10 +2775,9 @@ h1.hero-title {
     overflow: hidden;
 }
 
-/* Mobile Adjustments */
 @media (max-width: 767px) {
     .search-bar-overlay {
-        top: 90px; /* Assuming header height is 90px on mobile */
+        top: 90px;
     }
     .search-input {
         font-size: 16px;
@@ -3019,27 +2791,15 @@ h1.hero-title {
     }
 }
 
-/* src/assets/css/main.css (Add to end of file if not already present) */
 
-/* Wishlist Drawer Style - Reuses cart-drawer base styles */
 .wishlist-drawer {
-    /* Optionally override background if you want it different from cart */
-    /* background-color: #fcfcfc; */ 
 }
 
-/* Ensure drawer opens to the correct size */
-/* No change needed as it reuses .cart-drawer: 400px width */
 
-/* Style for the Guest Shopper Modal (using inline styles in JSX now, but keep CSS for future) */
-/* .guest-shopper-modal-overlay { ... } */
-/* .guest-shopper-modal { ... } */
 .hero-bg-potpourri { background-image: url('/images/potpourri-hero-bg.jpg'); }
 
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
-/* --- Customer Review Slider Arrows --- */
 .customer-review-slider-section .slick-prev,
 .customer-review-slider-section .slick-next {
     font-size: 0;
@@ -3047,21 +2807,21 @@ h1.hero-title {
     position: absolute;
     top: 50%;
     display: block;
-    width: 35px; /* Adjust size */
-    height: 35px; /* Adjust size */
+    width: 35px;
+    height: 35px;
     padding: 0;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #999; /* Arrow color */
-    border: 1px solid #e5e5e5; /* Border */
+    color: #999;
+    border: 1px solid #e5e5e5;
     outline: none;
-    background: #fff; /* White background */
-    border-radius: 50%; /* Make it round */
+    background: #fff;
+    border-radius: 50%;
     z-index: 1;
     transition: all 0.3s ease;
 }
-.customer-review-slider-section .slick-prev { left: -15px; } /* Adjust position */
-.customer-review-slider-section .slick-next { right: -15px; } /* Adjust position */
+.customer-review-slider-section .slick-prev { left: -15px; }
+.customer-review-slider-section .slick-next { right: -15px; }
 
 .customer-review-slider-section .slick-prev:hover,
 .customer-review-slider-section .slick-next:hover {
@@ -3072,11 +2832,11 @@ h1.hero-title {
 
 .customer-review-slider-section .slick-prev:before,
 .customer-review-slider-section .slick-next:before {
-    font-family: 'slick'; /* Make sure slick font is loaded (it should be) */
-    font-size: 18px; /* Arrow icon size */
+    font-family: 'slick';
+    font-size: 18px;
     line-height: 1;
     opacity: 1;
-    color: inherit; /* Use button color */
+    color: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -3097,42 +2857,31 @@ h1.hero-title {
      color: #ccc;
 }
 
-/* --- Specific Rule for Solid Homepage Header --- */
-/* Apply solid background immediately ONLY if homepage-active class is present */
 .homepage-active .header-container,
 .homepage-active .main-header-content {
-     background-color: #ffffff !important; /* Force white background on homepage */
-     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); /* Add shadow on homepage too */
+     background-color: #ffffff !important;
+     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
-/* Ensure links/icons are dark on homepage solid header */
 .homepage-active .nav-link {
-    color: #1c1c1c !important; /* Dark nav links */
+    color: #1c1c1c !important;
 }
 .homepage-active .header-icons img,
 .homepage-active .header-icons button img {
-    filter: none !important; /* Dark icons (remove invert filter) */
+    filter: none !important;
 }
-/* --- FIX for Text Visibility START --- */
-/* Target the greeting span and logout button span specifically on homepage */
-.homepage-active .header-icons > span, /* Targets the 'Hi, User' span */
-.homepage-active .header-icons button > span { /* Targets the 'Logout' span inside the button */
-    color: #1c1c1c !important; /* Default dark color for greeting */
-}
-/* Specifically color the logout link text gold on homepage */
+.homepage-active .header-icons > span,
 .homepage-active .header-icons button > span {
-    color: #a8853d !important; /* Gold color for logout link text */
+    color: #1c1c1c !important;
+}
+.homepage-active .header-icons button > span {
+    color: #a8853d !important;
 }
 
-/* --- FIX for Text Visibility END --- */
 .homepage-active .main-nav-container {
-    border-bottom: 1px solid #e5e5e5 !important; /* Add border on homepage */
+    border-bottom: 1px solid #e5e5e5 !important;
 }
-/* --- End Specific Rule for Homepage --- */
 
-/* Ensure other rules don't override homepage solid state unnecessarily */
-/* ... (rest of your existing header styles, like .header-container.scrolled, etc.) ... */
 
-/* Example: Ensure hover styles don't conflict */
 .header-container.nav-hovered:not(.scrolled):not(.homepage-active) .main-header-content {
     background-color: #ffffff;
 }
@@ -3144,12 +2893,9 @@ h1.hero-title {
     filter: none;
 }
 
-/* --------------------------------------------------- */
-/* BLOG DETAIL PAGE STYLES */
-/* --------------------------------------------------- */
 
 .blog-detail-page-container {
-    padding-top: 40px; /* Adjust as needed */
+    padding-top: 40px;
     font-family: 'Jost', sans-serif;
     color: #1c1c1c;
 }
@@ -3173,7 +2919,7 @@ h1.hero-title {
 }
 
 .blog-detail-image {
-    max-height: 500px; /* Limit image height */
+    max-height: 500px;
     width: 100%;
     object-fit: cover;
 }
@@ -3189,7 +2935,7 @@ h1.hero-title {
 
 .blog-detail-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem; /* Larger title */
+    font-size: 2.2rem;
     font-weight: 600;
     color: #1c1c1c;
     margin-bottom: 30px;
@@ -3205,7 +2951,6 @@ h1.hero-title {
 .blog-detail-content p {
     margin-bottom: 1.8rem;
 }
-/* Add styles for other content elements like blockquotes, lists if needed */
 .blog-detail-content blockquote {
     border-left: 3px solid #e5e5e5;
     padding-left: 20px;
@@ -3267,7 +3012,7 @@ h1.hero-title {
 }
 
 .blog-comment-submit-btn {
-    background-color: #ffb3ba; /* Amrapali pink */
+    background-color: #ffb3ba;
     color: #ffffff;
     border: none;
     border-radius: 0;
@@ -3279,14 +3024,14 @@ h1.hero-title {
     transition: background-color 0.3s ease;
 }
 .blog-comment-submit-btn:hover {
-    background-color: #ff9aa1; /* Darker pink */
+    background-color: #ff9aa1;
     color: #ffffff;
 }
 
 .related-posts-section {
     border-top: 1px solid #e5e5e5;
     padding-top: 40px;
-    margin-top: 50px; /* Space above related posts */
+    margin-top: 50px;
 }
 
 .related-post-card {
@@ -3304,7 +3049,7 @@ h1.hero-title {
 }
 .related-post-card p {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem; /* Slightly smaller than main blog title */
+    font-size: 1.1rem;
     font-weight: 600;
     color: #1c1c1c;
     margin-top: 10px;
@@ -3312,24 +3057,19 @@ h1.hero-title {
     transition: color 0.3s ease;
 }
 .related-post-card:hover p {
-    color: #a8853d; /* Theme hover gold */
+    color: #a8853d;
 }
 
-/* --------------------------------------------------- */
-/* CHECKOUT PAGE STYLES */
-/* --------------------------------------------------- */
 
 .checkout-container {
     padding-top: 40px;
     padding-bottom: 60px;
-    background-color: #f9f9f9; /* Light grey background */
+    background-color: #f9f9f9;
     font-family: 'Jost', sans-serif;
     color: #333;
-    /* Remove body padding for checkout page specifically if header is hidden */
     padding-top: 0 !important;
 }
 
-/* Specific body style when checkout is active - might need JS to add class to body */
 body.checkout-active {
     padding-top: 0 !important;
 }
@@ -3338,7 +3078,7 @@ body.checkout-active {
 .checkout-header {
     text-align: center;
     margin-bottom: 30px;
-    padding-top: 40px; /* Add padding if header is hidden */
+    padding-top: 40px;
 }
 
 .checkout-logo {
@@ -3347,9 +3087,9 @@ body.checkout-active {
 }
 
 .checkout-section {
-    background-color: #ffffff; /* White background for sections */
+    background-color: #ffffff;
     padding: 25px;
-    border-radius: 8px; /* Slightly rounded corners */
+    border-radius: 8px;
     margin-bottom: 20px;
     border: 1px solid #e5e5e5;
 }
@@ -3373,13 +3113,13 @@ body.checkout-active {
     border: 1px solid #ccc;
     padding: 10px 14px;
     font-size: 14px;
-    box-shadow: none !important; /* Override bootstrap focus */
-    background-color: #fff; /* Ensure white background */
+    box-shadow: none !important;
+    background-color: #fff;
 }
 
 .checkout-form-control:focus {
     border-color: #999;
-    box-shadow: none !important; /* Override bootstrap focus */
+    box-shadow: none !important;
 }
 
 .checkout-form-select {
@@ -3387,25 +3127,25 @@ body.checkout-active {
     border: 1px solid #ccc;
     padding: 10px 14px;
     font-size: 14px;
-    box-shadow: none !important; /* Override bootstrap focus */
-    appearance: none; /* remove default arrow */
+    box-shadow: none !important;
+    appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999' stroke-width='1.5'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
     padding-right: 35px;
-    background-color: #fff; /* Ensure white background */
+    background-color: #fff;
 }
 .checkout-form-select:focus {
     border-color: #999;
-    box-shadow: none !important; /* Override bootstrap focus */
+    box-shadow: none !important;
 }
 
 .checkout-form-check-label {
     font-size: 14px;
-    padding-left: 5px; /* Space between checkbox and label */
+    padding-left: 5px;
 }
 .form-check-input:checked {
-    background-color: #1c1c1c; /* Dark check */
+    background-color: #1c1c1c;
     border-color: #1c1c1c;
 }
 .form-check-input:focus {
@@ -3420,7 +3160,7 @@ body.checkout-active {
     border-radius: 8px;
     border: 1px solid #e5e5e5;
     position: sticky;
-    top: 40px; /* Adjust if header is shown or based on layout needs */
+    top: 40px;
 }
 
 .order-item {
@@ -3441,15 +3181,15 @@ body.checkout-active {
     border: 1px solid #eee;
     border-radius: 6px;
     margin-right: 15px;
-    flex-shrink: 0; /* Prevent image shrinking */
+    flex-shrink: 0;
 }
 
 .order-item-img {
     width: 50px;
-    height: 65px; /* Adjust aspect ratio */
+    height: 65px;
     object-fit: cover;
     border-radius: 6px;
-    display: block; /* Remove extra space below image */
+    display: block;
 }
 
 .order-item-badge {
@@ -3472,7 +3212,7 @@ body.checkout-active {
 .order-item-details {
     flex-grow: 1;
     font-size: 13px;
-    margin-right: 10px; /* Space before price */
+    margin-right: 10px;
 }
 .order-item-name {
     font-weight: 500;
@@ -3487,14 +3227,14 @@ body.checkout-active {
     font-weight: 500;
     color: #1c1c1c;
     font-size: 14px;
-    white-space: nowrap; /* Prevent price wrapping */
+    white-space: nowrap;
 }
 
 .discount-section .input-group {
     margin-bottom: 20px;
 }
 .discount-section .form-control {
-    border-right: none; /* Remove border between input and button */
+    border-right: none;
 }
 .discount-section .btn-apply {
     background-color: #e0e0e0;
@@ -3526,7 +3266,7 @@ body.checkout-active {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid #eee;
-    color: #1c1c1c; /* Total text should be dark */
+    color: #1c1c1c;
 }
 .total-line .currency-code {
     font-size: 12px;
@@ -3534,7 +3274,7 @@ body.checkout-active {
     margin-right: 5px;
 }
 .total-line strong {
-    font-size: 20px; /* Make total value slightly larger */
+    font-size: 20px;
 }
 
 .payment-method {
@@ -3542,17 +3282,17 @@ body.checkout-active {
     border-radius: 6px;
     padding: 15px;
     margin-bottom: 10px;
-    background-color: #fff; /* Ensure white background */
+    background-color: #fff;
 }
 .payment-method .form-check {
-     min-height: auto; /* Override bootstrap default */
-     padding-left: 0; /* Remove padding for custom layout */
+     min-height: auto;
+     padding-left: 0;
 }
 .payment-method .form-check-input[type="radio"] {
-     float: none; /* Override bootstrap */
+     float: none;
      margin-left: 0;
-     margin-right: 10px; /* Space between radio and label */
-     margin-top: 0.2em; /* Align vertically */
+     margin-right: 10px;
+     margin-top: 0.2em;
 }
 .payment-method label {
     display: flex;
@@ -3568,12 +3308,12 @@ body.checkout-active {
 .payment-icons {
     display: flex;
     align-items: center;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
 }
 .payment-icons img {
     height: 20px;
     margin-left: 5px;
-    border: 1px solid #eee; /* Add subtle border to icons */
+    border: 1px solid #eee;
 }
 .payment-icons span {
      margin-left: 5px;
@@ -3581,19 +3321,19 @@ body.checkout-active {
 
 
 .billing-address-options {
-     background-color: #f7f7f7; /* Slightly different background for options area */
+     background-color: #f7f7f7;
      border: 1px solid #e0e0e0;
      border-radius: 6px;
-     padding: 0; /* Remove padding, handled by inner options */
+     padding: 0;
 }
 .billing-address-option {
-    background-color: transparent; /* Options are transparent within container */
+    background-color: transparent;
     border: none;
     border-bottom: 1px solid #e0e0e0;
     padding: 15px;
     cursor: pointer;
-    margin-bottom: 0; /* No margin between options */
-    border-radius: 0; /* Remove inner border radius */
+    margin-bottom: 0;
+    border-radius: 0;
 }
 .billing-address-option:last-child {
     border-bottom: none;
@@ -3610,16 +3350,16 @@ body.checkout-active {
 }
 .billing-address-option label {
     width: 100%;
-    display: block; /* Make label take full width */
+    display: block;
     cursor: pointer;
 }
 .billing-address-details {
      border-top: 1px solid #e0e0e0;
      padding-top: 15px;
      margin-top: 15px;
-     background-color: #fff; /* White background for form */
+     background-color: #fff;
      padding: 20px;
-     border-radius: 0 0 6px 6px; /* Round bottom corners */
+     border-radius: 0 0 6px 6px;
 }
 
 .btn-pay-now {
@@ -3641,7 +3381,7 @@ body.checkout-active {
 .footer-links {
     text-align: center;
     margin-top: 30px;
-    padding-bottom: 30px; /* Add padding at the bottom */
+    padding-bottom: 30px;
 }
 .footer-links a {
     font-size: 12px;
@@ -3654,35 +3394,30 @@ body.checkout-active {
     color: #1c1c1c;
 }
 
-/* Ensure right column order summary doesn't overlap footer on smaller screens */
 @media (max-width: 767px) {
     .order-summary {
-        position: static; /* Remove sticky positioning */
+        position: static;
         margin-top: 20px;
     }
     .checkout-header {
         padding-top: 20px;
     }
 }
-/* --------------------------------------------------- */
-/* BLOG DETAIL PAGE STYLES (Updated) */
-/* --------------------------------------------------- */
 .blog-detail-page-container {
-    padding-top: 0; /* Remove top padding, now handled by row */
+    padding-top: 0;
     padding-bottom: 60px;
     font-family: 'Jost', sans-serif;
     color: #1c1c1c;
 }
 
-/* --- NEW: Now Reading Bar Styles --- */
 .now-reading-bar {
     background-color: #ffffff;
     border-bottom: 1px solid #e5e5e5;
     padding: 10px 0;
-    position: sticky; /* Make it sticky */
-    top: 138px; /* Stick below the header */
-    z-index: 950; /* Below header, above content */
-    margin-bottom: 30px; /* Space below the bar */
+    position: sticky;
+    top: 138px;
+    z-index: 950;
+    margin-bottom: 30px;
 }
 .now-reading-text {
     font-size: 11px;
@@ -3693,8 +3428,8 @@ body.checkout-active {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding-right: 15px; /* Space before share/nav */
-    flex-shrink: 1; /* Allow shrinking */
+    padding-right: 15px;
+    flex-shrink: 1;
 }
 .blog-nav-buttons .btn {
     font-size: 11px;
@@ -3717,11 +3452,9 @@ body.checkout-active {
     margin: 0 5px;
 }
 
-/* --- END: Now Reading Bar Styles --- */
 
-/* Keep existing blog detail styles, but add a few */
 .blog-detail-nav {
-    display: none; /* Hide the old top nav, replaced by sticky bar */
+    display: none;
 }
 
 .blog-detail-image {
@@ -3730,18 +3463,18 @@ body.checkout-active {
     object-fit: cover;
 }
 
-.blog-detail-meta { /* Keep as is */ }
-.blog-detail-title { /* Keep as is */ }
+.blog-detail-meta { }
+.blog-detail-title { }
 
 .blog-detail-content {
-    font-size: 16px; /* Adjust as desired */
+    font-size: 16px;
     line-height: 1.9;
     color: #555;
 }
 .blog-detail-content p {
     margin-bottom: 1.8rem;
 }
-.blog-detail-content h4 { /* Style for headings within content */
+.blog-detail-content h4 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.5rem;
     font-weight: 600;
@@ -3750,19 +3483,19 @@ body.checkout-active {
     color: #1c1c1c;
 }
 .blog-embedded-image {
-    display: block; /* Center image if needed */
+    display: block;
     margin-left: auto;
     margin-right: auto;
-    max-width: 100%; /* Ensure it doesn't overflow */
+    max-width: 100%;
     height: auto;
 }
 .blog-link-list {
-    margin: 20px 0; /* Add space around link list */
+    margin: 20px 0;
 }
 .blog-content-link {
-    display: block; /* Links on separate lines */
+    display: block;
     margin-bottom: 8px;
-    color: #a8853d; /* Link color */
+    color: #a8853d;
     text-decoration: underline;
     font-weight: 500;
 }
@@ -3770,57 +3503,55 @@ body.checkout-active {
     color: #1c1c1c;
 }
 .blog-numbered-list {
-    margin-left: 20px; /* Indent list */
+    margin-left: 20px;
     margin-bottom: 1.8rem;
 }
 .blog-numbered-list li {
-    margin-bottom: 1rem; /* Space between list items */
+    margin-bottom: 1rem;
 }
-.blog-numbered-list li strong { /* Style the bold part */
-    display: block; /* Put title on its own line */
+.blog-numbered-list li strong {
+    display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
     color: #1c1c1c;
 }
 
 
-.blog-detail-footer { /* Keep as is */ }
-.blog-comment-section { /* Keep as is */ }
-.blog-comment-title { /* Keep as is */ }
-.blog-comment-input, .blog-comment-textarea { /* Keep as is */ }
-.blog-comment-moderation-note { /* Keep as is */ }
-.blog-comment-submit-btn { /* Keep as is */ }
-.related-posts-section { /* Keep as is */ }
-.related-post-card { /* Keep as is */ }
+.blog-detail-footer { }
+.blog-comment-section { }
+.blog-comment-title { }
+.blog-comment-input, .blog-comment-textarea { }
+.blog-comment-moderation-note { }
+.blog-comment-submit-btn { }
+.related-posts-section { }
+.related-post-card { }
 
-/* Responsive adjustments for Now Reading Bar */
 @media (max-width: 767px) {
     .now-reading-bar .blog-detail-share {
-        display: none; /* Hide share icons in bar on small screens */
+        display: none;
     }
     .now-reading-text {
-        max-width: 60%; /* Allow more space for text */
+        max-width: 60%;
     }
 }
-/* --- Add/Update these styles in main.css --- */
 
 .blog-embedded-image {
-    display: block; /* Center image if needed */
+    display: block;
     margin-left: auto;
     margin-right: auto;
-    max-width: 100%; /* Ensure it doesn't overflow */
+    max-width: 100%;
     height: auto;
-    border: 1px solid #eee; /* Optional subtle border */
+    border: 1px solid #eee;
 }
 
 .blog-image-link:hover img {
-    opacity: 0.9; /* Slight hover effect for linked images */
+    opacity: 0.9;
 }
 
 .blog-content-link {
-    display: block; /* Default to block for lists */
+    display: block;
     margin-bottom: 8px;
-    color: #a8853d; /* Link color */
+    color: #a8853d;
     text-decoration: underline;
     font-weight: 500;
 }
@@ -3828,41 +3559,33 @@ body.checkout-active {
     color: #1c1c1c;
 }
 .blog-content-link.inline {
-    display: inline; /* Style for links within paragraphs */
+    display: inline;
     margin-bottom: 0;
-    margin-left: 4px; /* Space before inline link */
+    margin-left: 4px;
 }
 
-/* Ensure headings inside lists look correct */
 .blog-numbered-list li strong {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
     color: #1c1c1c;
-    /* Prevent heading styles from applying here if they conflict */
     font-family: 'Jost', sans-serif;
-    font-size: inherit; /* Inherit size from list item */
+    font-size: inherit;
     letter-spacing: normal;
     text-transform: none;
 }
 
-/* src/assets/css/main.css */
 
-/* ... (Keep all your other existing styles for header, footer, products, etc.) ... */
 
-/* --------------------------------------------------- */
-/* CHECKOUT PAGE STYLES */
-/* --------------------------------------------------- */
 
-/* ADJUST: Remove body padding for checkout */
 body.checkout-active {
     padding-top: 0 !important;
 }
 
 .checkout-container {
-    padding-top: 0; /* REMOVE top padding */
+    padding-top: 0;
     padding-bottom: 60px;
-    background-color: #f9f9f9; /* Match reference video light gray */
+    background-color: #f9f9f9;
     font-family: 'Jost', sans-serif;
     color: #333;
 }
@@ -3870,7 +3593,7 @@ body.checkout-active {
 .checkout-header {
     text-align: center;
     margin-bottom: 30px;
-    padding-top: 40px; /* Space from top of page */
+    padding-top: 40px;
 }
 
 .checkout-logo {
@@ -3881,35 +3604,34 @@ body.checkout-active {
 .checkout-section {
     background-color: #ffffff;
     padding: 25px;
-    border-radius: 8px; /* Slightly rounded corners like video */
+    border-radius: 8px;
     margin-bottom: 20px;
     border: 1px solid #e5e5e5;
 }
 
 .checkout-section-title {
-    font-size: 18px; /* Matches video */
+    font-size: 18px;
     font-weight: 500;
     margin-bottom: 20px;
     color: #1c1c1c;
 }
 
 .checkout-form-label {
-    font-size: 13px; /* Matches video */
+    font-size: 13px;
     font-weight: 500;
     margin-bottom: 5px;
     color: #555;
 }
 
-/* ADJUST Input Styles */
 .checkout-form-control,
 .checkout-form-select {
-    border-radius: 4px; /* Matches video */
+    border-radius: 4px;
     border: 1px solid #ccc;
     padding: 10px 14px;
     font-size: 14px;
     box-shadow: none !important;
-    background-color: #ffffff; /* Explicitly white */
-    color: #333; /* Ensure text is dark */
+    background-color: #ffffff;
+    color: #333;
 }
 .checkout-form-control::placeholder {
     color: #999;
@@ -3918,7 +3640,7 @@ body.checkout-active {
 
 .checkout-form-control:focus,
 .checkout-form-select:focus {
-    border-color: #888; /* Slightly darker focus */
+    border-color: #888;
     box-shadow: none !important;
     background-color: #ffffff;
 }
@@ -3932,10 +3654,9 @@ body.checkout-active {
 }
 
 .checkout-form-check-label {
-    font-size: 14px; /* Matches video */
+    font-size: 14px;
     padding-left: 5px;
 }
-/* Ensure checkboxes align nicely */
 .form-check-input {
     margin-top: 0.2em;
 }
@@ -3950,15 +3671,14 @@ body.checkout-active {
 
 
 .order-summary {
-    background-color: #f9f9f9; /* Light gray background like video */
+    background-color: #f9f9f9;
     padding: 25px;
     border: 1px solid #e5e5e5;
-    border-radius: 8px; /* Matches video */
+    border-radius: 8px;
     position: sticky;
-    top: 40px; /* Adjust as needed */
+    top: 40px;
 }
 
-/* (Order Item styles remain largely the same, ensure they look okay) */
 .order-item { display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
 .order-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 .order-item-img-wrapper { position: relative; border: 1px solid #eee; border-radius: 6px; margin-right: 15px; flex-shrink: 0; }
@@ -3969,13 +3689,12 @@ body.checkout-active {
 .order-item-variant { color: #777; font-size: 12px; }
 .order-item-price { font-weight: 500; color: #1c1c1c; font-size: 14px; white-space: nowrap; }
 
-/* ADJUST Discount section styles */
 .discount-section .form-control {
     border-right: none;
     border-radius: 4px 0 0 4px;
 }
 .discount-section .btn-apply {
-    background-color: #ccc; /* Darker gray like video */
+    background-color: #ccc;
     border: 1px solid #ccc;
     color: #555;
     font-size: 14px;
@@ -3988,14 +3707,12 @@ body.checkout-active {
      border-color: #bbb;
 }
 
-/* Summary styles remain the same */
 .summary-line { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; color: #555; }
 .summary-line strong { color: #1c1c1c; }
 .total-line { font-size: 18px; font-weight: 500; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; color: #1c1c1c; }
 .total-line .currency-code { font-size: 12px; color: #777; margin-right: 5px; }
 .total-line strong { font-size: 20px; }
 
-/* Payment Method styles remain the same */
 .payment-method { border: 1px solid #ccc; border-radius: 6px; padding: 15px; margin-bottom: 10px; background-color: #fff; }
 .payment-method .form-check { min-height: auto; padding-left: 0; }
 .payment-method .form-check-input[type="radio"] { float: none; margin-left: 0; margin-right: 10px; margin-top: 0.2em; }
@@ -4005,7 +3722,6 @@ body.checkout-active {
 .payment-icons img { height: 20px; margin-left: 5px; border: 1px solid #eee; }
 .payment-icons span { margin-left: 5px; }
 
-/* Billing Address styles remain the same */
 .billing-address-options { background-color: #f7f7f7; border: 1px solid #e0e0e0; border-radius: 6px; padding: 0; }
 .billing-address-option { background-color: transparent; border: none; border-bottom: 1px solid #e0e0e0; padding: 15px; cursor: pointer; margin-bottom: 0; border-radius: 0; }
 .billing-address-option:last-child { border-bottom: none; }
@@ -4014,28 +3730,25 @@ body.checkout-active {
 .billing-address-option label { width: 100%; display: block; cursor: pointer; }
 .billing-address-details { border-top: 1px solid #e0e0e0; padding-top: 15px; margin-top: 15px; background-color: #fff; padding: 20px; border-radius: 0 0 6px 6px; }
 
-/* Pay Button Styles */
 .btn-pay-now {
-    background-color: #1c1c1c; /* Dark black like video */
+    background-color: #1c1c1c;
     color: white;
-    font-size: 14px; /* Slightly smaller like video */
+    font-size: 14px;
     font-weight: 500;
-    padding: 15px 30px; /* Adjust padding */
-    border-radius: 4px; /* Rounded like video */
+    padding: 15px 30px;
+    border-radius: 4px;
     border: none;
-    text-transform: none; /* Normal case like video */
+    text-transform: none;
 }
 .btn-pay-now:hover {
-     background-color: #333; /* Slightly lighter black */
+     background-color: #333;
      color: white;
 }
 
-/* Footer Links styles remain the same */
-.footer-links { text-align: left; /* Aligned left below button row */ margin-top: 15px; padding-bottom: 30px; }
-.footer-links a { font-size: 12px; color: #555; text-decoration: none; margin-right: 15px; } /* Increased margin */
+.footer-links { text-align: left; margin-top: 15px; padding-bottom: 30px; }
+.footer-links a { font-size: 12px; color: #555; text-decoration: none; margin-right: 15px; }
 .footer-links a:hover { text-decoration: underline; color: #1c1c1c; }
 
-/* Responsive adjustments */
 @media (max-width: 767px) {
     .order-summary {
         position: static;
@@ -4044,38 +3757,31 @@ body.checkout-active {
     .checkout-header {
         padding-top: 20px;
     }
-     /* Stack button/return link */
     .btn-pay-now {
-        width: 100%; /* Full width on mobile */
+        width: 100%;
     }
 }
 
-/* src/assets/css/main.css */
 
-/* ... existing styles ... */
 
-/* --------------------------------------------------- */
-/* PRODUCT DETAIL PAGE STYLES */
-/* --------------------------------------------------- */
 
 .product-detail-page-container {
-    padding-top: 40px; /* Adjust if header is hidden */
+    padding-top: 40px;
 }
 
-/* Specific body style adjustment if header/footer hidden */
 body.product-detail-active {
     padding-top: 0 !important;
 }
 
 .product-main-detail-image {
     width: 100%;
-    border: 1px solid #eee; /* Subtle border */
+    border: 1px solid #eee;
 }
 
 .product-thumbnail {
     opacity: 0.7;
     transition: opacity 0.2s ease;
-    border: 1px solid #ddd; /* Default border */
+    border: 1px solid #ddd;
     padding: 2px;
 }
 .product-thumbnail:hover {
@@ -4083,12 +3789,12 @@ body.product-detail-active {
 }
 .product-thumbnail.active {
     opacity: 1;
-    border: 2px solid #a8853d; /* Highlight active thumbnail */
+    border: 2px solid #a8853d;
 }
 
 .product-detail-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 26px; /* Match product card title style */
+    font-size: 26px;
     font-weight: 600;
     margin-bottom: 5px;
 }
@@ -4102,7 +3808,7 @@ body.product-detail-active {
 }
 
 .product-detail-price {
-    font-size: 20px; /* Slightly larger price */
+    font-size: 20px;
     font-family: 'Jost', sans-serif;
     color: #1c1c1c;
     margin-bottom: 20px;
@@ -4111,22 +3817,20 @@ body.product-detail-active {
     font-size: 16px;
 }
 
-/* Quantity selector on detail page */
 .quantity-selector.product-detail-quantity {
-    display: inline-flex; /* Align properly */
-    height: 45px; /* Match video */
-    margin-bottom: 25px; /* Space below */
+    display: inline-flex;
+    height: 45px;
+    margin-bottom: 25px;
 }
 .quantity-selector.product-detail-quantity button {
-     width: 45px; /* Match video */
-     padding: 10px 15px; /* Adjust padding */
+     width: 45px;
+     padding: 10px 15px;
 }
 .quantity-selector.product-detail-quantity span {
-    min-width: 50px; /* Match video */
+    min-width: 50px;
     padding: 0 10px;
 }
 
-/* Addon Checkbox */
 .product-addons {
     border-top: 1px solid #eee;
     padding-top: 20px;
@@ -4152,7 +3856,6 @@ body.product-detail-active {
     color: #555;
 }
 
-/* Detail Page Buttons */
 .btn-add-to-cart-detail,
 .btn-buy-now-detail {
     border-radius: 0;
@@ -4173,16 +3876,15 @@ body.product-detail-active {
     color: #ffffff;
 }
 .btn-buy-now-detail {
-    background-color: #ffb3ba; /* Amrapali pink */
+    background-color: #ffb3ba;
     color: #ffffff;
     border: none;
 }
 .btn-buy-now-detail:hover {
-    background-color: #ff9aa1; /* Darker pink */
+    background-color: #ff9aa1;
     color: #ffffff;
 }
 
-/* Detail Page Wishlist Button */
 .btn-product-wishlist-detail {
     background: none !important;
     border: none !important;
@@ -4191,7 +3893,7 @@ body.product-detail-active {
     text-align: left;
     color: #333;
     text-decoration: none;
-    display: inline-flex; /* Align icon and text */
+    display: inline-flex;
     align-items: center;
     box-shadow: none !important;
 }
@@ -4199,10 +3901,9 @@ body.product-detail-active {
     color: #a8853d;
 }
 .btn-product-wishlist-detail svg {
-    margin-right: 8px; /* Space between icon and text */
+    margin-right: 8px;
 }
 
-/* Product Detail Tabs */
 .product-detail-tabs .nav-tabs {
     border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
@@ -4211,19 +3912,19 @@ body.product-detail-active {
     border: none;
     border-bottom: 2px solid transparent;
     color: #777;
-    font-size: 13px; /* Match video */
+    font-size: 13px;
     text-transform: uppercase;
-    padding: 0.5rem 0; /* Match video padding */
-    margin-right: 1.5rem; /* Match video spacing */
+    padding: 0.5rem 0;
+    margin-right: 1.5rem;
     font-weight: 500;
 }
 .product-detail-tabs .nav-link.active {
     color: #1c1c1c;
     border-bottom-color: #1c1c1c;
-    background-color: transparent; /* Ensure no background */
+    background-color: transparent;
 }
 .product-detail-tabs .tab-content {
-    font-size: 14px; /* Slightly larger text */
+    font-size: 14px;
     line-height: 1.8;
     color: #555;
 }
@@ -4235,35 +3936,31 @@ body.product-detail-active {
      margin-right: 5px;
 }
 
-/* Related Products */
 .related-products-section .section-main-title {
-    font-size: 24px; /* Smaller title */
+    font-size: 24px;
 }
 
-/* --------------------------------------------------- */
-/* QUICK VIEW MODAL STYLES */
-/* --------------------------------------------------- */
 .quick-view-modal .modal-body {
-    padding: 2rem; /* More padding */
+    padding: 2rem;
 }
 .quick-view-image-col {
     text-align: center;
 }
 .quick-view-main-image {
-    max-height: 450px; /* Limit height */
+    max-height: 450px;
     width: auto;
     margin: 0 auto;
     border: 1px solid #eee;
 }
 .quick-view-details-col h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 24px; /* Match card title */
+    font-size: 24px;
     font-weight: 600;
     margin-bottom: 10px;
 }
-.quick-view-quantity { /* Inherits .quantity-selector */
+.quick-view-quantity {
     display: inline-flex;
-    height: 40px; /* Smaller height for modal */
+    height: 40px;
 }
 .quick-view-quantity button {
     width: 40px;
@@ -4284,15 +3981,14 @@ body.product-detail-active {
      color: #1c1c1c;
 }
 
-/* Addon Checkbox in Modal */
 .quick-view-modal .product-addons {
-    border-top: none; /* No border in modal */
+    border-top: none;
     padding-top: 10px;
     margin-top: 10px;
-    margin-bottom: 20px; /* Space before button */
+    margin-bottom: 20px;
 }
 .quick-view-modal .addon-checkbox .form-check-label {
-    justify-content: flex-start; /* Align left */
+    justify-content: flex-start;
     gap: 10px;
 }
 .quick-view-modal .addon-label-text {
@@ -4302,7 +3998,6 @@ body.product-detail-active {
     font-size: 13px;
 }
 
-/* Responsive adjustments for Product Detail Page */
 @media (max-width: 767px) {
     .product-detail-page-container {
         padding-top: 20px;
@@ -4314,31 +4009,21 @@ body.product-detail-active {
         font-size: 18px;
     }
 }
-/* src/assets/css/main.css */
 .explore-section {
-    /* Use the absolute URL */
     background: url('https://cdn.shopify.com/s/files/1/0082/5091/6915/files/6_-_desktop_3d2f31ce-b65a-4d5e-9af6-704544a78b95_large.jpg?v=1587220369') no-repeat center center;
     background-size: cover;
     height: 500px;
     display: flex;
-    /* ... keep other explore-section styles ... */
 }
-/* src/assets/css/main.css */
-/* ... (at the end of the file) ... */
 
-/* --------------------------------------------------- */
-/* RECENTLY VIEWED STYLES */
-/* --------------------------------------------------- */
 
 .recently-viewed-section {
     padding: 40px 0;
-    /* Match the homepage section style */
-    background-color: #f9f9f9; /* Or #ffffff if preferred */
+    background-color: #f9f9f9;
     border-top: 1px solid #e5e5e5;
-    margin-top: 60px; /* Space above the section */
+    margin-top: 60px;
 }
 
-/* Use existing title style from homepage */
 .recently-viewed-section .section-main-title {
     text-align: center;
     font-family: 'Cormorant Garamond', serif;
@@ -4348,7 +4033,6 @@ body.product-detail-active {
     color: #1c1c1c;
 }
 
-/* Use existing slick arrow styles */
 .recently-viewed-section .slick-prev,
 .recently-viewed-section .slick-next {
     font-size: 0;
@@ -4390,9 +4074,7 @@ body.product-detail-active {
     cursor: default;
 }
 
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
 .product-image-container {
     position: relative;
@@ -4416,7 +4098,6 @@ body.product-detail-active {
     opacity: 0;
 }
 
-/* This controls the image swap on hover */
 .product-card:hover .product-image-container .hover-image {
     opacity: 1;
 }
@@ -4425,7 +4106,6 @@ body.product-detail-active {
     opacity: 0;
 }
 
-/* Product actions (buttons) */
 .product-actions {
     position: absolute;
     bottom: 0;
@@ -4438,28 +4118,20 @@ body.product-detail-active {
     z-index: 2;
     background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
 
-    /* Start hidden (slid down) */
     transform: translateY(100%);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    /* Prevent actions from being clickable when hidden */
     pointer-events: none;
 }
 
-/* This controls the actions appearing on hover */
 .product-card:hover .product-actions {
-    /* Slide in from bottom */
     transform: translateY(0);
     opacity: 1;
-     /* Make actions clickable when visible */
     pointer-events: auto;
 }
 
-/* ... rest of your main.css ... */
 
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
 .product-image-container {
     position: relative;
@@ -4483,7 +4155,6 @@ body.product-detail-active {
     opacity: 0;
 }
 
-/* --- FIX: Use .hovered class for image swap --- */
 .product-image-container.hovered .hover-image {
     opacity: 1;
 }
@@ -4491,10 +4162,8 @@ body.product-detail-active {
 .product-image-container.hovered .base-image {
     opacity: 0;
 }
-/* --- END FIX --- */
 
 
-/* Product actions (buttons) - Still use :hover on parent card */
 .product-actions {
     position: absolute;
     bottom: 0;
@@ -4507,25 +4176,20 @@ body.product-detail-active {
     z-index: 2;
     background: linear-gradient(to top, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
 
-    /* Start hidden (slid down) */
     transform: translateY(100%);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
     pointer-events: none;
 }
 
-/* Use :hover on the main card to show actions */
 .product-card:hover .product-actions {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
 }
 
-/* ... rest of main.css ... */
 
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
 .product-image-container {
     position: relative;
@@ -4549,7 +4213,6 @@ body.product-detail-active {
     opacity: 0;
 }
 
-/* --- Use :hover on the PARENT (.product-card) to swap images --- */
 .product-card:hover .product-image-container .hover-image {
     opacity: 1;
 }
@@ -4557,10 +4220,8 @@ body.product-detail-active {
 .product-card:hover .product-image-container .base-image {
     opacity: 0;
 }
-/* --- END --- */
 
 
-/* Product actions (buttons) - Still use :hover on parent card */
 .product-actions {
     position: absolute;
     bottom: 0;
@@ -4584,10 +4245,7 @@ body.product-detail-active {
     pointer-events: auto;
 }
 
-/* ... rest of main.css ... */
 
-/* src/assets/css/main.css */
-/* Add this if you want hover effects on the simple div */
 .product-card-like {
     transition: box-shadow 0.3s ease;
 }
@@ -4598,41 +4256,31 @@ body.product-detail-active {
      transition: color 0.3s ease;
 }
 .product-card-like:hover .product-name {
-    color: #a8853d; /* Theme hover color */
+    color: #a8853d;
 }
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
-/* --------------------------------------------------- */
-/* SEARCH BAR OVERLAY STYLES */
-/* --------------------------------------------------- */
 
-/* Base container for the search overlay */
 .search-bar-overlay {
     position: fixed;
-    /* Position below the header (assuming 138px height) */
     top: 175px;
     left: 0;
     width: 100%;
-    /* Let content determine height, but limit it */
     height: auto;
-    max-height: calc(100vh - 138px); /* Limit height to below header */
-    bottom: auto; /* Ensure bottom doesn't interfere */
+    max-height: calc(100vh - 138px);
+    bottom: auto;
 
-    /* Start fully hidden/closed */
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
 
     background-color: #ffffff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    z-index: 990; /* Below header */
+    z-index: 990;
     overflow-y: auto;
     transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0.4s;
 }
 
-/* State when search is OPEN */
 .search-bar-overlay.open {
     transform: translateY(0);
     opacity: 1;
@@ -4640,7 +4288,6 @@ body.product-detail-active {
     transition: transform 0.4s ease-out, opacity 0.4s ease, visibility 0s linear 0s;
 }
 
-/* Search Input Container Styling */
 .search-container {
     display: flex;
     align-items: center;
@@ -4649,7 +4296,6 @@ body.product-detail-active {
     margin-bottom: 20px;
 }
 
-/* Search Input Styling */
 .search-input {
     flex-grow: 1;
     border: none;
@@ -4662,91 +4308,66 @@ body.product-detail-active {
     background-color: transparent;
 }
 
-/* Placeholder Styling - REMOVE the 'Q' */
 .search-input::placeholder {
     color: #999;
-    /* Remove any letter-spacing or content properties causing the 'Q' */
-    /* Ensure no ::before pseudo-element is adding the Q */
 }
 
 
-/* ... (rest of search bar styles: .btn-clear, .search-results-area, etc.) ... */
 
 
-/* Mobile Adjustments */
 @media (max-width: 767px) {
     .search-bar-overlay {
-       top: 138px; /* Adjust if mobile header height differs */
-       max-height: calc(100vh - 138px); /* Adjust max-height for mobile */
+       top: 138px;
+       max-height: calc(100vh - 138px);
     }
-   /* ... (other mobile styles) ... */
 }
 
-/* ... rest of main.css ... */
 
-/* src/assets/css/main.css */
 
-/* ... (Keep all existing styles from previous turns) ... */
 
-/* --------------------------------------------------- */
-/* SHOP DROPDOWN MENU STYLES (UPDATED) */
-/* --------------------------------------------------- */
 
 .main-nav-container {
-  position: relative; /* This is the positioning parent for the dropdown */
+  position: relative;
 }
 
 .nav-item-shop {
-  /* No special position needed, it's just a list item */
 }
 
-/* This rule styles the dropdown menu itself.
-  Visibility is controlled by React state (isShopDropdownOpen) in Header.jsx,
-  not by CSS hover.
-*/
 .shop-dropdown-menu {
   position: absolute;
-  top: 100%; /* Position it directly below the nav bar */
-  left: 0;   /* Align to the left edge of the main-nav-container */
-  right: 0;  /* Align to the right edge of the main-nav-container */
-  width: 100%; /* Make it full-width of its parent */
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
   background-color: #ffffff;
   border-top: 1px solid #e5e5e5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 40px 0; /* Increase vertical padding */
-  z-index: 1020; /* Ensure it's on top */
+  padding: 40px 0;
+  z-index: 1020;
 
- /* --- NEW: Height Adjustment --- */
-  min-height: calc(100vh - 138px - 40px); /* Fill space below header, minus top padding */
-  height: auto; /* Allow content to define height if needed */
-  max-height: calc(100vh - 138px); /* Don't exceed viewport height below header */
-  overflow-y: auto; /* Add scroll if content overflows */
-  display: flex; /* Use flexbox for vertical alignment */
-  flex-direction: column; /* Stack container */
- /* --- END Height Adjustment --- */
+  min-height: calc(100vh - 138px - 40px);
+  height: auto;
+  max-height: calc(100vh - 138px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
-  /* Transitions for smooth appearance/disappearance */
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
   transition: opacity 0.3s ease, visibility 0s linear 0s, transform 0.3s ease;
 
-  /* We don't need 'pointer-events: none' if we unmount it with React state */
 }
 
-/* This centers the content *inside* the full-width dropdown,
-  matching your site's main container.
-*/
 .shop-dropdown-menu .container {
-    max-width: 1140px; /* Or your standard container width */
-    margin: 0 auto; /* Center the content */
+    max-width: 1140px;
+    margin: 0 auto;
     padding: 0 15px;
-   flex-grow: 1; /* Allow container to grow */
-   display: flex; /* Use flex for potential vertical centering if needed */
-   align-items: flex-start; /* Align content to the top */
+   flex-grow: 1;
+   display: flex;
+   align-items: flex-start;
 }
 
-/* Column titles */
 .dropdown-col-title {
   font-family: 'Jost', sans-serif;
   font-size: 11px;
@@ -4757,7 +4378,6 @@ body.product-detail-active {
   color: #1c1c1c;
 }
 
-/* --- FIX: Remove underline from title links --- */
 .dropdown-col-title-link {
     padding: 0 !important;
     text-decoration: none !important;
@@ -4768,7 +4388,6 @@ body.product-detail-active {
      color: #a8853d;
 }
 
-/* --- FIX: Remove underline from list links --- */
 .dropdown-links .nav-link {
   font-family: 'Jost', sans-serif;
   font-size: 13px;
@@ -4778,16 +4397,15 @@ body.product-detail-active {
   letter-spacing: 0.02em;
   transition: color 0.3s ease;
   font-weight: 400;
-  text-decoration: none !important; /* This removes the underline */
+  text-decoration: none !important;
 }
 .dropdown-links .nav-link:hover {
   color: #a8853d !important;
 }
 
-/* Image links */
 .dropdown-image-link {
   display: block;
-  text-decoration: none !important; /* Ensure no underline on image links */
+  text-decoration: none !important;
   color: #1c1c1c;
   transition: opacity 0.3s ease;
 }
@@ -4795,13 +4413,12 @@ body.product-detail-active {
   opacity: 0.85;
 }
 
-/* --- FIX: IMAGE SIZE --- */
 .dropdown-image-link img {
   width: 100%;
   display: block;
-  height: auto; /* Let aspect ratio determine height */
-  max-height: 350px; /* Set a maximum height if needed */
-  aspect-ratio: 3 / 4; /* Maintain aspect ratio */
+  height: auto;
+  max-height: 350px;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   border: 1px solid #eee;
   margin-bottom: 0;
@@ -4817,60 +4434,50 @@ body.product-detail-active {
   margin-top: 10px;
 }
 
-/* Keep SHOP link highlighted when dropdown is open */
-/* (This still relies on hover, which is fine for link color) */
 .header-container.scrolled .nav-item-shop:hover .nav-link {
     color: #a8853d !important;
 }
-/* This rule is crucial for transparent header state */
 .header-container.nav-hovered:not(.scrolled) .nav-item-shop:hover .nav-link {
     color: #a8853d !important;
 }
 
-/* Ensure dropdown background stays white when header is transparent
-  but nav is hovered.
-*/
 .header-container.nav-hovered:not(.scrolled) .shop-dropdown-menu {
     background-color: #ffffff;
 }
 
-/* --- Ensure React Bootstrap Dropdowns are styled correctly --- */
 .main-nav .dropdown-menu {
     border-radius: 0;
     border: 1px solid #e5e5e5;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    padding: 10px 0; /* Adjust padding */
-    margin-top: 0; /* Align directly below */
-    z-index: 1010; /* Lower than shop dropdown */
+    padding: 10px 0;
+    margin-top: 0;
+    z-index: 1010;
 }
 
 .main-nav .dropdown-item {
     font-family: 'Jost', sans-serif;
     font-size: 13px;
     color: #555 !important;
-    padding: 6px 20px !important; /* Adjust padding */
+    padding: 6px 20px !important;
     text-transform: none;
     letter-spacing: 0.02em;
     font-weight: 400;
-    background-color: transparent !important; /* Ensure no background */
+    background-color: transparent !important;
     transition: color 0.3s ease;
 }
 
 .main-nav .dropdown-item:hover,
 .main-nav .dropdown-item:focus {
     color: #a8853d !important;
-    background-color: #f8f9fa !important; /* Slight background on hover */
+    background-color: #f8f9fa !important;
 }
 .main-nav .dropdown-divider {
     border-top: 1px solid #eee;
     margin: 5px 0;
 }
 
-/* src/assets/css/main.css */
 
-/* ... (Keep all existing styles) ... */
 
-/* --- NEW: Dropdown Arrow Style --- */
 .dropdown-toggle-arrow {
   display: inline-block;
   margin-left: .255em;
@@ -4882,9 +4489,7 @@ body.product-detail-active {
   border-left: .3em solid transparent;
 }
 
-/* Ensure arrows in React Bootstrap NavDropdowns also use correct color */
 .header-container .nav-link.dropdown-toggle::after {
-    /* Use the same style as .dropdown-toggle-arrow */
     display: inline-block;
     margin-left: .255em;
     vertical-align: .255em;
@@ -4893,46 +4498,38 @@ body.product-detail-active {
     border-right: .3em solid transparent;
     border-bottom: 0;
     border-left: .3em solid transparent;
-    /* Ensure color matches nav-link text color */
-    border-top-color: inherit; /* Inherit color */
-    transition: transform .2s ease-in-out; /* Add rotation for Bootstrap ones */
+    border-top-color: inherit;
+    transition: transform .2s ease-in-out;
 }
-/* Rotate Bootstrap arrows when open */
 .header-container .nav-link.dropdown-toggle.show::after {
     transform: rotate(180deg);
 }
 
 
-/* --------------------------------------------------- */
-/* SHOP DROPDOWN MENU STYLES (UPDATED from previous step) */
-/* --------------------------------------------------- */
 
 .main-nav-container {
-  position: relative; /* This is the positioning parent for the dropdown */
+  position: relative;
 }
 
 .shop-dropdown-menu {
   position: absolute;
-  top: 100%; /* Position it directly below the nav bar */
-  left: 0;   /* Align to the left edge of the main-nav-container */
-  right: 0;  /* Align to the right edge of the main-nav-container */
-  width: 100%; /* Make it full-width of its parent */
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
   background-color: #ffffff;
   border-top: 1px solid #e5e5e5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 40px 0; /* Increase vertical padding */
-  z-index: 1020; /* Ensure it's on top */
+  padding: 40px 0;
+  z-index: 1020;
 
- /* Height Adjustment */
-  min-height: calc(100vh - 138px - 40px); /* Fill space below header, minus top padding */
-  height: auto; /* Allow content to define height if needed */
-  max-height: calc(100vh - 138px); /* Don't exceed viewport height below header */
-  overflow-y: auto; /* Add scroll if content overflows */
-  display: flex; /* Use flexbox for vertical alignment */
-  flex-direction: column; /* Stack container */
- /* END Height Adjustment */
+  min-height: calc(100vh - 138px - 40px);
+  height: auto;
+  max-height: calc(100vh - 138px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
-  /* Transitions for smooth appearance/disappearance */
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -4940,126 +4537,107 @@ body.product-detail-active {
 }
 
 .shop-dropdown-menu .container {
-    max-width: 1140px; /* Or your standard container width */
-    margin: 0 auto; /* Center the content */
+    max-width: 1140px;
+    margin: 0 auto;
     padding: 0 15px;
-   flex-grow: 1; /* Allow container to grow */
-   display: flex; /* Use flex for potential vertical centering if needed */
-   align-items: flex-start; /* Align content to the top */
+   flex-grow: 1;
+   display: flex;
+   align-items: flex-start;
 }
 
-/* Image Size */
 .dropdown-image-link img {
   width: 100%;
   display: block;
-  height: auto; /* Let aspect ratio determine height */
-  max-height: 350px; /* Set a maximum height if needed */
-  aspect-ratio: 3 / 4; /* Maintain aspect ratio */
+  height: auto;
+  max-height: 350px;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   border: 1px solid #eee;
   margin-bottom: 0;
 }
 
-/* ... (Keep other dropdown styles like titles, links, captions) ... */
 
 
-/* --- React Bootstrap Dropdowns --- */
-/* (Keep styles for .main-nav .dropdown-menu, .dropdown-item, etc.) */
 
-/* ... (Rest of your main.css) ... */
-/* ... (rest of your main.css) ... */
 
-/* src/assets/css/main.css */
 
-/* ... (Keep all existing styles) ... */
 
-/* --------------------------------------------------- */
-/* CUSTOM PAGINATION STYLES */
-/* --------------------------------------------------- */
 
 .custom-pagination-container {
     display: flex;
-    flex-direction: column; /* Stack numbers/arrows above the line */
+    flex-direction: column;
     align-items: center;
     margin-top: 50px;
-    position: relative; /* Needed for absolute positioning of lines */
-    padding-bottom: 20px; /* Space below the line */
+    position: relative;
+    padding-bottom: 20px;
 }
 
 .custom-pagination {
     display: flex;
     padding-left: 0;
     list-style: none;
-    margin-bottom: 15px; /* Space between numbers and line */
-    align-items: center; /* Vertically align items */
+    margin-bottom: 15px;
+    align-items: center;
 }
 
 .custom-pagination .page-item {
-    margin: 0 5px; /* Spacing between buttons/numbers */
+    margin: 0 5px;
 }
 
-/* Style for all links (buttons and spans) */
 .custom-pagination .page-link {
     position: relative;
     display: block;
-    padding: 0.5rem 0.75rem; /* Adjust padding as needed */
-    color: #999; /* Default color for numbers/arrows */
-    background-color: transparent; /* No background */
-    border: none; /* No border */
-    font-size: 16px; /* Adjust font size */
+    padding: 0.5rem 0.75rem;
+    color: #999;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
     font-weight: 400;
     transition: color 0.2s ease;
-    min-width: 35px; /* Ensure minimum width */
+    min-width: 35px;
     text-align: center;
-    cursor: pointer; /* Make buttons clickable */
+    cursor: pointer;
 }
 
-/* Hover effect for clickable buttons */
 .custom-pagination .page-link.number:hover:not(:disabled),
 .custom-pagination .page-link.arrow:hover:not(:disabled) {
-    color: #1c1c1c; /* Darker color on hover */
-    background-color: transparent; /* No background hover */
+    color: #1c1c1c;
+    background-color: transparent;
 }
 
-/* Remove focus outline */
 .custom-pagination .page-link:focus {
      box-shadow: none !important;
      outline: none !important;
 }
 
-/* Active page number */
 .custom-pagination .page-item.active .page-link.number {
-    color: #1c1c1c; /* Dark color for active page */
-    font-weight: 600; /* Make active number bolder */
-    cursor: default; /* Not clickable */
+    color: #1c1c1c;
+    font-weight: 600;
+    cursor: default;
 }
 
-/* Disabled state for buttons */
 .custom-pagination .page-item.disabled .page-link,
 .custom-pagination .page-link:disabled {
-    color: #ccc !important; /* Lighter color for disabled */
+    color: #ccc !important;
     cursor: default !important;
-    pointer-events: none; /* Prevent clicks */
+    pointer-events: none;
 }
 
-/* Ellipsis styling (span) */
 .custom-pagination .page-item.ellipsis .page-link.ellipsis-span {
     color: #ccc;
     cursor: default;
-    padding: 0.5rem 0.3rem; /* Less padding for ellipsis */
+    padding: 0.5rem 0.3rem;
 }
 
-/* Arrow specific styles */
 .custom-pagination .page-link.arrow {
-    font-weight: 600; /* Bolder arrows */
-    font-size: 18px; /* Slightly larger arrows */
+    font-weight: 600;
+    font-size: 18px;
 }
 
-/* --- Decorative Line Styles --- */
 .pagination-line-container {
-    width: 250px; /* Adjust width of the line area */
+    width: 250px;
     max-width: 80%;
-    height: 5px; /* Height for interaction area */
+    height: 5px;
     position: relative;
 }
 
@@ -5068,71 +4646,60 @@ body.product-detail-active {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 1px; /* Thickness of the faint line */
-    background-color: #e0e0e0; /* Color of the faint line */
+    height: 1px;
+    background-color: #e0e0e0;
     z-index: 1;
 }
 
 .pagination-underline {
     position: absolute;
-    bottom: 0; /* Align with the faint line */
-    height: 2px; /* Thickness of the underline */
-    background-color: #333; /* Color of the underline */
-    z-index: 2; /* Above the faint line */
-    transition: left 0.3s ease, width 0.3s ease; /* Smooth transition */
+    bottom: 0;
+    height: 2px;
+    background-color: #333;
+    z-index: 2;
+    transition: left 0.3s ease, width 0.3s ease;
 }
-/* --- End Decorative Line Styles --- */
 
 
-/* --- Remove Default Bootstrap Pagination Styles (if conflicting) --- */
-/* Add these if the old styles are still interfering */
 .pagination-container .pagination {
-    margin-bottom: 0 !important; /* Override Bootstrap margin */
+    margin-bottom: 0 !important;
 }
 .pagination-container .page-item .page-link {
-    border: none !important; /* Remove Bootstrap borders */
-    background-color: transparent !important; /* Remove Bootstrap background */
-    box-shadow: none !important; /* Remove Bootstrap shadow */
-    padding: 0 !important; /* Remove Bootstrap padding if needed */
-    margin: 0 !important; /* Remove Bootstrap margin if needed */
-    color: inherit !important; /* Use custom color */
+    border: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: inherit !important;
 }
-/* --- End Bootstrap Override --- */
 
 
-/* ... (rest of your main.css) ... */
 
-/* ================================================== */
-/* MOBILE RESPONSIVE STYLES (Updated) */
-/* ================================================== */
 
-/* Hamburger Menu Styles */
 .hamburger-menu {
     display: none;
     flex-direction: column;
     cursor: pointer;
     padding: 5px;
-    z-index: 1051; /* Needs to be above backdrop */
+    z-index: 1051;
 }
 
 .hamburger-menu span {
     width: 25px;
     height: 2px;
-    background-color: #1c1c1c; /* Default dark color */
+    background-color: #1c1c1c;
     margin: 3px 0;
     transition: all 0.3s ease;
 }
 
-/* Hamburger color for transparent header state (Desktop only) */
 @media (min-width: 992px) {
     .header-container:not(.scrolled):not(.nav-hovered):not(.page-with-solid-header) .hamburger-menu span {
-        background-color: #ffffff; /* White color */
+        background-color: #ffffff;
     }
 }
 
-/* Transform hamburger to X when open */
 .hamburger-menu.open span {
-     background-color: #1c1c1c; /* 'X' is always dark */
+     background-color: #1c1c1c;
 }
 .hamburger-menu.open span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
@@ -5144,35 +4711,33 @@ body.product-detail-active {
     transform: rotate(-45deg) translate(7px, -6px);
 }
 
-/* --- MODIFICATION: Changed overlay to a panel --- */
 .mobile-nav-overlay {
     position: fixed;
     top: 0;
-    left: -320px; /* Start off-screen by max-width */
-    width: 85%; /* Take up 85% of screen */
-    max-width: 320px; /* But no more than 320px */
+    left: -320px;
+    width: 85%;
+    max-width: 320px;
     height: 100vh;
     background-color: #ffffff;
-    z-index: 1050; /* High z-index for the panel */
+    z-index: 1050;
     overflow-y: auto;
     transition: left 0.3s ease;
-    padding-top: 70px; /* Reduced padding */
-    box-shadow: 0 0 15px rgba(0,0,0,0.1); /* Add shadow */
+    padding-top: 70px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
 .mobile-nav-overlay.open {
-    left: 0; /* Slide in */
+    left: 0;
 }
 
-/* --- NEW: Backdrop for closing menu --- */
 .mobile-nav-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5); /* Dimmed background */
-    z-index: 1040; /* Below the menu panel */
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1040;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0s linear 0.3s;
@@ -5183,7 +4748,6 @@ body.product-detail-active {
     visibility: visible;
     transition-delay: 0s;
 }
-/* --- END NEW BACKDROP --- */
 
 
 .mobile-nav-content {
@@ -5217,16 +4781,15 @@ body.product-detail-active {
     cursor: pointer;
 }
 
-/* Mobile Submenu Styles */
 .mobile-submenu {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-    background-color: #f9f9f9; /* Slight background for submenu */
+    background-color: #f9f9f9;
 }
 
 .mobile-submenu.open {
-    max-height: 500px; /* Or a larger value if needed */
+    max-height: 500px;
 }
 
 .mobile-submenu a {
@@ -5243,16 +4806,15 @@ body.product-detail-active {
     color: #a8853d;
 }
 
-/* Expand/Collapse Icon */
 .mobile-nav-list > li > button {
-    position: relative; /* For positioning the pseudo-element */
+    position: relative;
 }
 .mobile-nav-list > li > button::after {
     content: '+';
     float: right;
     font-size: 20px;
     transition: transform 0.3s ease;
-    position: absolute; /* More precise control */
+    position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
@@ -5262,10 +4824,9 @@ body.product-detail-active {
     content: '−';
 }
 
-/* Mobile Header Adjustments */
 @media (max-width: 991px) {
     :root {
-        --header-height: 90px !important; /* Force mobile header height */
+        --header-height: 90px !important;
     }
     body {
         padding-top: 90px !important;
@@ -5276,35 +4837,28 @@ body.product-detail-active {
         padding-top: 90px !important;
     }
 
-    /* Show hamburger, hide desktop nav */
     .hamburger-menu {
-        display: flex !important; /* Use !important to override other rules */
+        display: flex !important;
     }
 
-    /*
-       ****************************************************************
-       * THE FIX: Force Dark Icons/Text on Mobile                     *
-       ****************************************************************
-    */
     .hamburger-menu span {
-        background-color: #1c1c1c !important; /* Force dark hamburger lines */
+        background-color: #1c1c1c !important;
     }
     .header-icons img,
     .header-icons button img {
-        filter: none !important; /* Force dark icons (remove invert) */
+        filter: none !important;
     }
-    .header-icons > span, /* 'Hi, User' text */
-    .header-icons button > span { /* 'Logout' text */
-        color: #1c1c1c !important; /* Force dark text */
-    }
-    /* This rule makes sure "LOGOUT" is gold */
+    .header-icons > span,
     .header-icons button > span {
-        color: #a8853d !important; /* Force gold text for logout link */
+        color: #1c1c1c !important;
+    }
+    .header-icons button > span {
+        color: #a8853d !important;
     }
     .cart-count-badge {
-    background-color: #1c1c1c !important; /* Black BG */
-    color: #ffffff !important; /* White text */
-    border-color: #1c1c1c !important; /* Black border */
+    background-color: #1c1c1c !important;
+    color: #ffffff !important;
+    border-color: #1c1c1c !important;
     top: -3px;
     right: -6px;
     font-size: 10px;
@@ -5312,13 +4866,8 @@ body.product-detail-active {
     padding: 0px 4px;
 }
     .hamburger-menu.open span {
-        background-color: #1c1c1c !important; /* Ensure 'X' is dark */
+        background-color: #1c1c1c !important;
     }
-    /*
-       ****************************************************************
-       * END OF THE FIX                         *
-       ****************************************************************
-    */
 
 
     .main-nav {
@@ -5328,7 +4877,6 @@ body.product-detail-active {
         display: none !important;
     }
 
-    /* Adjust header layout */
     .main-header {
         padding: 15px 0 !important;
     }
@@ -5352,13 +4900,13 @@ body.product-detail-active {
     .header-left-section {
         order: 1;
         flex-grow: 0;
-        flex-basis: 40px; /* Space for hamburger */
+        flex-basis: 40px;
     }
-    .header-center-section { /* Logo container */
+    .header-center-section {
         order: 2;
-        flex-shrink: 1; /* Allow logo to shrink if needed */
+        flex-shrink: 1;
     }
-    .header-right-section { /* Icons container */
+    .header-right-section {
         order: 3;
         flex-grow: 0;
         flex-basis: auto;
@@ -5375,12 +4923,12 @@ body.product-detail-active {
         justify-content: flex-end !important;
     }
     
-    .header-icons > span { /* Hide Hi, User text */
+    .header-icons > span {
         display: none;
     }
 
     .header-container .header-icons > * {
-        margin-left: 15px !important; /* Override desktop margin */
+        margin-left: 15px !important;
     }
 
     .header-icons img,
@@ -5389,32 +4937,29 @@ body.product-detail-active {
         height: 22px !important;
     }
 
-    /* Top bar adjustments */
     .top-bar {
         font-size: 10px;
         padding: 8px 10px;
     }
 
-    /* Shop dropdown - hide on mobile */
     .shop-dropdown-menu {
         display: none !important;
     }
 
-    /* Hero carousel adjustments */
     .hero-carousel {
-        margin-top: 0 !important; /* Remove negative margin on mobile */
+        margin-top: 0 !important;
     }
 
     .hero-carousel .carousel-item {
         min-height: 400px;
-        height: 60vh; /* Use viewport height */
+        height: 60vh;
         max-height: 450px;
-        padding-top: 0; /* Remove padding */
-        margin-top: 0; /* Ensure no negative margin */
+        padding-top: 0;
+        margin-top: 0;
     }
     
     .homepage-active .hero-carousel .carousel-item {
-        height: 60vh; /* Same as others */
+        height: 60vh;
         min-height: 350px;
         padding-top: 0;
         margin-top: 0;
@@ -5424,7 +4969,7 @@ body.product-detail-active {
     }
 
     .hero-carousel .carousel-caption {
-        bottom: 10%; /* <<< INCREASED from 20px for safe area */
+        bottom: 10%;
         left: 50%;
         transform: translateX(-50%);
         max-width: 90%;
@@ -5438,10 +4983,9 @@ body.product-detail-active {
     }
     
     .hero-carousel .carousel-indicators {
-        bottom: 25px; /* <<< NEW: Added safe area padding */
+        bottom: 25px;
     }
 
-    /* Collection banners */
     .collection-hero-banner {
         min-height: 350px;
         margin-top: 0 !important;
@@ -5457,10 +5001,9 @@ body.product-detail-active {
         padding: 0 15px;
     }
 
-    /* Filter bar adjustments */
     .filter-bar-container {
-        top: 90px !important; /* Stick below 90px mobile header */
-        z-index: 990; /* Ensure it's below header */
+        top: 90px !important;
+        z-index: 990;
     }
     .filter-bar-container .container {
         justify-content: flex-end;
@@ -5473,9 +5016,8 @@ body.product-detail-active {
         font-size: 12px;
      }
 
-    /* Currency dropdown positioning */
     .currency-selector {
-        bottom: 25px; /* <<< INCREASED from 15px for safe area */
+        bottom: 25px;
         left: 15px;
     }
 
@@ -5484,15 +5026,13 @@ body.product-detail-active {
         font-size: 13px;
     }
 
-    /* Wishlist button */
     .wishlist-button {
-        bottom: 25px; /* <<< INCREASED from 15px for safe area */
+        bottom: 25px;
         right: 15px;
         width: 38px;
         height: 38px;
     }
 
-    /* Product grid adjustments */
     .product-list-container .col-6,
     .product-list-container .col {
         padding-left: 5px !important;
@@ -5525,7 +5065,6 @@ body.product-detail-active {
         font-size: 10px;
     }
 
-    /* Footer adjustments */
     .site-footer {
         padding: 40px 0;
     }
@@ -5539,7 +5078,6 @@ body.product-detail-active {
     .payment-icons { margin-top: 10px; }
 
 
-    /* Section titles */
     .section-main-title {
         font-size: 22px;
     }
@@ -5548,7 +5086,6 @@ body.product-detail-active {
         font-size: 12px;
     }
 
-    /* Homepage sections */
     .homepage-section {
         padding: 30px 0;
     }
@@ -5561,7 +5098,6 @@ body.product-detail-active {
          max-width: 100%;
     }
 
-    /* Explore section */
     .explore-section {
         height: 300px;
         margin: 40px 0;
@@ -5572,12 +5108,10 @@ body.product-detail-active {
         padding: 0 30px;
     }
 
-    /* Blog grid */
     .blog-grid {
         grid-template-columns: 1fr;
     }
 
-    /* Product detail page */
      .product-detail-page-container .row > [class*="col-md-"] {
         flex: 0 0 100%;
         max-width: 100%;
@@ -5593,7 +5127,6 @@ body.product-detail-active {
         font-size: 18px;
     }
     
-    /* Checkout page */
     .checkout-logo {
         width: 120px;
     }
@@ -5607,7 +5140,6 @@ body.product-detail-active {
     .btn-pay-now { width: 100%; }
 
 
-    /* Search bar overlay */
     .search-bar-overlay {
         top: 90px !important;
         max-height: calc(100vh - 90px);
@@ -5627,7 +5159,6 @@ body.product-detail-active {
         max-width: 50%;
     }
 
-    /* Team member cards */
     .meet-the-team-page .row > * {
         flex: 0 0 100%;
         max-width: 100%;
@@ -5636,12 +5167,10 @@ body.product-detail-active {
         margin-bottom: 20px;
     }
 
-    /* Category cards - stack vertically */
     .category-card h4 {
         font-size: 20px;
     }
 
-    /* Slick slider arrows - smaller */
     .slick-prev,
     .slick-next {
         width: 25px;
@@ -5651,7 +5180,6 @@ body.product-detail-active {
     .slick-next { right: 5px; }
 }
 
-/* Tablet adjustments (768px - 991px) */
 @media (min-width: 768px) and (max-width: 991px) {
     .product-list-container .col-md-4 {
         flex: 0 0 33.333333%;
@@ -5672,7 +5200,6 @@ body.product-detail-active {
     }
 }
 
-/* Small mobile (max-width: 576px) */
 @media (max-width: 576px) {
     body {
         padding-top: 80px !important;
@@ -5700,7 +5227,7 @@ body.product-detail-active {
     }
 
     .hero-carousel .carousel-caption {
-        bottom: 25px; /* <<< INCREASED from 10px for safe area */
+        bottom: 25px;
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
@@ -5719,17 +5246,15 @@ body.product-detail-active {
         font-size: 12px;
     }
 
-    /* --- MODIFICATION: Adjust drawer width --- */
     .cart-drawer, .wishlist-drawer, .offcanvas {
-        width: 85% !important; /* Use percentage */
-        max-width: 320px !important; /* Add max-width */
-        right: -85% !important; /* Adjust starting position */
+        width: 85% !important;
+        max-width: 320px !important;
+        right: -85% !important;
     }
     .cart-drawer.open, .wishlist-drawer.open, .offcanvas.show {
         right: 0 !important;
         left: auto !important;
     }
-    /* This rule applies to the react-bootstrap Offcanvas component */
     .offcanvas-start {
         left: -85% !important;
         right: auto !important;
@@ -5740,32 +5265,27 @@ body.product-detail-active {
         left: 0 !important;
         right: auto !important;
     }
-    /* This rule applies to your custom menu panel */
      .mobile-nav-overlay {
         width: 85%;
         max-width: 320px;
-        left: -85%; /* Match width */
+        left: -85%;
      }
 
 
-    /* Modal adjustments */
     .wishlist-modal-window {
         width: 95% !important;
         max-width: 95% !important;
     }
 
-    /* Checkout adjustments */
     .order-summary {
         position: static;
         margin-top: 20px;
     }
 
-    /* Footer stack vertically */
     .site-footer .row > div {
         margin-bottom: 30px;
     }
 
-    /* Info section icons smaller */
     .info-section .row > .col { flex-basis: 50%; }
     .info-item img {
         height: 30px;
@@ -5775,7 +5295,6 @@ body.product-detail-active {
     }
 }
 
-/* Landscape mobile adjustments */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-carousel .carousel-item {
         min-height: 100vh;
@@ -5786,16 +5305,11 @@ body.product-detail-active {
     }
 }
 
-/* src/assets/css/main.css */
 
-/* ... Keep all existing styles ... */
 
-/* --------------------------------------------------- */
-/* ACCOUNT PAGE STYLES */
-/* --------------------------------------------------- */
 
 .account-page-container {
-    padding-top: 40px; /* Add space if header isn't solid */
+    padding-top: 40px;
     min-height: 60vh;
 }
 
@@ -5819,12 +5333,12 @@ body.product-detail-active {
 
 .account-left-column {
     position: relative;
-    padding-right: 30px; /* Space between columns */
+    padding-right: 30px;
 }
 
 .logout-link {
     position: absolute;
-    top: -15px; /* Adjust position */
+    top: -15px;
     left: 0;
     font-size: 12px;
     color: #555;
@@ -5877,9 +5391,6 @@ body.product-detail-active {
     color: #1c1c1c;
 }
 
-/* --------------------------------------------------- */
-/* ADDRESSES MANAGEMENT PAGE STYLES */
-/* --------------------------------------------------- */
 .addresses-page-container {
     padding-top: 40px;
     min-height: 60vh;
@@ -5913,7 +5424,7 @@ body.product-detail-active {
     font-size: 12px;
     padding: 12px 25px;
     letter-spacing: 0.1em;
-    background-color: #ffb3ba; /* Match Buy Now */
+    background-color: #ffb3ba;
     border-color: #ffb3ba;
 }
 .add-address-btn:hover {
@@ -5932,7 +5443,7 @@ body.product-detail-active {
     font-size: 10px;
     font-weight: 600;
     color: #ffffff;
-    background-color: #a8853d; /* Gold color */
+    background-color: #a8853d;
     padding: 3px 8px;
     border-radius: 3px;
     text-transform: uppercase;
@@ -5964,17 +5475,14 @@ body.product-detail-active {
     color: #555;
     text-decoration: underline;
     text-underline-offset: 3px;
-    padding: 2px 0; /* Minimal padding */
-    margin-bottom: 5px; /* Space between links */
+    padding: 2px 0;
+    margin-bottom: 5px;
 }
 
 .address-actions .btn-link:hover {
     color: #1c1c1c;
 }
 
-/* --------------------------------------------------- */
-/* ADDRESS MODAL STYLES */
-/* --------------------------------------------------- */
 .address-modal .modal-title {
     font-family: 'Jost', sans-serif;
     font-size: 14px;
@@ -5992,7 +5500,7 @@ body.product-detail-active {
 .address-form-select {
     border-radius: 0;
     border: 1px solid #e5e5e5;
-    padding: 12px 15px; /* Match login/register */
+    padding: 12px 15px;
     font-size: 14px;
     background-color: #f9f9f9;
     box-shadow: none;
@@ -6026,7 +5534,7 @@ body.product-detail-active {
      text-transform: uppercase;
 }
 .address-modal .save-address-submit-btn {
-    background-color: #ffb3ba; /* Match Buy Now */
+    background-color: #ffb3ba;
     border-color: #ffb3ba;
     color: white;
 }
@@ -6035,9 +5543,6 @@ body.product-detail-active {
     border-color: #ff9aa1;
 }
 
-/* --------------------------------------------------- */
-/* DELETE CONFIRMATION DIALOG STYLES */
-/* --------------------------------------------------- */
 .delete-confirm-overlay {
     position: fixed;
     top: 0;
@@ -6048,7 +5553,7 @@ body.product-detail-active {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1060; /* Above modal */
+    z-index: 1060;
 }
 
 .delete-confirm-dialog {
@@ -6071,58 +5576,43 @@ body.product-detail-active {
      margin-bottom: 20px;
 }
 
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
 .mobile-submenu {
     max-height: 0;
-    overflow: hidden; /* Keep hidden when closed */
+    overflow: hidden;
     transition: max-height 0.3s ease;
     background-color: #f9f9f9;
-    /* --- ADD overflow-y: auto --- */
-    overflow-y: auto; /* Ensure scrolling is possible if content exceeds max-height */
-    /* --- END ADD --- */
+    overflow-y: auto;
 
 }
 
 .mobile-submenu.open {
-    /* --- INCREASE max-height slightly --- */
-    max-height: 60vh; /* Use viewport height unit, adjust value if needed */
-    /* --- END INCREASE --- */
+    max-height: 60vh;
 }
 
-/* ... rest of main.css ... */
 
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
 .product-image-container {
     position: relative;
-    overflow: hidden; /* Keep this */
+    overflow: hidden;
     cursor: pointer;
     border: 1px solid #f0f0f0;
-    /* --- REVERTED: Removed padding-bottom: 0 --- */
 }
 
-/* ... other image styles ... */
 
-/* Product actions (buttons) */
 .product-actions {
     position: absolute;
-    /* --- REVERTED: Let it default to positioning relative to bottom edge (implicitly outside initially) --- */
-    /* bottom: 0; */
     left: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Keep slightly reduced gap */
-    padding: 10px; /* Keep slightly reduced padding */
+    gap: 10px;
+    padding: 10px;
     z-index: 2;
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7)); /* Keep gradient */
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
 
-    /* Start hidden (slid down) */
     transform: translateY(100%);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -6130,18 +5620,16 @@ body.product-detail-active {
 }
 
 .product-card:hover .product-actions {
-    /* Slide up to be fully visible */
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
 }
 
-/* Adjust button size slightly */
 .btn-quick-view,
 .btn-add-to-cart-grid {
     width: 100%;
-    padding: 10px 8px; /* Slightly smaller padding */
-    font-size: 11px; /* Slightly smaller font */
+    padding: 10px 8px;
+    font-size: 11px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -6153,7 +5641,6 @@ body.product-detail-active {
     line-height: 1.2;
 }
 
-/* --- Keep specific button styles --- */
 .btn-add-to-cart-grid {
     background-color: #ffb3ba;
     color: #ffffff;
@@ -6169,11 +5656,8 @@ body.product-detail-active {
 .btn-quick-view:hover { background-color: #1c1c1c; color: #ffffff; border-color: #1c1c1c; }
 
 
-/* ... rest of main.css ... */
 
-/* --- Optional Mobile Specific Adjustments (Keep smaller buttons/padding) --- */
 @media (max-width: 576px) {
-    /* ... other mobile styles ... */
 
     .product-actions {
         gap: 5px;
@@ -6186,38 +5670,29 @@ body.product-detail-active {
         font-size: 10px;
     }
 
-    /* ... rest of mobile styles ... */
 }
 
-/* src/assets/css/main.css */
 
-/* ... other styles ... */
 
 @media (max-width: 991px) {
-    /* ... existing mobile styles ... */
 
     .main-header .container {
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
         flex-wrap: nowrap !important;
-        /* --- FIX: Override container padding --- */
-        padding-left: 15px !important;  /* Add specific small padding */
-        padding-right: 15px !important; /* Add specific small padding */
-        max-width: 100% !important;     /* Ensure it takes full width */
-        /* --- END FIX --- */
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        max-width: 100% !important;
     }
 
-    /* Optional: Adjust icon margins slightly if needed after padding change */
     .header-container .header-icons > * {
-        margin-left: 10px !important; /* Slightly reduce space between icons */
+        margin-left: 10px !important;
     }
     .header-icons {
-        gap: 10px !important; /* Slightly reduce gap */
+        gap: 10px !important;
     }
 
 
-    /* ... rest of mobile styles ... */
 }
 
-/* ... rest of main.css ... */

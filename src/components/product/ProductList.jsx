@@ -1,15 +1,12 @@
-// src/components/product/ProductList.jsx
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import Pagination from '../common/Pagination'; // Correct import path
+import Pagination from '../common/Pagination';
 import ProductCard from './ProductCard';
 
-// --- Import necessary data ---
 import { allProducts } from '../../utils/searchUtils';
 import { products as sareeProducts } from '../../data/products';
 import { jewellery as jewelleryProducts } from '../../data/jewellery';
-// *** ADD IMPORTS FOR ALL COLLECTION-SPECIFIC PRODUCT ARRAYS ***
 import { bestsellerProducts } from '../../data/bestsellerProducts';
 import { soulfulWeavesProducts } from '../../data/soulfulWeaves';
 import { iktaraWeavesProducts } from '../../data/iktaraWeaves';
@@ -27,10 +24,8 @@ import { goldenHourJewelleryProducts } from '../../data/goldenHourJewellery';
 import { ekSitaraKotaProducts } from '../../data/ekSitaraKota';
 import { smartStaplesProducts } from '../../data/smartStaples';
 import { potpourriProducts } from '../../data/potpourriProducts';
-// *** END ADDED IMPORTS ***
 
 
-// --- Define colors array locally or import ---
 const colors = [
     { name: 'white', hex: '#FFFFFF' }, { name: 'beige', hex: '#f5f5dc' },
     { name: 'brown', hex: '#a52a2a' }, { name: 'orange', hex: '#ffa500' },
@@ -42,16 +37,13 @@ const colors = [
     { name: 'maroon', hex: '#800000' }, { name: 'mustard', hex: '#ffdb58' },
     { name: 'silver', hex: '#c0c0c0' }, { name: 'gold', hex: '#ffd700' },
 ];
-// ---
 
 
-// *** MODIFIED: Accept appliedFilters and sortOrder props ***
 const ProductList = ({ collectionName, products: productsData = null, setPage, searchQuery = null, appliedFilters = { color: null, price: null, style: null }, sortOrder = 'manual' }) => {
 
     let productsPerPage = 16;
-    let title = ""; // Keep title logic as is
+    let title = "";
 
-    // --- Price Range Parsing Logic (Keep existing) ---
     const parsePriceRange = (rangeString) => {
         if (!rangeString) return { min: 0, max: Infinity };
         if (rangeString.startsWith('above ')) {
@@ -66,14 +58,11 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
         }
         return { min: 0, max: Infinity };
     };
-    // --- End Price Range Logic ---
 
 
-    // *** MODIFIED: useMemo now includes filtering and sorting logic ***
     const productsToDisplay = useMemo(() => {
-        let initialProducts = []; // Start with an empty list
+        let initialProducts = [];
 
-        // 1. Determine the initial set of products (Keep existing logic)
         if (searchQuery) {
             const lowerQuery = searchQuery.toLowerCase();
             initialProducts = allProducts.filter(p => {
@@ -82,7 +71,7 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
                 return nameMatch || tagsMatch;
             });
         } else if (productsData && Array.isArray(productsData)) {
-            initialProducts = [...productsData]; // Create a copy to avoid mutating prop
+            initialProducts = [...productsData];
         } else {
             const collectionKey = collectionName ? String(collectionName).trim().toUpperCase() : '';
             if (collectionKey === "POTPOURRI") initialProducts = [...potpourriProducts];
@@ -110,10 +99,8 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
             }
         }
 
-        // --- 2. Apply filters (color, price) if they exist (Keep existing logic) ---
         let filteredProducts = initialProducts;
 
-        // Apply Color Filter
         if (appliedFilters?.color) {
             const colorName = colors.find(c => c.hex === appliedFilters.color)?.name;
             if (colorName) {
@@ -128,7 +115,6 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
             }
         }
 
-        // Apply Price Filter
         if (appliedFilters?.price) {
             const { min, max } = parsePriceRange(appliedFilters.price);
             filteredProducts = filteredProducts.filter(p => {
@@ -138,27 +124,20 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
             });
         }
 
-        // --- 3. Apply Sorting (NEW) ---
         if (sortOrder === 'price-asc') {
-            // Sort Low to High
             filteredProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
         } else if (sortOrder === 'price-desc' || sortOrder === 'featured') {
-            // Sort High to Low (Treating 'Featured' as 'Price, high to low')
             filteredProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
         }
-        // If sortOrder is 'manual', we do nothing and keep the original source order.
 
         return filteredProducts;
 
-    }, [searchQuery, productsData, collectionName, appliedFilters, sortOrder]); // *** ADD appliedFilters and sortOrder dependency ***
+    }, [searchQuery, productsData, collectionName, appliedFilters, sortOrder]);
 
-    // Keep existing useMemo for title calculation
     useMemo(() => {
-        // ... (keep existing title logic) ...
         if (searchQuery) {
              title = `Search Results for "${searchQuery}"`;
         } else if (collectionName) {
-             // ... (keep existing title mapping logic) ...
             const upperCollectionName = String(collectionName).toUpperCase().replace(/-/g, ' ');
             if (upperCollectionName === "NECKPIECES") title = "Neckpieces";
             else if (upperCollectionName === "EARRINGS") title = "Earrings";
@@ -194,13 +173,10 @@ const ProductList = ({ collectionName, products: productsData = null, setPage, s
         }
     }, [searchQuery, collectionName]);
 
-    // Ensure productsToDisplay is always an array
     const finalProducts = useMemo(() => Array.isArray(productsToDisplay) ? productsToDisplay : [], [productsToDisplay]);
 
-    // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Reset page when products change (Keep existing)
     useEffect(() => {
         setCurrentPage(1);
     }, [finalProducts]);

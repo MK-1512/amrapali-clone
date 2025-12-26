@@ -1,19 +1,17 @@
-// src/components/product/ProductCard.jsx
-import React, { useState, useContext, useRef, useEffect } from 'react'; // Import useRef and useEffect
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { CartContext } from '../../context/CartContext';
 import { WishlistContext } from '../../context/WishlistContext';
 import ProductModal from './ProductModal';
 import { CurrencyContext } from '../../context/CurrencyContext';
 import { formatPrice } from '../../utils/currencyUtils';
 
-// Accept setPage prop
 const ProductCard = ({ product, setPage }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const { addToCart } = useContext(CartContext);
     const { selectedCurrency } = useContext(CurrencyContext);
     const { addToWishlist, isProductInWishlist } = useContext(WishlistContext);
-    const [imageKey, setImageKey] = useState(0); // State to force re-render
+    const [imageKey, setImageKey] = useState(0);
 
     if (!product || !product.id) {
         console.warn("ProductCard received invalid product data:", product);
@@ -23,19 +21,17 @@ const ProductCard = ({ product, setPage }) => {
     const isInWishlist = isProductInWishlist(product.id);
 
     const handleOpenModal = (e) => {
-        e.stopPropagation(); // Prevent navigation click
+        e.stopPropagation();
         setShowModal(true);
     };
 
-    // Increment key on modal close to force re-render
     const handleCloseModal = () => {
         setShowModal(false);
-        setImageKey(prevKey => prevKey + 1); // Increment key
-        setIsHovered(false); // Reset internal state
+        setImageKey(prevKey => prevKey + 1);
+        setIsHovered(false);
     };
 
 
-    // --- FIX: Add conditional logic for navigation ---
     const handleNavigateToDetail = (e) => {
         if (e.target.tagName !== 'A') {
              e.preventDefault();
@@ -43,17 +39,15 @@ const ProductCard = ({ product, setPage }) => {
         e.stopPropagation();
 
         if (setPage && product && product.id) {
-            // Check if it's the Fall & Picot service
             if (product.id === 'fall-picot-service') {
-                setPage(`service-detail-${product.id}`); // Navigate to service detail page
+                setPage(`service-detail-${product.id}`);
             } else {
-                setPage(`product-detail-${product.id}`); // Navigate to product detail page
+                setPage(`product-detail-${product.id}`);
             }
         } else if (!setPage) {
             console.error("setPage function not passed to ProductCard for product:", product.name);
         }
     };
-    // --- END FIX ---
 
     const getFormattedPrice = (price) => {
         if (price === null || price === undefined) return '';
@@ -70,8 +64,8 @@ const ProductCard = ({ product, setPage }) => {
             onMouseLeave={() => setIsHovered(false)}
         >
             <div
-                key={imageKey} // Force re-render on modal close
-                className="product-image-container" // Rely on CSS :hover for image swap
+                key={imageKey}
+                className="product-image-container"
                 onClick={handleNavigateToDetail}
                 style={{ cursor: 'pointer'}}
             >
@@ -92,7 +86,7 @@ const ProductCard = ({ product, setPage }) => {
                     <button
                         className="btn-add-to-cart-grid"
                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent card navigation
+                            e.stopPropagation();
                             addToCart(product);
                          }}
                         disabled={product.availability === 'Sold out'}
@@ -104,7 +98,7 @@ const ProductCard = ({ product, setPage }) => {
                  <button
                     className={`btn-product-wishlist ${isInWishlist ? 'added' : ''}`}
                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent card navigation
+                        e.stopPropagation();
                         addToWishlist(product);
                      }}
                     aria-label={isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
@@ -116,7 +110,7 @@ const ProductCard = ({ product, setPage }) => {
             <div className="product-info">
                  <h6
                     className="product-name"
-                    onClick={handleNavigateToDetail} // Make name clickable too
+                    onClick={handleNavigateToDetail}
                     style={{ cursor: 'pointer'}}
                  >
                     {product.name}

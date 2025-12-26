@@ -1,10 +1,9 @@
 export const exchangeRates = {
-  // Base currency is INR (1 INR = X foreign currency)
   INR: { rate: 1, symbol: '₹' },
-  USD: { rate: 0.012, symbol: '$' }, // 1 INR ~ $0.012 (Mock Rate)
-  EUR: { rate: 0.011, symbol: '€' },  // 1 INR ~ €0.011 (Mock Rate)
-  JPY: { rate: 1.8, symbol: '¥' },  // 1 INR ~ ¥1.8 (Mock Rate)
-  GBP: { rate: 0.0095, symbol: '£' },// 1 INR ~ £0.0095 (Mock Rate)
+  USD: { rate: 0.012, symbol: '$' },
+  EUR: { rate: 0.011, symbol: '€' },
+  JPY: { rate: 1.8, symbol: '¥' },
+  GBP: { rate: 0.0095, symbol: '£' },
   AUD: { rate: 0.018, symbol: 'A$' },
   CAD: { rate: 0.016, symbol: 'C$' },
   CHF: { rate: 0.0108, symbol: 'Fr' },
@@ -14,7 +13,7 @@ export const exchangeRates = {
   ZAR: { rate: 0.21, symbol: 'R' },
   SGD: { rate: 0.016, symbol: 'S$' },
   NZD: { rate: 0.0175, symbol: 'NZ$' },
-  AED: { rate: 0.044, symbol: 'Dhs' }, // Added AED (Mock Rate based on video preview)
+  AED: { rate: 0.044, symbol: 'Dhs' },
 };
 
 export const currencies = [

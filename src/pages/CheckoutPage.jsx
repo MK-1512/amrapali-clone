@@ -1,11 +1,11 @@
-// src/pages/CheckoutPage.jsx
+
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
 import { CartContext } from '../context/CartContext';
 import { CurrencyContext } from '../context/CurrencyContext';
 import { formatPrice } from '../utils/currencyUtils';
 
-// --- List of Indian States ---
+
 const indianStates = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
     "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
@@ -16,7 +16,7 @@ const indianStates = [
     "Delhi", "Jammu and Kashmir", "Ladakh", "Lakshadweep", "Puducherry"
 ];
 
-// Accept setPage prop for navigation
+
 const CheckoutPage = ({ setPage }) => {
     useEffect(() => {
         document.body.classList.add('checkout-active');
@@ -77,7 +77,7 @@ const CheckoutPage = ({ setPage }) => {
             <Container fluid className="checkout-container">
                 <form onSubmit={handlePaymentSubmit}>
                     <Row className="justify-content-center">
-                        {/* Left Column */}
+                       
                         <Col lg={6} md={7} className="mb-4">
                             <div className="checkout-header">
                                 <a href="#" onClick={handleLogoClick}>
@@ -85,7 +85,7 @@ const CheckoutPage = ({ setPage }) => {
                                 </a>
                             </div>
 
-                            {/* Contact Section */}
+                         
                             <div className="checkout-section">
                                 <Row className="align-items-center mb-2">
                                      <Col><h2 className="checkout-section-title mb-0">Contact</h2></Col>
@@ -101,13 +101,13 @@ const CheckoutPage = ({ setPage }) => {
                                 <Form.Check type="checkbox" label="Email me with news and offers" checked={subscribe} onChange={(e) => setSubscribe(e.target.checked)} className="checkout-form-check-label" id="subscribeCheckbox"/>
                             </div>
 
-                            {/* Delivery Section */}
+                            
                             <div className="checkout-section">
                                 <h2 className="checkout-section-title">Delivery</h2>
                                 <Form.Group className="mb-3">
                                     <Form.Select className="checkout-form-select" value={country} onChange={(e) => setCountry(e.target.value)} required>
                                         <option value="India">India</option>
-                                        {/* Add other countries if needed */}
+                                       
                                     </Form.Select>
                                 </Form.Group>
                                 <Row>
@@ -132,7 +132,6 @@ const CheckoutPage = ({ setPage }) => {
                                 <Form.Check type="checkbox" label="Save this information for next time" id="saveInfoCheckbox"/>
                             </div>
 
-                            {/* Shipping Method Section */}
                             <div className="checkout-section">
                                 <h2 className="checkout-section-title">Shipping method</h2>
                                 { !address || !city || !state || !pinCode || !country ? (
@@ -148,7 +147,7 @@ const CheckoutPage = ({ setPage }) => {
                                 )}
                             </div>
 
-                            {/* Payment Section */}
+                            
                             <div className="checkout-section">
                                 <h2 className="checkout-section-title">Payment</h2>
                                 <p style={{ fontSize: '13px', color: '#777', marginBottom: '15px' }}>All transactions are secure and encrypted.</p>
@@ -157,15 +156,15 @@ const CheckoutPage = ({ setPage }) => {
                                         <Form.Check.Input type="radio" />
                                         <Form.Check.Label>
                                             <span className="payment-method-title">Razorpay Secure (UPI, Cards, Int'l Cards, Wallets)</span>
-                                            {/* --- *** UPDATED ICON URLS *** --- */}
+                                            
                                             <span className="payment-icons">
-                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI" title="UPI" style={{ height: '18px' }}/> {/* Adjusted height */}
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI" title="UPI" style={{ height: '18px' }}/> 
                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1280px-Visa_Inc._logo.svg.png" alt="Visa" title="Visa"/>
                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/1280px-MasterCard_Logo.svg.png" alt="Mastercard" title="Mastercard"/>
                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/American_Express_logo_%282018%29.svg/1280px-American_Express_logo_%282018%29.svg.png" alt="American Express" title="American Express"/>
                                                 <span style={{ fontSize: '11px', color: '#777' }}>+17</span>
                                             </span>
-                                            {/* --- *** END URL UPDATE *** --- */}
+                                            
                                         </Form.Check.Label>
                                     </Form.Check>
                                     {paymentMethod === 'razorpay' && (
@@ -179,14 +178,14 @@ const CheckoutPage = ({ setPage }) => {
                                         <Form.Check.Input type="radio" />
                                         <Form.Check.Label>
                                             <span className="payment-method-title">Cashfree Payments (UPI,Cards,Wallets,NetBanking)</span>
-                                            {/* --- *** UPDATED ICON URLS *** --- */}
+                                            
                                             <span className="payment-icons">
-                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI" title="UPI" style={{ height: '18px' }}/> {/* Adjusted height */}
+                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/2560px-UPI-Logo-vector.svg.png" alt="UPI" title="UPI" style={{ height: '18px' }}/> 
                                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1280px-Visa_Inc._logo.svg.png" alt="Visa" title="Visa"/>
-                                                {/* Add more icons as needed */}
+                                                
                                                 <span style={{ fontSize: '11px', color: '#777' }}>+10</span>
                                             </span>
-                                             {/* --- *** END URL UPDATE *** --- */}
+                                            
                                         </Form.Check.Label>
                                     </Form.Check>
                                     {paymentMethod === 'cashfree' && (
@@ -197,7 +196,7 @@ const CheckoutPage = ({ setPage }) => {
                                 </div>
                             </div>
 
-                            {/* Billing Address Section */}
+                          
                             <div className="checkout-section">
                                 <h2 className="checkout-section-title">Billing address</h2>
                                 <p style={{ fontSize: '13px', color: '#777', marginBottom: '15px' }}>Select the address that matches your card or payment method.</p>
@@ -215,9 +214,9 @@ const CheckoutPage = ({ setPage }) => {
                                         </Form.Check>
                                         {billingAddressOption === 'different' && (
                                             <div className="billing-address-details">
-                                                {/* Add billing address form fields here */}
+                                               
                                                 <Form.Group className="mb-3"><Form.Control type="text" placeholder="Address" className="checkout-form-control" required={billingAddressOption === 'different'} /></Form.Group>
-                                                {/* ... other necessary billing fields (city, state, pin, country) */}
+                                                
                                                 <p style={{ fontSize: '14px', color: '#555' }}>Enter complete billing address...</p>
                                             </div>
                                         )}
@@ -226,10 +225,10 @@ const CheckoutPage = ({ setPage }) => {
                             </div>
 
 
-                            {/* Pay Button & Footer Links */}
+                          
                             <div className="d-flex flex-column-reverse flex-md-row align-items-md-center justify-content-between mt-4">
-                                {/* Return to cart link navigates to shop page */}
-                                {/* <a href="#" onClick={handleReturnToCart} style={{ color: '#1c1c1c', fontSize: '13px', textDecoration: 'none' }}> &lt; Return to cart</a> */}
+                                
+                               
                                 <Button type="submit" className="btn-pay-now mb-3 mb-md-0" style={{ width: 'auto', padding: '15px 30px' }}>Pay now</Button>
                             </div>
                             <hr className="my-4" />
@@ -241,7 +240,7 @@ const CheckoutPage = ({ setPage }) => {
                             </div>
                         </Col>
 
-                        {/* Right Column: Order Summary */}
+                       
                          <Col lg={4} md={5}>
                              <div className="order-summary">
                                 {cartItems.length > 0 ? (

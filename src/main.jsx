@@ -1,4 +1,3 @@
-// src/main.jsx
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -7,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// main.css should be imported in App.jsx or here if preferred globally first
 import './assets/css/main.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(

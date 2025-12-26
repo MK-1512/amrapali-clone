@@ -1,9 +1,5 @@
-// src/data/soulfulWeaves.js
 
-// Extracted from video: Screen Recording 2025-10-21 at 11.14.51 AM.mov
-// Collection: SOULFUL WEAVES - Cotton Sarees (NEW)
 
-// --- Default Saree Details ---
 const defaultSareeDetails = {
     description: "Handloom saree woven with traditional techniques. Features beautiful patterns and includes a running blouse piece.",
     colors: "As shown",
@@ -17,12 +13,10 @@ const defaultSareeDetails = {
     care: "Care: Dry clean recommended for silk/tussar/benarasi. Gentle hand-wash for cotton/linen. Avoid direct sunlight.",
     shipping: "Shipping: Ships in 3-5 days (India), 12-20 days (International). Free domestic shipping.",
 };
-// ---
 
 export const soulfulWeavesProducts = [
-  // --- Page 1 (Products 1-16) ---
   {
-    id: 201, // Starting IDs from 201 to avoid conflicts
+    id: 201,
     name: "BIPASHA",
     price: 3950,
     originalPrice: null,
@@ -31,7 +25,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
   {
     id: 202,
@@ -43,7 +37,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
   {
     id: 203,
@@ -55,7 +49,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
   {
     id: 204,
@@ -67,7 +61,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
   {
     id: 205,
@@ -79,7 +73,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
   {
     id: 206,
@@ -91,7 +85,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
   {
     id: 207,
@@ -103,7 +97,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
   {
     id: 208,
@@ -115,7 +109,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
    {
     id: 209,
@@ -127,7 +121,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Cotton" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Cotton" }
   },
    {
     id: 210,
@@ -139,7 +133,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 211,
@@ -151,7 +145,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 212,
@@ -163,7 +157,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 213,
@@ -175,7 +169,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 214,
@@ -187,7 +181,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 215,
@@ -199,7 +193,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 216,
@@ -211,10 +205,9 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
 
-  // --- Page 2 (Products 17-24) ---
   {
     id: 217,
     name: "HANDWOVEN PURE MERCERISED COTTON WITH MANIPURI PATTERN THREADWORK - BLACK",
@@ -225,7 +218,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
   {
     id: 218,
@@ -237,7 +230,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
   {
     id: 219,
@@ -249,7 +242,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 220,
@@ -261,7 +254,7 @@ export const soulfulWeavesProducts = [
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
     availability: "In stock",
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 221,
@@ -273,7 +266,7 @@ export const soulfulWeavesProducts = [
     availability: "Sold out",
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
    {
     id: 222,
@@ -285,7 +278,7 @@ export const soulfulWeavesProducts = [
     availability: "Sold out",
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
   {
     id: 223,
@@ -297,12 +290,11 @@ export const soulfulWeavesProducts = [
     availability: "Sold out",
     tags: ["Cotton", "Manipuri"],
     collections: ["SOULFUL WEAVES - Cotton Sarees (NEW)"],
-    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" } // *** ADDED DETAILS ***
+    details: { ...defaultSareeDetails, fabric: "Pure Mercerised Cotton", technique: "Handloom, Manipuri Threadwork" }
   },
 
 ];
 
-// Helper function (keep as is)
 export const getProductsByCollection = (collectionName) => {
   if (collectionName === "SOULFUL WEAVES - Cotton Sarees (NEW)") {
     return soulfulWeavesProducts;

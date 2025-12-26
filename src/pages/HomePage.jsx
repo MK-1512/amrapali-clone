@@ -1,4 +1,3 @@
-// src/pages/HomePage.jsx
 import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { Container, Row, Col, Button, Carousel, Card, Tabs, Tab } from 'react-bootstrap';
 import Slider from 'react-slick';
@@ -9,12 +8,9 @@ import { blogPosts } from '../data/blogPosts';
 import { CurrencyContext } from '../context/CurrencyContext';
 import { formatPrice } from '../utils/currencyUtils';
 import CustomerReviewSlider from '../components/common/CustomerReviewSlider';
-import { CartContext } from '../context/CartContext'; // *** IMPORT CartContext ***
-// Optional: If you need allProducts, import it here
-// import { allProducts } from '../utils/searchUtils';
+import { CartContext } from '../context/CartContext';
 
 
-// --- Data Definitions ---
 
  const heroSlides = [
     { img: 'https://www.amrapaliboutique.in/cdn/shop/files/IMG_0577_1600x.jpg?v=1756621375', buttons: 1, btn1Text: 'POTPOURRI', btn1Action: 'collection', btn1Param: 'POTPOURRI' },
@@ -26,9 +22,7 @@ import { CartContext } from '../context/CartContext'; // *** IMPORT CartContext 
  ];
 
 
-// --- Components ---
 
-// Product Slider Component - Now accepts and passes 'setPage'
 const ProductSlider = ({ products, setPage }) => {
     const settings = {
       dots: false,
@@ -61,7 +55,6 @@ const ProductSlider = ({ products, setPage }) => {
 };
 
 
-// Blog Card Component - Now accepts and uses 'setPage'
 const SimpleBlogPostCard = ({ post, setPage }) => {
     if (!post || !post.id) {
         return null;
@@ -89,28 +82,23 @@ const SimpleBlogPostCard = ({ post, setPage }) => {
 };
 
 
-// --- Helper function to get day of the year (1-366) ---
 const getDayOfYear = (date = new Date()) => {
     const start = new Date(date.getFullYear(), 0, 0);
     const diff = date - start;
     const oneDay = 1000 * 60 * 60 * 24;
     return Math.floor(diff / oneDay);
 };
-// --- End Helper ---
 
 
-// --- HomePage Component ---
 const HomePage = ({ setPage, onCollectionItemClick }) => {
     const { selectedCurrency } = useContext(CurrencyContext);
-    const { addToCart } = useContext(CartContext); // *** Get addToCart function ***
+    const { addToCart } = useContext(CartContext);
 
-    // Helper to format a single price
     const getFormattedPrice = (price) => {
         if (price === null || price === undefined) return '';
         return formatPrice(price, selectedCurrency.code);
     };
 
-    // --- Select Random, Available Product of the Week ---
     const availableSarees = useMemo(() =>
         sareeProducts.filter(p => p && p.availability !== 'Sold out')
     , []);
@@ -124,9 +112,7 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
         const index = dayOfYear % availableSarees.length;
         return availableSarees[index];
     }, [availableSarees]);
-    // --- END Product of the Week Logic ---
 
-    // Use slice(0, X) safely even if array is smaller
     const firstEightSarees = sareeProducts.slice(0, 8);
     const firstTwelveJewellery = jewelleryProducts.slice(0, 12);
     const firstThreeBlogs = blogPosts.slice(0, 3);
@@ -136,22 +122,18 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
         setPowQuantity(prev => Math.max(1, prev + amount));
     };
 
-    // Reset quantity if product of the week changes
     useEffect(() => {
         setPowQuantity(1);
     }, [productOfTheWeek]);
 
 
-    // Use details from the found product or fallback
     const powDetails = productOfTheWeek?.details || {
         description: "Details unavailable.",
         colors: "-", fabric: "-", technique: "-", measurements: "-", weight: "-", blousePiece: "-", disclaimer: "-", care: "-", shipping: "-"
     };
 
-    // Calculate total price for POW based on selected currency (already handled by getFormattedPrice)
     const powTotalPrice = productOfTheWeek ? (productOfTheWeek.price || 0) * powQuantity : 0;
 
-    // Navigation handler for carousel/category buttons
     const handleButtonClick = (e, action, param) => {
         e.preventDefault();
         if (action === 'collection') {
@@ -161,21 +143,16 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
         }
     };
 
-    // *** NEW Handler for Buy Now button ***
     const handleBuyNow = () => {
         if (productOfTheWeek) {
-            // Add the specified quantity to the cart
             addToCart(productOfTheWeek, powQuantity);
-            setPage('checkout'); // Navigate to checkout page
+            setPage('checkout');
         } else {
             console.error("Product of the week not found, cannot buy now.");
-            // Optionally, navigate to shop or show an error message
             setPage('shop');
         }
     };
-    // *** END NEW Handler ***
 
-    // Inline styles (keep as they are)
     const pageStyles = `
         .homepage-section { padding: 40px 0; }
         .section-title { text-align: center; font-family: 'Jost', sans-serif; font-size: 14px; font-weight: 400; margin-bottom: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #999; }
@@ -242,7 +219,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                 ))}
             </Carousel>
 
-            {/* Sarees Section */}
             <Container className="homepage-section">
                 <p className="section-title">Tales of Effortless Yards Wrapped in Love</p>
                 <h3 className="section-main-title">SAREES</h3>
@@ -256,7 +232,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                 </div>
             </Container>
 
-            {/* Jewellery Section */}
             <Container className="homepage-section">
                  <p className="section-title">Specs of Sparkle</p>
                 <h3 className="section-main-title">JEWELLERY</h3>
@@ -270,7 +245,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                 </div>
             </Container>
 
-             {/* Category Cards Section */}
              <Container fluid className="homepage-section px-md-0">
                 <Row className="g-0">
                     <Col md={4}>
@@ -303,7 +277,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                 </Row>
             </Container>
 
-            {/* Product of the Week Section */}
             <Container className="homepage-section">
                 <h3 className="section-main-title">PRODUCT OF THE WEEK</h3>
                 {productOfTheWeek ? (
@@ -319,7 +292,7 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                                  </h5>
                                  <p className="sku">SKU: {productOfTheWeek.id}</p>
                                  <p className="price">
-                                     {getFormattedPrice(powTotalPrice)} {/* Use total price based on quantity */}
+                                     {getFormattedPrice(powTotalPrice)}
                                  </p>
                                 <div className="pow-quantity-selector">
                                     <button type="button" onClick={() => handlePowQuantityChange(-1)} disabled={powQuantity <= 1}> − </button>
@@ -340,17 +313,15 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                                     <Tab eventKey="care" title="Care"><p>{powDetails.care}</p></Tab>
                                     <Tab eventKey="shipping" title="Shipping"><p>{powDetails.shipping}</p></Tab>
                                  </Tabs>
-                                {/* *** MODIFIED: Added onClick to Add to Cart *** */}
                                 <Button
                                     className="btn-action btn-add-to-cart-week"
-                                    onClick={() => productOfTheWeek && addToCart(productOfTheWeek, powQuantity)} // Add selected quantity
+                                    onClick={() => productOfTheWeek && addToCart(productOfTheWeek, powQuantity)}
                                 >
                                     ADD TO CART
                                 </Button>
-                                {/* *** MODIFIED: Added onClick to Buy Now *** */}
                                 <Button
                                     className="btn-action btn-buy-now-week"
-                                    onClick={handleBuyNow} // Use the new handler
+                                    onClick={handleBuyNow}
                                 >
                                     BUY IT NOW
                                 </Button>
@@ -372,7 +343,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                 )}
             </Container>
 
-            {/* Explore Section */}
             <div
                 className="explore-section homepage-section px-0"
                 style={{
@@ -387,7 +357,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                 </div>
             </div>
 
-            {/* Blog Section */}
             <Container className="homepage-section">
                  <h3 className="section-main-title">STORIES BY AMRAPALI</h3>
                 <Row xs={1} md={3} className="g-4">
@@ -404,7 +373,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                 </div>
             </Container>
 
-             {/* Info Section */}
              <Container fluid className="info-section">
                  <Container>
                      <Row>
@@ -417,7 +385,6 @@ const HomePage = ({ setPage, onCollectionItemClick }) => {
                  </Container>
             </Container>
 
-            {/* Customer Reviews Section */}
             <CustomerReviewSlider />
 
         </>

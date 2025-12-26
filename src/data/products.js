@@ -1,6 +1,4 @@
-// src/data/products.js
 
-// --- Default Details Template (derived from video example) ---
 const defaultDetails = {
     description: "Handloom saree woven with alternating warp and weft threads, creating small, regular gaps for a jute-like texture. Embellished with tassels.",
     colors: "As shown",
@@ -16,7 +14,6 @@ const defaultDetails = {
 };
 
 export const products = [
-  // --- Existing Banarasi Sarees (IDs 1-24) ---
   {
     id: 1,
     name: "Aahilya Banarasi Silk Saree",
@@ -26,8 +23,8 @@ export const products = [
     image2: "/images/products/saree1_2.webp",
     tags: ["Banarasi", "Silk"],
     availability: "In stock",
-    details: { // Specific details for ID 1
-        ...defaultDetails, // Start with default
+    details: {
+        ...defaultDetails,
         description: "Handloom Banarasi Silk saree with traditional motifs, featuring alternating warp and weft threads. Embellished with tassels.",
         colors: "Red, Beige",
         fabric: "Pure Silk",
@@ -45,7 +42,7 @@ export const products = [
     image2: "/images/products/saree2_2.webp",
     tags: ["Banarasi", "Silk"],
     availability: "In stock",
-    details: { ...defaultDetails, fabric: "Pure Silk", technique: "Handloom, Banarasi Weave" } // Apply generic + specific overrides
+    details: { ...defaultDetails, fabric: "Pure Silk", technique: "Handloom, Banarasi Weave" }
   },
   {
     id: 3,
@@ -280,19 +277,19 @@ export const products = [
   },
   {
     id: 24,
-    name: "Sita Banarasi Silk Saree", // Matches Product of the Week in HomePage
+    name: "Sita Banarasi Silk Saree",
     price: 4899,
     originalPrice: 8699,
     image1: "/images/products/saree24_1.webp",
     image2: "/images/products/saree24_2.webp",
-    tags: ["Banarasi", "Silk", "Chanderi", "Organza"], // Added tags based on details
+    tags: ["Banarasi", "Silk", "Chanderi", "Organza"],
     availability: "In stock",
-    details: { // Specific details matching HomePage Product of the Week
+    details: {
         description: "Handloom, lightweight, translucent, chanderi cotton silk saree, embellished with golden thin stripes on body.",
         colors: "Magenta, Golden",
         fabric: "Warp - Silk | Weft - Mercerised Cotton",
         technique: "Handloom",
-        weavingCluster: "West Bengal", // Added based on context
+        weavingCluster: "West Bengal",
         measurements: "6.50 m x 1.15 m approx.",
         weight: "330 gms.",
         blousePiece: "Yes (Showcased blouse is from our in-house wardrobe)",
@@ -302,7 +299,6 @@ export const products = [
     }
   },
 
-  // --- NEW Linen Sarees (IDs 25-37) ---
   {
     id: 25, name: "Sunkissed Pure Linen", price: 3600, originalPrice: null,
     image1: "https://www.amrapaliboutique.in/cdn/shop/products/BeautyPlus_20211106203345786_save_800x.jpg?v=1636211470",
@@ -382,7 +378,6 @@ export const products = [
     tags: ["Linen"], availability: "In stock", details: { ...defaultDetails, fabric: "Pure Linen" }
   },
 
-  // --- NEW Chanderi Sarees (IDs 38-53) ---
   {
     id: 38, name: "Bawri Chanderi Saree", price: 5950, originalPrice: null,
     image1: "https://www.amrapaliboutique.in/cdn/shop/products/1_b666a4ca-6278-4e05-a20f-1afe57de0e2b_800x.jpg?v=1658160157",
@@ -480,4 +475,4 @@ export const products = [
     tags: ["Chanderi"], availability: "In stock", details: { ...defaultDetails, fabric: "Chanderi Silk/Cotton Blend" }
   },
 
-]; // End of products array
+];

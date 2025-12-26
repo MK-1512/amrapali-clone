@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useRef, useEffect, useContext } from 'react';
 import { currencies } from '../../data/currencies';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
-import { CurrencyContext } from '../../context/CurrencyContext'; // <-- NEW IMPORT
+import { CurrencyContext } from '../../context/CurrencyContext';
 
 const CurrencyDropdown = () => {
-  const { selectedCurrency, updateCurrency } = useContext(CurrencyContext); // <-- USE CONTEXT
+  const { selectedCurrency, updateCurrency } = useContext(CurrencyContext);
     
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,7 +15,6 @@ const CurrencyDropdown = () => {
   
   useOnClickOutside(dropdownRef, () => setIsOpen(false));
 
-  // Calculate dropdown position when it opens
   useEffect(() => {
     if (isOpen && buttonRef.current) {
       const buttonRect = buttonRef.current.getBoundingClientRect();
@@ -31,7 +30,7 @@ const CurrencyDropdown = () => {
   const handleToggle = () => setIsOpen(!isOpen);
 
   const handleSelectCurrency = (currency) => {
-    updateCurrency(currency.code); // <-- USE CONTEXT FUNCTION
+    updateCurrency(currency.code);
     setIsOpen(false);
     setSearchTerm('');
   };
@@ -52,9 +51,9 @@ const CurrencyDropdown = () => {
         onClick={handleToggle} 
         className="currency-button"
       >
-        {selectedCurrency.flag} {/* <-- USE CONTEXT STATE */}
+        {selectedCurrency.flag}
         <span className="ms-2">
-          {selectedCurrency.code} {/* <-- USE CONTEXT STATE */}
+          {selectedCurrency.code}
           <span style={{ 
             display: 'inline-block', 
             transition: 'transform 0.3s ease',

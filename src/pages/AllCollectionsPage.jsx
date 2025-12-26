@@ -1,13 +1,11 @@
-// src/pages/AllCollectionsPage.jsx
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { collectionsData } from '../data/allCollectionsMeta'; // Import the data
+import { collectionsData } from '../data/allCollectionsMeta';
 
-// Sub-component for individual collection cards
 const CollectionCard = ({ collection, onClick }) => {
     const cardStyle = {
         position: 'relative',
-        height: '400px', // Adjust height as needed
+        height: '400px',
         backgroundImage: `url(${collection.image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -19,7 +17,7 @@ const CollectionCard = ({ collection, onClick }) => {
         textAlign: 'center',
         overflow: 'hidden',
         cursor: 'pointer',
-        marginBottom: '30px', // Add some spacing between cards
+        marginBottom: '30px',
     };
 
     const overlayStyle = {
@@ -28,7 +26,7 @@ const CollectionCard = ({ collection, onClick }) => {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)', // Dark overlay
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
         zIndex: 1,
         transition: 'background-color 0.3s ease',
     };
@@ -36,11 +34,9 @@ const CollectionCard = ({ collection, onClick }) => {
     const contentStyle = {
         position: 'relative',
         zIndex: 2,
-        // Add padding if needed
         padding: '20px',
     };
 
-    // Style for the button, mimicking category buttons
      const buttonStyle = {
         backgroundColor: '#fff',
         color: '#1c1c1c',
@@ -57,11 +53,11 @@ const CollectionCard = ({ collection, onClick }) => {
 
      const titleStyle = {
         fontFamily: "'Cormorant Garamond', serif",
-        fontSize: '24px', // Match category card title size
+        fontSize: '24px',
         fontWeight: 600,
         margin: 0,
-        textTransform: 'uppercase', // Match video style
-        letterSpacing: '0.05em',   // Match video style
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em',
      };
 
 
@@ -79,7 +75,6 @@ const CollectionCard = ({ collection, onClick }) => {
 };
 
 
-// Main AllCollectionsPage component
 const AllCollectionsPage = ({ setPage, onCollectionItemClick }) => {
 
     const handleCardClick = (navType, navKey) => {
@@ -90,7 +85,6 @@ const AllCollectionsPage = ({ setPage, onCollectionItemClick }) => {
         }
     };
 
-    // Styles specific to this page
      const pageStyles = `
      .all-collections-container {
          padding-top: 30px; /* Reduced space from header compared to hero banners */
@@ -120,8 +114,7 @@ const AllCollectionsPage = ({ setPage, onCollectionItemClick }) => {
             <style>{pageStyles}</style>
             <Container className="all-collections-container">
                 <h1 className="all-collections-title">ALL COLLECTIONS</h1>
-                {/* Use Bootstrap Row/Col for grid layout */}
-                <Row xs={1} md={2} lg={3} className="g-4"> {/* Adjust columns as needed (e.g., lg={3} for 3 per row on large screens) */}
+                <Row xs={1} md={2} lg={3} className="g-4">
                     {collectionsData.map((collection) => (
                         <Col key={collection.id} className="collection-card-wrapper">
                             <CollectionCard

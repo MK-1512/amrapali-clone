@@ -1,5 +1,4 @@
-// src/pages/jewellery/NeckpiecesPage.jsx
-import React from 'react'; // Removed useState
+import React from 'react';
 import ProductList from '../../components/product/ProductList';
 import FilterBar from '../../components/filters/FilterBar';
 import FilterDrawer from '../../components/filters/FilterDrawer';
@@ -17,25 +16,22 @@ const neckpieces = jewellery.filter(item => {
            nameLower === 'crescent horn';
 });
 
-// *** MODIFIED: Accept all filter/sort props ***
 const NeckpiecesPage = ({ setPage, onApplyFilters, isFilterOpen, handleOpenFilter, handleCloseFilter, appliedFilters, sortOrder, onSortChange }) => {
 
   return (
     <>
       <NeckpiecesHeroBanner />
-      {/* *** MODIFIED: Pass sort props to FilterBar *** */}
       <FilterBar
         handleOpenFilter={handleOpenFilter}
         sortOrder={sortOrder}
         onSortChange={onSortChange}
       />
-      {/* *** MODIFIED: Pass appliedFilters and sortOrder to ProductList *** */}
       <ProductList
         products={neckpieces}
         collectionName="neckpieces"
         setPage={setPage}
-        appliedFilters={appliedFilters} // <-- Pass down
-        sortOrder={sortOrder} // <-- Pass down
+        appliedFilters={appliedFilters}
+        sortOrder={sortOrder}
       />
       <FilterDrawer
         show={isFilterOpen}

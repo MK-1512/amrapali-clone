@@ -1,17 +1,15 @@
-// src/pages/GiftCardPage.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
 import CustomerReviews from '../components/common/CustomerReviews';
 import { CurrencyContext } from '../context/CurrencyContext';
 import { formatPrice } from '../utils/currencyUtils';
 import { WishlistContext } from '../context/WishlistContext';
-import { CartContext } from '../context/CartContext'; // <-- 1. IMPORT CartContext
+import { CartContext } from '../context/CartContext';
 
-// --- Added setPage prop ---
 const GiftCardPage = ({ setPage }) => {
     const { selectedCurrency } = useContext(CurrencyContext);
     const { addToWishlist, isProductInWishlist, wishlistItems, wishlistCount } = useContext(WishlistContext);
-    const { addToCart } = useContext(CartContext); // <-- 2. GET addToCart function
+    const { addToCart } = useContext(CartContext);
 
     const denominations = [
         { value: 2000, label: '₹2,000.00' },
@@ -28,14 +26,12 @@ const GiftCardPage = ({ setPage }) => {
     const [quantity, setQuantity] = useState(1);
 
     const giftCardProduct = {
-        id: `gift-card-${selectedDenomination}`, // <-- Make ID unique per denomination
-        name: `E-GIFT CARD - ${getFormattedPrice(selectedDenomination)}`, // <-- Include denomination in name
+        id: `gift-card-${selectedDenomination}`,
+        name: `E-GIFT CARD - ${getFormattedPrice(selectedDenomination)}`,
         price: selectedDenomination,
         image1: '/images/gift-card.jpg',
-        // Important: Ensure addToCart can handle items without image2, tags etc.
     };
 
-    // --- Check based on the *specific* denomination ID ---
     const isInWishlist = isProductInWishlist(giftCardProduct.id);
 
     const handleQuantityChange = (amount) => {
@@ -49,22 +45,19 @@ const GiftCardPage = ({ setPage }) => {
     const handleWishlistToggle = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        addToWishlist(giftCardProduct); // Use the current giftCardProduct object
+        addToWishlist(giftCardProduct);
     };
 
-    // --- 3. ADD handleAddToCart function ---
     const handleAddToCart = () => {
         const itemToAdd = { ...giftCardProduct, quantity: quantity, options: {} };
         addToCart(itemToAdd);
-        // Optionally: Add user feedback (e.g., toast notification)
         console.log(`${quantity} x ${giftCardProduct.name} added to cart`);
     };
 
-    // --- 4. ADD handleBuyNow function ---
     const handleBuyNow = () => {
-        handleAddToCart(); // Add to cart first
+        handleAddToCart();
         if (setPage) {
-            setPage('checkout'); // Navigate to checkout
+            setPage('checkout');
         } else {
              console.error("setPage function not provided to GiftCardPage");
         }
@@ -77,7 +70,6 @@ const GiftCardPage = ({ setPage }) => {
     return (
         <div className="product-page-container container my-5">
             <div className="row">
-                {/* Left Column: Image */}
                 <div className="col-lg-6">
                     <img
                         src="/images/gift-card.jpg"
@@ -86,7 +78,6 @@ const GiftCardPage = ({ setPage }) => {
                     />
                 </div>
 
-                {/* Right Column: Details */}
                 <div className="col-lg-6">
                     <div className="product-details">
                         <h1 className="product-title">E-GIFT CARD</h1>
@@ -135,14 +126,12 @@ const GiftCardPage = ({ setPage }) => {
                         </div>
 
                         <div className="action-buttons">
-                            {/* --- 5. ATTACH onClick handlers --- */}
                             <button className="btn-add-to-cart" type="button" onClick={handleAddToCart}>
                                 ADD TO CART
                             </button>
                             <button className="btn-buy-it-now" type="button" onClick={handleBuyNow}>
                                 BUY IT NOW
                             </button>
-                             {/* --- END ATTACH --- */}
 
                             <button
                                 className={`btn-add-to-wishlist icon-button ${isInWishlist ? 'added' : ''}`}
@@ -176,7 +165,6 @@ const GiftCardPage = ({ setPage }) => {
                 </div>
             </div>
 
-            {/* Customer Reviews Section */}
             <div className="row mt-5">
                 <div className="col-12">
                     <CustomerReviews />

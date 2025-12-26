@@ -1,8 +1,6 @@
-// src/pages/BlogPage.jsx
 import React from 'react';
 import { blogPosts } from '../data/blogPosts';
 
-// Sub-component for rendering individual blog post content
 const BlogPostDetail = ({ post, setPage }) => {
   const renderContent = (item, index) => {
     switch (item.type) {
@@ -73,7 +71,6 @@ const BlogPostDetail = ({ post, setPage }) => {
         );
 
       case 'blockquote':
-        // Handle blockquote with special poem styling (Blog 3)
         if (item.style === 'poem') {
           return (
             <blockquote
@@ -108,7 +105,6 @@ const BlogPostDetail = ({ post, setPage }) => {
           );
         }
 
-        // Handle regular blockquote (Blog 2)
         return (
           <blockquote
             key={index}
@@ -192,7 +188,6 @@ const BlogPostDetail = ({ post, setPage }) => {
     <div className="container my-5">
       <div className="row">
         <div className="col-lg-10 mx-auto">
-          {/* Back Button */}
           <button
             onClick={() => setPage('blog')}
             className="btn btn-outline-secondary mb-4"
@@ -200,7 +195,6 @@ const BlogPostDetail = ({ post, setPage }) => {
             ← Back to Stories
           </button>
 
-          {/* Blog Header */}
           <article>
             <img
               src={post.image}
@@ -220,7 +214,6 @@ const BlogPostDetail = ({ post, setPage }) => {
               </div>
             </div>
 
-            {/* Blog Content */}
             <div className="blog-content">
               {post.structuredContent?.map((item, index) =>
                 renderContent(item, index)
@@ -233,7 +226,6 @@ const BlogPostDetail = ({ post, setPage }) => {
   );
 };
 
-// Sub-component for a single blog post card
 const SimpleBlogPostCard = ({ post, setPage }) => {
   const handleNavigate = (e) => {
     e.preventDefault();
@@ -260,7 +252,6 @@ const SimpleBlogPostCard = ({ post, setPage }) => {
   );
 };
 
-// The main Blog Page component
 const BlogPage = ({ setPage, currentPage }) => {
   if (currentPage && currentPage.startsWith('blog-detail-')) {
     const blogId = parseInt(currentPage.replace('blog-detail-', ''));

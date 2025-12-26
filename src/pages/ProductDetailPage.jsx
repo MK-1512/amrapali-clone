@@ -1,4 +1,3 @@
-// src/pages/ProductDetailPage.jsx
 import React, { useState, useContext, useEffect, useMemo } from 'react';
 import { Container, Row, Col, Button, Form, Tabs, Tab, Image } from 'react-bootstrap';
 import { CartContext } from '../context/CartContext';
@@ -9,13 +8,9 @@ import { formatPrice } from '../utils/currencyUtils';
 import { allProducts } from '../utils/searchUtils';
 import ProductCard from '../components/product/ProductCard';
 
-// NOTE: FALL_PICOT_PRICE_INR is no longer needed here.
-// const FALL_PICOT_PRICE_INR = 125; 
 
 const ProductDetailPage = ({ productId, setPage }) => {
     const [quantity, setQuantity] = useState(1);
-    // --- REMOVED addFallPicot state ---
-    // const [addFallPicot, setAddFallPicot] = useState(false);
     const [mainImage, setMainImage] = useState('');
 
     const { addToCart } = useContext(CartContext);
@@ -29,8 +24,6 @@ const ProductDetailPage = ({ productId, setPage }) => {
         if (product?.image1) { 
             setMainImage(product.image1);
             setQuantity(1);
-            // --- REMOVED addFallPicot reset ---
-            // setAddFallPicot(false);
             
             if (product) {
                 addRecentlyViewed(product);
@@ -58,13 +51,11 @@ const ProductDetailPage = ({ productId, setPage }) => {
 
     const handleAddToCart = () => {
         if (!product) return;
-        // --- MODIFIED productToAdd (options hardcoded to empty) ---
         const productToAdd = {
             ...product,
             quantity: quantity,
-            options: {} // Always add with no options
+            options: {}
         };
-        // --- END MODIFICATION ---
         addToCart(productToAdd);
     };
 
@@ -88,12 +79,8 @@ const ProductDetailPage = ({ productId, setPage }) => {
         );
     }
 
-    // --- MODIFIED Price Calculation (removed addon cost) ---
     const basePriceINR = product.price || 0;
-    // const isSaree = ... (no longer needed for price)
-    // const fallPicotCostINR = 0; (no longer needed)
-    const totalPriceINR = basePriceINR * quantity; // Removed fallPicotCostINR
-    // --- END MODIFICATION ---
+    const totalPriceINR = basePriceINR * quantity;
 
     const details = product.details || {};
     const description = details.description || "No description available.";
@@ -145,13 +132,11 @@ const ProductDetailPage = ({ productId, setPage }) => {
                     <h1 className="product-detail-title">{product.name}</h1>
                     <p className="product-detail-price">
                         {getFormattedPrice(totalPriceINR)}
-                        {/* --- MODIFIED Original Price display (removed fallPicotCostINR check) --- */}
                          {product.originalPrice != null && quantity === 1 && (
                             <span className="text-muted text-decoration-line-through ms-2">
                                 {getFormattedPrice(product.originalPrice)}
                             </span>
                         )}
-                        {/* --- END MODIFICATION --- */}
                     </p>
 
                     <div className="mb-3">
@@ -163,9 +148,6 @@ const ProductDetailPage = ({ productId, setPage }) => {
                         </div>
                     </div>
 
-                    {/* --- REMOVED Addon Checkbox Block --- */}
-                    {/* {isSaree && ( ... )} */}
-                    {/* --- END REMOVAL --- */}
 
 
                     <div className="d-grid gap-2 mb-3">
